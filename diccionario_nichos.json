@@ -112,5 +112,24 @@
       "desierto",
       "contratacion"
     ]
+  },
+  "AI_SAFETY": {
+    "terminos": [
+      "alignment",
+      "value alignment",
+      "goal alignment",
+      "rsi",
+      "recursive self-improvement",
+      "cot monitoring",
+      "chain-of-thought",
+      "superintelligence",
+      "agi",
+      "misalignment",
+      "defense",
+      "security",
+      "monitoring",
+      "reasoning models",
+      "pretraining"
+    ]
   }
 }

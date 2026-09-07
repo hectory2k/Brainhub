@@ -70,4 +70,8 @@ def detectar_nicho(texto: str) -> str:
     if not scores:
         return "GENERAL"
     
+    # Si AI_SAFETY tiene score significativo, priorizarlo
+    if 'AI_SAFETY' in scores and scores['AI_SAFETY'] >= 3:
+        return 'AI_SAFETY'
+    
     return max(scores, key=scores.get)

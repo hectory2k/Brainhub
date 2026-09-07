@@ -12,7 +12,7 @@ class CoherenciaNichos:
     
     # Herramientas válidas por nicho principal
     HERRAMIENTAS_POR_NICHO = {
-        'TECNOLOGIA': ['RAG', 'MACHINE_LEARNING', 'DATA_SCIENCE', 'CIBERSEGURIDAD'],
+        'TECNOLOGIA': ['RAG', 'MACHINE_LEARNING', 'DATA_SCIENCE', 'CIBERSEGURIDAD', 'AI_SAFETY'],
         'SALUD': ['TECNOLOGIA', 'IA', 'DATA_SCIENCE'],
         'LEGAL': ['TECNOLOGIA', 'CIBERSEGURIDAD'],
         'FINANZAS': ['TECNOLOGIA', 'DATA_SCIENCE'],
@@ -21,7 +21,7 @@ class CoherenciaNichos:
     
     # Contextos válidos por nicho principal
     CONTEXTOS_POR_NICHO = {
-        'TECNOLOGIA': ['LEGAL', 'FINANZAS', 'COMPRAS_PUBLICAS'],
+        'TECNOLOGIA': ['LEGAL', 'FINANZAS', 'COMPRAS_PUBLICAS', 'AI_SAFETY'],
         'SALUD': ['LEGAL', 'FINANZAS'],
         'LEGAL': ['FINANZAS', 'SALUD'],
         'FINANZAS': ['LEGAL', 'COMPRAS_PUBLICAS'],

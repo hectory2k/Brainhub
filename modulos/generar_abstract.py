@@ -19,7 +19,7 @@ class GeneradorAbstract:
     PLANTILLA_HERRAMIENTA = (
         "Para su ejecución, se analiza la implementación de {herramienta}, "
         "detallando el uso de {conceptos_tecnicos} "
-        "(Especialmente visible entre los minutos {inicio} y {fin})."
+        "{detalle_timestamp}."
     )
     
     PLANTILLA_CONTEXTO = (
@@ -106,8 +106,12 @@ class GeneradorAbstract:
         herramienta = secundarios.get('herramienta')
         if herramienta:
             conceptos = self.extraer_conceptos_tecnicos(terminos_clave)
-            inicio = timestamps.get('inicio', '00:00') if timestamps else '00:00'
-            fin = timestamps.get('fin', '05:00') if timestamps else '05:00'
+            if timestamps and timestamps.get('inicio') and timestamps.get('fin'):
+                inicio = timestamps['inicio']
+                fin = timestamps['fin']
+                detalle_timestamp = f" (Especialmente visible entre los minutos {inicio} y {fin})"
+            else:
+                detalle_timestamp = ""  # Sin timestamps para texto estático
             parrafo_herramienta = self.PLANTILLA_HERRAMIENTA.format(
                 herramienta=herramienta,
                 conceptos_tecnicos=conceptos,
