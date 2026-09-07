@@ -711,6 +711,24 @@ def main():
     if metricas:
         with metricas.medir('filtrar_stopwords'):
             palabras = filtrar_stopwords(texto_limpio, nicho)
+    # Extraer N-gramas compuestos
+    n_gramas_ai = [
+        'value alignment', 'goal alignment', 'recursive self-improvement',
+        'chain-of-thought', 'chain of thought', 'cot monitoring',
+        'machine intelligence', 'reasoning models', 'reasoning process'
+    ]
+    
+    n_gramas_encontrados = []
+    for ngrama in n_gramas_ai:
+        if ngrama in texto_limpio.lower():
+            frecuencia = texto_limpio.lower().count(ngrama)
+            n_gramas_encontrados.append((ngrama, frecuencia))
+    
+    if n_gramas_encontrados:
+        print(f"\n🔗 N-gramas detectados: {len(n_gramas_encontrados)}")
+        for ngrama, freq in n_gramas_encontrados[:5]:
+            print(f"  {ngrama}: {freq}")
+    
     terminos = Counter(palabras).most_common(20)
 
     print("\n📌 Términos clave (sin stopwords):")
@@ -788,6 +806,20 @@ def main():
             conn_sqlite.close()
         
         video_id = os.path.basename(base).replace('_EN_FORZADO', '').replace('_ES', '')
+        # Guardar N-gramas en DuckDB
+        if n_gramas_encontrados:
+            import subprocess
+            sql_ngramas = []
+            for ngrama, freq in n_gramas_encontrados:
+                sql_ngramas.append(f"INSERT INTO terminos_raw VALUES ('{video_id}', '{ngrama}', {freq});")
+            
+            subprocess.run(
+                ['duckdb', '/sdcard/Download/analisis_consolidado.duckdb'],
+                input='\n'.join(sql_ngramas),
+                capture_output=True, text=True, timeout=15
+            )
+            print(f"  🔗 {len(n_gramas_encontrados)} N-gramas guardados en DuckDB")
+        
         consolidar_en_duckdb(csv_path, video_id)
     except Exception as e:
         print(f"⚠️ No se pudo consolidar en DuckDB: {e}")
