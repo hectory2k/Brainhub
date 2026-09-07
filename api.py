@@ -185,6 +185,28 @@ def analizar():
     })
 
 
+@app.route('/api/documento', methods=['GET'])
+def documento():
+    """Devuelve el último documento 80/20 generado."""
+    import glob
+    import os
+    
+    docs = glob.glob('/data/data/com.termux/files/home/*_documento_8020.md')
+    
+    if not docs:
+        return jsonify({'error': 'No hay documentos 80/20 generados'}), 404
+    
+    ultimo = max(docs, key=os.path.getmtime)
+    
+    with open(ultimo, 'r') as f:
+        contenido = f.read()
+    
+    return jsonify({
+        'archivo': os.path.basename(ultimo),
+        'contenido': contenido[:2000]
+    })
+
+
 if __name__ == '__main__':
     print("🚀 BrainHub API")
     print("   http://localhost:5000/api/health")
