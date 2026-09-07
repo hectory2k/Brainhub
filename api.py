@@ -207,6 +207,14 @@ def documento():
     })
 
 
+@app.route('/dashboard')
+def dashboard():
+    """Dashboard HTML."""
+    from flask import send_from_directory
+    import os
+    return send_from_directory(os.path.expanduser('~/proyectos/nlp'), 'dashboard.html')
+
+
 if __name__ == '__main__':
     print("🚀 BrainHub API")
     print("   http://localhost:5000/api/health")

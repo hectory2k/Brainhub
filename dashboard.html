@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainHub Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin: 20px;
+        }
+        h1 { color: #60a5fa; }
+        .card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .metric {
+            display: inline-block;
+            background: #334155;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        th { color: #93c5fd; }
+        input {
+            background: #334155;
+            border: 1px solid #60a5fa;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 8px;
+            width: 80%;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧠 BrainHub Dashboard</h1>
+    
+    <div class="card">
+        <h2>📊 Métricas</h2>
+        <div id="metricas"></div>
+    </div>
+    
+    <div class="card">
+        <h2>🔍 Búsqueda</h2>
+        <input type="text" id="busqueda" placeholder="Buscar término...">
+        <button onclick="buscar()">Buscar</button>
+        <div id="resultados"></div>
+    </div>
+    
+    <div class="card">
+        <h2>📌 Top Términos</h2>
+        <table id="terminos">
+            <tr><th>Término</th><th>Frecuencia</th></tr>
+        </table>
+    </div>
+
+    <script>
+        // Health check
+        fetch('/api/health')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('metricas').innerHTML = `
+                    <span class="metric">✅ ${data.sistema}</span>
+                    <span class="metric">v${data.version}</span>
+                `;
+            });
+        
+        // Top términos
+        fetch('/api/terminos?limite=10')
+            .then(r => r.json())
+            .then(data => {
+                const tabla = document.getElementById('terminos');
+                data.terminos.forEach(t => {
+                    const fila = tabla.insertRow();
+                    fila.innerHTML = `<td>${t[0]}</td><td>${t[1]}</td>`;
+                });
+            });
+        
+        // Buscar
+        function buscar() {
+            const q = document.getElementById('busqueda').value;
+            fetch(`/api/buscar?q=${q}`)
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('resultados').innerHTML = 
+                        `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                });
+        }
+    </script>
+</body>
+</html>
