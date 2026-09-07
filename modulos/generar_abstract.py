@@ -111,12 +111,13 @@ class GeneradorAbstract:
                 fin = timestamps['fin']
                 detalle_timestamp = f" (Especialmente visible entre los minutos {inicio} y {fin})"
             else:
+                inicio = '00:00'
+                fin = '05:00'
                 detalle_timestamp = ""  # Sin timestamps para texto estático
             parrafo_herramienta = self.PLANTILLA_HERRAMIENTA.format(
                 herramienta=herramienta,
                 conceptos_tecnicos=conceptos,
-                inicio=inicio,
-                fin=fin
+                detalle_timestamp=detalle_timestamp
             )
         
         # Párrafo 3: Contexto (si existe)

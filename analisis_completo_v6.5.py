@@ -184,7 +184,11 @@ def filtrar_stopwords(texto, nicho='GENERAL'):
     
     # Obtener stopwords exclusivamente desde JSON
     try:
-        stopwords = get_stopwords(nicho, lang)
+        stopwords = set()
+        for idioma in ['es', 'en', 'cs']:
+            sw = get_stopwords(nicho, idioma)
+            if sw:
+                stopwords.update(sw)
     except:
         stopwords = set()
     

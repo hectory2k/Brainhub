@@ -74,3 +74,25 @@
 ### Mejoras
 - **Shadow Testing**: compara versiones antes del push
 - Detecta regresiones de tiempo y de salida
+
+## [6.5.4] - 2026-09-07
+
+### Rama PubMed/MeSH
+- **MeSH Cache**: consulta on-demand con cache local en DuckDB
+- **MeSH Sugerente**: sugiere búsquedas cuando evidencia es baja
+- **PICO Generator**: preguntas clínicas estructuradas
+- **Alias MeSH**: descriptores oficiales en diccionario clínico
+
+### Soporte Multilingüe
+- **Stopwords checas**: 40+ palabras (jsem, tak, ten...)
+- **Términos médicos checos**: vazu, koleno, riziko, operace
+- **Filtrado ES+EN+CS**: el pipeline ahora maneja 3 idiomas
+
+### Mejoras MeSH
+- Nombres oficiales legibles (no solo IDs)
+- Términos normalizados (vazu → ligamento → Anterior Cruciate Ligament)
+- Evita falsos positivos (solo términos clínicos validados)
+
+### Caso real validado
+- Video checo de LCA → MeSH: Anterior Cruciate Ligament Reconstruction
+- Video checo de rodilla → MeSH: Knee Joint

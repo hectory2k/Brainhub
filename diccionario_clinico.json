@@ -18,7 +18,8 @@
       "clinical history",
       "historial medico"
     ],
-    "categoria": "registro_medico"
+    "categoria": "registro_medico",
+    "alias_mesh": "Electronic Health Records"
   },
   "interoperabilidad_fhir": {
     "sinonimos": [
@@ -29,7 +30,8 @@
       "fhir",
       "interoperabilidad"
     ],
-    "categoria": "interoperabilidad"
+    "categoria": "interoperabilidad",
+    "alias_mesh": "Health Information Interoperability"
   },
   "diagnostico_clinico": {
     "sinonimos": [
@@ -71,7 +73,8 @@
       "enfermo",
       "individual"
     ],
-    "categoria": "sujeto"
+    "categoria": "sujeto",
+    "alias_mesh": "Patients"
   },
   "salud_publica": {
     "sinonimos": [
@@ -168,5 +171,57 @@
       "medico"
     ],
     "categoria": "profesional"
+  },
+  "ligamento": {
+    "sinonimos": [
+      "vazu",
+      "vaz",
+      "ligament",
+      "ligamento",
+      "ligaments"
+    ],
+    "categoria": "anatomia",
+    "alias_mesh": "Anterior Cruciate Ligament"
+  },
+  "rodilla": {
+    "sinonimos": [
+      "koleno",
+      "kolena",
+      "koleni",
+      "knee",
+      "rodilla"
+    ],
+    "categoria": "anatomia",
+    "alias_mesh": "Knee Joint"
+  },
+  "riesgo": {
+    "sinonimos": [
+      "riziko",
+      "risk",
+      "riesgo"
+    ],
+    "categoria": "condicion",
+    "alias_mesh": "Risk"
+  },
+  "operacion": {
+    "sinonimos": [
+      "operace",
+      "operation",
+      "surgery",
+      "operación",
+      "cirugia"
+    ],
+    "categoria": "procedimiento",
+    "alias_mesh": "Surgical Procedures, Operative"
+  },
+  "lca": {
+    "sinonimos": [
+      "lca",
+      "ligamento cruzado anterior",
+      "anterior cruciate ligament",
+      "acl"
+    ],
+    "alias_mesh": "Anterior Cruciate Ligament",
+    "categoria": "anatomia"
   }
 }

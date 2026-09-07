@@ -41,9 +41,12 @@ elif 'machine learning' in texto_lower:
 ponderador = PonderacionNichos(diccionario)
 resultado = ponderador.analizar(texto_completo)
 
+# Usar nicho original del JSON si existe
+nicho_original = datos.get('nicho', 'GENERAL')
+
 jerarquia = {
     'recurso_id': datos.get('content_id', 'sin_id'),
-    'nicho_principal': resultado.get('nicho_principal', 'GENERAL'),
+    'nicho_principal': nicho_original,
     'secundarios': resultado.get('secundarios', {})
 }
 

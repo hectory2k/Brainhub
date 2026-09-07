@@ -60,6 +60,13 @@ class DiccionarioClinico:
             return self._data[concepto].get('sinonimos', [])
         return []
     
+    def get_alias_mesh(self, termino: str) -> str:
+        """Retorna el alias MeSH en inglés para un término."""
+        normalizado = self.normalizar(termino)
+        if normalizado in self._data:
+            return self._data[normalizado].get('alias_mesh', '')
+        return ''
+    
     def get_todos_conceptos(self) -> List[str]:
         return list(self._data.keys())
 

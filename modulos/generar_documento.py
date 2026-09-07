@@ -6,6 +6,11 @@ Une: Abstract + Preguntas + Métricas + Timestamps.
 
 import json
 from typing import Dict, List
+
+try:
+    from modulos.mesh_cache import MeSHCache
+except ImportError:
+    MeSHCache = None
 from pathlib import Path
 
 
@@ -66,7 +71,29 @@ class GeneradorDocumento:
             doc += f"### [{pregunta['tipo']}]\n"
             doc += f"{pregunta['pregunta']}\n\n"
         
-        if hasattr(self, 'reflexiones') and self.reflexiones:
+        # Sección MeSH: solo términos clínicos validados
+        if self.jerarquia.get('nicho_principal') in ['SALUD', 'AI_SAFETY'] and MeSHCache:
+            try:
+                from modulos.diccionario_clinico import DiccionarioClinico
+                dc = DiccionarioClinico()
+                
+                doc += "---\n\n## 🔬 Términos MeSH Sugeridos\n\n"
+                mesh = MeSHCache()
+                
+                for termino in self.terminos[:5]:
+                    if dc.es_clinico(termino):
+                        # Usar término normalizado (ej: vazu → ligamento)
+                        termino_normalizado = dc.normalizar(termino)
+                        alias_mesh = dc.get_alias_mesh(termino)
+                        termino_busqueda = alias_mesh if alias_mesh else termino_normalizado
+                        resultado = mesh.buscar(termino_busqueda)
+                        if resultado.get('nombre_oficial'):
+                            doc += f"- **{termino}** ({termino_normalizado}) → MeSH: {resultado['nombre_oficial']}\n"
+                
+                doc += "\n"
+            except:
+                pass
+        
             doc += "---\n\n## 🧠 Reflexiones Post-Análisis\n\n"
             for i, reflexion in enumerate(self.reflexiones, 1):
                 doc += f"{i}. {reflexion}\n\n"

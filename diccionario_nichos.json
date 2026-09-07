@@ -1,20 +1,30 @@
 {
   "SALUD": {
     "terminos": [
-      "paciente",
-      "diagnostico",
-      "diagnóstico",
       "tratamiento",
-      "salud",
-      "clinica",
-      "clínica",
-      "historia clinica",
-      "medico",
-      "médico",
       "enfermedad",
+      "clínica",
       "sintoma",
+      "kolena",
       "síntoma",
-      "hospital"
+      "doktore",
+      "medico",
+      "salud",
+      "diagnostico",
+      "paciente",
+      "lékař",
+      "diagnóstico",
+      "hospital",
+      "historia clinica",
+      "koleni",
+      "clinica",
+      "operace",
+      "riziko",
+      "koleno",
+      "lekar",
+      "vazu",
+      "pacient",
+      "médico"
     ]
   },
   "TECNOLOGIA": {

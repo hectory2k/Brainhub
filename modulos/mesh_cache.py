@@ -31,7 +31,20 @@ class MeSHCache:
         subprocess.run(['duckdb', self.DB_PATH, '-c', sql], 
                       capture_output=True, text=True)
     
-    def buscar(self, termino: str) -> Dict:
+    def buscar(self, termino: str, contexto: str = '') -> Dict:
+        """
+        Busca término MeSH con contexto.
+        Si hay contexto, usa el bigrama para mejor precisión.
+        """
+        # Si hay contexto, buscar con bigrama
+        if contexto:
+            termino_busqueda = f"{contexto} {termino}"
+        else:
+            termino_busqueda = termino
+        
+        return self._buscar_interno(termino_busqueda)
+    
+    def _buscar_interno(self, termino: str) -> Dict:
         """
         Busca término en cache, si no está consulta NCBI.
         """
@@ -56,9 +69,33 @@ class MeSHCache:
             return {'fuente': 'no_encontrado', 'termino': termino}
         
         mesh_id = idlist[0]
+        
+        # Obtener nombre oficial del descriptor
+        time.sleep(0.34)
+        r_nombre = requests.get(
+            'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi',
+            params={'db': 'mesh', 'id': mesh_id, 'retmode': 'json'},
+            timeout=10
+        )
+        
+        nombre_oficial = termino
+        try:
+            summary = r_nombre.json()
+            if 'result' in summary and mesh_id in summary['result']:
+                mesh_info = summary['result'][mesh_id]
+                # El nombre oficial está en ds_meshterms[0]
+                meshterms = mesh_info.get('ds_meshterms', [])
+                if meshterms:
+                    nombre_oficial = meshterms[0]
+                else:
+                    nombre_oficial = mesh_info.get('ds_name', termino)
+        except:
+            pass
+        
         resultado = {
             'termino_busqueda': termino,
             'mesh_id': mesh_id,
+            'nombre_oficial': nombre_oficial,
             'traduccion': traduccion
         }
         
