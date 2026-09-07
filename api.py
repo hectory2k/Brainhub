@@ -118,6 +118,73 @@ def perfil():
     return jsonify({'perfil': tipo, 'resumen': resumen})
 
 
+@app.route('/api/grafo', methods=['GET'])
+def grafo():
+    """Nodos y relaciones del grafo."""
+    import json
+    ruta = '/data/data/com.termux/files/home/proyectos/nlp/outputs/grafo/grafo_optimizado.json'
+    try:
+        with open(ruta, 'r') as f:
+            datos = json.load(f)
+        return jsonify({
+            'nodos': len(datos.get('nodos', [])),
+            'relaciones': len(datos.get('aristas', [])),
+            'grafo': datos
+        })
+    except FileNotFoundError:
+        return jsonify({'error': 'Grafo no generado'}), 404
+
+
+@app.route('/api/metricas', methods=['GET'])
+def metricas():
+    """Métricas del pipeline."""
+    import json
+    import glob
+    metricas_files = glob.glob('/data/data/com.termux/files/home/*_metricas.json')
+    return jsonify({
+        'total_archivos': len(metricas_files),
+        'archivos': [f.split('/')[-1] for f in metricas_files[:10]]
+    })
+
+
+@app.route('/api/hibridos', methods=['GET'])
+def hibridos():
+    """Etiquetas híbridas generadas."""
+    import json
+    ruta = '/data/data/com.termux/files/home/proyectos/nlp/catalogo_hibridos.json'
+    try:
+        with open(ruta, 'r') as f:
+            datos = json.load(f)
+        return jsonify(datos)
+    except FileNotFoundError:
+        return jsonify({'hibridos': {}, 'pendientes': []})
+
+
+@app.route('/api/analizar', methods=['POST'])
+def analizar():
+    """Analizar texto directo."""
+    datos = request.get_json()
+    if not datos or 'texto' not in datos:
+        return jsonify({'error': 'Falta campo texto'}), 400
+    
+    from modulos.detectar_nicho import detectar_nicho
+    from modulos.stopwords_manager import get_stopwords
+    from collections import Counter
+    
+    texto = datos['texto']
+    nicho = detectar_nicho(texto)
+    
+    stopwords = get_stopwords(nicho, 'es')
+    palabras = [p for p in texto.lower().split() if p not in stopwords and len(p) > 3]
+    terminos = Counter(palabras).most_common(10)
+    
+    return jsonify({
+        'nicho': nicho,
+        'terminos': [{'termino': t, 'frecuencia': f} for t, f in terminos],
+        'total_palabras': len(palabras)
+    })
+
+
 if __name__ == '__main__':
     print("🚀 BrainHub API")
     print("   http://localhost:5000/api/health")
