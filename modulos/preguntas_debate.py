@@ -42,6 +42,19 @@ class GeneradorPreguntas:
         idioma = self._detectar_idioma(terminos_clave)
         
         # 1. Pregunta conceptual desde co-ocurrencia más fuerte
+        # Filtrar co-ocurrencias redundantes (singular vs plural)
+        coocurrencias_filtradas = []
+        for co in (coocurrencias or []):
+            if isinstance(co, list) and len(co) >= 2:
+                par, frecuencia = co
+                origen, destino = par
+                # Evitar pares muy similares (model vs models)
+                if origen.lower().rstrip('s') != destino.lower().rstrip('s'):
+                    coocurrencias_filtradas.append(co)
+        
+        coocurrencias = coocurrencias_filtradas if coocurrencias_filtradas else coocurrencias
+
+
         if coocurrencias and len(coocurrencias) > 0:
             par_top, frecuencia = coocurrencias[0]
             origen, destino = par_top
