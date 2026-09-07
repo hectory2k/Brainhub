@@ -74,4 +74,18 @@ def detectar_nicho(texto: str) -> str:
     if 'AI_SAFETY' in scores and scores['AI_SAFETY'] >= 3:
         return 'AI_SAFETY'
     
+    # Buscar N-gramas (frases compuestas)
+    n_gramas_ai_safety = [
+        'value alignment', 'goal alignment', 'recursive self-improvement',
+        'chain-of-thought', 'chain of thought', 'cot monitoring',
+        'machine intelligence', 'reasoning models', 'reasoning process',
+        'pretraining data', 'training distribution', 'supervision pressure'
+    ]
+    
+    for frase in n_gramas_ai_safety:
+        if frase in texto_normalizado:
+            if 'AI_SAFETY' not in scores:
+                scores['AI_SAFETY'] = 0
+            scores['AI_SAFETY'] += 5  # N-gramas pesan más
+    
     return max(scores, key=scores.get)
