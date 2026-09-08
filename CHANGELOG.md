@@ -96,3 +96,16 @@
 ### Caso real validado
 - Video checo de LCA → MeSH: Anterior Cruciate Ligament Reconstruction
 - Video checo de rodilla → MeSH: Knee Joint
+
+## [6.5.5] - 2026-09-08
+
+### Papers Científicos
+- descolumnar.py: descolumnar PDFs de 2 columnas
+- procesar_paper.sh: flujo PDF → descolumnar → analizar → documento
+- Paper Cash et al 2026 procesado completo
+
+### Mejoras
+- Preguntas específicas basadas en co-ocurrencias
+- Alias MeSH autoritativo (evita falsos positivos)
+- Nicho PSICOLOGÍA agregado
+- Tabla preguntas_mesh en DuckDB (sin automatizar)
