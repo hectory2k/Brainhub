@@ -18,6 +18,13 @@ jobs:
       with:
         python-version: '3.10'
     
+    - name: Install DuckDB CLI
+      run: |
+        curl -L -o duckdb.zip https://github.com/duckdb/duckdb/releases/latest/download/duckdb_cli-linux-amd64.zip
+        unzip duckdb.zip -d /usr/local/bin/
+        chmod +x /usr/local/bin/duckdb
+        duckdb --version
+    
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -26,8 +33,3 @@ jobs:
     - name: Run tests
       run: |
         python3 -m pytest tests/ -v --cov=modulos --cov-report=term-missing
-    
-    - name: Upload coverage
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}

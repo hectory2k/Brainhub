@@ -12,7 +12,7 @@ class StopwordsManager:
     """Gestiona stopwords por nicho desde un archivo JSON."""
     
     # Ruta por defecto al archivo JSON
-    DEFAULT_JSON_PATH = os.path.expanduser('~/proyectos/nlp/stopwords.json')
+    DEFAULT_JSON_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'stopwords.json')
     
     def __init__(self, json_path=None):
         """
