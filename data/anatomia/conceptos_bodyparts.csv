@@ -1,0 +1,3433 @@
+concepto_id,nombre_en,elementos
+FMA3710,vascular tree,7
+FMA3711,segment of artery,6
+FMA3714,variant artery,1
+FMA3726,anastomosis,8
+FMA3727,vascular anastomosis,8
+FMA3728,arterial anastomosis,4
+FMA3729,venous anastomosis,4
+FMA3736,ascending aorta,1
+FMA3768,arch of aorta,1
+FMA3784,descending aorta,3
+FMA3789,abdominal aorta,1
+FMA3802,trunk of right coronary artery,1
+FMA3807,right conus artery,2
+FMA3813,anterior ventricular branch of right coronary artery,8
+FMA3815,first anterior ventricular branch of right coronary artery,3
+FMA3818,marginal branch of right coronary artery,5
+FMA3835,posterior ventricular branch of right coronary artery,9
+FMA3837,first posterior ventricular branch of right coronary artery,9
+FMA3840,posterior interventricular branch of right coronary artery,9
+FMA3845,septal branch of right posterior interventricular artery,2
+FMA3847,first septal branch of right posterior interventricular artery,1
+FMA3848,second septal branch of right posterior interventricular artery,1
+FMA3855,trunk of left coronary artery,1
+FMA3860,diagonal branch of anterior descending branch of left coronary artery,10
+FMA3868,conus branch of anterior interventricular branch of left coronary artery,2
+FMA3870,right anterior branch of anterior interventricular branch of left coronary artery,5
+FMA3872,first right anterior branch of anterior interventricular branch of left coronary artery,2
+FMA3874,second right anterior branch of anterior interventricular branch of left coronary artery,1
+FMA3876,third right anterior branch of anterior interventricular branch of left coronary artery,2
+FMA3892,septal branch of anterior interventricular artery,3
+FMA3895,circumflex branch of left coronary artery,6
+FMA3932,brachiocephalic artery,93
+FMA3939,common carotid artery,2
+FMA3941,right common carotid artery,13
+FMA3947,internal carotid artery,2
+FMA3949,right internal carotid artery,12
+FMA3951,subclavian artery,2
+FMA3953,right subclavian artery,79
+FMA3956,vertebral artery,2
+FMA3958,right vertebral artery,43
+FMA3960,internal thoracic artery,2
+FMA3969,right internal thoracic artery,3
+FMA3988,right superior epigastric artery,1
+FMA3990,thyrocervical trunk,2
+FMA3992,right thyrocervical trunk,1
+FMA3994,second posterior intercostal artery,2
+FMA4057,right dorsal scapular artery,1
+FMA4058,left common carotid artery,10
+FMA4062,left internal carotid artery,9
+FMA4066,left vertebral artery,43
+FMA4068,left internal thoracic artery,3
+FMA4077,left musculophrenic artery,1
+FMA4083,left superior epigastric artery,1
+FMA4084,left thyrocervical trunk,1
+FMA4086,left costocervical trunk,1
+FMA4088,left superior intercostal artery,1
+FMA4112,left second posterior intercostal artery,1
+FMA4134,left deep cervical artery,1
+FMA4149,esophageal artery,1
+FMA4176,posterior intercostal artery,4
+FMA4613,subcostal artery,2
+FMA4634,right subcostal artery,1
+FMA4654,left subcostal artery,1
+FMA4677,trunk of branch of coronary artery,1
+FMA4694,left subclavian artery,79
+FMA4706,coronary sinus,1
+FMA4707,great cardiac vein,1
+FMA4708,left marginal vein,3
+FMA4712,posterior vein of left ventricle,10
+FMA4713,middle cardiac vein,14
+FMA4714,small cardiac vein,2
+FMA4716,right marginal vein,3
+FMA4720,superior vena cava,1
+FMA4723,brachiocephalic vein,2
+FMA4724,internal jugular vein,2
+FMA4725,subclavian vein,2
+FMA4729,internal thoracic vein,1
+FMA4731,superior epigastric vein,2
+FMA4732,musculophrenic vein,2
+FMA4751,right brachiocephalic vein,4
+FMA4754,right internal jugular vein,1
+FMA4755,right subclavian vein,1
+FMA4758,right internal thoracic vein,1
+FMA4761,left brachiocephalic vein,1
+FMA4762,left internal jugular vein,1
+FMA4763,left subclavian vein,1
+FMA4771,right superior epigastric vein,1
+FMA4772,right musculophrenic vein,1
+FMA4785,left superior epigastric vein,1
+FMA4786,left musculophrenic vein,1
+FMA4797,left superior intercostal vein,1
+FMA4838,azygos vein,1
+FMA4843,right ascending lumbar vein,1
+FMA4844,right subcostal vein,1
+FMA4877,right superior intercostal vein,1
+FMA4944,hemiazygos vein,1
+FMA4950,left ascending lumbar vein,1
+FMA4951,left subcostal vein,1
+FMA5011,accessory hemiazygos vein,1
+FMA5018,bone organ,203
+FMA5022,muscle organ,323
+FMA5039,right costocervical trunk,1
+FMA5041,right second posterior intercostal artery,1
+FMA5042,right superior intercostal artery,1
+FMA5865,cranial nerve,2
+FMA5884,ganglion,2
+FMA5889,autonomic ganglion,2
+FMA5894,parasympathetic ganglion,2
+FMA5895,cranial parasympathetic ganglion,2
+FMA5897,anatomical space,9
+FMA5898,anatomical junction,10
+FMA5913,nerve trunk,8
+FMA6964,ciliary ganglion,2
+FMA7037,branch of ciliary ganglion,2
+FMA7041,short ciliary nerve,2
+FMA7131,esophagus,1
+FMA7145,membrane organ,10
+FMA7146,organ component gland,2
+FMA7148,stomach,1
+FMA7163,skin,1
+FMA7196,spleen,1
+FMA7198,pancreas,4
+FMA7202,gallbladder,1
+FMA7203,kidney,2
+FMA7204,right kidney,1
+FMA7205,left kidney,1
+FMA7206,duodenum,1
+FMA7210,testis,2
+FMA7211,right testis,1
+FMA7212,left testis,1
+FMA7232,cusp of cardiac valve,6
+FMA7237,leaflet of tricuspid valve,3
+FMA7238,anterior leaflet of tricuspid valve,1
+FMA7239,posterior leaflet of tricuspid valve,1
+FMA7240,septal leaflet of tricuspid valve,1
+FMA7241,leaflet of mitral valve,2
+FMA7242,anterior leaflet of mitral valve,1
+FMA7243,posterior leaflet of mitral valve,1
+FMA7247,left anterior cusp of pulmonary valve,1
+FMA7248,cusp of pulmonary valve,3
+FMA7249,right anterior cusp of pulmonary valve,1
+FMA7250,posterior cusp of pulmonary valve,1
+FMA7251,cusp of aortic valve,3
+FMA7252,right posterior cusp of aortic valve,1
+FMA7253,anterior cusp of aortic valve,1
+FMA7254,left posterior cusp of aortic valve,1
+FMA7260,anterior papillary muscle of right ventricle,1
+FMA7261,posterior papillary muscle of right ventricle,1
+FMA7262,septal papillary muscle of right ventricle,1
+FMA7264,lateral papillary muscle of left ventricle,2
+FMA7265,anterolateral head of lateral papillary muscle of left ventricle,1
+FMA7394,trachea,1
+FMA7396,left main bronchus,1
+FMA7405,main bronchus,1
+FMA7409,bronchus,2
+FMA7474,long bone,114
+FMA7475,short bone,36
+FMA7476,flat bone,10
+FMA7477,irregular bone,43
+FMA7478,pneumatized bone,6
+FMA7486,manubrium,1
+FMA7487,body of sternum,1
+FMA7488,xiphoid process,1
+FMA7538,cartilage organ component,14
+FMA7574,rib,24
+FMA7591,costal cartilage,14
+FMA7592,true rib,14
+FMA7593,typical rib,10
+FMA7594,false rib,10
+FMA7595,floating rib,4
+FMA7596,atypical rib,4
+FMA7597,first rib,2
+FMA7603,first costal cartilage,2
+FMA7620,second rib,2
+FMA7638,third rib,2
+FMA7646,retinaculum,2
+FMA7703,second costal cartilage,2
+FMA7741,third costal cartilage,2
+FMA7749,fourth rib,2
+FMA7768,fourth costal cartilage,2
+FMA7776,fifth rib,2
+FMA7795,fifth costal cartilage,2
+FMA7822,sixth costal cartilage,2
+FMA7830,seventh rib,2
+FMA7849,seventh costal cartilage,2
+FMA7857,right first rib,1
+FMA7875,right first costal cartilage,1
+FMA7882,right second rib,1
+FMA7886,right second costal cartilage,1
+FMA7909,right third rib,1
+FMA7913,right third costal cartilage,1
+FMA7957,right fourth rib,1
+FMA7976,right fourth costal cartilage,1
+FMA7987,left first rib,1
+FMA8005,left first costal cartilage,1
+FMA8012,left second rib,1
+FMA8031,left second costal cartilage,1
+FMA8039,left third rib,1
+FMA8058,left third costal cartilage,1
+FMA8066,right fifth rib,1
+FMA8070,right fifth costal cartilage,1
+FMA8093,left fifth rib,1
+FMA8112,left fifth costal cartilage,1
+FMA8120,eighth rib,2
+FMA8147,sixth rib,2
+FMA8148,left fourth rib,1
+FMA8167,left fourth costal cartilage,1
+FMA8175,right sixth rib,1
+FMA8194,right sixth costal cartilage,1
+FMA8202,left sixth rib,1
+FMA8221,left sixth costal cartilage,1
+FMA8229,right seventh rib,1
+FMA8248,right seventh costal cartilage,1
+FMA8256,left seventh rib,1
+FMA8275,left seventh costal cartilage,1
+FMA8283,right eighth rib,1
+FMA8310,left eighth rib,1
+FMA8337,ninth rib,2
+FMA8364,right ninth rib,1
+FMA8391,left ninth rib,1
+FMA8418,tenth rib,2
+FMA8445,right tenth rib,1
+FMA8472,left tenth rib,1
+FMA8499,eleventh rib,2
+FMA8515,twelfth rib,2
+FMA8531,right eleventh rib,1
+FMA8532,left eleventh rib,1
+FMA8533,right twelfth rib,1
+FMA8534,left twelfth rib,1
+FMA8612,pulmonary trunk,1
+FMA8615,pulmonary arterial trunk,1
+FMA8620,right anterior segmental artery,9
+FMA8634,left apical segmental artery,4
+FMA8635,left posterior segmental artery,3
+FMA8639,superior lingular artery,4
+FMA8640,inferior lingular artery,2
+FMA8642,left superior segmental artery,7
+FMA8644,left medial basal segmental artery,2
+FMA8645,left anterior basal segmental artery,3
+FMA8646,left lateral basal segmental artery,4
+FMA8647,left posterior basal segmental artery,6
+FMA8648,trunk of pulmonary vein,1
+FMA8662,right anterior segmental vein,4
+FMA8663,right posterior segmental vein,7
+FMA8667,left anterior segmental vein,3
+FMA8668,superior lingular vein,2
+FMA8669,inferior lingular vein,2
+FMA8670,right superior segmental vein,6
+FMA8673,right anterior basal segmental vein,2
+FMA8678,left anterior basal segmental vein,4
+FMA8681,apical part of right apical segmental vein,3
+FMA8683,superior part of anterior segmental vein,1
+FMA8693,inferior part of anterior segmental vein,1
+FMA8702,upper lobar artery,1
+FMA8707,apical segmental artery,4
+FMA8714,superior segmental artery,7
+FMA8716,medial basal segmental artery,2
+FMA8717,anterior basal segmental artery,3
+FMA8718,lateral basal segmental artery,4
+FMA8719,posterior basal segmental artery,6
+FMA8755,segmental pulmonary artery,45
+FMA9139,thoracic vertebra,12
+FMA9165,first thoracic vertebra,1
+FMA9187,second thoracic vertebra,1
+FMA9209,third thoracic vertebra,1
+FMA9248,fourth thoracic vertebra,1
+FMA9291,cavity of right ventricle,1
+FMA9311,subsegmental pulmonary artery,51
+FMA9337,organ cavity subdivision,2
+FMA9338,anatomical conduit space,1
+FMA9411,segmental pulmonary vein,68
+FMA9413,subsegmental pulmonary vein,16
+FMA9419,subsegmental part of lateral segmental vein,6
+FMA9421,subsegmental part of medial segmental vein,3
+FMA9422,right medial basal segmental vein,2
+FMA9425,right lateral basal segmental vein,4
+FMA9428,right posterior basal segmental vein,9
+FMA9437,left apical segmental vein,7
+FMA9438,left posterior segmental vein,10
+FMA9450,left lateral basal segmental vein,4
+FMA9451,left posterior basal segmental vein,4
+FMA9457,wall of right atrium,1
+FMA9464,cavity of cardiac chamber,4
+FMA9465,cavity of left atrium,1
+FMA9466,cavity of left ventricle,1
+FMA9531,wall of left atrium,1
+FMA9597,salivary gland,4
+FMA9600,prostate,1
+FMA9604,adrenal gland,2
+FMA9611,femur,2
+FMA9612,metacarpal bone,10
+FMA9613,parietal bone,2
+FMA9615,cricoid cartilage,2
+FMA9616,muscle of head,23
+FMA9617,muscle of neck,54
+FMA9619,muscle of thorax,9
+FMA9620,muscle of abdomen,2
+FMA9621,muscle of upper limb,78
+FMA9622,muscle of lower limb,92
+FMA9623,perineal muscle,4
+FMA9625,stylohyoid,2
+FMA9629,supraspinatus,2
+FMA9637,portion of tissue,2
+FMA9640,portion of connective tissue,2
+FMA9649,decussation,1
+FMA9657,anatomical line,3
+FMA9703,nasolacrimal duct,2
+FMA9704,ureter,2
+FMA9706,bile duct,4
+FMA9708,talus,2
+FMA9710,vomer,1
+FMA9711,maxilla,2
+FMA9721,tendon,6
+FMA9756,external intercostal muscle,2
+FMA9757,internal intercostal muscle,2
+FMA9758,innermost intercostal muscle,2
+FMA9760,transversus thoracis,2
+FMA9761,right transversus thoracis,1
+FMA9762,left transversus thoracis,1
+FMA9914,vertebra,24
+FMA9915,cervical vertebra,7
+FMA9921,lumbar vertebra,5
+FMA9922,fifth thoracic vertebra,1
+FMA9945,sixth thoracic vertebra,1
+FMA9968,seventh thoracic vertebra,1
+FMA9991,eighth thoracic vertebra,1
+FMA10014,ninth thoracic vertebra,1
+FMA10037,tenth thoracic vertebra,1
+FMA10059,eleventh thoracic vertebra,1
+FMA10081,twelfth thoracic vertebra,1
+FMA10419,pancreatic duct,1
+FMA10446,intervertebral disk,23
+FMA10455,intervertebral disk of thoracic vertebra,11
+FMA10458,intervertebral disk of first thoracic vertebra,1
+FMA10474,zone of muscle organ,38
+FMA10483,zone of bone organ,1
+FMA10552,left dorsal scapular artery,1
+FMA10636,costocervical trunk,2
+FMA10645,musculophrenic artery,2
+FMA10646,superior epigastric artery,2
+FMA10659,deep cervical artery,2
+FMA10660,right deep cervical artery,1
+FMA10662,inferior thyroid artery,2
+FMA10663,suprascapular artery,2
+FMA10664,transverse cervical artery,2
+FMA10665,superficial cervical artery,2
+FMA10680,left inferior thyroid artery,1
+FMA10681,left suprascapular artery,1
+FMA10682,left transverse cervical artery,3
+FMA10683,left superficial cervical artery,1
+FMA10692,right musculophrenic artery,1
+FMA10697,right inferior thyroid artery,1
+FMA10698,right suprascapular artery,1
+FMA10699,right transverse cervical artery,3
+FMA10700,right superficial cervical artery,1
+FMA10704,variant bronchial artery,1
+FMA10951,inferior vena cava,2
+FMA11195,segment of neural tree organ,36
+FMA11336,linea alba,1
+FMA11337,zone of continuity,9
+FMA11338,ileocecal junction,1
+FMA11359,cavity of right atrium,1
+FMA12215,zone of sternum,1
+FMA12224,segment of tracheobronchial tree,101
+FMA12516,tooth,28
+FMA12519,atlas,1
+FMA12520,axis,1
+FMA12521,third cervical vertebra,1
+FMA12522,fourth cervical vertebra,1
+FMA12523,fifth cervical vertebra,1
+FMA12524,sixth cervical vertebra,1
+FMA12525,seventh cervical vertebra,1
+FMA12823,incisor tooth,8
+FMA12845,subcostal vein,2
+FMA12846,cardiac vein,44
+FMA12858,ascending lumbar vein,3
+FMA13072,first lumbar vertebra,1
+FMA13073,second lumbar vertebra,1
+FMA13074,third lumbar vertebra,1
+FMA13075,fourth lumbar vertebra,1
+FMA13076,fifth lumbar vertebra,1
+FMA13087,segment of aorta,5
+FMA13109,pectoralis minor,2
+FMA13237,cavity of atrium,2
+FMA13238,cavity of ventricle,2
+FMA13256,wall of cardiac chamber,3
+FMA13278,anterior segmental artery,10
+FMA13279,left anterior segmental artery,8
+FMA13280,posterior segmental artery,3
+FMA13289,medial basal segmental vein,2
+FMA13290,anterior basal segmental vein,6
+FMA13291,lateral basal segmental vein,8
+FMA13292,posterior basal segmental vein,13
+FMA13295,diaphragm,1
+FMA13303,humerus,2
+FMA13321,clavicle,2
+FMA13322,right clavicle,1
+FMA13323,left clavicle,1
+FMA13324,cephalic vein,2
+FMA13325,right cephalic vein,1
+FMA13326,left cephalic vein,1
+FMA13329,axillary vein,2
+FMA13330,right axillary vein,1
+FMA13331,left axillary vein,1
+FMA13335,external oblique,2
+FMA13336,right external oblique,1
+FMA13337,left external oblique,1
+FMA13338,infrahyoid muscle,8
+FMA13341,sternohyoid,2
+FMA13342,omohyoid,2
+FMA13343,sternothyroid,2
+FMA13344,thyrohyoid,2
+FMA13346,right sternohyoid,1
+FMA13347,left sternohyoid,1
+FMA13348,right omohyoid,1
+FMA13349,left omohyoid,1
+FMA13350,right sternothyroid,1
+FMA13351,left sternothyroid,1
+FMA13352,right thyrohyoid,1
+FMA13353,left thyrohyoid,1
+FMA13354,intercostal muscle,6
+FMA13365,caudate lobe of liver,1
+FMA13375,right pectoralis minor,1
+FMA13376,left pectoralis minor,1
+FMA13379,rhomboid major,2
+FMA13380,rhomboid minor,2
+FMA13381,right rhomboid major,1
+FMA13382,left rhomboid major,1
+FMA13383,right rhomboid minor,1
+FMA13384,left rhomboid minor,1
+FMA13385,scalenus anterior,2
+FMA13386,scalenus medius,2
+FMA13387,scalenus posterior,2
+FMA13388,right scalenus posterior,1
+FMA13389,left scalenus posterior,1
+FMA13390,right scalenus medius,1
+FMA13391,left scalenus medius,1
+FMA13392,right scalenus anterior,1
+FMA13393,left scalenus anterior,1
+FMA13394,scapula,2
+FMA13395,right scapula,1
+FMA13396,left scapula,1
+FMA13397,serratus anterior,2
+FMA13398,right serratus anterior,1
+FMA13399,left serratus anterior,1
+FMA13400,serratus posterior,4
+FMA13401,serratus posterior superior,2
+FMA13402,serratus posterior inferior,2
+FMA13403,right serratus posterior superior,1
+FMA13404,left serratus posterior superior,1
+FMA13405,right serratus posterior inferior,1
+FMA13406,left serratus posterior inferior,1
+FMA13407,sternocleidomastoid,2
+FMA13408,right sternocleidomastoid,1
+FMA13409,left sternocleidomastoid,1
+FMA13410,subclavius,2
+FMA13411,left subclavius,1
+FMA13412,right subclavius,1
+FMA13413,subscapularis,2
+FMA13414,right subscapularis,1
+FMA13415,left subscapularis,1
+FMA13442,anterior segmental vein,5
+FMA13443,posterior segmental vein,17
+FMA13444,apical segmental vein,7
+FMA13445,superior segmental vein,6
+FMA13495,intervertebral disk of second thoracic vertebra,1
+FMA13500,intervertebral disk of third thoracic vertebra,1
+FMA13501,intervertebral disk of fourth thoracic vertebra,1
+FMA13502,intervertebral disk of fifth thoracic vertebra,1
+FMA13503,intervertebral disk of sixth thoracic vertebra,1
+FMA13504,intervertebral disk of seventh thoracic vertebra,1
+FMA13505,intervertebral disk of eighth thoracic vertebra,1
+FMA13506,intervertebral disk of ninth thoracic vertebra,1
+FMA13507,intervertebral disk of tenth thoracic vertebra,1
+FMA13508,intervertebral disk of eleventh thoracic vertebra,1
+FMA13883,wall of atrium,2
+FMA13884,wall of ventricle,1
+FMA13889,pituitary gland,1
+FMA13894,intervertebral disk of lumbar vertebra,5
+FMA13895,intervertebral disk of cervical vertebra,6
+FMA13896,intervertebral disk of third cervical vertebra,1
+FMA13897,intervertebral disk of fourth cervical vertebra,1
+FMA13898,intervertebral disk of fifth cervical vertebra,1
+FMA13899,intervertebral disk of sixth cervical vertebra,1
+FMA13900,intervertebral disk of seventh cervical vertebra,1
+FMA13912,ventricular branch of right coronary artery,17
+FMA13914,anterior branch of anterior interventricular branch of left coronary artery,5
+FMA13921,branch of anterior interventricular branch of left coronary artery,20
+FMA14065,organ component,66
+FMA14092,zone of small intestine,54
+FMA14177,bronchial branch of arch of aorta,1
+FMA14284,venous tree organ,7
+FMA14293,tributary of internal thoracic vein,4
+FMA14294,tributary of azygos vein,6
+FMA14309,subsegmental part of apical segmental vein,5
+FMA14310,subsegmental part of anterior segmental vein,2
+FMA14317,tributary of external jugular vein,2
+FMA14319,suprascapular vein,2
+FMA14329,trunk of portal vein,2
+FMA14331,splenic vein,1
+FMA14332,superior mesenteric vein,1
+FMA14333,common iliac vein,2
+FMA14334,renal vein,4
+FMA14335,right renal vein,2
+FMA14336,left renal vein,2
+FMA14337,hepatic vein,3
+FMA14338,right hepatic vein,1
+FMA14339,left hepatic vein,1
+FMA14340,middle hepatic vein,1
+FMA14341,right testicular vein,1
+FMA14343,right suprarenal vein,1
+FMA14344,testicular vein,2
+FMA14345,left testicular vein,1
+FMA14348,suprarenal vein,2
+FMA14349,left suprarenal vein,1
+FMA14495,segment of liver,1
+FMA14539,cystic duct,1
+FMA14540,segment of large intestine,4
+FMA14542,appendix,1
+FMA14544,rectum,1
+FMA14545,ascending colon,1
+FMA14546,transverse colon,1
+FMA14547,descending colon,1
+FMA14643,mesentery of small intestine,1
+FMA14645,mesentery of large intestine,2
+FMA14647,transverse mesocolon,1
+FMA14668,common hepatic duct,1
+FMA14669,right hepatic duct,1
+FMA14670,left hepatic duct,1
+FMA14678,extrahepatic bile duct,4
+FMA14734,inferior phrenic artery,15
+FMA14735,lumbar artery,2
+FMA14746,right inferior phrenic artery,8
+FMA14747,left inferior phrenic artery,7
+FMA14749,superior mesenteric artery,14
+FMA14750,inferior mesenteric artery,5
+FMA14751,renal artery,2
+FMA14752,right renal artery,5
+FMA14753,left renal artery,4
+FMA14754,middle suprarenal artery,2
+FMA14755,right middle suprarenal artery,1
+FMA14756,left middle suprarenal artery,1
+FMA14758,testicular artery,2
+FMA14759,right testicular artery,1
+FMA14760,left testicular artery,1
+FMA14764,common iliac artery,6
+FMA14765,right common iliac artery,18
+FMA14766,left common iliac artery,18
+FMA14767,trunk of branch of coeliac artery,3
+FMA14768,left gastric artery,1
+FMA14769,hepatic artery,16
+FMA14771,common hepatic artery,19
+FMA14772,hepatic artery proper,16
+FMA14773,splenic artery,4
+FMA14776,right gastric artery,1
+FMA14781,right gastro-epiploic artery,1
+FMA14782,anterior superior pancreaticoduodenal artery,1
+FMA14784,posterior superior pancreaticoduodenal artery,1
+FMA14787,dorsal pancreatic artery,1
+FMA14790,inferior pancreatic artery,1
+FMA14792,great pancreatic artery,1
+FMA14793,caudal pancreatic artery,1
+FMA14796,left gastro-epiploic artery,1
+FMA14805,inferior pancreaticoduodenal artery,1
+FMA14809,ileal artery,1
+FMA14810,middle colic artery,1
+FMA14811,right colic artery,1
+FMA14812,celiac trunk,1
+FMA14815,ileocolic artery,7
+FMA14816,anterior cecal artery,1
+FMA14817,posterior cecal artery,1
+FMA14818,appendicular artery,1
+FMA14819,ileal branch of inferior branch of ileocolic artery,1
+FMA14820,ascending branch of inferior branch of ileocolic artery,1
+FMA14821,branch of ileocolic artery,6
+FMA14824,marginal colic artery,1
+FMA14825,trunk of branch of inferior mesenteric artery,2
+FMA14826,left colic artery,1
+FMA14828,ascending branch of left colic artery,1
+FMA14829,descending branch of left colic artery,1
+FMA14830,sigmoid artery,1
+FMA14831,marginal artery of colon,1
+FMA14832,superior rectal artery,1
+FMA14837,subdivision of hepatic artery proper,17
+FMA14963,zone of ileum,31
+FMA14964,proximal part of ileum,10
+FMA14965,middle part of ileum,10
+FMA14966,distal part of ileum,12
+FMA15041,taenia coli,3
+FMA15042,taenia mesocolica,1
+FMA15043,taenia omentalis,1
+FMA15044,taenia libera,1
+FMA15370,lumbar vein,2
+FMA15387,tributary of splenic vein,7
+FMA15390,left gastroepiploic vein,1
+FMA15391,inferior mesenteric vein,1
+FMA15392,tributary of inferior mesenteric vein,5
+FMA15393,superior rectal vein,1
+FMA15394,left colic vein,3
+FMA15395,sigmoid vein,1
+FMA15396,tributary of superior mesenteric vein,11
+FMA15397,right gastroepiploic vein,1
+FMA15398,pancreaticoduodenal vein,3
+FMA15399,left gastric vein,1
+FMA15400,right gastric vein,1
+FMA15405,ileal vein,1
+FMA15406,middle colic vein,1
+FMA15407,right colic vein,1
+FMA15408,ileocolic vein,2
+FMA15414,right portal vein,9
+FMA15415,left portal vein,8
+FMA15420,anterior superior segmental branch of right portal vein,1
+FMA15421,anterior inferior segmental branch of right portal vein,1
+FMA15423,posterior superior segmental branch of right portal vein,2
+FMA15424,posterior inferior segmental branch of right portal vein,1
+FMA15425,caudate lobe branch of left portal vein,1
+FMA15428,medial superior segmental branch of left portal vein,1
+FMA15429,medial inferior segmental branch of left portal vein,1
+FMA15431,lateral superior segmental branch of left portal vein,1
+FMA15432,lateral inferior segmental branch of left portal vein,1
+FMA15571,right ureter,1
+FMA15572,left ureter,1
+FMA15629,right adrenal gland,1
+FMA15630,left adrenal gland,1
+FMA15737,hepatovenous subsector,9
+FMA15739,hepatovenous segment ii,1
+FMA15741,hepatovenous segment iii,1
+FMA15742,hepatovenous segment iv,1
+FMA15743,hepatovenous segment v,1
+FMA15744,hepatovenous segment vi,1
+FMA15745,hepatovenous segment vii,1
+FMA15746,hepatovenous segment viii,2
+FMA15747,hepatovenous segment ix,1
+FMA15755,region of anterior sector of right liver (in-vivo),3
+FMA15756,region of posterior sector of right liver (in-vivo),2
+FMA15757,region of anterior sector of left liver (in-vivo),2
+FMA15791,tributary of right hepatic vein,4
+FMA15793,tributary of middle hepatic vein,5
+FMA15794,tributary of left hepatic vein,5
+FMA15796,posterior superior segmental tributary of right hepatic vein,1
+FMA15797,posterior inferior segmental tributary of right hepatic vein,2
+FMA15798,anterior superior segmental tributary of right hepatic vein,1
+FMA15800,anterior inferior segmental tributary of middle hepatic vein,2
+FMA15801,medial inferior segmental tributary of middle hepatic vein,2
+FMA15802,medial superior segmental tributary of left hepatic vein,1
+FMA15803,lateral superior segmental tributary of left hepatic vein,1
+FMA15804,lateral inferior segmental tributary of left hepatic vein,3
+FMA15900,urinary bladder,1
+FMA16033,intervertebral disk of first lumbar vertebra,1
+FMA16034,intervertebral disk of second lumbar vertebra,1
+FMA16035,intervertebral disk of third lumbar vertebra,1
+FMA16036,intervertebral disk of fourth lumbar vertebra,1
+FMA16037,intervertebral disk of fifth lumbar vertebra,1
+FMA16202,sacrum,1
+FMA16549,mesoappendix,1
+FMA16585,hip bone,2
+FMA16586,right hip bone,1
+FMA16587,left hip bone,1
+FMA16980,zone of jejunum,23
+FMA16981,proximal part of jejunum,8
+FMA16982,middle part of jejunum,5
+FMA16983,distal part of jejunum,10
+FMA17541,tributary of hepatic vein,14
+FMA18060,psoas major,2
+FMA18247,glans penis,1
+FMA18255,epididymis,2
+FMA18256,right epididymis,1
+FMA18257,left epididymis,1
+FMA18805,external iliac artery,6
+FMA18806,right external iliac artery,16
+FMA18807,left external iliac artery,16
+FMA18808,internal iliac artery,2
+FMA18809,right internal iliac artery,1
+FMA18810,left internal iliac artery,1
+FMA18883,external iliac vein,5
+FMA18884,internal iliac vein,9
+FMA18885,right external iliac vein,1
+FMA18886,left external iliac vein,4
+FMA18887,right internal iliac vein,6
+FMA18888,left internal iliac vein,3
+FMA18889,tributary of internal iliac vein,14
+FMA18902,iliolumbar vein,2
+FMA18903,right iliolumbar vein,1
+FMA18904,left iliolumbar vein,1
+FMA18905,lateral sacral vein,2
+FMA18906,right lateral sacral vein,1
+FMA18907,left lateral sacral vein,1
+FMA18908,superior gluteal vein,2
+FMA18909,right superior gluteal vein,1
+FMA18910,left superior gluteal vein,1
+FMA18911,inferior gluteal vein,2
+FMA18912,right inferior gluteal vein,1
+FMA18913,left inferior gluteal vein,1
+FMA18914,obturator vein,2
+FMA18915,right obturator vein,1
+FMA18916,left obturator vein,1
+FMA18917,internal pudendal vein,2
+FMA18918,right internal pudendal vein,1
+FMA18919,left internal pudendal vein,1
+FMA19082,piriformis,2
+FMA19083,obturator muscle,4
+FMA19086,muscle of pelvis,3
+FMA19088,coccygeus,3
+FMA19089,zone of levator ani,9
+FMA19090,pubococcygeus,3
+FMA19091,puborectalis,3
+FMA19092,iliococcygeus,3
+FMA19234,deferent duct,2
+FMA19235,right deferent duct,1
+FMA19236,left deferent duct,1
+FMA19386,seminal vesicle,2
+FMA19387,right seminal vesicle,1
+FMA19388,left seminal vesicle,1
+FMA19617,corpus spongiosum of penis,1
+FMA19618,corpus cavernosum of penis,1
+FMA19667,urethra,1
+FMA19728,superficial perineal muscle,4
+FMA19754,region of peritoneum,3
+FMA19783,loose connective tissue,2
+FMA19795,dorsal artery of penis,4
+FMA20107,irregular connective tissue,2
+FMA20111,mucoid tissue,2
+FMA20194,cavernous organ,1
+FMA20221,zone of cavernous organ,2
+FMA20247,zone of corpus spongiosum of penis,1
+FMA20278,muscle of anterior abdominal wall,2
+FMA20289,lacrimal sac,2
+FMA20570,peritoneal mesentery,3
+FMA20593,region of visceral peritoneum,3
+FMA20684,trunk of branch of external iliac artery,4
+FMA20686,inferior epigastric artery,2
+FMA20688,right inferior epigastric artery,1
+FMA20689,left inferior epigastric artery,1
+FMA20734,superficial epigastric artery,2
+FMA20735,right superficial epigastric artery,1
+FMA20736,left superficial epigastric artery,1
+FMA20798,lateral circumflex femoral artery,2
+FMA20801,right lateral circumflex femoral artery,1
+FMA20802,left lateral circumflex femoral artery,1
+FMA20803,branch of lateral circumflex femoral artery,2
+FMA20805,descending branch of lateral circumflex femoral artery,2
+FMA20818,right dorsal artery of penis,2
+FMA20819,left dorsal artery of penis,2
+FMA21162,inferior epigastric vein,2
+FMA21163,right inferior epigastric vein,1
+FMA21164,left inferior epigastric vein,1
+FMA21185,femoral vein,2
+FMA21188,right femoral vein,1
+FMA21189,left femoral vein,1
+FMA21240,tributary of internal pudendal vein,1
+FMA21354,deep dorsal vein of penis,1
+FMA21376,great saphenous vein,2
+FMA21378,tributary of great saphenous vein,5
+FMA21379,right great saphenous vein,1
+FMA21380,left great saphenous vein,1
+FMA21383,tributary of superficial external pudendal vein,3
+FMA21384,superficial dorsal vein of penis,3
+FMA21385,right superficial dorsal vein of penis,1
+FMA21386,left superficial dorsal vein of penis,1
+FMA21387,right common iliac vein,1
+FMA21388,left common iliac vein,1
+FMA21422,descending branch of right lateral circumflex femoral artery,1
+FMA21423,descending branch of left lateral circumflex femoral artery,1
+FMA21496,ligament organ,13
+FMA21520,branch of inferior branch of ileocolic artery,6
+FMA21521,trunk of branch of left colic artery,2
+FMA21930,external anal sphincter,4
+FMA22298,obturator internus,2
+FMA22299,obturator externus,2
+FMA22310,iliacus,2
+FMA22314,gluteus maximus,2
+FMA22315,gluteus medius,2
+FMA22317,gluteus minimus,2
+FMA22318,gemellus superior,2
+FMA22319,gemellus,4
+FMA22320,gemellus inferior,2
+FMA22321,quadratus femoris,2
+FMA22322,right iliacus,1
+FMA22323,left iliacus,1
+FMA22324,right obturator internus,1
+FMA22325,left obturator internus,1
+FMA22326,right obturator externus,1
+FMA22327,left obturator externus,1
+FMA22328,right gluteus maximus,1
+FMA22329,left gluteus maximus,1
+FMA22330,right gluteus medius,1
+FMA22331,left gluteus medius,1
+FMA22332,right gluteus minimus,1
+FMA22333,left gluteus minimus,1
+FMA22334,right gemellus superior,1
+FMA22335,left gemellus superior,1
+FMA22336,right gemellus inferior,1
+FMA22337,left gemellus inferior,1
+FMA22338,right quadratus femoris,1
+FMA22339,left quadratus femoris,1
+FMA22340,right piriformis,1
+FMA22341,left piriformis,1
+FMA22342,right psoas major,1
+FMA22343,left psoas major,1
+FMA22353,sartorius,2
+FMA22354,right sartorius,1
+FMA22355,left sartorius,1
+FMA22357,semitendinosus,2
+FMA22358,right semitendinosus,1
+FMA22359,left semitendinosus,1
+FMA22423,tensor fasciae latae,2
+FMA22424,muscle of anterior compartment of thigh,2
+FMA22425,right tensor fasciae latae,1
+FMA22426,left tensor fasciae latae,1
+FMA22427,muscle of posterior compartment of thigh,4
+FMA22429,zone of quadriceps femoris,8
+FMA22430,rectus femoris,2
+FMA22431,vastus lateralis,2
+FMA22432,vastus medialis,2
+FMA22433,vastus intermedius,2
+FMA22438,semimembranosus,2
+FMA22439,muscle of medial compartment of thigh,12
+FMA22440,pectineus,2
+FMA22441,adductor longus,2
+FMA22442,adductor brevis,2
+FMA22443,adductor magnus,2
+FMA22448,right semimembranosus,1
+FMA22449,left semimembranosus,1
+FMA22450,right pectineus,1
+FMA22451,left pectineus,1
+FMA22452,right adductor brevis,1
+FMA22454,left adductor brevis,1
+FMA22456,right adductor longus,1
+FMA22457,left adductor longus,1
+FMA22459,right adductor magnus,1
+FMA22460,left adductor magnus,1
+FMA22470,muscle of thigh,18
+FMA22471,muscle of leg,24
+FMA22472,muscle of anterior compartment of leg,8
+FMA22473,muscle of lateral compartment of leg,4
+FMA22474,muscle of posterior compartment of leg,12
+FMA22506,descending genicular artery,2
+FMA22507,right descending genicular artery,1
+FMA22508,left descending genicular artery,1
+FMA22532,tibialis anterior,2
+FMA22533,extensor hallucis longus,2
+FMA22534,extensor digitorum longus,2
+FMA22535,superior genicular artery,4
+FMA22536,middle genicular artery,2
+FMA22537,inferior genicular artery,4
+FMA22538,fibularis tertius,2
+FMA22539,fibularis longus,2
+FMA22540,fibularis brevis,2
+FMA22542,soleus,2
+FMA22543,plantaris,2
+FMA22544,right tibialis anterior,1
+FMA22545,left tibialis anterior,1
+FMA22546,right extensor hallucis longus,1
+FMA22547,left extensor hallucis longus,1
+FMA22548,right extensor digitorum longus,1
+FMA22549,left extensor digitorum longus,1
+FMA22550,right fibularis tertius,1
+FMA22551,left fibularis tertius,1
+FMA22552,right fibularis longus,1
+FMA22553,left fibularis longus,1
+FMA22554,right fibularis brevis,1
+FMA22555,left fibularis brevis,1
+FMA22558,right soleus,1
+FMA22559,left soleus,1
+FMA22560,right plantaris,1
+FMA22561,left plantaris,1
+FMA22562,right middle genicular artery,1
+FMA22563,left middle genicular artery,1
+FMA22584,superior medial genicular artery,2
+FMA22585,superior lateral genicular artery,2
+FMA22586,right medial superior genicular artery,1
+FMA22587,left medial superior genicular artery,1
+FMA22588,right lateral superior genicular artery,1
+FMA22589,left lateral superior genicular artery,1
+FMA22590,popliteus,2
+FMA22591,right popliteus,1
+FMA22592,left popliteus,1
+FMA22593,flexor hallucis longus,2
+FMA22594,muscle of vertebral column,58
+FMA22653,splenius capitis,2
+FMA22654,axillary artery,2
+FMA22655,right axillary artery,1
+FMA22656,left axillary artery,1
+FMA22674,lateral thoracic artery,2
+FMA22675,right lateral thoracic artery,1
+FMA22676,left lateral thoracic artery,1
+FMA22677,subscapular artery,2
+FMA22678,right subscapular artery,3
+FMA22679,left subscapular artery,3
+FMA22680,anterior circumflex humeral artery,2
+FMA22681,splenius cervicis,2
+FMA22682,right anterior circumflex humeral artery,1
+FMA22683,left anterior circumflex humeral artery,1
+FMA22684,posterior circumflex humeral artery,4
+FMA22685,right posterior circumflex humeral artery,2
+FMA22687,left posterior circumflex humeral artery,2
+FMA22689,brachial artery,2
+FMA22691,right brachial artery,1
+FMA22692,left brachial artery,1
+FMA22693,branch of brachial artery,10
+FMA22695,deep brachial artery,2
+FMA22696,right deep brachial artery,1
+FMA22697,left deep brachial artery,1
+FMA22702,iliocostalis lumborum,2
+FMA22703,iliocostalis thoracis,2
+FMA22704,iliocostalis cervicis,2
+FMA22706,superior ulnar collateral artery,2
+FMA22707,right superior ulnar collateral artery,1
+FMA22708,left superior ulnar collateral artery,1
+FMA22709,longissimus thoracis,2
+FMA22710,inferior ulnar collateral artery,2
+FMA22711,longissimus cervicis,2
+FMA22712,right inferior ulnar collateral artery,1
+FMA22713,left inferior ulnar collateral artery,1
+FMA22714,longissimus capitis,2
+FMA22726,right splenius cervicis,1
+FMA22727,left splenius cervicis,1
+FMA22728,right splenius capitis,1
+FMA22729,left splenius capitis,1
+FMA22730,radial artery,2
+FMA22733,right radial artery,3
+FMA22734,left radial artery,3
+FMA22738,branch of radial artery,12
+FMA22740,right iliocostalis lumborum,1
+FMA22741,left iliocostalis lumborum,1
+FMA22742,right iliocostalis thoracis,1
+FMA22743,left iliocostalis thoracis,1
+FMA22744,right iliocostalis cervicis,1
+FMA22745,left iliocostalis cervicis,1
+FMA22748,radial recurrent artery,2
+FMA22751,right longissimus thoracis,1
+FMA22753,left longissimus thoracis,1
+FMA22754,right longissimus capitis,1
+FMA22755,dorsal carpal branch of radial artery,2
+FMA22756,left longissimus capitis,1
+FMA22757,right longissimus cervicis,1
+FMA22758,left longissimus cervicis,1
+FMA22762,arteria princeps pollicis,4
+FMA22763,arteria radialis indicis,4
+FMA22764,right radial recurrent artery,1
+FMA22765,spinalis thoracis,2
+FMA22766,left radial recurrent artery,1
+FMA22772,dorsal carpal branch of right radial artery,1
+FMA22773,dorsal carpal branch of left radial artery,1
+FMA22777,right arteria radialis indicis,2
+FMA22778,left arteria radialis indicis,2
+FMA22779,right spinalis thoracis,1
+FMA22780,left spinalis thoracis,1
+FMA22796,ulnar artery,2
+FMA22797,right ulnar artery,6
+FMA22798,left ulnar artery,6
+FMA22799,branch of ulnar artery,12
+FMA22800,anterior ulnar recurrent artery,2
+FMA22801,right anterior ulnar recurrent artery,1
+FMA22802,left anterior ulnar recurrent artery,1
+FMA22803,posterior ulnar recurrent artery,2
+FMA22804,right posterior ulnar recurrent artery,1
+FMA22805,left posterior ulnar recurrent artery,1
+FMA22806,common interosseous artery,2
+FMA22807,right common interosseous artery,2
+FMA22808,left common interosseous artery,2
+FMA22809,branch of common interosseous artery,4
+FMA22810,anterior interosseous artery,2
+FMA22812,right anterior interosseous artery,1
+FMA22813,left anterior interosseous artery,1
+FMA22820,dorsal carpal branch of ulnar artery,2
+FMA22821,right dorsal carpal branch of ulnar artery,1
+FMA22822,left dorsal carpal branch of ulnar artery,1
+FMA22823,semispinalis,6
+FMA22828,semispinalis thoracis,2
+FMA22829,semispinalis cervicis,2
+FMA22830,semispinalis capitis,2
+FMA22834,superficial palmar arterial arch,2
+FMA22835,right superficial palmar arterial arch,1
+FMA22837,left superficial palmar arterial arch,1
+FMA22838,deep palmar arterial arch,2
+FMA22839,right deep palmar arch,1
+FMA22840,left deep palmar arch,1
+FMA22841,interspinalis muscle,2
+FMA22842,branch of arterial anastomosis,20
+FMA22843,branch of deep palmar arterial arch,2
+FMA22845,branch of superficial palmar arterial arch,18
+FMA22846,interspinalis thoracis,2
+FMA22848,intertransversarius muscle,4
+FMA22849,lumbar intertransversarius,4
+FMA22850,lateral lumbar intertransversarius,2
+FMA22851,medial lumbar intertransversarius,2
+FMA22854,first common palmar digital artery,2
+FMA22855,second common palmar digital artery,2
+FMA22856,right first common palmar digital artery,1
+FMA22857,lateral proper palmar digital artery of middle finger,2
+FMA22858,lateral proper palmar digital artery of right middle finger,1
+FMA22860,lateral proper palmar digital artery of left middle finger,1
+FMA22863,palmar metacarpal artery,2
+FMA22864,right palmar metacarpal artery,1
+FMA22865,left palmar metacarpal artery,1
+FMA22872,right semispinalis thoracis,1
+FMA22873,left semispinalis thoracis,1
+FMA22874,right semispinalis cervicis,1
+FMA22875,left semispinalis cervicis,1
+FMA22876,right semispinalis capitis,1
+FMA22877,left semispinalis capitis,1
+FMA22890,right interspinalis thoracis,1
+FMA22891,left interspinalis thoracis,1
+FMA22905,right arteria princeps pollicis,2
+FMA22907,left arteria princeps pollicis,2
+FMA22908,basilic vein,2
+FMA22909,right basilic vein,1
+FMA22910,left basilic vein,1
+FMA22911,deep palmar venous arch,2
+FMA22912,right deep palmar venous arch,1
+FMA22913,left deep palmar venous arch,1
+FMA22914,superficial palmar venous arch,2
+FMA22915,right superficial palmar venous arch,1
+FMA22916,left superficial palmar venous arch,1
+FMA22917,tributary of venous anastomosis,22
+FMA22919,palmar metacarpal vein,6
+FMA22920,right palmar metacarpal vein,3
+FMA22921,left palmar metacarpal vein,3
+FMA22922,tributary of superficial palmar venous arch,20
+FMA22923,common palmar digital vein,2
+FMA22926,tributary of common palmar digital vein,18
+FMA22927,proper palmar digital vein of index finger,4
+FMA22928,proper palmar digital vein of middle finger,4
+FMA22929,proper palmar digital vein of ring finger,4
+FMA22930,tributary of subclavian vein,32
+FMA22934,brachial vein,2
+FMA22935,right medial brachial vein,1
+FMA22936,left medial brachial vein,1
+FMA22937,tributary of brachial vein,10
+FMA22947,radial vein,2
+FMA22948,right radial vein,1
+FMA22949,left radial vein,1
+FMA22950,ulnar vein,2
+FMA22951,right ulnar vein,1
+FMA22952,left ulnar vein,1
+FMA22953,tributary of radial vein,6
+FMA22954,dorsal metacarpal vein,2
+FMA22963,median cubital vein,2
+FMA22964,right median cubital vein,1
+FMA22965,left median cubital vein,1
+FMA22967,median antebrachial vein,2
+FMA22968,right median antebrachial vein,1
+FMA22969,left median antebrachial vein,1
+FMA23046,medial proper palmar digital artery of ring finger,1
+FMA23047,medial proper palmar digital artery of index finger,2
+FMA23048,lateral proper palmar digital artery of little finger,2
+FMA23050,medial proper palmar digital artery of right index finger,1
+FMA23051,medial proper palmar digital artery of left index finger,1
+FMA23052,medial proper palmar digital artery of right ring finger,1
+FMA23054,lateral proper palmar digital artery of right little finger,1
+FMA23055,lateral proper palmar digital artery of left little finger,1
+FMA23062,pectoral branch of thoraco-acromial artery,2
+FMA23063,pectoral branch of right thoraco-acromial artery,1
+FMA23064,pectoral branch of left thoraco-acromial artery,1
+FMA23065,acromial branch of thoraco-acromial artery,2
+FMA23067,deltoid branch of thoraco-acromial artery,2
+FMA23068,acromial branch of right thoraco-acromial artery,1
+FMA23069,acromial branch of left thoraco-acromial artery,1
+FMA23072,deltoid branch of right thoraco-acromial artery,1
+FMA23073,deltoid branch of left thoraco-acromial artery,1
+FMA23081,rotator muscle,6
+FMA23082,cervical rotator,2
+FMA23083,thoracic rotator,2
+FMA23084,lumbar rotator,2
+FMA23089,right lumbar rotator,1
+FMA23090,left lumbar rotator,1
+FMA23113,subscapular vein,2
+FMA23114,right subscapular vein,1
+FMA23115,left subscapular vein,1
+FMA23117,branch of deep brachial artery,4
+FMA23119,medial collateral artery,2
+FMA23120,radial collateral artery,2
+FMA23124,middle collateral branch of right deep brachial artery,1
+FMA23125,middle collateral branch of left deep brachial artery,1
+FMA23126,radial collateral branch of right deep brachial artery,1
+FMA23127,radial collateral branch of left deep brachial artery,1
+FMA23130,right humerus,1
+FMA23131,left humerus,1
+FMA23179,circumflex scapular artery,2
+FMA23180,right circumflex scapular artery,1
+FMA23181,left circumflex scapular artery,1
+FMA23463,radius,2
+FMA23464,right radius,1
+FMA23465,left radius,1
+FMA23466,ulna,2
+FMA23467,right ulna,1
+FMA23468,left ulna,1
+FMA23706,interosseous membrane of forearm,2
+FMA23707,interosseous membrane of right forearm,1
+FMA23708,interosseous membrane of left forearm,1
+FMA23709,scaphoid,2
+FMA23712,lunate,2
+FMA23715,triquetral,2
+FMA23718,pisiform,2
+FMA23721,trapezium,2
+FMA23724,trapezoid,2
+FMA23725,right trapezoid,1
+FMA23727,capitate,2
+FMA23730,hamate,2
+FMA23889,carpal bone,16
+FMA23899,first metacarpal bone,2
+FMA23900,second metacarpal bone,2
+FMA23901,third metacarpal bone,2
+FMA23902,fourth metacarpal bone,2
+FMA23903,fifth metacarpal bone,2
+FMA23914,phalanx of finger,28
+FMA23918,proximal phalanx of thumb,2
+FMA23919,proximal phalanx of index finger,2
+FMA23920,proximal phalanx of middle finger,2
+FMA23921,proximal phalanx of ring finger,2
+FMA23922,proximal phalanx of little finger,2
+FMA23933,middle phalanx of index finger,2
+FMA23934,middle phalanx of middle finger,2
+FMA23935,middle phalanx of ring finger,2
+FMA23936,middle phalanx of little finger,2
+FMA23938,middle phalanx of left index finger,1
+FMA23940,middle phalanx of left middle finger,1
+FMA23942,middle phalanx of left ring finger,1
+FMA23944,middle phalanx of left little finger,1
+FMA23945,distal phalanx of thumb,2
+FMA23946,distal phalanx of index finger,2
+FMA23947,distal phalanx of middle finger,2
+FMA23948,distal phalanx of ring finger,2
+FMA23949,distal phalanx of little finger,2
+FMA23951,distal phalanx of left thumb,1
+FMA23953,distal phalanx of left index finger,1
+FMA23955,distal phalanx of left middle finger,1
+FMA23957,distal phalanx of left ring finger,1
+FMA23959,distal phalanx of left little finger,1
+FMA24034,cavity of organ part,4
+FMA24218,subdivision of head,2
+FMA24435,right scaphoid,1
+FMA24436,left scaphoid,1
+FMA24437,right lunate,1
+FMA24438,left lunate,1
+FMA24439,right triquetral,1
+FMA24440,left triquetral,1
+FMA24441,right pisiform,1
+FMA24442,left pisiform,1
+FMA24443,right trapezium,1
+FMA24444,left trapezium,1
+FMA24445,left trapezoid,1
+FMA24446,right capitate,1
+FMA24447,left capitate,1
+FMA24448,right hamate,1
+FMA24449,left hamate,1
+FMA24450,proximal phalanx of right thumb,1
+FMA24451,proximal phalanx of right index finger,1
+FMA24452,proximal phalanx of right middle finger,1
+FMA24453,proximal phalanx of right ring finger,1
+FMA24454,proximal phalanx of right little finger,1
+FMA24455,middle phalanx of right index finger,1
+FMA24456,middle phalanx of right middle finger,1
+FMA24457,middle phalanx of right ring finger,1
+FMA24458,middle phalanx of right little finger,1
+FMA24459,distal phalanx of right thumb,1
+FMA24460,distal phalanx of right index finger,1
+FMA24461,distal phalanx of right middle finger,1
+FMA24462,distal phalanx of right ring finger,1
+FMA24463,distal phalanx of right little finger,1
+FMA24464,right first metacarpal bone,1
+FMA24465,left first metacarpal bone,1
+FMA24466,right second metacarpal bone,1
+FMA24467,left second metacarpal bone,1
+FMA24468,right third metacarpal bone,1
+FMA24469,left third metacarpal bone,1
+FMA24470,right fourth metacarpal bone,1
+FMA24471,left fourth metacarpal bone,1
+FMA24472,right fifth metacarpal bone,1
+FMA24473,left fifth metacarpal bone,1
+FMA24474,right femur,1
+FMA24475,left femur,1
+FMA24476,tibia,2
+FMA24477,right tibia,1
+FMA24478,left tibia,1
+FMA24479,fibula,2
+FMA24480,right fibula,1
+FMA24481,left fibula,1
+FMA24482,right talus,1
+FMA24483,left talus,1
+FMA24485,patella,2
+FMA24486,right patella,1
+FMA24487,left patella,1
+FMA24491,tarsal bone,14
+FMA24492,metatarsal bone,10
+FMA24493,phalanx of toe,28
+FMA24496,calcaneus,2
+FMA24497,right calcaneus,1
+FMA24498,left calcaneus,1
+FMA24499,navicular bone of foot,2
+FMA24500,navicular bone of right foot,1
+FMA24501,navicular bone of left foot,1
+FMA24502,first metatarsal bone,2
+FMA24503,second metatarsal bone,2
+FMA24504,third metatarsal bone,2
+FMA24505,fourth metatarsal bone,2
+FMA24506,fifth metatarsal bone,2
+FMA24507,right first metatarsal bone,1
+FMA24508,left first metatarsal bone,1
+FMA24509,right second metatarsal bone,1
+FMA24510,left second metatarsal bone,1
+FMA24511,right third metatarsal bone,1
+FMA24512,left third metatarsal bone,1
+FMA24513,right fourth metatarsal bone,1
+FMA24514,left fourth metatarsal bone,1
+FMA24515,right fifth metatarsal bone,1
+FMA24516,left fifth metatarsal bone,1
+FMA24517,cuneiform bone,6
+FMA24518,medial cuneiform bone,2
+FMA24519,intermediate cuneiform bone,2
+FMA24520,lateral cuneiform bone,2
+FMA24521,right medial cuneiform bone,1
+FMA24522,left medial cuneiform bone,1
+FMA24523,right intermediate cuneiform bone,1
+FMA24524,left intermediate cuneiform bone,1
+FMA24525,right lateral cuneiform bone,1
+FMA24526,left lateral cuneiform bone,1
+FMA24527,cuboid bone,2
+FMA24528,right cuboid bone,1
+FMA24529,left cuboid bone,1
+FMA24551,trunk of intrapulmonary vein,1
+FMA25058,intervertebral disk of axis,1
+FMA25624,skeletal ligament,8
+FMA25625,nonskeletal ligament,5
+FMA30313,arterial trunk,26
+FMA30314,venous trunk,29
+FMA30320,duct,9
+FMA31739,segment of bronchial tree,98
+FMA32514,prevertebral muscle,8
+FMA32515,postvertebral muscle,46
+FMA32516,extrinsic muscle of shoulder,8
+FMA32518,deep extrinsic muscle of shoulder,8
+FMA32519,levator scapulae,2
+FMA32520,intrinsic muscle of shoulder,10
+FMA32525,rectus capitis posterior major,2
+FMA32526,rectus capitis posterior minor,2
+FMA32527,obliquus capitis superior,2
+FMA32528,obliquus capitis inferior,2
+FMA32529,zone of trapezius,2
+FMA32530,right rectus capitis posterior major,1
+FMA32531,left rectus capitis posterior major,1
+FMA32532,right rectus capitis posterior minor,1
+FMA32533,left rectus capitis posterior minor,1
+FMA32534,right obliquus capitis superior,1
+FMA32535,left obliquus capitis superior,1
+FMA32536,right obliquus capitis inferior,1
+FMA32537,left obliquus capitis inferior,1
+FMA32540,right levator scapulae,1
+FMA32541,left levator scapulae,1
+FMA32544,right supraspinatus,1
+FMA32545,left supraspinatus,1
+FMA32546,infraspinatus,2
+FMA32547,right infraspinatus muscle,1
+FMA32548,left infraspinatus muscle,1
+FMA32549,teres major,2
+FMA32550,teres minor,2
+FMA32551,right teres major,1
+FMA32552,left teres major,1
+FMA32553,right teres minor,1
+FMA32554,left teres minor,1
+FMA32555,ascending part of trapezius,2
+FMA32556,transverse part of trapezius,2
+FMA32557,descending part of trapezius,2
+FMA32558,musculature,18
+FMA32559,superficial postvertebral muscle,20
+FMA32560,intermediate postvertebral muscle,6
+FMA32561,deep postvertebral muscle,20
+FMA32582,posterior suboccipital muscle,8
+FMA32618,proximal phalanx of second toe,2
+FMA32619,proximal phalanx of third toe,2
+FMA32620,proximal phalanx of fourth toe,2
+FMA32621,proximal phalanx of little toe,2
+FMA32623,middle phalanx of second toe,2
+FMA32624,middle phalanx of third toe,2
+FMA32625,middle phalanx of fourth toe,2
+FMA32627,distal phalanx of big toe,2
+FMA32628,distal phalanx of second toe,2
+FMA32629,distal phalanx of third toe,2
+FMA32630,distal phalanx of fourth toe,2
+FMA32631,distal phalanx of little toe,2
+FMA32634,proximal phalanx of right second toe,1
+FMA32635,proximal phalanx of left second toe,1
+FMA32636,proximal phalanx of right third toe,1
+FMA32637,proximal phalanx of left third toe,1
+FMA32638,proximal phalanx of right fourth toe,1
+FMA32639,proximal phalanx of left fourth toe,1
+FMA32640,proximal phalanx of right little toe,1
+FMA32641,proximal phalanx of left little toe,1
+FMA32642,middle phalanx of right second toe,1
+FMA32643,middle phalanx of left second toe,1
+FMA32644,middle phalanx of right third toe,1
+FMA32645,middle phalanx of left third toe,1
+FMA32646,middle phalanx of right fourth toe,1
+FMA32647,middle phalanx of left fourth toe,1
+FMA32650,distal phalanx of right big toe,1
+FMA32651,distal phalanx of left big toe,1
+FMA32652,distal phalanx of right second toe,1
+FMA32653,distal phalanx of left second toe,1
+FMA32654,distal phalanx of right third toe,1
+FMA32655,distal phalanx of left third toe,1
+FMA32656,distal phalanx of right fourth toe,1
+FMA32657,distal phalanx of left fourth toe,1
+FMA32658,distal phalanx of right little toe,1
+FMA32659,distal phalanx of left little toe,1
+FMA32672,sesamoid bone,6
+FMA32884,phalanx of big toe,4
+FMA32899,phalanx of second toe,6
+FMA32900,phalanx of third toe,6
+FMA32901,phalanx of fourth toe,6
+FMA32902,phalanx of little toe,6
+FMA33302,proximal carpal bone,8
+FMA33303,distal carpal bone,8
+FMA33531,muscle of shoulder,18
+FMA33581,ascending part of right trapezius,1
+FMA33583,ascending part of left trapezius,1
+FMA33584,transverse part of right trapezius,1
+FMA33585,transverse part of left trapezius,1
+FMA33586,descending part of right trapezius,1
+FMA33587,descending part of left trapezius,1
+FMA34676,zone of deltoid,6
+FMA34677,clavicular part of deltoid,2
+FMA34678,acromial part of deltoid,2
+FMA34679,spinal part of deltoid,2
+FMA34680,clavicular part of right deltoid,1
+FMA34681,clavicular part of left deltoid,1
+FMA34682,acromial part of right deltoid,1
+FMA34683,acromial part of left deltoid,1
+FMA34684,spinal part of right deltoid,1
+FMA34685,spinal part of left deltoid,1
+FMA34686,zone of pectoralis major,4
+FMA34687,clavicular part of pectoralis major,2
+FMA34690,clavicular part of right pectoralis major,1
+FMA34691,clavicular part of left pectoralis major,1
+FMA34696,sternocostal part of pectoralis major,2
+FMA34699,abdominal part of pectoralis major,2
+FMA35187,interosseous membrane of leg,2
+FMA35192,interosseous membrane of right leg,1
+FMA35193,interosseous membrane of left leg,1
+FMA35477,phalanx of thumb,4
+FMA35480,phalanx of index finger,6
+FMA35483,phalanx of middle finger,6
+FMA35486,phalanx of ring finger,6
+FMA35489,phalanx of little finger,6
+FMA37347,muscle of pectoral girdle,22
+FMA37348,muscle of free upper limb,56
+FMA37349,pectoral muscle,4
+FMA37367,muscle of pelvic girdle,22
+FMA37368,muscle of free lower limb,70
+FMA37369,muscle of foot,28
+FMA37370,muscle of arm,6
+FMA37371,muscle of forearm,38
+FMA37372,muscle of hand,12
+FMA37373,abductor pollicis brevis,2
+FMA37378,flexor pollicis brevis,2
+FMA37379,opponens pollicis,2
+FMA37382,abductor digiti minimi of hand,2
+FMA37383,flexor digiti minimi brevis of hand,2
+FMA37384,opponens digiti minimi of hand,2
+FMA37386,right abductor pollicis brevis,1
+FMA37387,left abductor pollicis brevis,1
+FMA37388,right flexor pollicis brevis,1
+FMA37389,left flexor pollicis brevis,1
+FMA37390,right opponens pollicis,1
+FMA37391,left opponens pollicis,1
+FMA37396,abductor digiti minimi of right hand,1
+FMA37397,abductor digiti minimi of left hand,1
+FMA37398,flexor digiti minimi brevis of right hand,1
+FMA37399,flexor digiti minimi brevis of left hand,1
+FMA37400,opponens digiti minimi of right hand,1
+FMA37401,opponens digiti minimi of left hand,1
+FMA37448,abductor hallucis,2
+FMA37450,flexor digitorum brevis,2
+FMA37451,abductor digiti minimi of foot,2
+FMA37452,flexor accessorius,2
+FMA37453,lumbrical of foot,8
+FMA37455,flexor digiti minimi brevis of foot,2
+FMA37456,interosseous of foot,6
+FMA37458,plantar interosseous of foot,6
+FMA37459,right abductor hallucis,1
+FMA37460,left abductor hallucis,1
+FMA37461,right flexor digitorum brevis,1
+FMA37462,left flexor digitorum brevis,1
+FMA37463,abductor digiti minimi of right foot,1
+FMA37464,abductor digiti minimi of left foot,1
+FMA37465,right flexor accessorius,1
+FMA37466,left flexor accessorius,1
+FMA37471,flexor digiti minimi brevis of right foot,1
+FMA37472,flexor digiti minimi brevis of left foot,1
+FMA37479,first lumbrical of foot,2
+FMA37480,second lumbrical of foot,2
+FMA37481,third lumbrical of foot,2
+FMA37482,fourth lumbrical of foot,2
+FMA37483,fourth lumbrical of right foot,1
+FMA37484,fourth lumbrical of left foot,1
+FMA37485,third lumbrical of right foot,1
+FMA37486,third lumbrical of left foot,1
+FMA37664,coracobrachialis,2
+FMA37665,right coracobrachialis,1
+FMA37666,left coracobrachialis,1
+FMA37667,brachialis,2
+FMA37668,right brachialis,1
+FMA37669,left brachialis,1
+FMA37682,short head of biceps brachii,2
+FMA37683,long head of biceps brachii,2
+FMA37684,short head of right biceps brachii,1
+FMA37685,short head of left biceps brachii,1
+FMA37686,long head of right biceps brachii,1
+FMA37687,long head of left biceps brachii,1
+FMA37692,long head of triceps brachii,2
+FMA37693,medial head of triceps brachii,2
+FMA37694,lateral head of triceps brachii,2
+FMA37695,medial head of right triceps brachii,1
+FMA37696,medial head of left triceps brachii,1
+FMA37697,lateral head of right triceps brachii,1
+FMA37698,lateral head of left triceps brachii,1
+FMA37699,long head of right triceps brachii,1
+FMA37700,long head of left triceps brachii,1
+FMA37704,anconeus,2
+FMA37705,right anconeus,1
+FMA37706,left anconeus,1
+FMA37711,muscle of anterior compartment of arm,4
+FMA37712,muscle of posterior compartment of arm,2
+FMA37717,first lumbrical of right foot,1
+FMA37718,first lumbrical of left foot,1
+FMA37719,second lumbrical of right foot,1
+FMA37720,second lumbrical of left foot,1
+FMA37738,first plantar interosseous of foot,2
+FMA37739,second plantar interosseous of foot,2
+FMA37740,third plantar interosseous of foot,2
+FMA37741,third plantar interosseous of right foot,1
+FMA37742,third plantar interosseous of left foot,1
+FMA37743,second plantar interosseous of right foot,1
+FMA37744,second plantar interosseous of left foot,1
+FMA37745,first plantar interosseous of right foot,1
+FMA37746,first plantar interosseous of left foot,1
+FMA38453,pronator quadratus,2
+FMA38454,right pronator quadratus,1
+FMA38455,left pronator quadratus,1
+FMA38456,muscle of anterior compartment of forearm,14
+FMA38459,flexor carpi radialis,2
+FMA38460,right flexor carpi radialis,1
+FMA38461,left flexor carpi radialis,1
+FMA38462,palmaris longus,2
+FMA38463,right palmaris longus,1
+FMA38464,left palmaris longus,1
+FMA38469,flexor digitorum superficialis,4
+FMA38470,right flexor digitorum superficialis,2
+FMA38471,left flexor digitorum superficialis,2
+FMA38472,superficial muscle of anterior compartment of forearm,8
+FMA38475,deep muscle of anterior compartment of forearm,6
+FMA38478,flexor digitorum profundus,2
+FMA38479,right flexor digitorum profundus,1
+FMA38480,left flexor digitorum profundus,1
+FMA38481,flexor pollicis longus,2
+FMA38482,right flexor pollicis longus,1
+FMA38484,left flexor pollicis longus,1
+FMA38485,brachioradialis,2
+FMA38486,right brachioradialis,1
+FMA38487,left brachioradialis,1
+FMA38488,muscle of posterior compartment of forearm,24
+FMA38491,superficial muscle of posterior compartment of forearm,14
+FMA38494,extensor carpi radialis longus,2
+FMA38495,right extensor carpi radialis longus,1
+FMA38496,left extensor carpi radialis longus,1
+FMA38497,extensor carpi radialis brevis,2
+FMA38498,right extensor carpi radialis brevis,1
+FMA38499,left extensor carpi radialis brevis,1
+FMA38500,extensor digitorum,2
+FMA38501,right extensor digitorum,1
+FMA38502,left extensor digitorum,1
+FMA38503,extensor digiti minimi,2
+FMA38504,right extensor digiti minimi,1
+FMA38505,left extensor digiti minimi,1
+FMA38506,extensor carpi ulnaris,4
+FMA38507,right extensor carpi ulnaris,2
+FMA38508,left extensor carpi ulnaris,2
+FMA38509,deep muscle of posterior compartment of forearm,10
+FMA38512,supinator,2
+FMA38513,right supinator,1
+FMA38514,left supinator,1
+FMA38515,abductor pollicis longus,2
+FMA38516,right abductor pollicis longus,1
+FMA38517,left abductor pollicis longus,1
+FMA38518,extensor pollicis brevis,2
+FMA38519,right extensor pollicis brevis,1
+FMA38520,left extensor pollicis brevis,1
+FMA38521,extensor pollicis longus,2
+FMA38522,right extensor pollicis longus,1
+FMA38523,left extensor pollicis longus,1
+FMA38524,extensor indicis,2
+FMA38525,right extensor indicis,1
+FMA38526,left extensor indicis,1
+FMA38558,humeral head of pronator teres,2
+FMA38559,ulnar head of pronator teres,2
+FMA38560,humeral head of right pronator teres,1
+FMA38561,humeral head of left pronator teres,1
+FMA38562,ulnar head of right pronator teres,1
+FMA38563,ulnar head of left pronator teres,1
+FMA38615,humeral head of flexor carpi ulnaris,2
+FMA38616,ulnar head of flexor carpi ulnaris,2
+FMA38617,humeral head of right flexor carpi ulnaris,1
+FMA38618,humeral head of left flexor carpi ulnaris,1
+FMA38619,ulnar head of right flexor carpi ulnaris,1
+FMA38620,ulnar head of left flexor carpi ulnaris,1
+FMA38928,right rectus femoris,1
+FMA38929,left rectus femoris,1
+FMA38930,right vastus lateralis,1
+FMA38931,left vastus lateralis,1
+FMA38932,right vastus medialis,1
+FMA38933,left vastus medialis,1
+FMA38934,right vastus intermedius,1
+FMA38935,left vastus intermedius,1
+FMA39988,flexor retinaculum of wrist,2
+FMA40120,flexor retinaculum of right wrist,1
+FMA40121,flexor retinaculum of left wrist,1
+FMA42380,intrinsic muscle of hand,12
+FMA42398,set of lumbricals of right hand,1
+FMA42399,set of lumbricals of left hand,1
+FMA42402,set of palmar interossei of right hand,1
+FMA42403,set of palmar interossei of left hand,1
+FMA42404,set of dorsal interossei of right hand,1
+FMA42405,set of dorsal interossei of left hand,1
+FMA42603,organ component cluster,2
+FMA43252,proximal phalanx of big toe,2
+FMA43253,proximal phalanx of right big toe,1
+FMA43254,proximal phalanx of left big toe,1
+FMA43882,gracilis,2
+FMA43883,right gracilis,1
+FMA43884,left gracilis,1
+FMA43885,adductor minimus,2
+FMA43886,right adductor minimus,1
+FMA43887,left adductor minimus,1
+FMA43888,inferior lateral genicular artery,2
+FMA43889,inferior medial genicular artery,2
+FMA43890,right inferior medial genicular artery,1
+FMA43891,left inferior medial genicular artery,1
+FMA43892,right inferior lateral genicular artery,1
+FMA43893,left inferior lateral genicular artery,1
+FMA43894,anterior tibial artery,2
+FMA43895,posterior tibial artery,6
+FMA43896,right anterior tibial artery,4
+FMA43897,left anterior tibial artery,4
+FMA43898,right posterior tibial artery,5
+FMA43899,left posterior tibial artery,5
+FMA43901,subdivision of posterior tibial artery,6
+FMA43902,anterior tibial recurrent artery,2
+FMA43907,right anterior tibial recurrent artery,1
+FMA43908,left anterior tibial recurrent artery,1
+FMA43915,dorsalis pedis artery,2
+FMA43916,right dorsalis pedis artery,3
+FMA43917,left dorsalis pedis artery,3
+FMA43925,medial plantar artery,2
+FMA43926,lateral plantar artery,2
+FMA43929,right medial plantar artery,2
+FMA43930,left medial plantar artery,2
+FMA43931,right lateral plantar artery,2
+FMA43932,left lateral plantar artery,2
+FMA43933,superficial medial plantar artery,2
+FMA43937,right superficial medial plantar artery,1
+FMA43938,left superficial medial plantar artery,1
+FMA43940,branch of lateral plantar artery,2
+FMA43941,branch of medial plantar artery,2
+FMA43942,plantar arch,4
+FMA43943,right plantar arch,1
+FMA43944,left plantar arch,1
+FMA43956,plantar metatarsal artery,4
+FMA44197,tarsal ligament,2
+FMA44245,plantar tarsal ligament,2
+FMA44248,long plantar ligament,2
+FMA44249,right long plantar ligament,1
+FMA44250,left long plantar ligament,1
+FMA44318,superficial epigastric vein,2
+FMA44323,tributary of femoral vein,36
+FMA44324,tributary of deep femoral vein,23
+FMA44325,medial circumflex femoral vein,2
+FMA44326,lateral circumflex femoral vein,2
+FMA44327,popliteal vein,2
+FMA44328,right popliteal vein,1
+FMA44329,left popliteal vein,1
+FMA44330,tributary of popliteal vein,21
+FMA44331,anterior tibial vein,4
+FMA44332,posterior tibial vein,2
+FMA44333,small saphenous vein,2
+FMA44334,right small saphenous vein,1
+FMA44335,left small saphenous vein,1
+FMA44336,right anterior tibial vein,2
+FMA44337,left anterior tibial vein,2
+FMA44338,right posterior tibial vein,1
+FMA44339,left posterior tibial vein,1
+FMA44340,right superficial epigastric vein,1
+FMA44341,left superficial epigastric vein,1
+FMA44356,dorsal venous arch of foot,4
+FMA44489,plantar venous arch of foot,2
+FMA44499,tributary of plantar venous arch,6
+FMA44504,plantar metatarsal vein,2
+FMA44558,fibular vein,5
+FMA44559,genicular vein,8
+FMA44594,arcuate artery,2
+FMA44595,lateral tarsal artery,2
+FMA44660,dorsal digital artery of foot,2
+FMA44881,dorsal venous arch of right foot,2
+FMA44882,dorsal venous arch of left foot,2
+FMA44883,plantar venous arch of right foot,1
+FMA44884,plantar venous arch of left foot,1
+FMA44885,right fibular vein,3
+FMA44886,left fibular vein,2
+FMA44887,right genicular vein,4
+FMA44888,left genicular vein,4
+FMA44918,right medial circumflex femoral vein,1
+FMA44919,left medial circumflex femoral vein,1
+FMA44920,right lateral circumflex femoral vein,1
+FMA44922,left lateral circumflex femoral vein,1
+FMA45096,sesamoid bone of foot,4
+FMA45097,sesamoid bone of right foot,2
+FMA45098,sesamoid bone of left foot,2
+FMA45638,subdivision of nervous system,2
+FMA45728,anatomical lobe,2
+FMA45729,head of organ,42
+FMA45732,parenchyma,1
+FMA45734,body of organ,1
+FMA45738,platysma,2
+FMA45739,right platysma,1
+FMA45740,left platysma,1
+FMA45826,right stylohyoid,1
+FMA45827,left stylohyoid,1
+FMA45854,right pubococcygeus,1
+FMA45855,left pubococcygeus,2
+FMA45856,right puborectalis,1
+FMA45857,left puborectalis,2
+FMA45858,right iliococcygeus,1
+FMA45859,left iliococcygeus,2
+FMA45874,abdominal part of right pectoralis major,1
+FMA45875,abdominal part of left pectoralis major,1
+FMA45881,head of biceps femoris,4
+FMA45887,long head of biceps femoris,2
+FMA45888,long head of right biceps femoris,1
+FMA45889,long head of left biceps femoris,1
+FMA45890,short head of biceps femoris,2
+FMA45891,short head of right biceps femoris,1
+FMA45892,short head of left biceps femoris,1
+FMA45950,head of gastrocnemius,4
+FMA45956,medial head of gastrocnemius,2
+FMA45957,medial head of right gastrocnemius,1
+FMA45958,medial head of left gastrocnemius,1
+FMA45959,lateral head of gastrocnemius,2
+FMA45960,lateral head of right gastrocnemius,1
+FMA45961,lateral head of left gastrocnemius,1
+FMA45963,head of flexor hallucis brevis,4
+FMA45969,medial head of flexor hallucis brevis,2
+FMA45970,lateral head of flexor hallucis brevis,2
+FMA45971,medial head of right flexor hallucis brevis,1
+FMA45972,medial head of left flexor hallucis brevis,1
+FMA45973,lateral head of right flexor hallucis brevis,1
+FMA45974,lateral head of left flexor hallucis brevis,1
+FMA46012,head of adductor hallucis,4
+FMA46014,oblique head of adductor hallucis,2
+FMA46015,transverse head of adductor hallucis,2
+FMA46018,oblique head of right adductor hallucis,1
+FMA46019,oblique head of left adductor hallucis,1
+FMA46020,transverse head of right adductor hallucis,1
+FMA46021,transverse head of left adductor hallucis,1
+FMA46104,superficial head of flexor pollicis brevis,2
+FMA46119,oblique head of adductor pollicis,2
+FMA46120,transverse head of adductor pollicis,2
+FMA46121,oblique head of right adductor pollicis,1
+FMA46122,oblique head of left adductor pollicis,1
+FMA46123,transverse head of right adductor pollicis,1
+FMA46124,transverse head of left adductor pollicis,1
+FMA46279,zone of longus colli,3
+FMA46280,superior oblique part of longus colli,1
+FMA46281,inferior oblique part of longus colli,1
+FMA46282,vertical intermediate part of longus colli,1
+FMA46284,superior oblique part of left longus colli,1
+FMA46286,vertical intermediate part of left longus colli,1
+FMA46288,inferior oblique part of left longus colli,1
+FMA46290,suprahyoid muscle,11
+FMA46291,digastric,5
+FMA46292,right digastric,2
+FMA46293,left digastric,3
+FMA46308,longus capitis,2
+FMA46309,right longus capitis,1
+FMA46310,left longus capitis,1
+FMA46312,rectus capitis anterior,2
+FMA46313,right rectus capitis anterior,1
+FMA46314,left rectus capitis anterior,1
+FMA46316,rectus capitis lateralis,2
+FMA46317,right rectus capitis lateralis,1
+FMA46318,left rectus capitis lateralis,1
+FMA46320,mylohyoid,2
+FMA46321,right mylohyoid,1
+FMA46322,left mylohyoid,1
+FMA46325,geniohyoid,2
+FMA46326,right geniohyoid,1
+FMA46327,left geniohyoid,1
+FMA46442,tendinous arch of levator ani,4
+FMA46443,right coccygeus,1
+FMA46444,left coccygeus,2
+FMA46490,subdivision of mouth,1
+FMA46562,muscle of larynx,13
+FMA46576,posterior crico-arytenoid,2
+FMA46577,right posterior crico-arytenoid,1
+FMA46578,left posterior crico-arytenoid,1
+FMA46579,lateral crico-arytenoid,2
+FMA46580,right lateral crico-arytenoid,1
+FMA46581,left lateral crico-arytenoid,1
+FMA46582,transverse arytenoid,1
+FMA46583,oblique arytenoid,2
+FMA46584,right oblique arytenoid,1
+FMA46585,left oblique arytenoid,1
+FMA46588,thyro-arytenoid,4
+FMA46589,right thyro-arytenoid,2
+FMA46590,left thyro-arytenoid,2
+FMA46591,vocalis,2
+FMA46592,right vocalis,1
+FMA46593,left vocalis,1
+FMA46601,zone of oblique arytenoid,2
+FMA46602,aryepiglotticus,2
+FMA46604,right aryepiglotticus,1
+FMA46605,left aryepiglotticus,1
+FMA46608,zone of cricothyroid,4
+FMA46609,straight part of cricothyroid,2
+FMA46610,oblique part of cricothyroid,2
+FMA46611,straight part of right cricothyroid,1
+FMA46612,straight part of left cricothyroid,1
+FMA46613,oblique part of right cricothyroid,1
+FMA46614,oblique part of left cricothyroid,1
+FMA46619,muscle of pharynx,12
+FMA46620,constrictor muscle of pharynx,6
+FMA46621,superior pharyngeal constrictor,2
+FMA46622,middle pharyngeal constrictor,2
+FMA46623,inferior pharyngeal constrictor,2
+FMA46631,right superior pharyngeal constrictor,1
+FMA46632,left superior pharyngeal constrictor,1
+FMA46633,right middle pharyngeal constrictor,1
+FMA46634,left middle pharyngeal constrictor,1
+FMA46635,right inferior pharyngeal constrictor,1
+FMA46636,left inferior pharyngeal constrictor,1
+FMA46664,stylopharyngeus,2
+FMA46665,salpingopharyngeus,2
+FMA46666,palatopharyngeus,2
+FMA46667,right stylopharyngeus,1
+FMA46668,left stylopharyngeus,1
+FMA46669,right salpingopharyngeus,1
+FMA46670,left salpingopharyngeus,1
+FMA46671,right palatopharyngeus,1
+FMA46672,left palatopharyngeus,1
+FMA46689,muscle of tongue,4
+FMA46690,genioglossus,2
+FMA46691,hyoglossus,2
+FMA46698,right genioglossus,1
+FMA46699,extrinsic muscle of tongue,4
+FMA46702,left genioglossus,1
+FMA46703,right hyoglossus,1
+FMA46704,left hyoglossus,1
+FMA46726,muscle of palate,5
+FMA46727,levator veli palatini,2
+FMA46728,right levator veli palatini,1
+FMA46729,left levator veli palatini,1
+FMA46730,tensor veli palatini,2
+FMA46731,right tensor veli palatini,1
+FMA46732,left tensor veli palatini,1
+FMA46733,uvular muscle,1
+FMA46751,muscle of face,14
+FMA49033,extra-ocular muscle,14
+FMA49035,superior rectus,2
+FMA49036,inferior rectus,2
+FMA49037,medial rectus,2
+FMA49038,lateral rectus,2
+FMA49039,superior oblique,2
+FMA49040,inferior oblique,2
+FMA49041,levator palpebrae superioris,2
+FMA49044,right superior rectus,1
+FMA49045,left superior rectus,1
+FMA49046,right inferior rectus,1
+FMA49047,left inferior rectus,1
+FMA49048,right levator palpebrae superioris,1
+FMA49049,left levator palpebrae superioris,1
+FMA49050,right inferior oblique,1
+FMA49051,left inferior oblique,1
+FMA49052,right superior oblique,1
+FMA49053,left superior oblique,1
+FMA49054,right lateral rectus,1
+FMA49055,left lateral rectus,1
+FMA49056,right medial rectus,1
+FMA49057,left medial rectus,1
+FMA49065,trochlea of superior oblique,2
+FMA49067,trochlea of right superior oblique,1
+FMA49068,trochlea of left superior oblique,1
+FMA49071,common tendinous ring,2
+FMA49072,right common tendinous ring,1
+FMA49073,left common tendinous ring,1
+FMA49143,check ligament of lateral rectus,2
+FMA49144,check ligament of right lateral rectus,1
+FMA49145,check ligament of left lateral rectus,1
+FMA49146,check ligament of medial rectus,2
+FMA49147,check ligament of right medial rectus,1
+FMA49148,check ligament of left medial rectus,1
+FMA49443,anatomical cluster,56
+FMA49868,ophthalmic artery,2
+FMA49869,right ophthalmic artery,1
+FMA49870,left ophthalmic artery,1
+FMA49893,coronary artery,56
+FMA49907,pulmonary venous tree organ,7
+FMA49908,superior pulmonary vein,3
+FMA49910,inferior pulmonary vein,4
+FMA49911,right inferior pulmonary vein,24
+FMA49913,left inferior pulmonary vein,15
+FMA49914,right superior pulmonary vein,27
+FMA49916,left superior pulmonary vein,26
+FMA49918,systemic arterial trunk,24
+FMA50028,anterior cerebral artery,2
+FMA50029,right anterior cerebral artery,1
+FMA50030,left anterior cerebral artery,1
+FMA50031,branch of anterior cerebral artery,19
+FMA50080,zone of middle cerebral artery,6
+FMA50081,branch of middle cerebral artery,38
+FMA50084,posterior communicating artery,2
+FMA50085,right posterior communicating artery,1
+FMA50086,left posterior communicating artery,1
+FMA50087,anterior choroidal artery,2
+FMA50088,right anterior choroidal artery,1
+FMA50089,left anterior choroidal artery,1
+FMA50112,branch of anterior choroidal artery,2
+FMA50119,branch of anterior choroidal artery to posterior limb of internal capsule,2
+FMA50146,branch of right anterior choroidal artery to posterior limb of right internal capsule,1
+FMA50147,branch of left anterior choroidal artery to posterior limb of left internal capsule,1
+FMA50168,branch of posterior communicating artery,2
+FMA50169,anterior communicating artery,1
+FMA50185,musculature of subdivision of trunk,8
+FMA50200,musculature of subdivision of upper limb,6
+FMA50328,medial frontobasal artery,2
+FMA50330,callosomarginal artery,2
+FMA50331,branch of callosomarginal artery,10
+FMA50333,intermediomedial branch of callosomarginal artery,2
+FMA50334,posteromedial branch of callosomarginal artery,2
+FMA50336,paracentral branch of callosomarginal artery,6
+FMA50337,pericallosal artery,2
+FMA50338,branch of pericallosal artery,2
+FMA50339,precuneal branch of pericallosal artery,2
+FMA50343,right medial frontobasal artery,1
+FMA50344,left medial frontobasal artery,1
+FMA50347,right callosomarginal artery,1
+FMA50348,left callosomarginal artery,1
+FMA50351,intermediomedial branch of right callosomarginal artery,1
+FMA50352,intermediomedial branch of left callosomarginal artery,1
+FMA50353,posteromedial branch of right callosomarginal artery,1
+FMA50354,posteromedial branch of left callosomarginal artery,1
+FMA50357,paracentral branch of right callosomarginal artery,3
+FMA50358,paracentral branch of left callosomarginal artery,3
+FMA50359,right pericallosal artery,1
+FMA50360,left pericallosal artery,1
+FMA50361,precuneal branch of right pericallosal artery,1
+FMA50362,precuneal branch of left pericallosal artery,1
+FMA50365,sphenoid part of middle cerebral artery,2
+FMA50366,sphenoid part of right middle cerebral artery,1
+FMA50367,sphenoid part of left middle cerebral artery,1
+FMA50368,insular part of middle cerebral artery,4
+FMA50369,insular part of right middle cerebral artery,2
+FMA50370,insular part of left middle cerebral artery,2
+FMA50376,anterolateral central branch of middle cerebral artery,4
+FMA50377,anterolateral central branch of right middle cerebral artery,2
+FMA50378,anterolateral central branch of left middle cerebral artery,2
+FMA50379,polar temporal artery,2
+FMA50380,right polar temporal artery,1
+FMA50381,left polar temporal artery,1
+FMA50382,anterior temporal artery,2
+FMA50383,right anterior temporal artery,1
+FMA50384,left anterior temporal artery,1
+FMA50391,musculature of subdivision of free upper limb,6
+FMA50427,hypothalamic branch of posterior communicating artery,2
+FMA50428,hypothalamic branch of right posterior communicating artery,1
+FMA50429,hypothalamic branch of left posterior communicating artery,1
+FMA50436,superior terminal branch of middle cerebral artery,22
+FMA50437,prefrontal artery,2
+FMA50438,temporal artery,4
+FMA50439,inferior terminal branch of middle cerebral artery,8
+FMA50442,lateral frontobasal artery,4
+FMA50443,right lateral frontobasal artery,2
+FMA50444,left lateral frontobasal artery,2
+FMA50445,right prefrontal artery,1
+FMA50466,middle temporal branch of middle cerebral artery,2
+FMA50467,middle temporal branch of right middle cerebral artery,1
+FMA50468,middle temporal branch of left middle cerebral artery,1
+FMA50469,posterior temporal branch of middle cerebral artery,2
+FMA50470,posterior temporal branch of right middle cerebral artery,1
+FMA50471,posterior temporal branch of left middle cerebral artery,1
+FMA50472,temporo-occipital branch of middle cerebral artery,2
+FMA50473,temporo-occipital branch of right middle cerebral artery,1
+FMA50474,temporo-occipital branch of left middle cerebral artery,1
+FMA50475,branch of middle cerebral artery to angular gyrus,2
+FMA50476,branch of right middle cerebral artery to right angular gyrus,1
+FMA50477,branch of left middle cerebral artery to left angular gyrus,1
+FMA50478,left prefrontal artery,1
+FMA50479,artery of precentral sulcus,6
+FMA50480,artery of right precentral sulcus,3
+FMA50481,artery of left precentral sulcus,3
+FMA50482,artery of postcentral sulcus,2
+FMA50483,artery of right postcentral sulcus,1
+FMA50484,artery of left postcentral sulcus,1
+FMA50485,anterior parietal artery,2
+FMA50486,right anterior parietal artery,1
+FMA50487,left anterior parietal artery,1
+FMA50488,posterior parietal artery,2
+FMA50489,right posterior parietal artery,1
+FMA50490,left posterior parietal artery,1
+FMA50518,posterior inferior cerebellar artery,26
+FMA50519,right posterior inferior cerebellar artery,13
+FMA50520,left posterior inferior cerebellar artery,13
+FMA50531,anterior spinal artery,2
+FMA50532,right anterior spinal artery,1
+FMA50533,left anterior spinal artery,1
+FMA50542,basilar artery,28
+FMA50544,anterior inferior cerebellar artery,2
+FMA50563,branch of pontine artery,4
+FMA50564,medial branch of pontine artery,2
+FMA50565,lateral branch of pontine artery,2
+FMA50566,medial branch of right pontine artery,1
+FMA50567,medial branch of left pontine artery,1
+FMA50568,lateral branch of right pontine artery,1
+FMA50569,lateral branch of left pontine artery,1
+FMA50573,superior cerebellar artery,2
+FMA50574,right superior cerebellar artery,1
+FMA50575,left superior cerebellar artery,1
+FMA50576,branch of superior cerebellar artery,6
+FMA50577,lateral superior cerebellar artery,2
+FMA50578,lateral branch of right superior cerebellar artery,1
+FMA50579,lateral branch of left superior cerebellar artery,1
+FMA50580,medial branch of superior cerebellar artery,2
+FMA50581,medial branch of right superior cerebellar artery,1
+FMA50582,medial branch of left superior cerebellar artery,1
+FMA50586,branch of posterior cerebral artery,18
+FMA50587,posteromedial central branch of posterior cerebral artery,2
+FMA50589,zone of posterior cerebral artery,4
+FMA50590,precommunicating part of posterior cerebral artery,2
+FMA50591,postcommunicating part of posterior cerebral artery,2
+FMA50624,thalamoperforating artery,2
+FMA50629,thalamogeniculate artery,2
+FMA50630,posterior medial choroidal artery,2
+FMA50633,lateral occipital artery,2
+FMA50638,medial occipital artery,2
+FMA50639,precommunicating part of right posterior cerebral artery,1
+FMA50640,precommunicating part of left posterior cerebral artery,1
+FMA50641,postcommunicating part of right posterior cerebral artery,1
+FMA50642,postcommunicating part of left posterior cerebral artery,1
+FMA50643,right lateral occipital artery,3
+FMA50644,left lateral occipital artery,3
+FMA50645,right medial occipital artery,3
+FMA50646,left medial occipital artery,3
+FMA50647,branch of lateral occipital artery,4
+FMA50648,anterior temporal branch of lateral occipital artery,2
+FMA50649,middle temporal branch of lateral occipital artery,2
+FMA50651,branch of medial occipital artery,4
+FMA50652,splenial artery,4
+FMA50660,posteromedial central branch of right posterior cerebral artery,1
+FMA50661,posteromedial central branch of left posterior cerebral artery,1
+FMA50664,right thalamoperforating artery,1
+FMA50665,left thalamoperforating artery,1
+FMA50670,right thalamogeniculate artery,1
+FMA50671,left thalamogeniculate artery,1
+FMA50672,right posterior medial choroidal artery,1
+FMA50673,left posterior medial choroidal artery,1
+FMA50678,anterior temporal branch of right lateral occipital artery,1
+FMA50679,anterior temporal branch of left lateral occipital artery,1
+FMA50680,middle temporal branch of right lateral occipital artery,1
+FMA50681,middle temporal branch of left lateral occipital artery,1
+FMA50684,right splenial artery,2
+FMA50685,left splenial artery,2
+FMA50694,branch of medial branch of superior cerebellar artery,2
+FMA50695,superior vermian branch of medial branch of superior cerebellar artery,2
+FMA50696,superior vermian branch of medial branch of right superior cerebellar artery,1
+FMA50697,superior vermian branch of medial branch of left superior cerebellar artery,1
+FMA50705,anatomical boundary entity,3
+FMA50720,artery,562
+FMA50722,region of vascular tree organ,974
+FMA50723,vein,342
+FMA50735,hepatic portal vein,18
+FMA50736,subdivision of pre-hepatic portal vein,20
+FMA50737,celiac artery,27
+FMA50859,right suprascapular vein,1
+FMA50860,left suprascapular vein,1
+FMA50863,optic nerve,4
+FMA50865,trochlear nerve,2
+FMA50872,right pulmonary artery,55
+FMA50873,left pulmonary artery,38
+FMA50875,right optic nerve,2
+FMA50878,left optic nerve,2
+FMA50881,right trochlear nerve,1
+FMA50882,left trochlear nerve,1
+FMA51041,deep femoral vein,2
+FMA51042,right deep femoral vein,1
+FMA51043,left deep femoral vein,1
+FMA51048,iliotibial tract,2
+FMA51061,calcaneal tendon,2
+FMA51071,flexor digitorum longus,2
+FMA51099,tibialis posterior,2
+FMA51141,extensor hallucis brevis,2
+FMA51144,right extensor hallucis brevis,1
+FMA51145,left extensor hallucis brevis,1
+FMA51886,branch of cerebral arterial circle,2
+FMA52570,branch of cranial nerve,26
+FMA52571,branch of oculomotor nerve,4
+FMA52572,superior branch of oculomotor nerve,2
+FMA52573,inferior branch of oculomotor nerve,2
+FMA52574,superior branch of right oculomotor nerve,1
+FMA52575,superior branch of left oculomotor nerve,1
+FMA52576,inferior branch of right oculomotor nerve,1
+FMA52577,inferior branch of left oculomotor nerve,1
+FMA52607,branch of trigeminal nerve,22
+FMA52621,ophthalmic nerve,2
+FMA52622,right ophthalmic nerve,1
+FMA52623,left ophthalmic nerve,1
+FMA52624,branch of ophthalmic nerve,20
+FMA52628,lacrimal nerve,2
+FMA52629,right lacrimal nerve,1
+FMA52630,left lacrimal nerve,1
+FMA52638,frontal nerve,2
+FMA52639,right frontal nerve,1
+FMA52640,left frontal nerve,1
+FMA52641,branch of frontal nerve,16
+FMA52642,supratrochlear nerve,2
+FMA52643,right supratrochlear nerve,1
+FMA52644,left supratrochlear nerve,1
+FMA52655,supra-orbital nerve,2
+FMA52656,right supra-orbital nerve,1
+FMA52657,left supra-orbital nerve,1
+FMA52668,nasociliary nerve,2
+FMA52669,right nasociliary nerve,1
+FMA52670,left nasociliary nerve,1
+FMA52671,branch of nasociliary nerve,10
+FMA52672,communicating branch of nasociliary nerve with ciliary ganglion,2
+FMA52673,communicating branch of right nasociliary nerve with right ciliary ganglion,1
+FMA52674,communicating branch of left nasociliary nerve with left ciliary ganglion,1
+FMA52675,anterior ethmoidal nerve,2
+FMA52676,right anterior ethmoidal nerve,1
+FMA52677,left anterior ethmoidal nerve,1
+FMA52691,long ciliary nerve,2
+FMA52693,infratrochlear nerve,2
+FMA52698,right infratrochlear nerve,1
+FMA52699,left infratrochlear nerve,1
+FMA52714,posterior ethmoidal nerve,2
+FMA52715,right posterior ethmoidal nerve,1
+FMA52716,left posterior ethmoidal nerve,1
+FMA52734,frontal bone,1
+FMA52735,occipital bone,1
+FMA52736,sphenoid bone,1
+FMA52737,temporal bone,2
+FMA52738,right temporal bone,1
+FMA52739,left temporal bone,1
+FMA52740,ethmoid,1
+FMA52741,lacrimal bone,2
+FMA52745,nasal bone,2
+FMA52746,palatine bone,2
+FMA52747,zygomatic bone,2
+FMA52748,mandible,1
+FMA52749,hyoid bone,2
+FMA52781,external ear,1
+FMA52788,right parietal bone,1
+FMA52789,left parietal bone,1
+FMA52892,right zygomatic bone,1
+FMA52893,left zygomatic bone,1
+FMA53549,right ciliary ganglion,1
+FMA53550,left ciliary ganglion,1
+FMA53645,right lacrimal bone,1
+FMA53646,left lacrimal bone,1
+FMA53647,right nasal bone,1
+FMA53648,left nasal bone,1
+FMA53649,right maxilla,1
+FMA53650,left maxilla,1
+FMA53655,right palatine bone,1
+FMA53656,left palatine bone,1
+FMA53667,hair,2
+FMA54158,tendon of levator palpebrae superioris,1
+FMA54159,tendon of right levator palpebrae superioris,1
+FMA54237,eyebrow,1
+FMA54241,hair of head,1
+FMA54250,hair of trunk,1
+FMA54319,pubic hair,1
+FMA54393,subdivision of face,1
+FMA54640,tongue,1
+FMA54736,inferior nasal concha,2
+FMA54737,right inferior nasal concha,1
+FMA54738,left inferior nasal concha,1
+FMA54839,interosseous membrane,4
+FMA54877,subdivision of pharynx,1
+FMA54921,extrinsic ligament of larynx,1
+FMA55053,subdivision of laryngopharynx,1
+FMA55077,pharyngeal raphe,1
+FMA55093,submandibular gland,2
+FMA55099,thyroid cartilage,1
+FMA55107,cartilage organ,37
+FMA55108,laryngeal cartilage,9
+FMA55109,arytenoid cartilage,2
+FMA55110,corniculate cartilage,2
+FMA55111,cuneiform cartilage,2
+FMA55113,right arytenoid cartilage,1
+FMA55114,left arytenoid cartilage,1
+FMA55115,right corniculate cartilage,1
+FMA55116,left corniculate cartilage,1
+FMA55117,right cuneiform cartilage,1
+FMA55118,left cuneiform cartilage,1
+FMA55130,epiglottis,1
+FMA55131,ligament of larynx,2
+FMA55132,thyrohyoid membrane,2
+FMA55133,right thyrohyoid membrane,1
+FMA55134,left thyrohyoid membrane,1
+FMA55135,thyrohyoid ligament,3
+FMA55138,median thyrohyoid ligament,1
+FMA55139,lateral thyrohyoid ligament,2
+FMA55140,right lateral thyrohyoid ligament,1
+FMA55141,left lateral thyrohyoid ligament,1
+FMA55226,intrinsic muscle of larynx,13
+FMA55227,hyo-epiglottic ligament,1
+FMA55230,thyro-epiglottic ligament,1
+FMA55233,cricothyroid ligament,1
+FMA55237,median cricothyroid ligament,1
+FMA55244,vocal ligament,2
+FMA55245,right vocal ligament,1
+FMA55246,left vocal ligament,1
+FMA55250,conus elasticus,2
+FMA55251,right conus elasticus,1
+FMA55252,left conus elasticus,1
+FMA55268,organ zone,156
+FMA55618,pterygomandibular raphe,2
+FMA55619,right pterygomandibular raphe,1
+FMA55620,left pterygomandibular raphe,1
+FMA55636,canine tooth,4
+FMA55637,premolar tooth,8
+FMA55638,molar tooth,8
+FMA55652,anatomical set,56
+FMA55661,parenchymatous organ,16
+FMA55662,lobular organ,11
+FMA55663,corticomedullary organ,5
+FMA55665,nonparenchymatous organ,386
+FMA55670,solid organ,402
+FMA55671,cavitated organ,247
+FMA55672,organ with organ cavity,43
+FMA55673,organ with cavitated organ parts,204
+FMA55676,segment of brain,44
+FMA55677,hollow tree organ,7
+FMA55680,right upper lateral secondary incisor tooth,1
+FMA55681,right upper central secondary incisor tooth,1
+FMA55682,left upper central secondary incisor tooth,1
+FMA55683,left upper lateral secondary incisor tooth,1
+FMA55686,right lower secondary canine tooth,1
+FMA55687,left lower secondary canine tooth,1
+FMA55688,right upper second secondary premolar tooth,1
+FMA55689,right upper first secondary premolar tooth,1
+FMA55690,left upper first secondary premolar tooth,1
+FMA55691,left upper second secondary premolar tooth,1
+FMA55692,left lower second secondary premolar tooth,1
+FMA55693,left lower first secondary premolar tooth,1
+FMA55694,right lower first secondary premolar tooth,1
+FMA55695,right lower second secondary premolar tooth,1
+FMA55697,right upper second secondary molar tooth,1
+FMA55698,right upper first secondary molar tooth,1
+FMA55699,left upper first secondary molar tooth,1
+FMA55700,left upper second secondary molar tooth,1
+FMA55703,left lower second secondary molar tooth,1
+FMA55704,left lower first secondary molar tooth,1
+FMA55705,right lower first secondary molar tooth,1
+FMA55706,right lower second secondary molar tooth,1
+FMA55712,upper secondary incisor tooth,4
+FMA55713,lower secondary incisor tooth,4
+FMA55714,upper secondary canine tooth,2
+FMA55715,lower secondary canine tooth,2
+FMA55716,upper secondary premolar tooth,4
+FMA55717,lower secondary premolar tooth,4
+FMA55720,upper secondary molar tooth,4
+FMA55721,lower secondary molar tooth,4
+FMA55722,upper central secondary incisor tooth,2
+FMA55723,lower central secondary incisor tooth,2
+FMA55724,upper lateral secondary incisor tooth,2
+FMA55725,lower lateral secondary incisor tooth,2
+FMA55798,right upper secondary canine tooth,1
+FMA55799,left upper secondary canine tooth,1
+FMA55801,upper first secondary premolar tooth,2
+FMA55802,upper second secondary premolar tooth,2
+FMA55803,lower first secondary premolar tooth,2
+FMA55804,lower second secondary premolar tooth,2
+FMA55811,upper first secondary molar tooth,2
+FMA55812,upper second secondary molar tooth,2
+FMA55814,lower first secondary molar tooth,2
+FMA55815,lower second secondary molar tooth,2
+FMA57140,right lower lateral secondary incisor tooth,1
+FMA57141,left lower lateral secondary incisor tooth,1
+FMA57142,right lower central secondary incisor tooth,1
+FMA57143,left lower central secondary incisor tooth,1
+FMA57965,zone of investing fascia,2
+FMA58071,chamber of eyeball,2
+FMA58078,anterior chamber of eyeball,2
+FMA58081,anterior chamber of right eyeball,1
+FMA58082,anterior chamber of left eyeball,1
+FMA58101,layer of wall of eyeball,4
+FMA58102,fibrous layer of eyeball,4
+FMA58235,iris,2
+FMA58236,right iris,1
+FMA58237,left iris,1
+FMA58238,cornea,2
+FMA58239,right cornea,1
+FMA58240,left cornea,1
+FMA58241,lens,2
+FMA58242,right lens,1
+FMA58243,left lens,1
+FMA58245,lacrimal canaliculus,2
+FMA58269,sclera,2
+FMA58271,right sclera,1
+FMA58272,left sclera,1
+FMA58274,muscle of trunk,18
+FMA58298,choroid,4
+FMA58299,right choroid,2
+FMA58300,left choroid,2
+FMA58420,zone of investing fascia of free lower limb,2
+FMA58421,zone of investing fascia of lower limb,2
+FMA58431,corona ciliaris,2
+FMA58479,region of ciliary body,2
+FMA58483,right corona ciliaris,1
+FMA58484,left corona ciliaris,1
+FMA58599,region of retina,2
+FMA58604,optic part of retina,2
+FMA58607,optic part of right retina,1
+FMA58608,optic part of left retina,1
+FMA58741,zone of investing fascia of thigh,2
+FMA58775,zone of fascia lata,2
+FMA58776,right iliotibial tract,1
+FMA58777,left iliotibial tract,1
+FMA58817,subdivision of head proper,1
+FMA58827,vitreous body,2
+FMA58828,right vitreous body,1
+FMA58829,left vitreous body,1
+FMA58838,suspensory ligament of lens,2
+FMA58839,suspensory ligament of right lens,1
+FMA58840,suspensory ligament of left lens,1
+FMA59086,tarsal plate of eyelid,4
+FMA59087,tarsal plate of upper eyelid,2
+FMA59088,tarsal plate of lower eyelid,2
+FMA59089,tarsal plate of right lower eyelid,1
+FMA59090,tarsal plate of left lower eyelid,1
+FMA59091,tarsal plate of right upper eyelid,1
+FMA59092,tarsal plate of left upper eyelid,1
+FMA59101,lacrimal gland,2
+FMA59102,right lacrimal gland,1
+FMA59103,left lacrimal gland,1
+FMA59402,lacrimal lake,2
+FMA59502,nasal cartilage,5
+FMA59503,septal nasal cartilage,1
+FMA59504,major alar cartilage,2
+FMA59505,right major alar cartilage,1
+FMA59506,left major alar cartilage,1
+FMA59511,lateral nasal cartilage,2
+FMA59512,right lateral nasal cartilage,1
+FMA59513,left lateral nasal cartilage,1
+FMA59541,right lacrimal lake,1
+FMA59542,left lacrimal lake,1
+FMA59545,right lacrimal sac,1
+FMA59546,left lacrimal sac,1
+FMA59555,right nasolacrimal duct,1
+FMA59556,left nasolacrimal duct,1
+FMA59582,right lacrimal canaliculus,1
+FMA59583,left lacrimal canaliculus,1
+FMA59762,gingiva,2
+FMA59763,gingiva of upper jaw,1
+FMA59764,gingiva of lower jaw,1
+FMA59788,major salivary gland,4
+FMA59791,sublingual gland,2
+FMA59802,right submandibular gland,1
+FMA59803,left submandibular gland,1
+FMA59804,right sublingual gland,1
+FMA59805,left sublingual gland,1
+FMA59816,lip,1
+FMA61284,neural tree organ,2
+FMA61708,subdivision of auriculotemporal part of head,1
+FMA61775,physical anatomical entity,2234
+FMA61815,cardinal segment of brain,2
+FMA61820,segment of cerebral hemisphere,36
+FMA61823,lobe of cerebral hemisphere,4
+FMA61833,caudate nucleus,2
+FMA61834,putamen,2
+FMA61835,globus pallidus,2
+FMA61841,amygdala,2
+FMA61842,septum of telencephalon,1
+FMA61857,superior frontal gyrus,2
+FMA61859,middle frontal gyrus,2
+FMA61860,inferior frontal gyrus,2
+FMA61894,precentral gyrus,2
+FMA61896,postcentral gyrus,2
+FMA61897,supramarginal gyrus,2
+FMA61898,angular gyrus,2
+FMA61899,superior parietal lobule,2
+FMA61906,middle temporal gyrus,2
+FMA61907,inferior temporal gyrus,2
+FMA61908,fusiform gyrus,2
+FMA61918,parahippocampal gyrus,2
+FMA61934,choroid plexus of cerebral hemisphere,2
+FMA61950,internal capsule,2
+FMA61961,anterior commissure,1
+FMA61965,fornix of forebrain,2
+FMA61970,commissure of fornix of forebrain,1
+FMA61974,stria terminalis,2
+FMA61975,lamina terminalis,2
+FMA61993,midbrain,7
+FMA61996,segment of forebrain,36
+FMA61997,segment of midbrain,4
+FMA61998,segment of hindbrain,2
+FMA62004,medulla oblongata,2
+FMA62007,thalamus,2
+FMA62008,hypothalamus,4
+FMA62032,habenula,1
+FMA62033,pineal body,1
+FMA62045,optic chiasm,2
+FMA62046,optic tract,2
+FMA62072,posterior commissure,1
+FMA62080,stria medullaris of thalamus,2
+FMA62209,lateral geniculate body,2
+FMA62211,medial geniculate body,2
+FMA62327,tuber cinereum,2
+FMA62374,segment of telencephalon,36
+FMA62382,right optic tract,1
+FMA62394,peduncle of midbrain,2
+FMA62398,segment of midbrain tectum,4
+FMA62403,superior colliculus,2
+FMA62404,inferior colliculus,2
+FMA62434,cingulate gyrus,2
+FMA62445,commissure of diencephalon,1
+FMA62466,capsule of cerebral hemisphere,2
+FMA62493,hippocampus,2
+FMA62504,tributary of deep palmar venous arch,2
+FMA62506,dorsal venous network of right hand,1
+FMA62507,dorsal venous network of left hand,1
+FMA62512,trunk of systemic vein,4
+FMA62514,basal ganglion of telencephalon,2
+FMA62955,anatomical entity,2234
+FMA63103,pancreatic duct tree,2
+FMA63120,parenchyma of pancreas,1
+FMA63812,set of arteries,22
+FMA63814,set of veins,13
+FMA63822,posterior intercostal arteries,2
+FMA64796,region of serous membrane,3
+FMA64822,superficial muscle of neck,4
+FMA64829,scalene muscle,6
+FMA64875,anterior suboccipital muscle,4
+FMA64916,thenar muscle,6
+FMA64917,hypothenar muscle,6
+FMA64922,gluteal muscle,20
+FMA64989,heterogeneous cluster,2
+FMA64990,organ part cluster,2
+FMA65004,superficial muscle of posterior compartment of leg,4
+FMA65008,deep muscle of posterior compartment of leg,8
+FMA65014,right flexor hallucis longus,1
+FMA65015,left flexor hallucis longus,1
+FMA65016,right flexor digitorum longus,1
+FMA65017,left flexor digitorum longus,1
+FMA65018,right tibialis posterior,1
+FMA65019,left tibialis posterior,1
+FMA65020,intrinsic muscle of foot,28
+FMA65045,intrinsic muscle of dorsum of foot,2
+FMA65046,intrinsic muscle of plantar part of foot,26
+FMA65132,nerve,26
+FMA65198,superficial head of right flexor pollicis brevis,1
+FMA65199,superficial head of left flexor pollicis brevis,1
+FMA65410,intermediate tendon,1
+FMA65470,proximal phalanx of left thumb,1
+FMA65539,subdivision of parasympathetic nervous system,2
+FMA65551,subdivisionof autonomic nervous system,2
+FMA66241,first posterior intercostal artery,2
+FMA66242,right first posterior intercostal artery,1
+FMA66243,left first posterior intercostal artery,1
+FMA66267,variant systemic artery,1
+FMA66320,thoracodorsal artery,2
+FMA66321,right thoracodorsal artery,1
+FMA66322,left thoracodorsal artery,1
+FMA66326,pulmonary artery,99
+FMA66327,branch of right coronary artery,30
+FMA66328,branch of left coronary artery,26
+FMA66332,zone of artery,10
+FMA66358,trunk of superior mesenteric artery,1
+FMA66362,trunk of renal artery,2
+FMA66363,trunk of right renal artery,1
+FMA66364,trunk of left renal artery,1
+FMA66403,anterior interventricular vein,9
+FMA66464,systemic artery,463
+FMA66562,trunk of thoraco-acromial artery,2
+FMA66563,trunk of right thoraco-acromial artery,1
+FMA66564,trunk of left thoraco-acromial artery,1
+FMA66643,pulmonary vein,84
+FMA66644,systemic vein,219
+FMA66645,portal vein,37
+FMA66791,proximal phalanx of left little finger,1
+FMA67112,immaterial anatomical entity,12
+FMA67135,anatomical structure,2166
+FMA67165,material anatomical entity,2222
+FMA67242,gray matter of neuraxis,14
+FMA67325,occipital lobe,2
+FMA67329,insula,2
+FMA67396,articular disk of symphysis,23
+FMA67498,organ,649
+FMA67504,subdivision of cardinal body part,2
+FMA67536,cardinal tissue part,2
+FMA67538,subdivision of epithelium,2
+FMA67552,anatomical cavity,6
+FMA67598,leaf of cardiac valve,5
+FMA67601,process of organ,1
+FMA67619,organ region,1356
+FMA67936,left optic tract,1
+FMA67942,segment of metencephalon,2
+FMA67943,pons,2
+FMA67944,cerebellum,2
+FMA67950,stria of telencephalon,2
+FMA67951,lamina of cerebral hemisphere,2
+FMA67957,segment of gyrus of cerebral hemisphere,4
+FMA67977,dorsal venous network of hand,2
+FMA68045,segment of thoracic aorta,3
+FMA68068,inferior phrenic vein,6
+FMA68109,bronchial artery,1
+FMA68192,lobar artery,1
+FMA68197,right upper lobar artery,24
+FMA68208,pulmonary segment of bronchial tree,98
+FMA68211,right apical segmental bronchial tree,8
+FMA68212,right anterior segmental bronchial tree,7
+FMA68213,right posterior segmental bronchial tree,6
+FMA68214,medial segmental bronchial tree,4
+FMA68215,lateral segmental bronchial tree,4
+FMA68216,right superior segmental bronchial tree,9
+FMA68218,right medial basal segmental bronchial tree,2
+FMA68219,anterior basal segmental bronchial tree,6
+FMA68220,right lateral basal segmental bronchial tree,4
+FMA68221,right posterior basal segmental bronchial tree,6
+FMA68222,left anterior segmental bronchial tree,8
+FMA68223,left apical segmental bronchial tree,6
+FMA68225,left posterior segmental bronchial tree,3
+FMA68226,superior lingular bronchial tree,4
+FMA68227,inferior lingular bronchial tree,2
+FMA68228,left superior segmental bronchial tree,7
+FMA68229,posterior basal segmental bronchial tree,12
+FMA68230,left medial basal segmental bronchial tree,2
+FMA68231,left anterior basal segmental bronchial tree,3
+FMA68232,left lateral basal segmental bronchial tree,4
+FMA68233,left posterior basal segmental bronchial tree,6
+FMA68234,apical segmental bronchial tree,14
+FMA68235,anterior segmental bronchial tree,15
+FMA68236,posterior segmental bronchial tree,9
+FMA68237,superior segmental bronchial tree,16
+FMA68238,basal segmental bronchial tree,30
+FMA68320,medial basal segmental bronchial tree,4
+FMA68321,right anterior basal segmental bronchial tree,3
+FMA68322,lateral basal segmental bronchial tree,8
+FMA68418,right main bronchus proper,1
+FMA68661,apical part of apical segmental artery,4
+FMA68662,apical part of right apical segmental artery,4
+FMA68664,anterior part of apical segmental artery,4
+FMA68665,anterior part of right apical segmental artery,4
+FMA68667,subsegmental part of apical segmental artery,8
+FMA68668,subsegmental part of posterior segmental artery,6
+FMA68669,apical part of posterior segmental artery,3
+FMA68670,apical part of right posterior segmental artery,3
+FMA68672,posterior part of posterior segmental artery,3
+FMA68673,posterior part of right posterior segmental artery,3
+FMA68675,subsegmental part of anterior segmental artery,7
+FMA68676,posterior part of anterior segmental artery,3
+FMA68677,posterior branch of right anterior segmental artery,3
+FMA68682,anterior branch of anterior segmental artery,4
+FMA68683,anterior branch of right anterior segmental artery,4
+FMA68689,subsegmental part of lateral segmental artery,4
+FMA68690,posterior branch of lateral segmental artery,2
+FMA68691,anterior branch of lateral segmental artery,2
+FMA68692,subsegmental part of medial segmental artery,4
+FMA68693,superior branch of medial segmental artery,2
+FMA68694,inferior branch of medial segmental artery,2
+FMA68704,medial branch of superior segmental artery,3
+FMA68705,subsegmental part of superior segmental artery,9
+FMA68706,medial branch of right superior segmental artery,3
+FMA68708,superior branch of superior segmental artery,3
+FMA68709,superior branch of right superior segmental artery,3
+FMA68711,lateral branch of superior segmental artery,3
+FMA68712,lateral branch of right superior segmental artery,3
+FMA68720,subsegmental part of anterior basal segmental artery,3
+FMA68721,lateral branch of anterior basal segmental artery,1
+FMA68722,basal branch of anterior basal segmental artery,2
+FMA68723,basal branch of right anterior basal segmental artery,2
+FMA68725,lateral branch of right anterior basal segmental artery,1
+FMA68727,subsegmental part of lateral basal segmental artery,4
+FMA68728,lateral branch of right lateral basal segmental artery,4
+FMA68733,subsegmental part of posterior basal segmental artery,6
+FMA68734,accessory subsuperior branch of posterior basal segmental artery,2
+FMA68735,accessory subsuperior branch of right posterior basal segmental artery,2
+FMA68737,laterobasal branch of posterior basal segmental artery,2
+FMA68738,laterobasal branch of right posterior basal segmental artery,2
+FMA68740,mediobasal branch of posterior basal segmental artery,2
+FMA68741,mediobasal branch of right posterior basal segmental artery,2
+FMA68878,trunk of segmental pulmonary vein,1
+FMA68879,trunk of apical segmental vein,1
+FMA68880,trunk of right apical segmental vein,1
+FMA68919,apical part of apical segmental vein,3
+FMA68920,anterior part of apical segmental vein,2
+FMA68921,anterior part of right apical segmental vein,2
+FMA68926,superior part of right anterior segmental vein,1
+FMA68928,inferior part of right anterior segmental vein,1
+FMA68944,posterior part of lateral segmental vein,3
+FMA68945,anterior part of lateral segmental vein,3
+FMA68982,superior part of medial segmental vein,1
+FMA68983,inferior part of medial segmental vein,2
+FMA69264,inferior suprarenal artery,2
+FMA69265,right inferior suprarenal artery,1
+FMA69266,left inferior suprarenal artery,1
+FMA69418,trunk of branch of popliteal artery,4
+FMA69458,subdivision of external iliac artery,32
+FMA69459,subdivision of deep femoral artery,6
+FMA69476,subdivision of anterior tibial artery,8
+FMA69490,right lateral tarsal artery,1
+FMA69491,left lateral tarsal artery,1
+FMA69494,right arcuate artery,1
+FMA69495,left arcuate artery,1
+FMA69513,deep plantar artery,2
+FMA69514,right deep plantar artery,1
+FMA69515,left deep plantar artery,1
+FMA69517,distal perforating artery,2
+FMA69559,zone of trunk of lateral plantar artery,4
+FMA69713,digital artery of foot,2
+FMA69784,branch of posterior tibial artery,4
+FMA69796,subdivision of internal iliac artery,4
+FMA69803,subdivision of anterior division of internal iliac artery,4
+FMA69805,subdivision of internal pudendal artery,4
+FMA70247,subdivision of external iliac artery proper,2
+FMA70248,femoral artery,2
+FMA70249,right femoral artery,4
+FMA70250,left femoral artery,4
+FMA70251,subdivision of femoral artery,8
+FMA70345,subdivision of subclavian artery,142
+FMA70353,subdivision of thyrocervical artery,10
+FMA70358,subdivision of internal thoracic artery,4
+FMA70399,subdivision of costocervical artery,4
+FMA70408,subdivision of thoraco-acromial artery,6
+FMA70422,subdivision of subscapular artery,4
+FMA70429,subdivision of celiac artery,32
+FMA70433,subdivision of common hepatic artery,21
+FMA70436,subdivision of gastroduodenal artery,3
+FMA70437,superior pancreaticoduodenal artery,2
+FMA70439,subdivision of right hepatic artery,9
+FMA70440,subdivision of left hepatic artery,7
+FMA70442,anterior superior segmental hepatic artery,1
+FMA70443,anterior inferior segmental hepatic artery,1
+FMA70445,posterior superior segmental hepatic artery,2
+FMA70446,posterior inferior segmental hepatic artery,1
+FMA70447,caudate lobe branch of right hepatic artery,2
+FMA70449,medial superior segmental hepatic artery,1
+FMA70450,medial inferior segmental hepatic artery,1
+FMA70452,lateral superior segmental hepatic artery,2
+FMA70453,lateral inferior segmental hepatic artery,1
+FMA70455,caudate lobe branch of left hepatic artery,1
+FMA70456,trunk of right hepatic artery,1
+FMA70457,trunk of left hepatic artery,1
+FMA70470,subdivision of splenic artery,5
+FMA70471,pancreatic artery,4
+FMA70478,subdivision of superior mesenteric artery,13
+FMA70479,anterior inferior pancreaticoduodenal artery,1
+FMA70480,posterior inferior pancreaticoduodenal artery,1
+FMA70481,subdivision of inferior pancreaticoduodenal artery,2
+FMA70483,subdivision of inferior mesenteric artery,4
+FMA70484,segment of renal artery,30
+FMA70485,anterior division of renal artery,12
+FMA70486,anterior division of right renal artery,6
+FMA70487,anterior division of left renal artery,6
+FMA70488,posterior division of renal artery,6
+FMA70489,posterior division of right renal artery,3
+FMA70490,posterior division of left renal artery,3
+FMA70491,ureteric segment of renal artery,3
+FMA70492,ureteric segment of right renal artery,2
+FMA70493,ureteric segment of left renal artery,1
+FMA70494,segmental renal artery,7
+FMA70499,superior segmental renal artery,2
+FMA70502,inferior segmental renal artery,2
+FMA70503,posterior segmental renal artery,3
+FMA70504,subdivision of common carotid artery,71
+FMA70506,subdivision of internal carotid artery,69
+FMA70523,subdivision of cerebral part of internal carotid artery,69
+FMA70593,subdivision of epidermis,2
+FMA70676,subdivision of superior temporal gyrus,4
+FMA70701,anterior part of superior temporal gyrus,2
+FMA70703,posterior part of superior temporal gyrus,2
+FMA70741,set of facial hairs,1
+FMA70752,set of hairs,1
+FMA70779,set of organs,18
+FMA70800,set of dorsal metacarpal arteries,2
+FMA70801,set of dorsal digital arteries,4
+FMA70815,set of perforating arteries,4
+FMA70821,set of common plantar digital arteries,2
+FMA70839,set of anterior intercostal veins,2
+FMA70917,set of dorsal digital veins,2
+FMA70919,set of plantar digital veins,2
+FMA70922,set of perforating veins,5
+FMA71012,skin appendage,2
+FMA71114,brachium of inferior colliculus,2
+FMA71193,lobe of thymus,2
+FMA71194,right lobe of thymus,1
+FMA71195,left lobe of thymus,1
+FMA71209,tributary of axillary vein,30
+FMA71210,lateral thoracic vein,2
+FMA71211,right lateral thoracic vein,1
+FMA71212,left lateral thoracic vein,1
+FMA71213,thoracodorsal vein,2
+FMA71214,right thoracodorsal vein,1
+FMA71215,left thoracodorsal vein,1
+FMA71235,region of dura mater,1
+FMA71307,set of interspinales lumborum,2
+FMA71309,set of interspinales cervicis,2
+FMA71313,set of levatores costarum longi,2
+FMA71314,set of levatores costarum breves,2
+FMA71318,set of lumbricals of hand,2
+FMA71319,set of dorsal interossei of hand,2
+FMA71320,set of palmar interossei of hand,2
+FMA71442,set of anterior cervical intertransversarii,2
+FMA71443,set of posterior cervical intertransversarii,2
+FMA71502,set of posterior temporal branches of lateral occipital artery,2
+FMA71537,set of oesophageal branches of thoracic aorta,1
+FMA71562,set of calcaneal branches of posterior tibial artery,2
+FMA71564,set of plantar digital arteries proper,3
+FMA71708,right lobe branch of right hepatic artery,2
+FMA71709,subdivision of right lobe branch of right hepatic artery,5
+FMA71710,left lobe branch of left hepatic artery,1
+FMA71736,subdivision of left lobe branch of left hepatic artery,5
+FMA71856,segment of biliary tree,13
+FMA71859,segment of right hepatic biliary tree,5
+FMA71860,segment of left hepatic biliary tree,7
+FMA71865,segmental tributary of right hepatic biliary tree,5
+FMA71866,segmental tributary of left hepatic biliary tree,7
+FMA71867,anterior superior tributary of right hepatic biliary tree,1
+FMA71868,anterior inferior tributary of right hepatic biliary tree,1
+FMA71869,posterior superior tributary of right hepatic biliary tree,2
+FMA71870,posterior inferior tributary of right hepatic biliary tree,1
+FMA71885,medial superior tributary of left hepatic biliary tree,2
+FMA71886,medial inferior tributary of left hepatic biliary tree,1
+FMA71887,lateral superior tributary of left hepatic biliary tree,2
+FMA71888,lateral inferior tributary of left hepatic biliary tree,1
+FMA71889,caudate lobe tributary of left hepatic biliary tree,1
+FMA71903,subdivision of hepatic portal vein,15
+FMA71904,pre-hepatic portal vein,1
+FMA71905,subdivision of right hepatic portal vein,6
+FMA71906,subdivision of left hepatic portal vein,5
+FMA71907,trunk of branch of hepatic portal vein,2
+FMA71908,proximal phalanx of left middle finger,1
+FMA71915,proximal phalanx of left index finger,1
+FMA71916,proximal phalanx of left ring finger,1
+FMA72058,intrinsic ligament of larynx,1
+FMA72308,stylohyoid ligament,2
+FMA72309,right stylohyoid ligament,1
+FMA72311,left stylohyoid ligament,1
+FMA72417,brachium of superior colliculus,2
+FMA72653,right superior frontal gyrus,1
+FMA72654,left superior frontal gyrus,1
+FMA72655,right middle frontal gyrus,1
+FMA72656,left middle frontal gyrus,1
+FMA72657,right inferior frontal gyrus,1
+FMA72658,left inferior frontal gyrus,1
+FMA72661,right precentral gyrus,1
+FMA72662,left precentral gyrus,1
+FMA72665,right postcentral gyrus,1
+FMA72666,left postcentral gyrus,1
+FMA72667,right supramarginal gyrus,1
+FMA72668,left supramarginal gyrus,1
+FMA72669,right angular gyrus,1
+FMA72670,left angular gyrus,1
+FMA72671,right superior parietal lobule,1
+FMA72672,left superior parietal lobule,1
+FMA72685,right middle temporal gyrus,1
+FMA72686,left middle temporal gyrus,1
+FMA72687,right inferior temporal gyrus,1
+FMA72688,left inferior temporal gyrus,1
+FMA72689,right fusiform gyrus,1
+FMA72690,left fusiform gyrus,1
+FMA72705,right parahippocampal gyrus,1
+FMA72706,left parahippocampal gyrus,1
+FMA72713,right hippocampus,1
+FMA72714,left hippocampus,1
+FMA72717,right cingulate gyrus,1
+FMA72718,left cingulate gyrus,1
+FMA72800,anterior part of right superior temporal gyrus,1
+FMA72801,anterior part of left superior temporal gyrus,1
+FMA72804,posterior part of right superior temporal gyrus,1
+FMA72805,posterior part of left superior temporal gyrus,1
+FMA72826,right caudate nucleus,1
+FMA72827,left caudate nucleus,1
+FMA72828,right putamen,1
+FMA72829,left putamen,1
+FMA72830,right globus pallidus,1
+FMA72831,left globus pallidus,1
+FMA72832,right amygdala,1
+FMA72833,left amygdala,1
+FMA72906,right internal capsule,1
+FMA72907,left internal capsule,1
+FMA72924,right fornix of forebrain,1
+FMA72925,left fornix of forebrain,1
+FMA72940,left stria terminalis,1
+FMA72975,right occipital lobe,1
+FMA72976,left occipital lobe,1
+FMA72977,right insula,1
+FMA72978,left insula,1
+FMA73203,trunk of subdivision of axillary artery,2
+FMA73204,trunk of branch of common iliac artery,4
+FMA73303,right lateral geniculate body,1
+FMA73304,left lateral geniculate body,1
+FMA73309,right medial geniculate body,1
+FMA73310,left medial geniculate body,1
+FMA73413,right stria medullaris of thalamus,1
+FMA73414,left stria medullaris of thalamus,1
+FMA73422,right superior colliculus,1
+FMA73423,left superior colliculus,1
+FMA73434,right inferior colliculus,1
+FMA73435,left inferior colliculus,1
+FMA73461,brachium of right superior colliculus,1
+FMA73462,brachium of left superior colliculus,1
+FMA73463,brachium of right inferior colliculus,1
+FMA73464,brachium of left inferior colliculus,1
+FMA74075,set of right levatores costarum longi,1
+FMA74076,set of left levatores costarum longi,1
+FMA74077,set of right levatores costarum breves,1
+FMA74078,set of left levatores costarum breves,1
+FMA74779,musculature of chest,4
+FMA74866,zone of diencephalon,3
+FMA74877,mammillary body,2
+FMA74912,trunk of anterior interventricular branch of left coronary artery,1
+FMA75351,interventricular foramen,1
+FMA75445,membrane organ component,2
+FMA75865,trunk of branch of internal carotid artery,2
+FMA76107,trunk of branch of middle cerebral artery,2
+FMA76127,trunk of inferior terminal branch of middle cerebral artery,2
+FMA76128,trunk of inferior terminal branch of right middle cerebral artery,1
+FMA76129,trunk of inferior terminal branch of left middle cerebral artery,1
+FMA76259,branch of vertebral artery,28
+FMA76264,intracranial branch of vertebral artery,28
+FMA76269,branch of basilar artery,32
+FMA76301,trunk of branch of subclavian artery,4
+FMA76547,trunk of branch of common hepatic artery,3
+FMA76574,trunk of gastroduodenal artery,1
+FMA76582,trunk of hepatic artery,2
+FMA76767,anterior cardiac vein,2
+FMA76903,left duct of caudate lobe of liver,1
+FMA76998,supreme intercostal artery,2
+FMA77140,ulnar recurrent artery,4
+FMA77144,recurrent interosseous artery,2
+FMA77155,popliteal artery,2
+FMA77168,median sacral vein,1
+FMA77177,iliocostalis,6
+FMA77178,longissimus,6
+FMA77179,spinalis,4
+FMA77180,splenius,4
+FMA77380,right popliteal artery,1
+FMA77381,left popliteal artery,1
+FMA77439,artery of central sulcus,4
+FMA77498,circumflex scapular vein,2
+FMA77499,anterior circumflex humeral vein,2
+FMA77883,subdivision of brachiocephalic vein,44
+FMA77884,subdivision of subclavian vein,34
+FMA77949,right circumflex scapular vein,1
+FMA77950,left circumflex scapular vein,1
+FMA77954,right anterior circumflex humeral vein,1
+FMA77955,left anterior circumflex humeral vein,1
+FMA78021,medial brachial vein,2
+FMA78048,subdivision of superior vena caval tree,60
+FMA78049,subdivision of inferior vena caval tree,115
+FMA78121,superior phrenic vein,7
+FMA78204,subdivision of external iliac vein,40
+FMA78207,tributary of basilic vein,4
+FMA78447,region of ventricular system of brain,5
+FMA78448,lateral ventricle,2
+FMA78449,right lateral ventricle,1
+FMA78450,left lateral ventricle,1
+FMA78454,third ventricle,1
+FMA78467,cerebral aqueduct,1
+FMA78469,fourth ventricle,1
+FMA78497,central canal of spinal cord,1
+FMA78562,set of organ regions,36
+FMA78590,set of heterogeneous clusters,2
+FMA79615,branch of postcommunicating part of anterior cerebral artery,18
+FMA79631,branch of sphenoid part of middle cerebral artery,8
+FMA79658,dorsal scapular artery,2
+FMA79979,sternocostal part of right pectoralis major,1
+FMA79980,sternocostal part of left pectoralis major,1
+FMA81150,lobule of cerebral hemisphere,2
+FMA81752,right cervical rotator,1
+FMA81753,left cervical rotator,1
+FMA82472,cardinal organ part,1455
+FMA82478,lobular organ component,3
+FMA82481,organ chamber,2
+FMA82485,organ component layer,9
+FMA82494,lobular segment,1
+FMA82500,membranous layer,2
+FMA82594,segment of subclavian artery,4
+FMA82695,trunk of right portal vein,1
+FMA82697,trunk of left portal vein,1
+FMA82706,caudate lobe branch of right portal vein,1
+FMA82734,right long ciliary nerve,1
+FMA82735,left long ciliary nerve,1
+FMA83115,cell part cluster,42
+FMA83143,cell part cluster of neuraxis,42
+FMA83153,organ component of neuraxis,4
+FMA83465,segment of white matter of neuraxis,14
+FMA83563,subdivision of muscle layer,3
+FMA83686,nucleus of neuraxis,10
+FMA83738,subarachnoid incisure,2
+FMA83740,interpeduncular fossa,2
+FMA83840,nucleus of brain,10
+FMA83854,stria of neuraxis,4
+FMA83856,lamina of neuraxis,2
+FMA83857,brachium of neuraxis,4
+FMA83860,peduncle of neuraxis,2
+FMA83865,fornix of neuraxis,2
+FMA83874,gyrus of neuraxis,26
+FMA83904,septum of neuraxis,1
+FMA83906,commissure of neuraxis,2
+FMA83912,gray matter of diencephalon,2
+FMA83915,gray matter of hypothalamus,2
+FMA83929,white matter of neuraxis,20
+FMA83930,white matter of telencephalon,6
+FMA83966,tentorium cerebelli,1
+FMA84054,zone of neuraxis,3
+FMA84059,nuclear complex of neuraxis,2
+FMA84081,circumventricular organ of neuraxis,1
+FMA84201,secondary incisor tooth,8
+FMA84203,secondary canine tooth,4
+FMA84207,secondary molar tooth,8
+FMA84881,subdivision of subarachnoid space,2
+FMA84926,anatomical compartment space,2
+FMA84953,space of compartment of head,2
+FMA85095,proper palmar digital vein of little finger,6
+FMA85096,proper palmar digital vein of right index finger,2
+FMA85097,proper palmar digital vein of left index finger,2
+FMA85098,proper palmar digital vein of right middle finger,2
+FMA85099,proper palmar digital vein of left middle finger,2
+FMA85100,proper palmar digital vein of right ring finger,2
+FMA85101,proper palmar digital vein of left ring finger,2
+FMA85102,proper palmar digital vein of right little finger,3
+FMA85103,proper palmar digital vein of left little finger,3
+FMA85107,third common palmar digital artery,2
+FMA85108,fourth common palmar digital artery,2
+FMA85109,branch of first common palmar digital artery,4
+FMA85110,branch of second common palmar digital artery,3
+FMA85111,medial proper palmar digital artery of middle finger,1
+FMA85112,medial proper palmar digital artery of right middle finger,1
+FMA85114,lateral proper palmar digital artery of ring finger,2
+FMA85115,lateral proper palmar digital artery of right ring finger,1
+FMA85116,lateral proper palmar digital artery of left ring finger,1
+FMA85117,branch of third common palmar digital artery,3
+FMA85118,left first common palmar digital artery,1
+FMA85119,right second common palmar digital artery,1
+FMA85120,left second common palmar digital artery,1
+FMA85121,right third common palmar digital artery,1
+FMA85122,left third common palmar digital artery,1
+FMA85123,right fourth common palmar digital artery,1
+FMA85124,left fourth common palmar digital artery,1
+FMA85453,head of muscle organ,42
+FMA86020,subdivision of transverse cervical artery,4
+FMA86033,opponens digiti minimi of foot,2
+FMA86034,opponens digiti minimi of right foot,1
+FMA86035,opponens digiti minimi of left foot,1
+FMA86103,region of organ component,33
+FMA86127,branch of posterior choroidal artery,2
+FMA86140,organ segment,1200
+FMA86187,segment of arterial tree organ,603
+FMA86188,segment of venous tree organ,371
+FMA86195,segment of lacrimal duct,6
+FMA86212,region of wall of heart,3
+FMA86254,segment of systemic artery,6
+FMA86256,segment of arterial trunk,9
+FMA86340,superior segmental branch of right renal artery,1
+FMA86341,superior segmental branch of left renal artery,1
+FMA86346,inferior segmental branch of right renal artery,1
+FMA86347,inferior segmental branch of left renal artery,1
+FMA86348,posterior segmental branch of right renal artery,1
+FMA86349,posterior segmental branch of left renal artery,2
+FMA86375,ligament organ component,7
+FMA86464,corpus callosum,1
+FMA86565,region of papillary muscle of left ventricle,1
+FMA86566,region of lateral papillary muscle of left ventricle,1
+FMA87217,descending thoracic aorta,1
+FMA87218,trunk of coronary artery,2
+FMA222905,segment of colon,3
+FMA223151,internal gray matter component,12
+FMA225818,region of layer of wall of eyeball,4
+FMA228667,set of organ parts,36
+FMA230984,middle phalanx of little toe,2
+FMA230986,middle phalanx of right little toe,1
+FMA230988,middle phalanx of left little toe,1
+FMA241998,cerebral white matter,2
+FMA242193,region of cerebral cortex,2
+FMA242770,region of wall of ventricular system of neuraxis,2
+FMA242789,region of ventricular system of neuraxis,6
+FMA256174,region of cerebral white matter,2
+FMA256194,orbital gyrus,2
+FMA256237,segment of neuraxis,46
+FMA256693,nucleus of thalamus,4
+FMA258714,right thalamus,1
+FMA258716,left thalamus,1
+FMA258847,right calcaneal tendon,1
+FMA258850,right intermediate tendon,1
+FMA260791,white matter of right cerebral hemisphere,2
+FMA260794,white matter of left cerebral hemisphere,2
+FMA264844,left calcaneal tendon,1
+FMA265178,ligament of lower limb,2
+FMA265180,ligament of limb,2
+FMA265400,region of vascular layer of eyeball,6
+FMA266054,subdivision of cranial dura mater,1
+FMA268667,right recurrent interosseous artery,1
+FMA268669,left recurrent interosseous artery,1
+FMA268712,segment of anterior tibial artery,2
+FMA268955,region of papillary muscle,4
+FMA3734,aorta,5
+FMA3862,anterior interventricular branch of left coronary artery,18
+FMA4717,anterior cardiac venous tree,3
+FMA7088,heart,83
+FMA7096,right atrium,5
+FMA7097,left atrium,6
+FMA7098,right ventricle,10
+FMA7101,left ventricle,8
+FMA7152,alimentary system,147
+FMA7154,head,143
+FMA7155,neck,13
+FMA7157,nervous system,60
+FMA7158,respiratory system,284
+FMA7159,urinary system,6
+FMA7160,genital system,1
+FMA7161,cardiovascular system,627
+FMA7165,right side of heart,46
+FMA7166,left side of heart,36
+FMA7181,trunk,577
+FMA7184,lower limb,3
+FMA7185,right upper limb,49
+FMA7186,left upper limb,48
+FMA7187,right lower limb,32
+FMA7188,left lower limb,32
+FMA7197,liver,60
+FMA7200,small intestine,56
+FMA7201,large intestine,8
+FMA7207,jejunum,23
+FMA7208,ileum,32
+FMA7216,outflow part of right ventricle,3
+FMA7234,tricuspid valve,3
+FMA7235,mitral valve,4
+FMA7236,aortic valve,3
+FMA7246,pulmonary valve,3
+FMA7259,papillary muscle of right ventricle,3
+FMA7309,right lung,156
+FMA7310,left lung,124
+FMA7333,upper lobe of right lung,62
+FMA7337,lower lobe of right lung,69
+FMA7338,right apical bronchopulmonary segment,22
+FMA7339,right posterior bronchopulmonary segment,19
+FMA7359,right anterior bronchopulmonary segment,20
+FMA7360,medial bronchopulmonary segment,11
+FMA7361,lateral bronchopulmonary segment,14
+FMA7362,right posterior basal bronchopulmonary segment,21
+FMA7363,right lateral basal bronchopulmonary segment,12
+FMA7364,right anterior basal bronchopulmonary segment,8
+FMA7365,right medial basal bronchopulmonary segment,4
+FMA7366,right superior bronchopulmonary segment,24
+FMA7370,upper lobe of left lung,68
+FMA7371,lower lobe of left lung,56
+FMA7372,apicoposterior bronchopulmonary segment,17
+FMA7373,left anterior bronchopulmonary segment,19
+FMA7374,superior lingular bronchopulmonary segment,10
+FMA7375,inferior lingular bronchopulmonary segment,6
+FMA7376,left superior bronchopulmonary segment,14
+FMA7377,left medial basal bronchopulmonary segment,4
+FMA7378,left anterior basal bronchopulmonary segment,10
+FMA7379,left lateral basal bronchopulmonary segment,12
+FMA7380,left posterior basal bronchopulmonary segment,16
+FMA7383,middle lobe of lung,25
+FMA7385,left apical bronchopulmonary segment,17
+FMA7386,left posterior bronchopulmonary segment,13
+FMA7393,tracheobronchial tree,95
+FMA7395,right main bronchus,1
+FMA7480,rib cage,41
+FMA7481,skeletal system of thorax,68
+FMA7482,musculoskeletal system,138
+FMA7483,axial skeletal system,95
+FMA7485,sternum,3
+FMA7563,body compartment,470
+FMA7647,spinal cord,1
+FMA8617,right apical segmental artery,8
+FMA8619,right posterior segmental artery,6
+FMA8627,right superior segmental artery,9
+FMA8630,right anterior basal segmental artery,3
+FMA8631,right lateral basal segmental artery,4
+FMA8632,right posterior basal segmental artery,6
+FMA8655,right upper lobar vein,17
+FMA8656,middle lobar vein,9
+FMA8657,left upper lobar vein,20
+FMA8658,lingular vein,4
+FMA8661,right apical segmental vein,6
+FMA8664,lateral segmental vein,6
+FMA8665,medial segmental vein,3
+FMA8666,apicoposterior segmental vein,17
+FMA8671,right common basal vein,17
+FMA8672,right superior basal vein,6
+FMA8674,right inferior basal vein,11
+FMA8676,left common basal vein,12
+FMA8677,left superior basal vein,8
+FMA8679,left inferior basal vein,4
+FMA9140,thoracic vertebral column,23
+FMA9348,subaortic curtain of left ventricle,3
+FMA9352,papillary muscle of left ventricle,2
+FMA9473,outflow part of left ventricle,4
+FMA9496,fibrous skeleton of heart,3
+FMA9498,fibrous ring of mitral valve,3
+FMA9533,wall of right ventricle,3
+FMA9535,myocardium of right ventricle,3
+FMA9550,outflow part of right atrium,3
+FMA9551,outflow part of left atrium,4
+FMA9552,inflow part of right ventricle,6
+FMA9553,anterior wall of right ventricle,1
+FMA9555,inferior wall of right ventricle,1
+FMA9556,wall of left ventricle,3
+FMA9558,myocardium of left ventricle,3
+FMA9560,anterior wall of left ventricle,2
+FMA9561,inferior wall of left ventricle,1
+FMA9563,lateral wall of left ventricle,2
+FMA9564,inflow part of left ventricle,6
+FMA9576,thorax,537
+FMA9577,abdomen,24
+FMA9578,pelvis,8
+FMA9579,perineum,4
+FMA9584,peritoneum,3
+FMA9607,thymus,2
+FMA9668,endocrine system,7
+FMA9713,right hand,19
+FMA9714,left hand,19
+FMA9826,mediastinum,189
+FMA9827,superior mediastinum,101
+FMA9828,inferior mediastinum,90
+FMA9838,anterior mediastinum,2
+FMA9839,middle mediastinum,85
+FMA9840,posterior mediastinum,4
+FMA9908,peritoneal sac,3
+FMA10427,body wall,81
+FMA10428,thoracic wall,55
+FMA10429,wall of abdomen proper,15
+FMA10430,pelvic wall,7
+FMA11343,right foot,26
+FMA11344,left foot,26
+FMA11345,right forearm,3
+FMA11346,left forearm,3
+FMA12514,right eyeball,8
+FMA12515,left eyeball,9
+FMA13362,right lobe of liver,17
+FMA13363,left lobe of liver,25
+FMA13373,right pectoralis major,2
+FMA13374,left pectoralis major,2
+FMA13478,vertebral column,48
+FMA14541,cecum,1
+FMA14615,wall of small intestine,1
+FMA14618,wall of ileum,1
+FMA14619,wall of large intestine,3
+FMA14627,anterior abdominal wall,2
+FMA14628,posterior abdominal wall,12
+FMA14665,biliary tree,16
+FMA14703,visceral peritoneum,3
+FMA14775,gastroduodenal artery,1
+FMA14778,right hepatic artery,8
+FMA14779,left hepatic artery,7
+FMA14823,inferior branch of ileocolic artery,6
+FMA14971,muscle layer of large intestine,3
+FMA15419,anterior branch of right portal vein,2
+FMA15422,posterior branch of right portal vein,3
+FMA15427,medial branch of left portal vein,2
+FMA15430,lateral branch of left portal vein,2
+FMA15748,anterior sector of right liver,3
+FMA15749,posterior sector of right liver,2
+FMA15750,anterior sector of left liver,2
+FMA15751,posterior sector of left liver,1
+FMA15809,right hemiliver,5
+FMA15810,left hemiliver,3
+FMA16203,lumbar vertebral column,10
+FMA16580,bony pelvis,3
+FMA16581,pelvic girdle,3
+FMA16582,right pelvic girdle,1
+FMA16583,left pelvic girdle,1
+FMA17181,wall of distal part of ileum,1
+FMA20218,mons pubis,1
+FMA20224,right side of rib cage,19
+FMA20225,left side of rib cage,19
+FMA20226,right side of bony pelvis,1
+FMA20227,left side of bony pelvis,1
+FMA20347,anal part of perineum,4
+FMA20394,human body,1258
+FMA20796,right deep femoral artery,2
+FMA20797,left deep femoral artery,2
+FMA22672,right thoraco-acromial artery,4
+FMA22673,left thoraco-acromial artery,4
+FMA23218,right pectoral girdle,10
+FMA23219,left pectoral girdle,10
+FMA23876,skeleton (in vivo),138
+FMA23881,skeletal system,138
+FMA24138,cervical vertebral column,13
+FMA24163,skeleton of right pectoral girdle,2
+FMA24164,skeleton of left pectoral girdle,2
+FMA24189,back of neck,13
+FMA24217,back of thorax,23
+FMA24228,posterior part of pelvis,1
+FMA24728,face,80
+FMA24816,anterior chest,128
+FMA24866,sternal part of chest,3
+FMA24880,right free upper limb,39
+FMA24881,left free upper limb,38
+FMA24882,right free lower limb,30
+FMA24883,left free lower limb,30
+FMA24895,right arm,9
+FMA24896,left arm,8
+FMA24940,right wrist,9
+FMA24941,left wrist,9
+FMA24965,right hip,1
+FMA24966,left hip,1
+FMA24968,right thigh,1
+FMA24969,left thigh,1
+FMA24977,right knee,1
+FMA24978,left knee,1
+FMA24980,right leg,2
+FMA24981,left leg,2
+FMA25511,intervertebral symphysis,1
+FMA25558,right lateral chest wall,1
+FMA25559,left lateral chest wall,1
+FMA25571,intervertebral symphysis of axis,1
+FMA25572,right bony pectoral girdle,2
+FMA25573,left bony pectoral girdle,2
+FMA26078,third cervical intervertebral symphysis,1
+FMA26083,fourth cervical intervertebral symphysis,1
+FMA26084,fifth cervical intervertebral symphysis,1
+FMA26085,sixth cervical intervertebral symphysis,1
+FMA26086,seventh cervical intervertebral symphysis,1
+FMA26089,first thoracic intervertebral symphysis,1
+FMA26094,second thoracic intervertebral symphysis,1
+FMA26095,third thoracic intervertebral symphysis,1
+FMA26096,fourth thoracic intervertebral symphysis,1
+FMA26097,fifth thoracic intervertebral symphysis,1
+FMA26098,sixth thoracic intervertebral symphysis,1
+FMA26099,seventh thoracic intervertebral symphysis,1
+FMA26100,eighth thoracic intervertebral symphysis,1
+FMA26101,ninth thoracic intervertebral symphysis,1
+FMA26102,tenth thoracic intervertebral symphysis,1
+FMA26103,eleventh thoracic intervertebral symphysis,1
+FMA26105,first lumbar intervertebral symphysis,1
+FMA26106,second lumbar intervertebral symphysis,1
+FMA26107,third lumbar intervertebral symphysis,1
+FMA26108,fourth lumbar intervertebral symphysis,1
+FMA26109,fifth lumbar intervertebral symphysis,1
+FMA26572,thoracic part of tracheobronchial tree,94
+FMA26661,right bronchial tree,54
+FMA26662,left bronchial tree,40
+FMA31741,middle lobe part of right bronchial tree,8
+FMA31744,upper lobe part of right bronchial tree,21
+FMA31746,upper lobe part of left bronchial tree,17
+FMA31747,lower lobe part of right bronchial tree,24
+FMA31748,lower lobe part of left bronchial tree,22
+FMA33642,right shoulder,2
+FMA33644,pectoral part of right pectoral girdle,5
+FMA33645,pectoral part of left pectoral girdle,5
+FMA33646,scapular part of right pectoral girdle,5
+FMA33647,scapular part of left pectoral girdle,5
+FMA45621,pulmonary vascular system,186
+FMA45623,systemic arterial system,335
+FMA45626,systemic venous system,88
+FMA45628,portal venous system,62
+FMA45659,lower urinary tract,2
+FMA45662,lower respiratory tract,283
+FMA45842,pulmonary arterial tree,94
+FMA45847,portal venous tree,19
+FMA46448,frontal part of head,8
+FMA46472,nose,10
+FMA46565,skull,43
+FMA49177,upper gastrointestinal tract,3
+FMA49179,lower gastrointestinal tract,63
+FMA49184,mouth,11
+FMA49187,occipital part of head,1
+FMA49207,wall of inflow part of right ventricle,3
+FMA49214,wall of inflow part of left ventricle,2
+FMA49894,systemic arterial tree,324
+FMA50039,right coronary artery,29
+FMA50040,left coronary artery,25
+FMA50060,chest wall,67
+FMA50061,superficial chest wall,10
+FMA50063,anterior superficial chest wall,8
+FMA50071,right lateral superficial chest wall,1
+FMA50072,left lateral superficial chest wall,1
+FMA50082,right middle cerebral artery,3
+FMA50308,coronary sinus tree,31
+FMA50454,cerebral arterial circle,5
+FMA50561,right pontine artery,2
+FMA50562,left pontine artery,2
+FMA50584,right posterior cerebral artery,9
+FMA50585,left posterior cerebral artery,9
+FMA50658,right posterior choroidal artery,1
+FMA50659,left posterior choroidal artery,1
+FMA50801,brain,59
+FMA51044,fascia lata of right thigh,1
+FMA51045,fascia lata of left thigh,1
+FMA52801,basicranium,1
+FMA53082,right orbit,9
+FMA53083,left orbit,10
+FMA53637,right cheek,1
+FMA53638,left cheek,1
+FMA53672,neurocranium,7
+FMA53673,viscerocranium,39
+FMA54375,nasal septum,2
+FMA54397,upper jaw,1
+FMA54398,lower jaw,2
+FMA54440,right upper eyelid,2
+FMA54441,left upper eyelid,2
+FMA54443,right lower eyelid,1
+FMA54444,left lower eyelid,1
+FMA54449,right eye,22
+FMA54450,left eye,23
+FMA54545,head proper,66
+FMA54667,right orbital compartment,9
+FMA54668,left orbital compartment,10
+FMA55021,soft palate,5
+FMA55022,uvula,1
+FMA55675,neuraxis,60
+FMA58099,wall of right eyeball,4
+FMA58100,wall of left eyeball,4
+FMA58105,fibrous layer of right eyeball,2
+FMA58106,fibrous layer of left eyeball,2
+FMA58107,vascular layer of right eyeball,3
+FMA58108,vascular layer of left eyeball,3
+FMA58401,investing fascia of right upper limb,1
+FMA58405,investing fascia of right free upper limb,1
+FMA58406,investing fascia of left free upper limb,1
+FMA58418,investing fascia of right lower limb,1
+FMA58419,investing fascia of left lower limb,1
+FMA58429,investing fascia of right free lower limb,1
+FMA58430,investing fascia of left free lower limb,1
+FMA58448,investing fascia of right wrist,1
+FMA58449,investing fascia of left wrist,1
+FMA58575,investing fascia of right forearm,1
+FMA58576,investing fascia of left forearm,1
+FMA58742,investing fascia of right thigh,1
+FMA58743,investing fascia of left thigh,1
+FMA59368,right lacrimal apparatus,5
+FMA59369,left lacrimal apparatus,5
+FMA59398,mandibular part of mouth,4
+FMA59399,maxillary part of mouth,1
+FMA59515,external nose,6
+FMA59516,root of nose,2
+FMA59517,dorsum of nose,2
+FMA59538,cartilaginous skeleton of nose,5
+FMA59637,internal nose,4
+FMA59654,osseous skeleton of nose,5
+FMA59655,osseous skeleton of external nose,2
+FMA59656,osseous skeleton of internal nose,3
+FMA59665,septum of internal nose,1
+FMA59668,wall of internal nose,4
+FMA59671,right lateral wall of internal nose,1
+FMA59672,left lateral wall of internal nose,1
+FMA59748,right side of internal nose,2
+FMA59749,left side of internal nose,2
+FMA59754,wall of right side of internal nose,2
+FMA59755,wall of left side of internal nose,2
+FMA59836,cartilaginous skeleton of external nose,4
+FMA59837,bony part of nasal septum,1
+FMA59838,cartilaginous part of nasal septum,1
+FMA59992,faucial part of mouth,1
+FMA60116,nasal skeleton,10
+FMA60118,skeleton of nasal septum,2
+FMA60325,right thumb,2
+FMA60326,left thumb,2
+FMA60327,right little finger,3
+FMA60328,left little finger,4
+FMA60329,right ring finger,3
+FMA60330,left ring finger,3
+FMA60331,right middle finger,3
+FMA60332,left middle finger,3
+FMA60333,right index finger,3
+FMA60334,left index finger,3
+FMA60335,right big toe,2
+FMA60336,left big toe,2
+FMA60337,right second toe,3
+FMA60338,left second toe,3
+FMA60339,right third toe,3
+FMA60340,left third toe,3
+FMA60341,right fourth toe,3
+FMA60342,left fourth toe,3
+FMA60343,right little toe,3
+FMA60344,left little toe,3
+FMA61064,right lacrimal duct,4
+FMA61065,left lacrimal duct,4
+FMA61068,right hand proper,5
+FMA61069,left hand proper,5
+FMA61472,right pectoral part of chest,5
+FMA61473,left pectoral part of chest,5
+FMA61670,skeleton of mouth,1
+FMA61680,abdomen proper,15
+FMA61681,back of abdomen,10
+FMA61732,right parietal part of head,5
+FMA61733,left parietal part of head,5
+FMA61819,left cerebral hemisphere,19
+FMA61991,trunk of right middle cerebral artery,1
+FMA61992,forebrain,45
+FMA62000,telencephalon,38
+FMA62001,diencephalon,7
+FMA62003,metencephalon,4
+FMA62009,epithalamus,2
+FMA62028,intermediate hypothalamic region,2
+FMA67292,right cerebral hemisphere,19
+FMA67687,hindbrain,6
+FMA67994,intrapulmonary part of right pulmonary artery,54
+FMA67995,intrapulmonary part of left pulmonary artery,37
+FMA68002,intrapulmonary part of right superior pulmonary vein,26
+FMA68003,intrapulmonary part of right inferior pulmonary vein,23
+FMA68004,intrapulmonary part of left superior pulmonary vein,24
+FMA68005,intrapulmonary part of left inferior pulmonary vein,12
+FMA68016,intrahepatic biliary tree,14
+FMA68193,medial segmental artery,4
+FMA68194,lateral segmental artery,4
+FMA68196,middle lobar artery,8
+FMA68198,left upper lobar artery,15
+FMA68200,right lower lobar artery,22
+FMA68201,left lower lobar artery,22
+FMA68317,superior division of upper lobe part of left bronchial tree,8
+FMA68318,inferior division of upper lobe part of left bronchial tree,6
+FMA68319,inferomedial part of right bronchial tree,32
+FMA68658,inferomedial branch of right pulmonary artery,30
+FMA68659,apicoposterior division of right upper lobar artery,14
+FMA68843,antero-medial basal segmental artery,5
+FMA68845,right basal segmental artery,13
+FMA68846,left basal segmental artery,15
+FMA69566,trunk of right lateral plantar artery,1
+FMA69567,trunk of left lateral plantar artery,1
+FMA70347,right thyrocervical artery,6
+FMA70348,left thyrocervical artery,6
+FMA70351,right costocervical artery,3
+FMA70352,left costocervical artery,3
+FMA70441,anterior segmental hepatic artery,2
+FMA70444,posterior segmental hepatic artery,3
+FMA70448,medial segmental hepatic artery,2
+FMA70451,lateral segmental hepatic artery,3
+FMA71102,right upper urinary tract,2
+FMA71103,left upper urinary tract,2
+FMA71132,gastrointestinal tract,136
+FMA71221,axial skeleton,48
+FMA71857,right hepatic biliary tree,6
+FMA71858,left hepatic biliary tree,8
+FMA71861,anterior tributary of right hepatic biliary tree,2
+FMA71862,posterior tributary of right hepatic biliary tree,3
+FMA71863,lateral tributary of left hepatic biliary tree,3
+FMA71864,medial tributary of left hepatic biliary tree,3
+FMA71891,hepatic biliary tree,15
+FMA72062,pelvic skeleton,3
+FMA72063,set of cervical vertebrae,7
+FMA72064,set of thoracic vertebrae,12
+FMA72065,set of lumbar vertebrae,5
+FMA72952,orbital part of right eye,9
+FMA72953,orbital part of left eye,10
+FMA72969,right frontal lobe,4
+FMA72970,left frontal lobe,4
+FMA72971,right temporal lobe,4
+FMA72972,left temporal lobe,4
+FMA72973,right parietal lobe,4
+FMA72974,left parietal lobe,4
+FMA72979,integumentary system,1
+FMA72980,right limbic lobe,3
+FMA72981,left limbic lobe,2
+FMA73055,anterior part of right knee,1
+FMA73056,anterior part of left knee,1
+FMA73086,right foot proper,5
+FMA73087,left foot proper,5
+FMA73103,posterior thoracic wall,12
+FMA73703,wall of right side of heart,4
+FMA73704,wall of left side of heart,4
+FMA74657,integument,1
+FMA75007,cavity of neuraxis,1
+FMA78435,musculature of anterior abdominal wall,2
+FMA79063,deep fascial system,3
+FMA79065,patellar part of right knee,1
+FMA79066,patellar part of left knee,1
+FMA79181,skeleton of right hand proper,5
+FMA79182,skeleton of left hand proper,5
+FMA79269,content of thorax,281
+FMA79273,content of mediastinum,189
+FMA79274,content of superior mediastinum,101
+FMA79275,content of inferior mediastinum,90
+FMA79276,content of anterior mediastinum,2
+FMA79277,content of posterior mediastinum,4
+FMA79278,content of middle mediastinum,85
+FMA79876,brainstem,11
+FMA82672,superior systemic venous tree,14
+FMA82673,inferior systemic venous tree,28
+FMA83447,myocardium of right ventricle proper,3
+FMA83448,myocardium of left ventricle proper,3
+FMA83902,midbrain tectum,4
+FMA84842,free wall of right ventricle,3
+FMA84850,free wall of left ventricle,3
+FMA84856,subendocardial layer of myocardium of right ventricle,3
+FMA84857,subendocardial layer of myocardium of left ventricle,2
+FMA84931,myocardium of free wall of right ventricle,3
+FMA84932,myocardium of free wall of left ventricle,3
+FMA85008,compartment of thorax,469
+FMA85031,compartment of abdomen,1
+FMA85055,right pulmopleural compartment,156
+FMA85056,left pulmopleural compartment,124
+FMA86056,myocardial zone 4,1
+FMA86063,myocardial zone 11,2
+FMA86064,myocardial zone 12,1
+FMA86917,musculature of abdomen,2
+FMA87178,myocardium of lateral wall of left ventricle,2
+FMA87179,myocardium of inferior wall of left ventricle,1
+FMA87542,anterior thoracic wall,26
+FMA87543,anterior chest wall,39
+FMA87552,posterior chest,16
+FMA87598,skeletal system of trunk,81
+FMA228642,vasculature of body,605
+FMA231424,body proper,590
+FMA242180,cortex of right cerebral hemisphere,3
+FMA242182,cortex of left cerebral hemisphere,3
+FMA242184,subcortex of right cerebral hemisphere,2
+FMA242186,subcortex of left cerebral hemisphere,2
+FMA242207,cortex of right frontal lobe,3
+FMA242209,cortex of left frontal lobe,3
+FMA242609,right archicortex,1
+FMA242611,left archicortex,1
+FMA242625,right prefrontal cortex,3
+FMA242627,left prefrontal cortex,3
+FMA242675,ventricular system of neuraxis,6
+FMA242787,ventricular system of brain,5
+FMA259054,wall of abdomen,22
+FMA259209,thoracic segment of trunk,548
+FMA259211,abdominal segment of trunk,24
+FMA259248,content of abdomen,1
+FMA260124,right orbital content,9
+FMA260127,left orbital content,10
+FMA260456,body cavity content,282
+FMA261139,right hippocampal formation,1
+FMA261141,left hippocampal formation,1
+FMA265130,respiratory tract,283
+FMA265228,pancreaticobiliary system,21
+FMA270201,basicranial part of head proper,14

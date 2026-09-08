@@ -215,6 +215,20 @@ def dashboard():
     return send_from_directory(os.path.expanduser('~/proyectos/nlp'), 'dashboard.html')
 
 
+@app.route('/api/anatomia', methods=['GET'])
+def anatomia():
+    """Buscar conceptos anatómicos."""
+    q = request.args.get('q', '')
+    if not q:
+        return jsonify({'error': 'Falta parámetro q'}), 400
+    
+    from modulos.sugerente_anatomia import SugerenteAnatomia
+    sugerente = SugerenteAnatomia()
+    resultado = sugerente.sugerir_busqueda(q)
+    
+    return jsonify(resultado)
+
+
 if __name__ == '__main__':
     print("🚀 BrainHub API")
     print("   http://localhost:5000/api/health")
