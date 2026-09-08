@@ -33,9 +33,24 @@ class MeSHCache:
     
     def buscar(self, termino: str, contexto: str = '') -> Dict:
         """
-        Busca término MeSH con contexto.
-        Si hay contexto, usa el bigrama para mejor precisión.
+        Busca término MeSH. Alias del diccionario es AUTORITATIVO.
         """
+        # 0. Verificar alias en diccionario clínico PRIMERO
+        try:
+            from modulos.diccionario_clinico import DiccionarioClinico
+            dc = DiccionarioClinico()
+            normalizado = dc.normalizar(termino)
+            alias = dc.get_alias_mesh(normalizado)
+            if alias:
+                return {
+                    'fuente': 'alias_diccionario',
+                    'termino_busqueda': termino,
+                    'mesh_id': alias,
+                    'nombre_oficial': alias
+                }
+        except:
+            pass
+        
         # Si hay contexto, buscar con bigrama
         if contexto:
             termino_busqueda = f"{contexto} {termino}"

@@ -21,7 +21,7 @@ class PICOGenerator:
             return {'error': 'Se necesitan al menos 2 términos'}
         
         # Asignar roles PICO según posición y nicho
-        p = terminos[0] if terminos else 'pacientes'
+        p = 'pacientes con ' + terminos[0] if terminos else 'pacientes'
         i = terminos[1] if len(terminos) > 1 else 'intervención'
         c = 'tratamiento estándar'
         o = terminos[2] if len(terminos) > 2 else 'resultado clínico'
@@ -34,6 +34,44 @@ class PICOGenerator:
             'C': c,
             'O': o,
             'pregunta': pregunta
+        }
+    
+    def generar_pico_ponderado(self, terminos_con_peso: List) -> Dict:
+        """
+        Genera PICO usando la frecuencia como señal.
+        - Término más frecuente → P (problema principal)
+        - Segundo más frecuente → I (intervención)
+        - Términos de riesgo/resultado → O (outcome)
+        """
+        if not terminos_con_peso:
+            return self.generar_pico([], 'SALUD')
+        
+        # Ordenar por frecuencia
+        ordenados = sorted(terminos_con_peso, key=lambda x: x[1] if isinstance(x, (list, tuple)) else 0, reverse=True)
+        
+        # Palabras que indican outcome
+        palabras_outcome = ['riesgo', 'riziko', 'risk', 'resultado', 'outcome', 'mortalidad']
+        
+        # Asignar roles por frecuencia
+        p = ordenados[0][0] if ordenados else 'pacientes'
+        i = ordenados[1][0] if len(ordenados) > 1 else 'intervención'
+        o = 'riesgo'
+        
+        # Buscar término de outcome en la lista
+        for termino, peso in ordenados:
+            if termino.lower() in palabras_outcome:
+                o = termino
+                break
+        
+        pregunta = f"En pacientes con {p}, ¿cuál es el efecto de {i} sobre {o}?"
+        
+        return {
+            'P': f'pacientes con {p}',
+            'I': i,
+            'C': 'tratamiento estándar',
+            'O': o,
+            'pregunta': pregunta,
+            'pesos': [(t, p) for t, p in ordenados[:5]]
         }
     
     def generar_desde_analisis(self, analisis: Dict) -> Dict:

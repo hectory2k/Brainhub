@@ -158,5 +158,23 @@
       "reasoning models",
       "pretraining"
     ]
+  },
+  "PSICOLOGIA": {
+    "terminos": [
+      "cognition",
+      "cognitive",
+      "psychology",
+      "neuroscience",
+      "brain",
+      "memory",
+      "attention",
+      "learning",
+      "offloading",
+      "cognitive offloading",
+      "human cognition",
+      "skill acquisition",
+      "skill decay",
+      "human-AI interaction"
+    ]
   }
 }

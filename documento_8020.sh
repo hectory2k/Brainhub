@@ -17,6 +17,7 @@ from modulos.generar_documento import GeneradorDocumento
 from modulos.ponderacion_nichos import PonderacionNichos
 from modulos.coherencia_nichos import CoherenciaNichos
 from modulos.reflexion import ReflexionPostAnalisis
+from modulos.pico_generator import PICOGenerator
 from modulos.self_rag import SelfRAG
 from modulos.rag_simple import RAGSimple
 from modulos.nichos_manager import NichosManager
@@ -73,6 +74,10 @@ if terminos:
     self_rag = SelfRAG(rag)
     evaluacion = self_rag.buscar_con_reflexion(terminos[0][0] if isinstance(terminos[0], (list, tuple)) else terminos[0])
     print(f"🧠 Self-RAG: {evaluacion['accion']} (confianza: {evaluacion['confianza']})")
+
+# Generar PICO para documentos médicos
+pico_gen = PICOGenerator()
+pico = pico_gen.generar_pico([t for t, _ in datos.get('terminos_clave', [])[:4]], 'SALUD')
 
 reflexion_gen = ReflexionPostAnalisis()
 reflexiones = reflexion_gen.reflexionar(datos)

@@ -181,7 +181,8 @@
       "ligaments"
     ],
     "categoria": "anatomia",
-    "alias_mesh": "Anterior Cruciate Ligament"
+    "alias_mesh": "Anterior Cruciate Ligament",
+    "traduccion_es": "ligamento"
   },
   "rodilla": {
     "sinonimos": [
@@ -192,7 +193,8 @@
       "rodilla"
     ],
     "categoria": "anatomia",
-    "alias_mesh": "Knee Joint"
+    "alias_mesh": "Knee Joint",
+    "traduccion_es": "rodilla"
   },
   "riesgo": {
     "sinonimos": [
@@ -201,7 +203,8 @@
       "riesgo"
     ],
     "categoria": "condicion",
-    "alias_mesh": "Risk"
+    "alias_mesh": "Risk",
+    "traduccion_es": "riesgo"
   },
   "operacion": {
     "sinonimos": [
@@ -212,7 +215,8 @@
       "cirugia"
     ],
     "categoria": "procedimiento",
-    "alias_mesh": "Surgical Procedures, Operative"
+    "alias_mesh": "Surgical Procedures, Operative",
+    "traduccion_es": "operación"
   },
   "lca": {
     "sinonimos": [
@@ -223,5 +227,24 @@
     ],
     "alias_mesh": "Anterior Cruciate Ligament",
     "categoria": "anatomia"
+  },
+  "cognicion": {
+    "sinonimos": [
+      "cognition",
+      "cognición",
+      "cognitive",
+      "cognitivo"
+    ],
+    "alias_mesh": "Cognition",
+    "categoria": "psicologia"
+  },
+  "inteligencia_artificial": {
+    "sinonimos": [
+      "artificial intelligence",
+      "inteligencia artificial",
+      "ai"
+    ],
+    "alias_mesh": "Artificial Intelligence",
+    "categoria": "tecnologia"
   }
 }
