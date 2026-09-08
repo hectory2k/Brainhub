@@ -94,6 +94,13 @@ doc_gen.reflexiones = reflexiones  # agregar reflexiones
 
 doc_gen.cargar_datos(jerarquia, terminos, abstract, preguntas)
 
+# Guardar preguntas con MeSH en DuckDB
+import subprocess
+for pregunta in preguntas.get('preguntas_debate', []):
+    mesh_asociado = 'Cognition'  # Default, se puede refinar
+    sql = f"INSERT INTO preguntas_mesh (mesh_term, pregunta, tipo, content_id) VALUES ('{mesh_asociado}', '{pregunta['pregunta'][:200].replace(chr(39), chr(39)*2)}', '{pregunta['tipo']}', 'paper')"
+    subprocess.run(['duckdb', '/sdcard/Download/analisis_consolidado.duckdb', '-c', sql], capture_output=True, text=True, timeout=5)
+
 ruta = '$1'.replace('_analisis_completo.json', '_documento_8020.md')
 doc_gen.generar_markdown(ruta)
 print(f"✅ {ruta}")
