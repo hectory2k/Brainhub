@@ -65,7 +65,13 @@ abstract = abstract_gen.generar(jerarquia, terminos)
 
 preguntas_gen = GeneradorPreguntas()
 coocurrencias = datos.get('coocurrencias', [])
-preguntas = preguntas_gen.generar(jerarquia, terminos, coocurrencias, texto_completo)
+# Primero intentar con citas clave, si no usar co-ocurrencias
+citas_clave = datos.get('citas_clave', [])
+if citas_clave:
+    preguntas_citas = preguntas_gen.generar_desde_citas(citas_clave, terminos)
+    preguntas = {'recurso_id': 'paper', 'preguntas_debate': preguntas_citas}
+else:
+    preguntas = preguntas_gen.generar(jerarquia, terminos, coocurrencias, texto_completo)
 
 # Self-RAG: evaluar evidencia de los términos
 if terminos:
