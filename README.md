@@ -55,3 +55,13 @@ python3 -m pytest tests/ -v
 ---
 
 ⭐ **Si te sirve o te parece interesante, dejá una estrella en GitHub**
+
+## Atribución
+
+### Datos anatómicos
+- **BodyParts3D 4.0**: 3,432 conceptos anatómicos (CC BY 4.0)
+  - Fuente: https://lifesciencedb.jp/bp3d/
+- **Human Atlas** (ashemag): atlas.json con estructura de conceptos (MIT)
+  - Repo: https://github.com/ashemag/human-atlas
+
+BrainHub usa los conceptos anatómicos como diccionario de referencia para búsquedas MeSH.
