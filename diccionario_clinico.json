@@ -246,5 +246,24 @@
     ],
     "alias_mesh": "Artificial Intelligence",
     "categoria": "tecnologia"
+  },
+  "sesgo_ia": {
+    "sinonimos": [
+      "bias",
+      "sesgo",
+      "implicit bias"
+    ],
+    "alias_mesh": "Bias, Implicit",
+    "categoria": "etica"
+  },
+  "identidad_genero": {
+    "sinonimos": [
+      "transgender",
+      "cisgender",
+      "gender identity",
+      "identidad de género"
+    ],
+    "alias_mesh": "Gender Identity",
+    "categoria": "salud"
   }
 }
