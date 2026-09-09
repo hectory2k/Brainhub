@@ -1,3 +1,4 @@
+import os
 #!/data/data/com.termux/files/usr/bin/python3
 """
 Anatomía BodyParts3D en Parquet + DuckDB.
@@ -12,7 +13,7 @@ import io
 class AnatomiaParquet:
     """Gestión de anatomía en formato Parquet/DuckDB."""
     
-    DB_PATH = '/sdcard/Download/analisis_consolidado.duckdb'
+    DB_PATH = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
     
     def crear_tabla(self):
         """Crea tabla anatomia en DuckDB."""

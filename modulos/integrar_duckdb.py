@@ -13,7 +13,7 @@ from typing import Dict, List, Optional, Any
 
 # Configuración
 PROJECT_DIR = Path(__file__).parent.parent
-DB_PATH = '/sdcard/Download/analisis_consolidado.duckdb'
+DB_PATH = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
 
 def consultar(sql: str, return_raw: bool = False) -> List:
     """Ejecuta una consulta SQL y retorna resultados."""

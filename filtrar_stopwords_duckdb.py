@@ -1,3 +1,4 @@
+import os
 #!/data/data/com.termux/files/usr/bin/python3
 """
 Filtra stopwords en DuckDB usando el StopwordsManager del ecosistema.
@@ -15,7 +16,7 @@ sys.path.insert(0, str(PROJECT_DIR))
 from modulos.stopwords_manager import StopwordsManager
 
 # Configuración
-DB_PATH = '/sdcard/Download/analisis_consolidado.duckdb'
+DB_PATH = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
 
 def filtrar_stopwords_en_duckdb(nicho='GENERAL', lang='es'):
     """Filtra stopwords en DuckDB usando el gestor."""

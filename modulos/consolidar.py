@@ -49,7 +49,7 @@ def consolidar_archivo(db_path, video_id=None):
         
         # Insertar en DuckDB
         import duckdb
-        duckdb_path = "/sdcard/Download/analisis_consolidado.duckdb"
+        duckdb_path = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
         
         conn_duck = duckdb.connect(duckdb_path)
         

@@ -1,3 +1,4 @@
+import os
 #!/data/data/com.termux/files/usr/bin/python3
 """
 Extracción de relaciones entre entidades para construcción de grafos.
@@ -219,7 +220,7 @@ class RelacionesManager:
 class IntegradorRelaciones:
     """Integra relaciones con el pipeline existente."""
     
-    def __init__(self, db_path='/sdcard/Download/analisis_consolidado.duckdb'):
+    def __init__(self, db_path=os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')):
         self.db_path = db_path
         self.manager = RelacionesManager()
     

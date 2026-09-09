@@ -1,3 +1,4 @@
+import os
 #!/data/data/com.termux/files/usr/bin/python3
 """
 Sugerente de búsquedas anatómicas.
@@ -11,7 +12,7 @@ from typing import Dict, List
 class SugerenteAnatomia:
     """Sugiere búsquedas médicas desde conceptos anatómicos."""
     
-    DB_PATH = '/sdcard/Download/analisis_consolidado.duckdb'
+    DB_PATH = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
     
     def buscar_anatomia(self, termino: str) -> List[Dict]:
         """Busca concepto anatómico en DuckDB."""

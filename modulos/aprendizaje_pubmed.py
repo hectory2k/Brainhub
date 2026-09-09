@@ -1,3 +1,4 @@
+import os
 #!/data/data/com.termux/files/usr/bin/python3
 """
 Aprendizaje desde resultados PubMed para BrainHub.
@@ -13,7 +14,7 @@ class AprendizajePubMed:
     """Aprende de cada búsqueda bibliográfica."""
     
     def __init__(self):
-        self.ruta_diccionario = '/data/data/com.termux/files/home/proyectos/nlp/diccionario_clinico.json'
+        self.ruta_diccionario = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'diccionario_clinico.json')
         self.ruta_mesh = '/data/data/com.termux/files/home/proyectos/nlp/mesh_local.json'
     
     def extraer_mesh_terms(self, pmids: List[str]) -> List[str]:

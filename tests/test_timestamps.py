@@ -85,7 +85,7 @@ class TestTimestampsDB:
     
     def test_guardar_y_buscar(self):
         """Test de integración con DuckDB (si existe)."""
-        db_path = '/sdcard/Download/analisis_consolidado.duckdb'
+        db_path = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
         if not os.path.exists(db_path):
             pytest.skip("DuckDB no disponible")
         

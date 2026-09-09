@@ -560,7 +560,7 @@ def exportar_sqlite_desde_json(json_path, db_path=None):
     print(f"✅ SQLite exportado: {db_path}")
     return db_path
 
-def consolidar_en_duckdb(csv_path, video_id, db_path_duckdb='/sdcard/Download/analisis_consolidado.duckdb'):
+def consolidar_en_duckdb(csv_path, video_id, db_path_duckdb=os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')):
     if not os.path.exists(csv_path):
         print(f"⚠️ CSV no encontrado: {csv_path}")
         return False

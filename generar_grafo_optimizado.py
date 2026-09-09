@@ -22,7 +22,7 @@ sys.path.insert(0, str(PROJECT_DIR))
 from modulos.stopwords_manager import StopwordsManager
 from modulos.relaciones import RelacionesManager
 
-DB_PATH = '/sdcard/Download/analisis_consolidado.duckdb'
+DB_PATH = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
 OUTPUT_DIR = PROJECT_DIR / 'outputs' / 'grafo'
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

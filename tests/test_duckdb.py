@@ -12,7 +12,7 @@ import pytest
 sys.path.insert(0, os.path.expanduser('~/proyectos/nlp'))
 
 # Configuración
-DB_PATH = '/sdcard/Download/analisis_consolidado.duckdb'
+DB_PATH = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
 
 # ==================== TEST DUCKDB CLI ====================
 

@@ -122,7 +122,7 @@ def perfil():
 def grafo():
     """Nodos y relaciones del grafo."""
     import json
-    ruta = '/data/data/com.termux/files/home/proyectos/nlp/outputs/grafo/grafo_optimizado.json'
+    ruta = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'outputs', 'grafo', 'grafo_optimizado.json')
     try:
         with open(ruta, 'r') as f:
             datos = json.load(f)

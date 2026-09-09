@@ -1,3 +1,4 @@
+import os
 #!/data/data/com.termux/files/usr/bin/python3
 """
 Integración completa: MeSH → PubMed → Clasificación → DuckDB
@@ -56,7 +57,7 @@ class PubMedIntegracion:
         """
         
         subprocess.run(
-            ['duckdb', '/sdcard/Download/analisis_consolidado.duckdb', '-c', sql],
+            ['duckdb', os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb'), '-c', sql],
             capture_output=True, text=True, timeout=10
         )
 

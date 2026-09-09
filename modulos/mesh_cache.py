@@ -1,3 +1,4 @@
+import os
 #!/data/data/com.termux/files/usr/bin/python3
 """
 MeSH on-demand con cache en DuckDB.
@@ -13,7 +14,7 @@ from typing import Optional, Dict
 class MeSHCache:
     """Consulta MeSH con cache local."""
     
-    DB_PATH = '/sdcard/Download/analisis_consolidado.duckdb'
+    DB_PATH = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
     
     def __init__(self):
         self._crear_tabla_cache()

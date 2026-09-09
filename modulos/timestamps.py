@@ -1,3 +1,4 @@
+import os
 #!/data/data/com.termux/files/usr/bin/python3
 """
 Módulo de timestamps VTT - Grounding temporal y navegación.
@@ -101,7 +102,7 @@ class ParserVTT:
 class TimestampsDB:
     """Gestión de timestamps en DuckDB."""
     
-    def __init__(self, db_path='/sdcard/Download/analisis_consolidado.duckdb'):
+    def __init__(self, db_path=os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')):
         self.db_path = db_path
         self._crear_schema()
     

@@ -1,3 +1,4 @@
+import os
 #!/data/data/com.termux/files/usr/bin/python3
 """
 MeSH Database en Parquet para consultas locales con DuckDB.
@@ -10,7 +11,7 @@ from typing import List, Dict
 class MeSHParquet:
     """Consulta MeSH localmente desde DuckDB."""
     
-    DB_PATH = '/sdcard/Download/analisis_consolidado.duckdb'
+    DB_PATH = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
     
     def crear_tabla_mesh(self):
         """Crea tabla mesh_terms en DuckDB."""
