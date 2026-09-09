@@ -165,3 +165,27 @@ BrainHub evolucionó de un pipeline NLP a un sistema completo de:
 - [x] Preguntas bilingües (ES/EN)
 - [x] Preguntas dinámicas desde co-ocurrencias
 - [x] Documento 80/20 con reflexiones integradas
+
+## Actualización 2026-09-09
+
+### Multiplataforma (NUEVO)
+- [x] config.py centralizado
+- [x] BRAINHUB_DB variable de entorno
+- [x] 20 archivos sin rutas hardcodeadas
+- [x] Windows compatible (PyCharm + Python 3.12)
+- [x] Tests: 60 passed Termux, 52+skips CI
+
+### Anatomía (NUEVO)
+- [x] BodyParts3D: 3,432 conceptos anatómicos
+- [x] Parquet 51KB en data/anatomia
+- [x] Sugerente de búsquedas anatómicas
+- [x] Atribución CC BY 4.0 + MIT
+
+### Papers Científicos
+- [x] Cash et al 2026 (cognición)
+- [x] Hirsch et al 2026 (sesgo trans)
+- [x] Flujo PDF → descolumnar → analizar
+
+### Comparación PISA
+- [x] Argentina vs El Salvador vs Costa Rica
+- [x] Narrativas opuestas detectadas
