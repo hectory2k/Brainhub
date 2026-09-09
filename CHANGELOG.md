@@ -109,3 +109,16 @@
 - Alias MeSH autoritativo (evita falsos positivos)
 - Nicho PSICOLOGÍA agregado
 - Tabla preguntas_mesh en DuckDB (sin automatizar)
+
+## [6.5.6] - 2026-09-09
+
+### Multiplataforma
+- **BRAINHUB_DB**: variable de entorno para rutas de DuckDB
+- **20 archivos corregidos**: sin rutas hardcodeadas
+- **Windows compatible**: PyCharm + Python 3.12 + DuckDB CLI
+- **Tests**: 60 passed en Termux, 52+skips en CI
+
+### Archivos corregidos
+- config.py: centralizado
+- generar_documento.py: reflexiones opcionales
+- 18 módulos: rutas relativas
