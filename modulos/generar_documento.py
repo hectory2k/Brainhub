@@ -22,6 +22,7 @@ class GeneradorDocumento:
         self.preguntas = None
         self.metricas = None
         self.terminos = None
+        self.reflexiones = []
     
     def cargar_datos(
         self,
@@ -29,7 +30,8 @@ class GeneradorDocumento:
         terminos_clave: List[str],
         abstract: str,
         preguntas: Dict,
-        metricas: Dict = None
+        metricas: Dict = None,
+        reflexiones: List = None
     ):
         """Carga todos los datos para el documento."""
         self.jerarquia = jerarquia
@@ -37,6 +39,7 @@ class GeneradorDocumento:
         self.abstract = abstract
         self.preguntas = preguntas
         self.metricas = metricas or {}
+        self.reflexiones = reflexiones or []
     
     def generar_markdown(self, ruta_salida: str) -> str:
         """Genera documento Markdown completo."""
