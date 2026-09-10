@@ -4,7 +4,7 @@
 - **Documento**: `tests/fixtures/regresion_economia/texto_original.txt`
 - **Segmentos válidos**: 20
 - **Diálogos extraídos**: 0
-- **Nicho detectado**: **TECNOLOGIA**
+- **Nicho detectado**: **FINANZAS**
 
 ---
 
@@ -43,8 +43,6 @@
 - `dia` ↔ `montos`: 2
 
 ## 🔍 Conceptos Dominantes
-- **DATA_SCIENCE**: 2 menciones
-- **DESARROLLO_SOFTWARE**: 1 menciones
 
 ## 📈 Análisis Temporal
 | Sección | Segmentos | Polaridad | Contexto |

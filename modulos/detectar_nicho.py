@@ -99,4 +99,23 @@ def detectar_nicho(texto: str) -> str:
                 scores['AI_SAFETY'] = 0
             scores['AI_SAFETY'] += 5  # N-gramas pesan más
     
-    return max(scores, key=scores.get)
+    # FIX 2026-09-10: desempate por prioridad de nicho
+    # Sin esto, TECNOLOGIA ganaba empates contra FINANZAS por orden de dict
+    PRIORIDAD_NICHO = {
+        'ECONOMIA': 10,
+        'FINANZAS': 9,
+        'SALUD': 8,
+        'LEGAL': 8,
+        'EDUCACION': 7,
+        'CIBERSEGURIDAD': 7,
+        'COMPRAS_PUBLICAS': 6,
+        'AI_SAFETY': 5,
+        'TECNOLOGIA': 3,   # baja prioridad: muchos falsos positivos
+        'GENERAL': 0,
+    }
+    
+    ganador = max(
+        scores.keys(),
+        key=lambda n: (scores[n], PRIORIDAD_NICHO.get(n, 0))
+    )
+    return ganador

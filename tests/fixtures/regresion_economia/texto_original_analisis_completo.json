@@ -1,6 +1,6 @@
 {
   "documento": "tests/fixtures/regresion_economia/texto_original.txt",
-  "nicho": "TECNOLOGIA",
+  "nicho": "FINANZAS",
   "total_segmentos": 20,
   "total_dialogos": 0,
   "sentimiento_global": {
@@ -205,16 +205,7 @@
       2
     ]
   ],
-  "conceptos": [
-    [
-      "DATA_SCIENCE",
-      2
-    ],
-    [
-      "DESARROLLO_SOFTWARE",
-      1
-    ]
-  ],
+  "conceptos": [],
   "analisis_temporal": [
     {
       "seccion": 1,

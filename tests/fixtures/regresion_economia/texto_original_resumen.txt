@@ -5,7 +5,7 @@
 📄 Documento: tests/fixtures/regresion_economia/texto_original.txt
 📊 Segmentos válidos: 20
 💬 Diálogos extraídos: 0
-🔍 Nicho detectado: TECNOLOGIA
+🔍 Nicho detectado: FINANZAS
 
 📌 Términos clave (sin stopwords):
   mora: 10
@@ -44,5 +44,3 @@
 💬 CITAS CLAVE:
 
 🔍 CONCEPTOS DOMINANTES:
-  DATA_SCIENCE: 2
-  DESARROLLO_SOFTWARE: 1
