@@ -122,3 +122,17 @@
 - config.py: centralizado
 - generar_documento.py: reflexiones opcionales
 - 18 módulos: rutas relativas
+
+## [6.6.2] - 2026-09-10
+
+### Fixed
+- `tests/test_duckdb.py::test_consulta_ml_pytorch`: skip condicional
+  si la DB local no contiene términos de ML/PyTorch.
+  Antes fallaba con AssertionError si la DB tenía otros dominios.
+
+### Changed
+- `tests/test_regresion_economia.py`: activado `test_fix_nicho_correcto`
+  (antes skipeado). Verifica que el nicho sea FINANZAS, no TECNOLOGIA.
+
+### Tests
+- 65 passed, 2 skipped (antes: 64 passed, 1 failed, 2 skipped)

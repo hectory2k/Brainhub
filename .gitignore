@@ -290,3 +290,11 @@ legacy/
 *.backup_final
 *.orig
 *.viejo
+
+# Prompts de retoma (artefactos de sesión, no del proyecto)
+PROMPT_RETOMA_*.md
+prompt_retoma_*.md
+
+# Prompts de retoma (artefactos de sesión, no del proyecto)
+PROMPT_RETOMA_*.md
+prompt_retoma_*.md
