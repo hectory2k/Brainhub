@@ -274,3 +274,19 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 >>>>>>> 4ed5a04c9bfba0f2e3adaa252bba0c77cee21a99
+
+# Basura y backups (agregado 2026-09-10)
+La
+inforne.txt
+legacy/
+*.bak
+*.backup_final
+
+# Basura y backups (2026-09-10)
+La
+inforne.txt
+legacy/
+*.bak
+*.backup_final
+*.orig
+*.viejo

@@ -166,14 +166,13 @@ def es_segmento_valido(segmento):
     return True
 
 def filtrar_stopwords(texto, nicho='GENERAL'):
-    """Filtra stopwords usando exclusivamente JSON (sin hardcode)."""
-    texto_norm = texto.lower()
-    texto_norm = re.sub(r'[áàäâ]', 'a', texto_norm)
-    texto_norm = re.sub(r'[éèëê]', 'e', texto_norm)
-    texto_norm = re.sub(r'[íìïî]', 'i', texto_norm)
-    texto_norm = re.sub(r'[óòöô]', 'o', texto_norm)
-    texto_norm = re.sub(r'[úùüû]', 'u', texto_norm)
-    texto_norm = re.sub(r'ñ', 'n', texto_norm)
+    """Filtra stopwords usando exclusivamente JSON (sin hardcode).
+
+    FIX 2026-09-10: usa normalizar_preservando_enie para no romper ñ.
+    Ver brainhub/texto/normalizar.py y guardias/normalizacion.sh
+    """
+    from brainhub.texto.normalizar import normalizar_preservando_enie
+    texto_norm = normalizar_preservando_enie(texto.lower())
     
     palabras = re.findall(r'\b[a-z]{3,}\b', texto_norm)
     
@@ -313,9 +312,10 @@ def analizar_por_hablante(segmentos_analizados):
     return resultados
 
 def calcular_coocurrencias(segmentos, terminos_clave):
+    from brainhub.texto.normalizar import normalizar_preservando_enie
     coocurrencias = defaultdict(int)
     for seg in segmentos:
-        texto = seg['texto'].lower()
+        texto = normalizar_preservando_enie(seg['texto'].lower())
         for i, t1 in enumerate(terminos_clave):
             for t2 in terminos_clave[i+1:]:
                 if t1 in texto and t2 in texto:

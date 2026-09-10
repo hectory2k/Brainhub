@@ -51,20 +51,9 @@ PALABRAS_SALUD = set(NICHO_KEYWORDS['SALUD'])
 PALABRAS_TECNOLOGIA = set(NICHO_KEYWORDS['TECNOLOGIA'])
 
 def normalizar_texto(texto: str) -> str:
-    """Normaliza preservando ñ/Ñ.
-
-    FIX 2026-09-10: antes usaba NFD directo, que descompone ñ → n + ~
-    y eliminaba la tilde, dejando "anos". Ahora delega en el módulo
-    centralizado brainhub/texto/normalizar.py
-    """
-    import sys
-    from pathlib import Path
-    # Asegurar que el import funcione desde cualquier CWD
-    raiz = Path(__file__).resolve().parent.parent
-    if str(raiz) not in sys.path:
-        sys.path.insert(0, str(raiz))
-    from brainhub.texto.normalizar import normalizar_preservando_enie
-    return normalizar_preservando_enie(texto.lower())
+    texto = unicodedata.normalize("NFD", texto.lower())
+    texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")
+    return re.sub(r"\s+", " ", texto).strip()
 
 def detectar_nicho(texto: str) -> str:
     texto_normalizado = normalizar_texto(texto)

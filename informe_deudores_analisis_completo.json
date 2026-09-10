@@ -1,0 +1,261 @@
+{
+  "documento": "informe_deudores.txt",
+  "nicho": "TECNOLOGIA",
+  "total_segmentos": 20,
+  "total_dialogos": 0,
+  "sentimiento_global": {
+    "polaridad": -0.007,
+    "subjetividad": 0.071
+  },
+  "terminos_clave": [
+    [
+      "mora",
+      10
+    ],
+    [
+      "anos",
+      6
+    ],
+    [
+      "casi",
+      6
+    ],
+    [
+      "mitad",
+      5
+    ],
+    [
+      "deudores",
+      5
+    ],
+    [
+      "dia",
+      5
+    ],
+    [
+      "montos",
+      5
+    ],
+    [
+      "credito",
+      5
+    ],
+    [
+      "deuda",
+      4
+    ],
+    [
+      "problema",
+      4
+    ],
+    [
+      "bancario",
+      4
+    ],
+    [
+      "pagos",
+      3
+    ],
+    [
+      "jovenes",
+      3
+    ],
+    [
+      "terminos",
+      3
+    ],
+    [
+      "millones",
+      3
+    ],
+    [
+      "nuevos",
+      3
+    ],
+    [
+      "tenia",
+      3
+    ],
+    [
+      "sostener",
+      3
+    ],
+    [
+      "pesos",
+      3
+    ],
+    [
+      "estaba",
+      2
+    ]
+  ],
+  "sentimiento_por_hablante": {
+    "DESCONOCIDO": {
+      "promedio": -0.007,
+      "min": -0.4,
+      "max": 0.2,
+      "n_segmentos": 20,
+      "confianza": "alta"
+    }
+  },
+  "coocurrencias": [
+    [
+      [
+        "mora",
+        "montos"
+      ],
+      4
+    ],
+    [
+      [
+        "mora",
+        "casi"
+      ],
+      4
+    ],
+    [
+      [
+        "casi",
+        "mitad"
+      ],
+      3
+    ],
+    [
+      [
+        "deudores",
+        "problema"
+      ],
+      3
+    ],
+    [
+      [
+        "mora",
+        "problema"
+      ],
+      3
+    ],
+    [
+      [
+        "mora",
+        "mitad"
+      ],
+      2
+    ],
+    [
+      [
+        "mora",
+        "deudores"
+      ],
+      2
+    ],
+    [
+      [
+        "mitad",
+        "deudores"
+      ],
+      2
+    ],
+    [
+      [
+        "mitad",
+        "montos"
+      ],
+      2
+    ],
+    [
+      [
+        "deudores",
+        "montos"
+      ],
+      2
+    ],
+    [
+      [
+        "casi",
+        "deudores"
+      ],
+      2
+    ],
+    [
+      [
+        "casi",
+        "deuda"
+      ],
+      2
+    ],
+    [
+      [
+        "casi",
+        "problema"
+      ],
+      2
+    ],
+    [
+      [
+        "mitad",
+        "deuda"
+      ],
+      2
+    ],
+    [
+      [
+        "dia",
+        "deuda"
+      ],
+      2
+    ]
+  ],
+  "conceptos": [
+    [
+      "DATA_SCIENCE",
+      2
+    ],
+    [
+      "DESARROLLO_SOFTWARE",
+      1
+    ]
+  ],
+  "analisis_temporal": [
+    {
+      "seccion": 1,
+      "segmentos": 4,
+      "polaridad_promedio": -0.087,
+      "polaridad_min": -0.4,
+      "polaridad_max": 0.05,
+      "contexto_predominante": "TESTIMONIO_GENERAL"
+    },
+    {
+      "seccion": 2,
+      "segmentos": 4,
+      "polaridad_promedio": 0.05,
+      "polaridad_min": 0.0,
+      "polaridad_max": 0.2,
+      "contexto_predominante": "TESTIMONIO_GENERAL"
+    },
+    {
+      "seccion": 3,
+      "segmentos": 4,
+      "polaridad_promedio": 0.0,
+      "polaridad_min": 0.0,
+      "polaridad_max": 0.0,
+      "contexto_predominante": "TESTIMONIO_GENERAL"
+    },
+    {
+      "seccion": 4,
+      "segmentos": 4,
+      "polaridad_promedio": 0.0,
+      "polaridad_min": 0.0,
+      "polaridad_max": 0.0,
+      "contexto_predominante": "TESTIMONIO_GENERAL"
+    },
+    {
+      "seccion": 5,
+      "segmentos": 4,
+      "polaridad_promedio": 0.0,
+      "polaridad_min": 0.0,
+      "polaridad_max": 0.0,
+      "contexto_predominante": "TESTIMONIO_GENERAL"
+    }
+  ],
+  "citas_clave": []
+}
