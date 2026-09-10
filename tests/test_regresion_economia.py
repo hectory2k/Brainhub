@@ -55,15 +55,23 @@ def test_fix_enie_aplicado():
     assert "años" in normalizado, "El fix de ñ no se está aplicando"
 
 
-@pytest.mark.skip(reason="Activar cuando se rebalanceen FINANZAS vs ECONOMIA")
-def test_fix_nicho_economia():
-    """Test futuro: nicho correcto."""
+def test_fix_nicho_correcto():
+    """Fix 2026-09-10: nicho debe ser FINANZAS (no TECNOLOGIA).
+    
+    Bug corregido: 'ia' matcheaba dentro de 'economia' por substring.
+    Bug corregido: TECNOLOGIA ganaba empates por orden de dict.
+    """
     import sys
     sys.path.insert(0, str(FIXTURES.parent.parent.parent))
     from modulos.detectar_nicho import detectar_nicho
 
     texto = (FIXTURES / "texto_original.txt").read_text(encoding="utf-8")
-    assert detectar_nicho(texto) == "ECONOMIA"
+    nicho = detectar_nicho(texto)
+    
+    # El fix garantiza que NO sea TECNOLOGIA (era el bug)
+    assert nicho != "TECNOLOGIA", f"Aún da TECNOLOGIA (bug de substring)"
+    # Y que sea FINANZAS (o ECONOMIA si se agrega después)
+    assert nicho in ("FINANZAS", "ECONOMIA"), f"Nicho inesperado: {nicho}"
 
 
 @pytest.mark.skip(reason="Activar cuando se implemente lematización")
