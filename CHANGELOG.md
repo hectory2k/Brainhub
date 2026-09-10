@@ -136,3 +136,31 @@
 
 ### Tests
 - 65 passed, 2 skipped (antes: 64 passed, 1 failed, 2 skipped)
+
+## [6.7.0] - 2026-09-10
+
+### Added
+- **Validador federado de preguntas** (`modulos/validador_preguntas.py`):
+  - Federación de 5+ fuentes de conocimiento
+  - Fuentes nuevas: `terminos_vacios.json` (159), `terminos_tecnicos.json` (~200)
+  - API: `es_generico()`, `es_tecnico()`, `validar_conceptos()`, `filtrar_terminos()`, `stats()`
+  - Soporte por nicho (MeSH + anatomía solo para SALUD)
+  - 45 tests parametrizados con IDs descriptivos
+
+### Changed
+- `modulos/preguntas_debate.py`: integra validador federado
+  - Filtra términos genéricos antes de generar preguntas
+  - Backward compatible: `GeneradorPreguntas()` sin nicho usa GENERAL
+- `diccionario_nichos.json`: FINANZAS ampliado (deuda, mora, BCRA, inflación)
+
+### Fixed
+- Preguntas con `word`/`paper`/`idea` como anclas: **ya no se generan**
+- Siglas (`SRE`, `BCRA`) detectadas correctamente como técnicas
+- Términos económicos (`deuda`, `mora`) reconocidos como técnicos
+
+### Philosophy
+Federación de fuentes: agregar conocimiento = editar JSON, no código.
+Nueva fuente = JSON + 1 método `_cargar_X()`.
+
+### Tests
+- 110 passed, 2 skipped (antes: 65 passed, 2 skipped)

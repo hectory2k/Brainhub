@@ -3,9 +3,15 @@
 
 from typing import Dict, List
 
+from modulos.validador_preguntas import get_validador
+
 
 class GeneradorPreguntas:
     """Genera preguntas específicas para documentos."""
+
+    def __init__(self, nicho: str = 'GENERAL'):
+        self.nicho = nicho
+        self.validador = get_validador(nicho)
     
     def generar_desde_citas(self, citas_clave: List[str], terminos_clave: List[str]) -> List[Dict]:
         """Genera preguntas basadas en citas reales del documento."""
@@ -37,7 +43,14 @@ class GeneradorPreguntas:
         return preguntas
     
     def _generar_desde_coocurrencias(self, terminos_clave: List[str]) -> List[Dict]:
-        """Genera preguntas desde relaciones de co-ocurrencia."""
+        """Genera preguntas desde relaciones de co-ocurrencia.
+
+        FIX 2026-09-10: filtra términos genéricos (word, paper, idea)
+        antes de generar. Ver modulos/validador_preguntas.py
+        """
+        # Filtrar términos genéricos (si quedan <2, retorna [] abajo)
+        terminos_clave = self.validador.filtrar_terminos(terminos_clave)
+        
         preguntas = []
         
         if len(terminos_clave) < 2:

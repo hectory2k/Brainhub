@@ -189,3 +189,24 @@ BrainHub evolucionó de un pipeline NLP a un sistema completo de:
 ### Comparación PISA
 - [x] Argentina vs El Salvador vs Costa Rica
 - [x] Narrativas opuestas detectadas
+
+## Actualización 2026-09-10 (cont.) - Validador Federado
+
+### Sistema de Validador (COMPLETO)
+- [x] `modulos/validador_preguntas.py` con federación
+- [x] `terminos_vacios.json`: 159 términos
+- [x] `terminos_tecnicos.json`: ~200 términos
+- [x] `diccionario_nichos.json`: FINANZAS ampliado
+- [x] Integración en `preguntas_debate.py`
+- [x] 45 tests parametrizados
+- [x] 110 tests totales passing
+
+### Arquitectura
+- Genéricos: stopwords_es, stopwords_en, terminos_vacios
+- Técnicos: clinico, tecnicos_generales, nichos, MeSH, anatomía
+- Agregar fuente = JSON + `_cargar_X()`
+
+### Pendiente
+- [ ] Lematización deuda/deudores
+- [ ] Guardia de validador en startup
+- [ ] Extractor de citas periodísticas
