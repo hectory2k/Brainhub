@@ -1,0 +1,48 @@
+============================================================
+🧠 ANÁLISIS COMPLETO V6.5
+============================================================
+
+📄 Documento: tests/fixtures/regresion_economia/texto_original.txt
+📊 Segmentos válidos: 20
+💬 Diálogos extraídos: 0
+🔍 Nicho detectado: TECNOLOGIA
+
+📌 Términos clave (sin stopwords):
+  mora: 10
+  casi: 6
+  mitad: 5
+  deudores: 5
+  dia: 5
+  montos: 5
+  credito: 5
+  deuda: 4
+  problema: 4
+  bancario: 4
+
+📊 SENTIMIENTO POR HABLANTE:
+  ⚪ DESCONOCIDO: -0.01 (20 segmentos)
+
+🔗 RELACIONES TEMÁTICAS:
+  mora ↔ dia: 4
+  mora ↔ montos: 4
+  mitad ↔ dia: 4
+  mora ↔ casi: 4
+  casi ↔ mitad: 3
+  deudores ↔ problema: 3
+  dia ↔ deuda: 3
+  mora ↔ problema: 3
+  mora ↔ mitad: 2
+  mora ↔ deudores: 2
+
+📈 ANÁLISIS TEMPORAL:
+  Sección 1: ⚪ -0.09 (TESTIMONIO_GENERAL)
+  Sección 2: ⚪ 0.05 (TESTIMONIO_GENERAL)
+  Sección 3: ⚪ 0.00 (TESTIMONIO_GENERAL)
+  Sección 4: ⚪ 0.00 (TESTIMONIO_GENERAL)
+  Sección 5: ⚪ 0.00 (TESTIMONIO_GENERAL)
+
+💬 CITAS CLAVE:
+
+🔍 CONCEPTOS DOMINANTES:
+  DATA_SCIENCE: 2
+  DESARROLLO_SOFTWARE: 1
