@@ -71,10 +71,17 @@ def detectar_nicho(texto: str) -> str:
     if not texto_normalizado:
         return "GENERAL"
 
-    # Scoring por densidad
+    # Scoring por densidad con match por palabra completa
+    # FIX 2026-09-11: usar \b para evitar falsos positivos
+    # (antes 'ia' matcheaba en 'memoria', 'agi' en 'imagen')
+    import re as _re
     scores = {}
     for nicho, terminos in NICHO_KEYWORDS.items():
-        score = sum(1 for p in terminos if p in texto_normalizado)
+        score = 0
+        for p in terminos:
+            patron = r'\b' + _re.escape(p) + r'\b'
+            if _re.search(patron, texto_normalizado):
+                score += 1
         if score > 0:
             scores[nicho] = score
     
@@ -109,8 +116,8 @@ def detectar_nicho(texto: str) -> str:
         'EDUCACION': 7,
         'CIBERSEGURIDAD': 7,
         'COMPRAS_PUBLICAS': 6,
-        'AI_SAFETY': 5,
-        'TECNOLOGIA': 3,   # baja prioridad: muchos falsos positivos
+        'AI_SAFETY': 7,
+        'TECNOLOGIA': 6,   # subida: con \b ya no hay falsos positivos
         'GENERAL': 0,
     }
     

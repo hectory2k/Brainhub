@@ -165,37 +165,35 @@ def es_segmento_valido(segmento):
         return False
     return True
 
-def filtrar_stopwords(texto, nicho='GENERAL'):
-    """Filtra stopwords usando exclusivamente JSON (sin hardcode).
+def filtrar_stopwords(texto, nichos='GENERAL'):
+    """Filtra stopwords usando JSON. Acepta str o lista de nichos.
+
+    Args:
+        texto: texto a filtrar
+        nichos: 'TECNOLOGIA' o ['TECNOLOGIA', 'HABLA']
 
     FIX 2026-09-10: usa normalizar_preservando_enie para no romper ñ.
-    Ver brainhub/texto/normalizar.py y guardias/normalizacion.sh
+    FIX 2026-09-11: acepta lista de nichos + elimina except silencioso.
     """
     from brainhub.texto.normalizar import normalizar_preservando_enie
     texto_norm = normalizar_preservando_enie(texto.lower())
-    
+
     palabras = re.findall(r'\b[a-z]{3,}\b', texto_norm)
-    
-    # Detectar idioma
-    ingles = sum(1 for p in palabras if p in {'the', 'this', 'that', 'with', 'from', 'have', 'will', 'your'})
-    espanol = sum(1 for p in palabras if p in {'que', 'para', 'por', 'con', 'sin', 'sobre', 'entre'})
-    lang = 'en' if ingles > espanol else 'es'
-    
-    # Obtener stopwords exclusivamente desde JSON
-    try:
-        stopwords = set()
+
+    # Normalizar a lista
+    if isinstance(nichos, str):
+        nichos = [nichos]
+
+    # Obtener stopwords de múltiples nichos
+    stopwords = set()
+    for nicho in nichos:
         for idioma in ['es', 'en', 'cs']:
             sw = get_stopwords(nicho, idioma)
             if sw:
                 stopwords.update(sw)
-    except:
-        stopwords = set()
-    
-    # Si no hay stopwords en JSON, usar set vacío (sin fallback hardcodeado)
-    # Esto obliga a mantener el JSON actualizado
-    
+
     filtradas = [p for p in palabras if p not in stopwords]
-    
+
     return filtradas
 
 def extraer_nombres_propios(texto):
@@ -657,17 +655,27 @@ def main():
         print(f"❌ Archivo no encontrado: {archivo}")
         sys.exit(1)
 
+    # FIX 2026-09-11: usar AnalizadorNichos (orquesta los 3 módulos)
+    # Fallback a detectar_nicho si falla
+    def _detectar_nichos(_texto, _archivo):
+        try:
+            from brainhub.analisis.nichos import get_analizador
+            analizador = get_analizador()
+            resultado = analizador.analizar(_texto, _archivo)
+            return resultado['principal'], resultado['nichos_para_filtrar']
+        except Exception as e:
+            print(f"⚠️ AnalizadorNichos falló: {e}")
+            try:
+                n = detectar_nicho(_texto)
+            except Exception:
+                n = 'GENERAL'
+            return n, [n]
+
     if metricas:
         with metricas.medir('detectar_nicho'):
-            try:
-                nicho = detectar_nicho(texto)
-            except:
-                nicho = 'GENERAL'
+            nicho, nichos_filtrar = _detectar_nichos(texto, archivo)
     else:
-        try:
-            nicho = detectar_nicho(texto)
-        except:
-            nicho = 'GENERAL'
+        nicho, nichos_filtrar = _detectar_nichos(texto, archivo)
 
     try:
         from modulos.detectar_modo import detectar_modo_automatico
@@ -717,7 +725,8 @@ def main():
 
     if metricas:
         with metricas.medir('filtrar_stopwords'):
-            palabras = filtrar_stopwords(texto_limpio, nicho)
+            # FIX 2026-09-11: usar nichos_filtrar (múltiples nichos)
+            palabras = filtrar_stopwords(texto_limpio, nichos_filtrar)
     # Extraer N-gramas compuestos
     n_gramas_ai = [
         'value alignment', 'goal alignment', 'recursive self-improvement',

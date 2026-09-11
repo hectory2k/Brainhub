@@ -1,8 +1,8 @@
 {
-  "detectar_nicho": 0.005,
+  "detectar_nicho": 0.023,
   "limpiar_texto": 0.0,
   "segmentar_oraciones": 0.001,
   "filtrar_stopwords": 0.005,
-  "TOTAL": 0.432,
-  "suma_etapas": 0.011
+  "TOTAL": 0.503,
+  "suma_etapas": 0.029
 }
