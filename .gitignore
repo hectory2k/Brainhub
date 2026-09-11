@@ -313,3 +313,11 @@ prompt_retoma_*.md
 *.pre_delete_fix
 *.pre_validador
 *.pre_fix*
+
+# Backups (2026-09-11)
+*.bak
+*.v1
+*.v2
+*.orig
+*.pre_*
+*.backup*
