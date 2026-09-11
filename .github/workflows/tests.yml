@@ -30,6 +30,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
+    - name: Download NLTK data
+      run: |
+        python3 -c "import nltk; nltk.download('wordnet', quiet=True); nltk.download('omw-1.4', quiet=True)"
+
     - name: Run tests
+      env:
+        BRAINHUB_DB: data/analisis_consolidado.duckdb
       run: |
         python3 -m pytest tests/ -v --cov=modulos --cov-report=term-missing
