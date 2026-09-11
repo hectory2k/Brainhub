@@ -186,3 +186,25 @@ Nueva fuente = JSON + 1 método `_cargar_X()`.
 - nicho_multietiqueta (clasificación simultánea)
 - ponderacion_nichos (jerarquización)
 - coherencia_nichos (validación)
+
+## [7.0.0] - 2026-09-11
+
+### Added
+- brainhub/analisis/nichos.py: AnalizadorNichos (orquesta 3 módulos)
+- Nicho HABLA: 258 stopwords español para transcripciones
+- filtrar_stopwords() acepta lista de nichos
+
+### Changed
+- analisis_completo_v6.5.py: usa AnalizadorNichos
+- modulos/detectar_nicho.py: regex \b + eliminado retorno temprano AI_SAFETY
+- stopwords.json: +258 términos HABLA
+
+### Fixed
+- Bug: filtrar_stopwords no aceptaba lista → except silencioso
+- Bug: TECNOLOGIA perdía contra AI_SAFETY por substring
+- Bug: 'ia' matcheaba en 'memoria', 'agi' en 'imagen'
+
+### Modules Activated
+- nicho_multietiqueta (clasificación simultánea)
+- ponderacion_nichos (jerarquización)
+- coherencia_nichos (validación)
