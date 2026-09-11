@@ -603,7 +603,10 @@ CREATE TABLE IF NOT EXISTS progreso (
             return False
         
         # Insertar datos desde CSV con las columnas correctas
+        # FIX 2026-09-11: DELETE antes de INSERT (evita duplicados 6x)
         insert_sql = f"""
+DELETE FROM terminos_raw WHERE video = '{video_id}';
+
 INSERT INTO terminos_raw (video, term, frequency)
 SELECT '{video_id}' as video, "{term_col}" as term, "{freq_col}" as frequency
 FROM read_csv_auto('{csv_path}');
@@ -813,7 +816,8 @@ def main():
         # Guardar N-gramas en DuckDB
         if n_gramas_encontrados:
             import subprocess
-            sql_ngramas = []
+            # FIX 2026-09-11: DELETE antes de INSERT n-gramas
+            sql_ngramas = [f"DELETE FROM terminos_raw WHERE video = '{video_id}' AND term LIKE '% %';"]
             for ngrama, freq in n_gramas_encontrados:
                 sql_ngramas.append(f"INSERT INTO terminos_raw VALUES ('{video_id}', '{ngrama}', {freq});")
             
