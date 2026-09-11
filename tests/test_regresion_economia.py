@@ -74,8 +74,21 @@ def test_fix_nicho_correcto():
     assert nicho in ("FINANZAS", "ECONOMIA"), f"Nicho inesperado: {nicho}"
 
 
-@pytest.mark.skip(reason="Activar cuando se implemente lematización")
 def test_fix_lematizacion():
-    """Test futuro: deuda y deudores bajo mismo lema."""
-    # TODO: implementar brainhub/texto/lematizar.py
-    pass
+    """Fix 2026-09-11: deuda/deudores/deudoras bajo mismo lema.
+    
+    Verifica que el validador federado lematice correctamente.
+    """
+    import sys
+    sys.path.insert(0, str(FIXTURES.parent.parent.parent))
+    from modulos.validador_preguntas import ValidadorPreguntas
+    
+    v = ValidadorPreguntas()
+    
+    # Todas las variantes → mismo lema
+    assert v.lematizar('deuda') == v.lematizar('deudas')
+    assert v.lematizar('deudores') in ('deuda', 'deudor')
+    assert v.lematizar('deudoras') in ('deuda', 'deudor')
+    
+    # Años (bug histórico)
+    assert v.lematizar('años') == 'año' 

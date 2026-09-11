@@ -15,7 +15,8 @@ GUARDIAS=(
     stopwords.sh
     diccionarios.sh
     normalizacion.sh
-    descolumnado.sh     # ← NUEVA
+    descolumnado.sh
+    validador.sh     # ← NUEVA
 )
 
 FALLADAS=()

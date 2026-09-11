@@ -1,5 +1,6 @@
 # Dependencias del ecosistema NLP
 textblob>=0.17.1
+nltk>=3.8
 vaderSentiment>=3.3.2
 pyarrow>=14.0.0
 pandas>=2.0.0
