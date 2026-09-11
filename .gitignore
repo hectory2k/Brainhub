@@ -298,3 +298,18 @@ prompt_retoma_*.md
 # Prompts de retoma (artefactos de sesión, no del proyecto)
 PROMPT_RETOMA_*.md
 prompt_retoma_*.md
+
+# Backups (2026-09-11)
+*.v1
+*.v2
+
+# Backups (2026-09-11)
+*.bak
+*.v1
+*.v2
+*.orig
+*.pre_*
+*.backup*
+*.pre_delete_fix
+*.pre_validador
+*.pre_fix*
