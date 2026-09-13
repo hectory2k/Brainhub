@@ -33,7 +33,33 @@ No es una herramienta de vigilancia epidemiológica. Es un sistema de aprendizaj
 | listo <id> | Marca contenido como completado |
 | estado | Muestra progreso general |
 
+
+## Filosofía
+
+**"El sistema falla antes de fallar."**
+
+BrainHub usa **8 guardias** que detectan problemas antes de que lleguen al usuario:
+
+- Cambios en stopwords → `guardias/stopwords.sh`
+- Cambios en diccionarios → `guardias/diccionarios.sh`
+- ñ rota en normalización → `guardias/normalizacion.sh`
+- Validador federado roto → `guardias/validador.sh`
+- Duplicados en DB → `guardias/terminos_raw.sh`
+- Schema DuckDB cambiado → `guardias/schema_duckdb.sh`
+- Identidad de contenido → `guardias/identidad.sh`
+- Descolumnado inválido → `guardias/descolumnado.sh`
+
+**Arquitectura de federación:**
+
+Agregar conocimiento = editar JSON, no código.
+Nueva fuente = 1 archivo JSON + 1 método `_cargar_X()`.
+
+**Idempotencia:**
+
+Cada análisis es idempotente: DELETE antes de INSERT, sin duplicados.
+
 ## Instalación
+
 
 git clone https://github.com/hectory2k/Brainhub.git
 cd Brainhub
