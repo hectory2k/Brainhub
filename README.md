@@ -7,14 +7,20 @@ No es una herramienta de vigilancia epidemiológica. Es un sistema de aprendizaj
 ## Características
 
 - Pipeline completo: procesar, analizar, consolidar
-- 25+ módulos especializados
-- Grafo de conocimiento visual (130 nodos, 503 relaciones)
+- **47+ módulos especializados**
+- **Validador federado** de 5 fuentes de conocimiento (stopwords, clínicos, técnicos, MeSH, anatomía)
+- **9 nichos** con detección multietiqueta + priorización + coherencia
+- **Clustering K-Means** casero (sin sklearn, funciona en Termux)
+- **Lematización** NLTK + mapa español (deuda/deudores/deudoras)
+- **AnalizadorNichos** (orquesta 3 módulos: multietiqueta, ponderación, coherencia)
+- **8 guardias** orquestadas (filosofía VigiSalud: falla antes de fallar)
+- Grafo de conocimiento visual (176 nodos, 670 relaciones + analogías)
 - Detector de hablantes con modos (tutorial, ateneo, legal, auto)
 - Stopwords dinámicas en 5 capas
 - Jerarquización de nichos (núcleo → herramienta → contexto)
 - Etiquetas híbridas automáticas (HEALTH-TECH, FIN-TECH, LEGAL-SECURITY)
 - Fuzzy matching para errores de transcripción
-- 48 tests automatizados
+- **112 tests automatizados** + CI/CD con GitHub Actions
 
 ## Comandos
 
@@ -71,12 +77,16 @@ python3 -m pytest tests/ -v
 
 ## Métricas
 
-- Módulos: 25+
-- Tests: 48
-- Nodos en grafo: 130
-- Relaciones: 503
-- Cobertura: 39%
-- Contenidos procesados: 41
+- Módulos: **47+**
+- Tests: **112** (2 skipped)
+- Guardias: **8**
+- Nichos: **9** (SALUD, TECNOLOGIA, FINANZAS, LEGAL, CIBERSEGURIDAD, AI_SAFETY, COMPRAS_PUBLICAS, PSICOLOGIA, HABLA)
+- Fuentes federadas: **5** (stopwords, clínicos, técnicos, MeSH, anatomía)
+- Nodos en grafo: **176**
+- Relaciones: **670**
+- Contenidos procesados: **57**
+- CI/CD: GitHub Actions (tests + guardias)
+- Plataformas: Termux (Android), Windows, Linux, macOS
 
 ---
 
