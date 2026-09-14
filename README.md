@@ -64,6 +64,13 @@ Nueva fuente = 1 archivo JSON + 1 método `_cargar_X()`.
 
 Cada análisis es idempotente: DELETE antes de INSERT, sin duplicados.
 
+
+## Demo
+
+[![asciicast](https://asciinema.org/a/EqWi4xkuVw3Bvsp0.svg)](https://asciinema.org/a/EqWi4xkuVw3Bvsp0)
+
+*Demo completo: procesar video de YouTube → análisis NLP → consulta DuckDB*
+
 ## Instalación
 
 
