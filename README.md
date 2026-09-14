@@ -99,6 +99,16 @@ python3 -m pytest tests/ -v
 
 ⭐ **Si te sirve o te parece interesante, dejá una estrella en GitHub**
 
+## Autor
+
+**Héctor López** — Ingeniero, entusiasta de NLP y automatización.
+
+- 🔗 [LinkedIn](https://www.linkedin.com/in/hectorlopezit)
+- 💻 [GitHub](https://github.com/hectory2k)
+- 📧 beat006@gmail.com
+
+*BrainHub nació como herramienta personal y creció hasta convertirse en un ecosistema extensible.*
+
 ## Atribución
 
 ### Datos anatómicos

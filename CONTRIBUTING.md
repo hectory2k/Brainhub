@@ -182,7 +182,7 @@ bash guardias/startup_completo.sh
 
 - **GitHub Issues:** https://github.com/hectory2k/Brainhub/issues
 - **Email:** beat006@gmail.com
-- **LinkedIn:** [Héctor](https://www.linkedin.com/in/TU_USUARIO)
+- **LinkedIn:** [Héctor](https://www.linkedin.com/in/hectorlopezit)
 
 ---
 
