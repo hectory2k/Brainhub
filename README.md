@@ -99,6 +99,25 @@ python3 -m pytest tests/ -v
 
 ⭐ **Si te sirve o te parece interesante, dejá una estrella en GitHub**
 
+## Proyectos relacionados
+
+Parte de un ecosistema más amplio:
+
+- 🏥 **[VigiSalud](https://github.com/hectory2k/VigiSalud)** — Vigilancia epidemiológica con NLP
+  *Procesa datos de salud pública y detecta patrones.*
+
+- 🇦🇷 **[Argentina Hub](https://github.com/hectory2k/argentina-hub)** — Datos abiertos de Argentina
+  *Agrega, normaliza y visualiza datos públicos.*
+
+- 🎵 **[denoise](https://github.com/CristianRojas-SoftwareEngineer/Denoise)** — Limpieza de audio (Rust + ONNX)
+  *Proyecto amigo. Limpia audio de videos antes de transcribir.*
+
+**Sinergia:**
+```
+denoise (audio limpio) → BrainHub (transcripción + análisis) → VigiSalud (epidemiología)
+                                                              ↘ Argentina Hub (datos abiertos)
+```
+
 ## Autor
 
 **Héctor López** — Ingeniero, entusiasta de NLP y automatización.
