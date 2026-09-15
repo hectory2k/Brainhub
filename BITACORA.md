@@ -159,3 +159,95 @@ grep -E "^### Bug|^#### [0-9]" BITACORA.md
 ---
 
 **Filosofía:** Documentar el "por qué", no solo el "qué".
+
+---
+
+## 2026-09-15 — DuckDB: del infierno de Python a la CLI
+
+### Contexto
+
+La DB `analisis_consolidado.duckdb` quedó inaccesible:
+
+- Creada con versión nightly (storage version 999)
+- La CLI estable 1.5.5 solo lee hasta v68
+- `uv pip install duckdb --pre` intentaba compilar NumPy 2.5.3 en Termux → fallaba
+
+Además, el directorio `duckdb/` había sido borrado el 2026-09-14 (3.8 GB), dejando solo el cache de sdists en `~/.cache/uv/`.
+
+### Síntomas
+
+    IO Error: Trying to read a database file with version number 999,
+    but we can only read versions between 64 and 68.
+
+    Failed to build `numpy==2.5.3`
+    Call to `mesonpy.build_wheel` failed (exit status: 1)
+
+### Solución
+
+1. `pkg install duckdb` → CLI 1.5.5 (sin compilar nada)
+2. Reconstruir la DB desde los 19 JSONs con `read_text` + `json_extract`
+3. Replicar el filtro de `reconstruir.py` en SQL puro:
+   - `es_generico()` → `length(term) >= 3 AND term NOT IN (stopwords)`
+   - Deduplicación → `QUALIFY row_number() OVER (PARTITION BY video, term) = 1`
+4. Script versionado en `scripts/reconstruir_db.sh`
+5. Symlink en `~/.local/bin/reconstruir_db.sh`
+
+
+### Esquema resultante
+
+| Tabla | Filas | Rol |
+|-------|-------|-----|
+| `analysis` | 19 | 1 fila por JSON (documento, nicho, sentimiento) |
+| `terminos_raw` | 274 | 1 fila por término (video, term, frequency) |
+| `progreso` | 19 | estado por video |
+| `stopwords` | 596 | lista usada en el filtro (auditoría) |
+
+### Resultado
+
+| Métrica | Script Python | SQL puro |
+|---------|---------------|----------|
+| analysis | 19 | 19 ✅ |
+| terminos_raw | ~277 | 274 (`mira`, `pues` fuera) |
+| stopwords | 594 | 596 |
+| Tiempo | ? | ~1s |
+| Dependencias | duckdb módulo Python | CLI solamente |
+
+### Fixes incluidos en el SQL
+
+- Prefijo `./` limpiado en `filename` y `video`
+- `mira`, `pues`, `bueno`, `entonces`, `este` agregados a stopwords
+- Índices en `term`, `video`, `nicho` para consultas rápidas
+
+### Lección
+
+> Cuando DuckDB es la herramienta, no hace falta Python.
+
+`reconstruir.py` dependía de `duckdb.connect()` (módulo compilado). Replicar la lógica en SQL puro eliminó:
+
+- la dependencia de Python en Termux
+- los 3.8 GB de source
+- el riesgo de versiones nightly incompatibles
+
+El script SQL es más corto, más rápido y más portable que la versión Python.
+
+> La CLI de DuckDB en Termux cubre el 95% de los casos de uso.
+> Solo si necesitás extensiones custom (Postgres scanner, etc.) vale la pena compilar.
+
+### Pendiente
+
+- [ ] Evaluar si `brainhub/db/reconstruir.py` sigue siendo necesario
+- [ ] Decidir si migrar otras queries de Python a SQL
+- [ ] Considerar test de regresión del nicho industrial directo sobre la DB
+      (bug #5 del 2026-09-15)
+
+### Comandos
+
+    # Reconstruir (con regeneración de stopwords)
+    reconstruir_db.sh
+
+    # Reconstruir rápido (sin regenerar stopwords.csv)
+    REGEN_STOPWORDS=0 reconstruir_db.sh
+
+    # Consultar
+    duckdb /sdcard/Download/analisis_consolidado.duckdb
+

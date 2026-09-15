@@ -321,3 +321,4 @@ prompt_retoma_*.md
 *.orig
 *.pre_*
 *.backup*
+brainhub/db/
