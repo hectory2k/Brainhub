@@ -208,3 +208,35 @@ Nueva fuente = JSON + 1 método `_cargar_X()`.
 - nicho_multietiqueta (clasificación simultánea)
 - ponderacion_nichos (jerarquización)
 - coherencia_nichos (validación)
+
+## [7.0.1] - 2026-09-15
+
+### Fixed
+- **Scoring de nicho**: ponderado por frecuencia (no solo presencia)
+  - `bitcoin (1x)` ya no pesa igual que `malware (18x)`
+  - `score += min(matches, 5)` con cap a 5
+- **CIBERSEGURIDAD**: ampliado de 9 a 34 términos
+  - Agregados: ciberseguridad, industrial, planta, scada, ics, ot, ...
+- **FINANZAS**: quitados falsos positivos
+  - `banco` matcheaba "banco de batería"
+  - `mercado` matcheaba "mercado de herramientas"
+  - `precios` matcheaba cualquier contexto
+- **AI_SAFETY**: eliminado retorno temprano
+  - Bug: si score >= 3, retornaba sin evaluar CIBERSEGURIDAD
+- **SQLite**: DROP TABLE antes de CREATE (idempotencia)
+  - Bug: UNIQUE constraint failed al re-analizar
+
+### Added
+- `tests/test_nicho_regresion.py`: 4 tests de regresión
+  - Verifica que AI_SAFETY no retorne temprano
+  - Verifica que CIBERSEGURIDAD gane cuando corresponde
+  - Verifica no-regresión en Kubernetes y economía
+
+### Tests
+- 116 passed (antes 112)
+
+### Descubrimiento
+Todos los bugs fueron descubiertos procesando un video industrial
+de ciberseguridad (453k caracteres, 1829 segmentos).
+La filosofía VigiSalud funciona: el contenido real revela lo que
+los tests no ven.
