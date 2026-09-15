@@ -251,3 +251,137 @@ El script SQL es más corto, más rápido y más portable que la versión Python
     # Consultar
     duckdb /sdcard/Download/analisis_consolidado.duckdb
 
+
+### 2026-09-15 (cont. 2) — Guardia de contaminación + pipeline completo
+
+Tras reconstruir la DB, se armó el ecosistema de calidad:
+
+#### Scripts nuevos (5)
+
+- `scripts/crear_tablas_tecnicas.sh`: anatomia (3432), mesh_terms, cache_mesh
+- `scripts/extraer_diccionarios.py`: diccionarios → CSV (clinico, nichos, tecnicos, nicho_keywords, vacios, stopwords)
+- `scripts/actualizar_vista_tecnicos.sh`: vista unificada v_terminos_tecnicos
+- `scripts/guardia_contaminacion.sh`: reporte de cobertura y términos sospechosos
+- `scripts/pipeline_db.sh`: orquestador de los 5 pasos
+
+#### Vista v_terminos_tecnicos
+
+Unifica: anatomía (3432), MeSH (0, on-demand), clínico (156),
+nichos (213), técnicos (134), nicho_keywords (260).
+
+Total: ~3926 términos únicos.
+
+#### Guardia de contaminación
+
+Detecta términos que:
+- Aparecen en ≥2 documentos
+- NO están en v_terminos_tecnicos
+
+Antes: 22 sospechosos
+Después: 0 sospechosos
+
+#### Términos sospechosos resueltos
+
+Ruido (→ stopwords): may, basic, work, knowledge, students, impact,
+acquisition, abilities, access, trends, sciences, information,
+practice, stupid, skills, skill, sistemas, mundo, dia, igual,
+venga, juan, sin
+
+Técnicos (→ terminos_tecnicos.json): torch, loss, image, function,
+train, training, neural network, classification, regression,
+gradient, optimizer, tensor, model, layer, epoch, batch, dataset,
+feature, inference, checkpoint, control
+
+#### Cobertura final
+
+- Freq ≥100: 100% técnicos (16/16)
+- ≥2 docs: ~55%
+- Global: 27.4% (incluye ruido de baja freq)
+
+#### Pipeline
+
+`pipeline_db.sh` corre en orden:
+1. reconstruir_db.sh → análisis (4 tablas)
+2. crear_tablas_tecnicas.sh → técnicas (3 tablas)
+3. extraer_diccionarios.py → CSVs
+4. actualizar_vista_tecnicos.sh → vista unificada
+5. guardia_contaminacion.sh → reporte
+
+#### Deuda técnica anotada
+
+- Alias ES↔EN: `alias_mesh` y `mesh_cache.traduccion` no se exponen en la vista
+- Lematización: `MAPA_ES` solo tiene 6 términos; NLTK es inglés-only
+- `control` marcado como técnico (revisar si genera falsos positivos)
+- MeSH (`mesh_terms`) vacío; se llena on-demand vía NCBI
+
+
+### 2026-09-15 (cont. 2) — Guardia de contaminacion + pipeline completo
+
+#### Scripts nuevos (5)
+
+- scripts/pipeline_db.sh: orquestador de 5 pasos
+- scripts/crear_tablas_tecnicas.sh: anatomia (3432), mesh_terms, cache_mesh
+- scripts/extraer_diccionarios.py: diccionarios -> CSV
+- scripts/actualizar_vista_tecnicos.sh: vista v_terminos_tecnicos
+- scripts/guardia_contaminacion.sh: cobertura + sospechosos
+
+#### Vista v_terminos_tecnicos
+
+Unifica: anatomia (3432), MeSH (0 on-demand), clinico (156),
+nichos (213), tecnicos (134), nicho_keywords (260).
+Total: 3926 terminos unicos.
+
+#### Guardia de contaminacion
+
+Detecta terminos que aparecen en >=2 docs y NO estan en la vista.
+
+| Momento | Sospechosos |
+|---------|-------------|
+| Antes   | 22          |
+| Despues | 0           |
+
+#### Terminos resueltos
+
+Ruido (-> stopwords): may, basic, work, knowledge, students, impact,
+acquisition, abilities, access, trends, sciences, information,
+practice, stupid, skills, skill, sistemas, mundo, dia, igual,
+venga, juan, sin
+
+Tecnicos (-> terminos_tecnicos.json): torch, loss, image, function,
+train, training, neural network, classification, regression,
+gradient, optimizer, tensor, model, layer, epoch, batch, dataset,
+feature, inference, checkpoint, control
+
+#### Cobertura final
+
+- Freq >=100: 100% tecnicos (16/16)
+- >=2 docs: ~55%
+- Global: 27.4% (incluye ruido de baja freq)
+
+#### Modulos Python reparados (10)
+
+Verificados end-to-end:
+anatomia_parquet, mesh_parquet, mesh_cache, sugerente_anatomia,
+pubmed_integracion, relaciones, paginacion, integrar_duckdb,
+consolidar, exportar_sqlite
+
+Todos importan sin error. anatomia_parquet devuelve resultados reales.
+
+#### Deuda tecnica nueva
+
+1. Alias ES<->EN no expuestos en v_terminos_tecnicos
+   - diccionario_clinico tiene alias_mesh
+   - mesh_cache tiene traduccion
+2. Lematizacion marginal (MAPA_ES solo 6 terminos)
+   - Evaluar spaCy-es
+3. control marcado como tecnico (revisar si genera falsos positivos)
+4. MeSH (mesh_terms) vacio, se llena on-demand via NCBI
+
+#### Comando maestro
+
+    pipeline_db.sh
+
+Reconstruye todo en 5 pasos (~1 minuto).
+
+---
+

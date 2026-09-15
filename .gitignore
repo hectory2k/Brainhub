@@ -322,3 +322,5 @@ prompt_retoma_*.md
 *.pre_*
 *.backup*
 brainhub/db/
+data/diccionarios/
+data/lemas*
