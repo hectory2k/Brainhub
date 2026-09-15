@@ -80,17 +80,15 @@ def detectar_nicho(texto: str) -> str:
         score = 0
         for p in terminos:
             patron = r'\b' + _re.escape(p) + r'\b'
-            if _re.search(patron, texto_normalizado):
-                score += 1
+            matches = len(_re.findall(patron, texto_normalizado))
+            if matches > 0:
+                score += min(matches, 5)  # FIX 2026-09-15: ponderado por frecuencia
         if score > 0:
             scores[nicho] = score
     
     if not scores:
         return "GENERAL"
     
-    # Si AI_SAFETY tiene score significativo, priorizarlo
-    if 'AI_SAFETY' in scores and scores['AI_SAFETY'] >= 3:
-        return 'AI_SAFETY'
     
     # Buscar N-gramas (frases compuestas)
     n_gramas_ai_safety = [

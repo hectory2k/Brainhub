@@ -471,8 +471,9 @@ def exportar_sqlite_desde_json(json_path, db_path=None):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
+    cursor.execute('DROP TABLE IF EXISTS keywords')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS keywords (
+        CREATE TABLE keywords (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             analysis_id INTEGER,
             term TEXT,
@@ -487,8 +488,9 @@ def exportar_sqlite_desde_json(json_path, db_path=None):
             VALUES (?, ?, ?, ?)
         ''', (i, 1, term, freq))
     
+    cursor.execute('DROP TABLE IF EXISTS analysis')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS analysis (
+        CREATE TABLE analysis (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             filename TEXT,
             language TEXT,
