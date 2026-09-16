@@ -15,6 +15,11 @@ from typing import Dict, List, Optional, Any
 PROJECT_DIR = Path(__file__).parent.parent
 DB_PATH = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
 
+
+def _escape_sql_string(valor) -> str:
+    # Escapa comillas simples para SQL (estandar SQL: ' -> '')
+    return str(valor).replace("'", "''")
+
 def consultar(sql: str, return_raw: bool = False) -> List:
     """Ejecuta una consulta SQL y retorna resultados."""
     try:
@@ -124,7 +129,7 @@ def terminos_por_video(video_id: str) -> List:
     sql = f"""
     SELECT term, frequency
     FROM terminos_raw
-    WHERE video = '{video_id}'
+    WHERE video = '{_escape_sql_string(video_id)}'
     ORDER BY frequency DESC;
     """
     return consultar(sql)
@@ -134,7 +139,7 @@ def buscar_termino(termino: str) -> List:
     sql = f"""
     SELECT video, term, frequency
     FROM terminos_raw
-    WHERE term LIKE '%{termino}%'
+    WHERE term LIKE '%{_escape_sql_string(termino)}%'
     ORDER BY frequency DESC;
     """
     return consultar(sql)
@@ -146,13 +151,13 @@ def actualizar_estado(video_id: str, estado: str = 'completado'):
         UPDATE progreso 
         SET estado = 'completado', 
             fecha_completado = CURRENT_DATE
-        WHERE video = '{video_id}';
+        WHERE video = '{_escape_sql_string(video_id)}';
         """
     else:
         sql = f"""
         UPDATE progreso 
-        SET estado = '{estado}'
-        WHERE video = '{video_id}';
+        SET estado = '{_escape_sql_string(estado)}'
+        WHERE video = '{_escape_sql_string(video_id)}';
         """
     
     try:

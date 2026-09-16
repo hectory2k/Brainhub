@@ -10,7 +10,7 @@ sys.path.insert(0, '/data/data/com.termux/files/home/proyectos/nlp')
 
 from modulos.detectar_nicho import detectar_nicho
 from modulos.rag_simple import RAGSimple
-from modulos.integrar_duckdb import consultar
+from modulos.integrar_duckdb import consultar, _escape_sql_string
 
 app = Flask(__name__)
 
@@ -56,11 +56,14 @@ def buscar():
     if not q:
         return jsonify({'error': 'Falta parámetro q'}), 400
     
+    # Sanitizar input para prevenir SQL injection
+    q_safe = q.lower().replace("'", "''")
+
     # Buscar en segmentos_timestamp
     sql = f"""
     SELECT texto, inicio_formato
     FROM segmentos_timestamp
-    WHERE LOWER(texto) LIKE '%{q.lower()}%'
+    WHERE LOWER(texto) LIKE '%{q_safe}%'
     LIMIT 5
     """
     
@@ -72,7 +75,7 @@ def buscar():
             sql_terminos = f"""
             SELECT term, SUM(frequency) as total
             FROM terminos_raw
-            WHERE LOWER(term) LIKE '%{q.lower()}%'
+            WHERE LOWER(term) LIKE '%{q_safe}%'
             GROUP BY term
             ORDER BY total DESC
             LIMIT 5
@@ -122,6 +125,7 @@ def perfil():
 def grafo():
     """Nodos y relaciones del grafo."""
     import json
+    import os
     ruta = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'outputs', 'grafo', 'grafo_optimizado.json')
     try:
         with open(ruta, 'r') as f:

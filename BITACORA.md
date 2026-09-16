@@ -436,3 +436,58 @@ generar() ahora incluye en el payload:
 
 ---
 
+
+### 2026-09-15 (noche) — SQL injection arreglado en api.py
+
+#### Hallazgo
+
+Al evaluar LiteLLM para las 11 APIs de BrainHub, se detecto
+que /api/buscar era vulnerable a SQL injection:
+
+  q = request.args.get('q', '')
+  sql = f"... LIKE '%{q.lower()}%' ..."
+  consultar(sql)  # q va directo al CLI duckdb
+
+Payload de prueba: '; DROP TABLE terminos_raw;--
+
+#### Vulnerabilidades encontradas (4)
+
+1. api.py /api/buscar -> q
+2. integrar_duckdb.py terminos_por_video() -> video_id
+3. integrar_duckdb.py buscar_termino() -> termino
+4. integrar_duckdb.py actualizar_estado() -> estado + video_id
+
+#### Fix aplicado
+
+Helper en integrar_duckdb.py:
+
+  def _escape_sql_string(valor) -> str:
+      return str(valor).replace("'", "''")
+
+Estandar SQL: ' -> '' para escapar strings.
+Aplicado en las 4 vulnerabilidades.
+
+#### Test end-to-end
+
+| Test | Resultado |
+|------|-----------|
+| /api/health | JSON OK |
+| /api/buscar?q=planta | planta: 170 |
+| injection | total: 0, tabla intacta |
+| tabla terminos_raw | 234 filas |
+
+#### Leccion
+
+> Las consultas SQL construidas con f-strings siempre deben
+> sanitizar el input. El helper _escape_sql_string debe usarse
+> en cualquier funcion que reciba parametros externos.
+
+#### Deuda tecnica nueva
+
+1. /api/terminos usa int(limite) — seguro, pero por suerte
+   Si se agregan mas filtros, usar _escape_sql_string
+2. import RAGSimple sin usar en api.py
+3. /api/grafo: import os agregado
+
+---
+
