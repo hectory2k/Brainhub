@@ -599,3 +599,108 @@ Sin este criterio, 'mejorar' un diccionario es fe ciega.
 
 ---
 
+
+### 2026-09-16 — Batch falló + cuarentena + limpieza
+
+#### Contexto
+
+Tras el batch nocturno del 2026-09-15, quedaron 55 videos sin
+resumen LLM. Al investigar, aparecieron 8 bugs estructurales.
+
+#### Bugs encontrados
+
+1. Batch nocturno murió silenciosamente
+   - Ollama murió durante el batch (probablemente RAM)
+   - Sin auto-relanzar, los videos cayeron a None
+
+2. analizar.sh NO es idempotente en nombres
+   - Agrega _analisis_completo al nombre base
+   - Si el input ya tenía _analisis, acumula: _analisis_analisis
+   - Generó 42 archivos basura con 2-5 _analisis acumulados
+
+3. _ollama_api duplicada en .bashrc
+   - Línea 77: << PYEND (sin comillas, bash expande, bug latente)
+   - Línea 134: << 'PYEND' (correcto)
+   - Bash usa la última, pero la duplicación confunde
+
+4. start_ollama con tmux es frágil
+   - Si tmux muere, ollama serve muere
+   - Causa probable de caída durante batches largos
+
+5. Detector de binarios roto en batch_robusto.sh
+   - grep -q $'\x00' no funciona como esperaba
+   - Clasificó los 75 .txt como BINARIO y los movió a cuarentena
+   - Fix: usar file -b en vez de grep
+
+6. Filtro de basura tenía categorías demasiado amplias
+   - find -name '*_resumen*.json' matchea JSONs válidos
+   - 26 JSONs válidos movidos a quarantine
+   - Fix: excluir *_analisis_completo.json
+
+7. pipeline_db.sh es destructivo
+   - Hace rm -f de la DB antes de reconstruir
+   - Se pierden tablas técnicas (anatomia, mesh, etc)
+   - Fix pendiente: opción --no-rm
+
+8. Detector de nicho confunde tech/legal con CIBERSEGURIDAD
+   - Transcript_DyhkXT_dgdk_ES_FORZADO (legal/violencia familiar)
+   - Transcript_-lYFpNahqzY_EN (Microsoft Fabric/tech)
+   - Fix pendiente: sesión dedicada
+
+#### Fixes aplicados
+
+- scripts/batch_robusto.sh (nuevo)
+  - Reintentos automáticos (3 por video)
+  - Logging detallado (intento, duración, causa)
+  - Clasificación de errores (OOM, TIMEOUT, ENCODING, etc)
+  - Auto-relanzar Ollama si muere
+  - Cuarentena con metadata (.motivo.txt)
+
+- scripts/filtro_basura.sh (nuevo)
+  - 8 categorías de basura
+  - Dry-run por defecto, --apply para ejecutar
+  - Duplicados por hash MD5
+  - Categoría motivos_sueltos (agregada hoy)
+
+- Fix detector binarios: file -b en vez de grep x00
+- Fix .bashrc: eliminada _ollama_api duplicada (sed 77,104d)
+- start_ollama_nohup (versión sin tmux, más robusta)
+- 43 archivos basura movidos a _legacy_
+- 26 JSONs recuperados de cuarentena
+
+#### Estado tras los fixes
+
+- 75 .txt en /sdcard/Download/
+- 30 JSONs válidos (con 6 resúmenes: 3 LLM + 3 plantilla)
+- 73 videos pendientes de procesar
+- DB reconstruida con 30 videos
+- Detector de binarios funcionando
+
+#### Lecciones
+
+> Un batch nocturno que 'funciona' pero sin log es una bomba de tiempo.
+> Un filtro de basura sin dry-run es un arma cargada.
+> Un detector que clasifica el 100% como 'binario' no es un detector.
+> Nada se borra: todo se mueve a legacy con motivo.
+
+- Los errores en cadena son la norma, no la excepción
+- Cuarentena + legacy salvaron el día (nada se perdió)
+- Los heredocs con variables SIEMPRE con << 'EOF'
+- Los logs con estructura (timestamps, categorías) son oro
+- El silencio es el peor enemigo: sin output no hay debugging
+
+#### Deuda técnica nueva
+
+1. analizar.sh no es idempotente en nombres
+2. pipeline_db.sh es destructivo (agregar --no-rm)
+3. Detector de nicho (tech/legal mal como CIBERSEGURIDAD)
+4. Cobertura 16.5% (refinar validador de términos)
+5. Batch se corta en background (usar wake-lock + foreground)
+
+#### Scripts nuevos versionados
+
+- scripts/batch_robusto.sh
+- scripts/filtro_basura.sh
+
+---
+

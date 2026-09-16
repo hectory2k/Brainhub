@@ -12,7 +12,7 @@ from brainhub.llm.ollama_client import OllamaClient, hay_ram_suficiente
 
 
 MODELO_DEFAULT = "gemma:2b"
-RAM_MINIMA_GB = 2.5
+RAM_MINIMA_GB = 2.3
 TIMEOUT_SEG = 180
 NUM_PREDICT = 80
 
@@ -135,8 +135,8 @@ def generar_resumen_desde_analisis(
 
     hay_ram, ram_gb, razon_ram = hay_ram_suficiente(RAM_MINIMA_GB)
     if not hay_ram:
-        print(f"  ⚠️  Sin RAM para LLM: {razon_ram}")
-        return None
+        print(f"  ⚠️  Sin RAM para LLM: {razon_ram} (plantilla)")
+        return resumen_por_reglas(analisis)
 
     cliente = OllamaClient(
         model=modelo,
@@ -144,8 +144,8 @@ def generar_resumen_desde_analisis(
         num_predict=NUM_PREDICT,
     )
     if not cliente.disponible():
-        print("  ⚠️  Ollama no disponible")
-        return None
+        print("  ⚠️  Ollama no disponible (plantilla)")
+        return resumen_por_reglas(analisis)
 
     inicio = time.time()
     try:
@@ -160,13 +160,32 @@ def generar_resumen_desde_analisis(
             "ram_antes_gb": round(ram_gb, 2),
         }
     except Exception as e:
-        print(f"  ⚠️  Ollama falló: {e}")
-        return None
+        print(f"  ⚠️  Ollama falló: {e} (plantilla)")
+        return resumen_por_reglas(analisis)
     finally:
         try:
             cliente.descargar()
         except Exception:
             pass
+
+
+def resumen_por_reglas(analisis: dict) -> dict:
+    """Fallback: resumen sin LLM usando plantilla."""
+    nicho = analisis.get('nicho', 'GENERAL')
+    terminos = [t for t, _ in analisis.get('terminos_clave', [])[:5]]
+    polaridad = analisis.get('sentimiento_global', {}).get('polaridad', 0)
+    tono = "positivo" if polaridad > 0.1 else "negativo" if polaridad < -0.1 else "neutro"
+    texto = (
+        f"El documento analiza temas de {nicho.lower()}, "
+        f"con foco en {', '.join(terminos)}. "
+        f"El tono general es {tono} (polaridad {polaridad:.2f})."
+    )
+    return {
+        "texto": texto,
+        "modelo": "plantilla",
+        "tiempo_seg": 0.0,
+        "ram_antes_gb": 0.0,
+    }
 
 
 if __name__ == "__main__":
