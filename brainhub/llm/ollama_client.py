@@ -39,11 +39,15 @@ class OllamaClient:
         except Exception:
             return []
 
-    def generar(self, prompt: str, system: Optional[str] = None) -> str:
+    def generar(self, prompt: str, system: Optional[str] = None, keep_alive: int = 0) -> str:
         payload = {
             'model': self.model,
             'prompt': prompt,
             'stream': False,
+            'keep_alive': keep_alive,
+            'options': {
+                'num_predict': self.num_predict,
+            },
         }
         if system:
             payload['system'] = system

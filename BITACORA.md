@@ -385,3 +385,54 @@ Reconstruye todo en 5 pasos (~1 minuto).
 
 ---
 
+
+### 2026-09-15 (noche) — Resumen LLM integrado en el pipeline
+
+#### Logros
+
+- brainhub/llm/ollama_client.py: generar() con keep_alive=0 y num_predict
+- brainhub/llm/abstract_llm.py: generar_resumen_desde_analisis() con contexto compacto
+- analisis_completo_v6.5.py: hook automatico antes de exportar_json()
+- scripts/reconstruir_db.sh: columnas resumen_llm y resumen_modelo
+
+#### Bugs resueltos
+
+1. OllamaClient.generar() no pasaba num_predict -> modelo generaba
+   hasta llenar contexto (2048) y entraba en loop con --context-shift
+2. OllamaClient.generar() no pasaba keep_alive -> modelo quedaba 5 min
+   en RAM y bloqueaba siguientes llamadas
+3. Rama 'except' en abstract_llm devolvia None en vez de plantilla
+
+#### Fix aplicado
+
+generar() ahora incluye en el payload:
+  keep_alive: 0     -> descarga modelo al terminar
+  options.num_predict: 150  -> corta generacion
+
+#### Modelos evaluados
+
+| Modelo | Tiempo | Calidad | Veredicto |
+|--------|--------|---------|-----------|
+| tinyllama:latest | 50s | Alucina (inventa fechas, radios) | NO |
+| gemma:2b | 32-74s | Coherente, sin alucinaciones | SI (default) |
+| phi3:mini | - | No probado | reserva |
+| llama3.2:3b | - | No probado (necesita >3.5 GB) | futuro |
+
+#### Test end-to-end
+
+1. analizar.sh Transcript_ME_lJOHAPUo_ES.txt
+   -> Resumen: gemma:2b (32.8s)
+   -> Texto: 'Este documento contiene informacion sobre un ataque...'
+2. pipeline_db.sh -> DB reconstruida con resumen_llm
+3. Consulta: 1 con resumen, 18 sin resumen (los otros no se re-analizaron)
+
+#### Deuda tecnica nueva
+
+1. Warning: exportar_sqlite_desde_json no maneja ON CONFLICT en DuckDB
+   (no critico, pipeline_db.sh reconstruye desde JSON)
+2. Re-analizar los 18 videos faltantes con LLM (~40-60 min)
+3. gemma:2b tarda 32-74s por video; evaluar llama3.2:3b cuando haya RAM
+4. Velocidad limitada por swap activo (1.0 GB)
+
+---
+

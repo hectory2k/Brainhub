@@ -801,6 +801,17 @@ def main():
         'citas_clave': dialogos
     }
 
+    # ─── Resumen LLM (contexto compacto) ───
+    try:
+        from brainhub.llm.abstract_llm import generar_resumen_desde_analisis
+        resumen = generar_resumen_desde_analisis(datos_analisis)
+        datos_analisis["resumen_llm"] = resumen
+        if resumen:
+            print(f"  🤖 Resumen: {resumen.get('modelo')} ({resumen.get('tiempo_seg', 0):.1f}s)")
+    except Exception as e:
+        print(f"  ⚠️  Resumen LLM falló: {e}")
+        datos_analisis["resumen_llm"] = None
+
     base = archivo.replace('.txt', '')
     exportar_json(datos_analisis, f"{base}_analisis_completo.json")
     exportar_resumen_txt(datos_analisis, f"{base}_resumen.txt")

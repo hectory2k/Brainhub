@@ -12,9 +12,9 @@ from brainhub.llm.ollama_client import OllamaClient, hay_ram_suficiente
 
 
 MODELO_DEFAULT = "gemma:2b"
-RAM_MINIMA_GB = 3.0
+RAM_MINIMA_GB = 2.5
 TIMEOUT_SEG = 180
-NUM_PREDICT = 200
+NUM_PREDICT = 80
 
 
 def generar_abstract_llm(
@@ -92,6 +92,79 @@ def generar_abstract_llm(
             cliente.descargar()
             _, ram_despues, _ = hay_ram_suficiente(0)
             metadata["ram_despues_gb"] = ram_despues
+        except Exception:
+            pass
+
+
+def generar_resumen_desde_analisis(
+    analisis: dict,
+    modelo: str = MODELO_DEFAULT,
+    usar_llm: bool = True,
+) -> Optional[Dict]:
+    """
+    Genera resumen LLM usando contexto COMPACTO (~300 tokens).
+    Aplica guardias de RAM y disponibilidad.
+
+    Returns:
+        dict con texto, modelo, tiempo_seg, ram_antes_gb, o None si falla
+    """
+    if not usar_llm:
+        return None
+
+    terminos = analisis.get("terminos_clave", [])[:10]
+    terminos_str = ", ".join(f"{t}({f})" for t, f in terminos)
+    sent = analisis.get("sentimiento_global", {})
+    polaridad = sent.get("polaridad", 0)
+
+    contexto = (
+        f"Documento: {analisis.get('documento', '?')}\n"
+        f"Nicho: {analisis.get('nicho', 'GENERAL')}\n"
+        f"Segmentos: {analisis.get('total_segmentos', 0)}\n"
+        f"Dialogos: {analisis.get('total_dialogos', 0)}\n"
+        f"Polaridad: {polaridad:.2f}\n"
+        f"Top terminos: {terminos_str}"
+    )
+
+    prompt = (
+        "Genera un abstract de 3 oraciones en espanol. "
+        "Debe describir el tema principal, el enfoque y el tono. "
+        "NO inventes datos. Solo interpreta lo que ves.\n\n"
+        f"{contexto}\n\n"
+        "Abstract:"
+    )
+
+    hay_ram, ram_gb, razon_ram = hay_ram_suficiente(RAM_MINIMA_GB)
+    if not hay_ram:
+        print(f"  ⚠️  Sin RAM para LLM: {razon_ram}")
+        return None
+
+    cliente = OllamaClient(
+        model=modelo,
+        timeout=TIMEOUT_SEG,
+        num_predict=NUM_PREDICT,
+    )
+    if not cliente.disponible():
+        print("  ⚠️  Ollama no disponible")
+        return None
+
+    inicio = time.time()
+    try:
+        texto_resp = cliente.generar(prompt)
+        tiempo = time.time() - inicio
+        if not texto_resp or len(texto_resp.strip()) < 20:
+            return None
+        return {
+            "texto": texto_resp.strip(),
+            "modelo": modelo,
+            "tiempo_seg": round(tiempo, 2),
+            "ram_antes_gb": round(ram_gb, 2),
+        }
+    except Exception as e:
+        print(f"  ⚠️  Ollama falló: {e}")
+        return None
+    finally:
+        try:
+            cliente.descargar()
         except Exception:
             pass
 

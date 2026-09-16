@@ -101,7 +101,9 @@ SELECT
     COALESCE(json_extract(content, '\$.total_segmentos')::INTEGER, 0) AS total_segmentos,
     COALESCE(json_extract(content, '\$.total_dialogos')::INTEGER, 0) AS total_dialogos,
     COALESCE(json_extract(content, '\$.sentimiento_global.polaridad')::DOUBLE, 0) AS sentimiento_polaridad,
-    COALESCE(json_extract(content, '\$.sentimiento_global.subjetividad')::DOUBLE, 0) AS sentimiento_subjetividad
+    COALESCE(json_extract(content, '\$.sentimiento_global.subjetividad')::DOUBLE, 0) AS sentimiento_subjetividad,
+    json_extract_string(content, '\$.resumen_llm.texto') AS resumen_llm,
+    json_extract_string(content, '\$.resumen_llm.modelo') AS resumen_modelo
 FROM read_text('*_analisis_completo.json') t(filename, content);
 
 -- ═══ terminos_raw (con filtro VigiSalud) ═══
