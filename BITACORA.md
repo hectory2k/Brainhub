@@ -491,3 +491,111 @@ Aplicado en las 4 vulnerabilidades.
 
 ---
 
+
+<!-- TAG: evaluacion_proyecto 2026-09-15 -->
+### 2026-09-15 (cierre) — Evaluacion consolidada del proyecto
+
+#### Contexto
+
+Al cerrar la sesion mas larga hasta ahora (DuckDB + LLM + SQLi),
+se hace una evaluacion del estado real del proyecto.
+
+#### Veredicto por dimension
+
+| Dimension | Antes | Despues |
+|-----------|-------|---------|
+| Arquitectura | 8/10 | 8.5/10 |
+| Robustez de pruebas | 8/10 | 9/10 (+17 SQL) |
+| Operabilidad | 8/10 | 9/10 (pipeline_db.sh) |
+| Evaluacion cientifica | 5/10 | 5/10 (sin cambios) |
+| Control de complejidad | 6/10 | 6/10 (sin cambios) |
+| Potencial RAG/LLM | 8/10 | 9/10 (ya integrado) |
+| Seguridad | no evaluada | 8/10 (SQLi cerrado) |
+
+#### Fortalezas reales
+
+1. Infraestructura solida: DB reproducible con 1 comando.
+   Ya no depende de nightly de DuckDB, ni modulo Python duckdb,
+   ni compilar NumPy en Termux.
+2. Defensa en profundidad: tests unitarios + guardias + tests DB
+   + fixtures + bitacora + SQL parametrizado.
+3. Bitacora narrativa con lecciones: mecanismo de aprendizaje
+   organizacional. Frases buscables que previenen repetir errores.
+4. LLM opcional con guardias, NO dependencia central.
+
+#### Debilidades reales (honestas)
+
+1. Evaluacion cientifica 5/10: falta suite de evaluacion por
+   nicho con documentos etiquetados. Sin eso, 'mejorar'
+   CIBERSEGURIDAD puede empeorar FINANZAS sin detectarse.
+2. Control de complejidad 6/10: ~30 modulos sin usar de 47,
+   3 versiones de analisis_completo, deuda acumulada.
+3. Scoring todavia necesita calibracion: min(matches, 5) es
+   regla fija. Documentos largos tendran mas repeticiones.
+4. Diccionarios manuales: ampliar CIBERSEGURIDAD a 34
+   terminos puede sesgar hacia nichos con mas atencion.
+
+#### Proximos pasos sugeridos (orden de ROI)
+
+1. Suite de evaluacion por nicho (~2h)
+   - 5 documentos etiquetados por nicho (25 total)
+   - Precision/recall por nicho antes/despues de cada cambio
+   - Es lo que la evaluacion senala como debil
+2. Congelar v7.2.0 con changelog (~30 min)
+   - Punto de referencia: DB reproducible + guardia + LLM + SQLi
+3. Re-analizar 18 videos restantes con LLM (~1h background)
+   - Hook listo, gemma:2b funciona, prompt esta
+4. Fix warning de SQLite (~15 min)
+   - No critico, pero ignorar warnings entrena a ignorar bugs
+5. Grafos (deuda del 2026-09-10)
+   - 8 bugs identificados, sin tocar
+   - Validador federado ya funcional, siguiente pieza natural
+
+#### Lo que NO hacer todavia
+
+- Ollama como dependencia central (ya es capa opcional)
+- FastAPI + JWT (overkill, mono-usuario)
+- Denoise (overkill, sin casos reales)
+- LiteLLM (confirmado no aplica, 0 APIs usan LLM)
+- Integrar los ~30 modulos sin usar (mejor caso por caso)
+
+#### Leccion
+
+> El siguiente salto de calidad no es agregar features.
+> Es medir con datos etiquetados.
+> Sin eso, cualquier mejora de diccionario puede degradar
+> otro nicho sin que nos enteremos.
+
+#### Version sugerida
+
+v7.2.0 - DB reproducible + LLM opcional + SQLi cerrado
+
+---
+
+
+#### Criterio de exito de la suite de evaluacion
+
+La suite estara terminada cuando pueda detectar:
+
+- Caida de 10% en precision de un nicho al ampliar otro diccionario
+- Falsos positivos en documentos multi-tema (ej: ciberseguridad + finanzas)
+- Cambios de clasificacion en 1 de cada 5 documentos luego de un fix
+
+Sin este criterio, 'mejorar' un diccionario es fe ciega.
+
+#### Snapshot numerico (2026-09-15 cierre)
+
+- Tests Python: 116
+- Tests regresion DB: 17 (todos pasando)
+- Guardias: 8 (+ test_regresion_db)
+- Nichos: 9 (incluye HABLA)
+- Fuentes federadas: 5
+- Modulos: 47 (~15 usados activamente)
+- Documentos procesados: 19 videos
+- Terminos unicos tecnicos: 3926
+- Sospechosos (contaminacion): 0
+- SQL injections cerradas: 4
+- Modulos Python reparados: 10
+
+---
+
