@@ -149,7 +149,7 @@ def generar_resumen_desde_analisis(
 
     inicio = time.time()
     try:
-        texto_resp = cliente.generar(prompt)
+        texto_resp = cliente.generar_con_check(prompt)
         tiempo = time.time() - inicio
         if not texto_resp or len(texto_resp.strip()) < 20:
             return None

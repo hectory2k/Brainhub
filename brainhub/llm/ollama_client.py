@@ -39,7 +39,7 @@ class OllamaClient:
         except Exception:
             return []
 
-    def generar(self, prompt: str, system: Optional[str] = None, keep_alive: int = 0) -> str:
+    def generar(self, prompt: str, system: Optional[str] = None, keep_alive: int = 300) -> str:
         payload = {
             'model': self.model,
             'prompt': prompt,
@@ -47,6 +47,8 @@ class OllamaClient:
             'keep_alive': keep_alive,
             'options': {
                 'num_predict': self.num_predict,
+                'num_ctx': 512,
+                'temperature': 0.1,
             },
         }
         if system:
@@ -73,6 +75,48 @@ Consulta: {consulta}
 Respondé usando SOLO el contexto. Si no está, decí "No tengo esa información"."""
         return self.generar(prompt)
 
+    def hay_ram_suficiente(self, min_mb: int = 400) -> bool:
+        """Verifica RAM disponible en Termux."""
+        try:
+            with open('/proc/meminfo') as f:
+                for linea in f:
+                    if linea.startswith('MemAvailable:'):
+                        mb = int(linea.split()[1]) // 1024
+                        return mb >= min_mb
+        except:
+            pass
+        return True  # Si no puede leer, asume que hay
+
+    def generar_con_check(self, prompt: str, system: Optional[str] = None) -> str:
+        """Generar con chequeo de RAM."""
+        if not self.hay_ram_suficiente():
+            print("⚠️  RAM baja (<400MB). Esperando...")
+            import time
+            time.sleep(10)
+            if not self.hay_ram_suficiente():
+                raise RuntimeError("❌ RAM insuficiente tras espera")
+        return self.generar(prompt, system)
+
+    def descargar(self):
+        """Descarga el modelo de RAM (keep_alive=0)."""
+        import json
+        import urllib.request as _url
+        try:
+            data = json.dumps({
+                "model": self.model,
+                "keep_alive": 0
+            }).encode()
+            req = _url.Request(
+                f"{self.url}/api/generate",
+                data=data,
+                headers={"Content-Type": "application/json"},
+            )
+            with _url.urlopen(req, timeout=5):
+                pass
+            return True
+        except Exception:
+            return False
+
 
 if __name__ == '__main__':
     cliente = OllamaClient()
@@ -92,33 +136,9 @@ if __name__ == '__main__':
     print(f"  {cliente.resumir(texto)}")
 
 
-# ==============================================
-# Métodos agregados 2026-09-15 para fallback
-# ==============================================
-
-def descargar(self):
-    """Descarga el modelo de RAM (keep_alive=0)."""
-    import urllib.request as _url
-    try:
-        data = json.dumps({
-            "model": self.model,
-            "keep_alive": 0
-        }).encode()
-        req = _url.Request(
-            f"{self.url}/api/generate",
-            data=data,
-            headers={"Content-Type": "application/json"},
-        )
-        with _url.urlopen(req, timeout=5):
-            pass
-        return True
-    except Exception:
-        return False
-
-
 def hay_ram_suficiente(min_gb: float = 3.0) -> tuple:
-    """Verifica si hay RAM suficiente.
-    
+    """Verifica si hay RAM suficiente (versión como función suelta).
+
     Returns:
         (hay_ram, gb_disponibles, razon)
     """
@@ -134,7 +154,3 @@ def hay_ram_suficiente(min_gb: float = 3.0) -> tuple:
     except Exception as e:
         return False, 0.0, f"Error leyendo /proc/meminfo: {e}"
     return False, 0.0, "No se pudo leer MemAvailable"
-
-
-# Agregar métodos a la clase
-OllamaClient.descargar = descargar

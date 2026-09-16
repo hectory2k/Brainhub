@@ -238,21 +238,49 @@ except: print('error')
 }
 
 # Asegurar Ollama vivo
+# Asegurar Ollama vivo (reintentos tolerantes a carga lenta)
 asegurar_ollama() {
-    if curl -s -m 2 http://localhost:11434/api/tags > /dev/null 2>&1; then
+    # ¿Ya está vivo?
+    if curl -fsS --connect-timeout 2 --max-time 10 \
+        http://127.0.0.1:11434/api/tags > /dev/null 2>&1; then
         return 0
     fi
-    
-    log_err "⚠️  Ollama no responde. Relanzando..."
-    nohup ollama serve > ~/ollama.log 2>&1 &
-    sleep 10
-    
-    if curl -s -m 2 http://localhost:11434/api/tags > /dev/null 2>&1; then
-        log "✅ Ollama revivió"
-        return 0
-    fi
-    
-    log_err "❌ Ollama no revive tras 10s. Abortando batch."
+
+    # Reintentar 5 veces con espera (tolera carga en progreso)
+    local i
+    for i in 1 2 3 4 5; do
+        log "  ⏳ Ollama sin respuesta, intento $i/5..."
+        sleep 5
+        if curl -fsS --connect-timeout 2 --max-time 10 \
+            http://127.0.0.1:11434/api/tags > /dev/null 2>&1; then
+            log "✅ Ollama activo (tras $i intentos)"
+            return 0
+        fi
+    done
+
+    # Relanzar con env vars optimizadas
+    # Variables de entorno para Termux sin RAM
+    export OLLAMA_HOST=127.0.0.1:11434
+    export OLLAMA_NUM_PARALLEL=1
+    export OLLAMA_MAX_LOADED_MODELS=1
+    export OLLAMA_CONTEXT_LENGTH=512
+    export OLLAMA_KEEP_ALIVE=0
+    export OLLAMA_LOAD_TIMEOUT=10m
+    export OLLAMA_NO_CLOUD=1
+
+    nohup ollama serve >> ~/logs/ollama.log 2>&1 &
+
+    # Esperar hasta 60s
+    for i in $(seq 1 30); do
+        sleep 2
+        if curl -fsS --connect-timeout 2 --max-time 5 \
+            http://127.0.0.1:11434/api/tags > /dev/null 2>&1; then
+            log "✅ Ollama relanzado (tras $((i*2))s)"
+            return 0
+        fi
+    done
+
+    log_err "❌ Ollama no revive tras 60s. Abortando batch."
     return 1
 }
 

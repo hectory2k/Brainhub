@@ -704,3 +704,52 @@ resumen LLM. Al investigar, aparecieron 8 bugs estructurales.
 
 ---
 
+
+### 2026-09-16 — Integraciones futuras (Jinja + PythonAnywhere + MCP)
+
+#### Contexto
+
+BrainHub expone 11 endpoints REST en api.py. Hoy corren solo
+en Termux (localhost:5000) y ningun LLM los consume directamente.
+
+#### 3 integraciones evaluadas
+
+1. Jinja2 (templates)
+   - dashboard.html actual es estatico (112 lineas vanilla JS)
+   - Jinja permitiria base.html + bloques reutilizables
+   - Cuando aplicar: dashboard > 5 paginas + auth
+   - Hoy: overkill
+
+2. PythonAnywhere (hosting)
+   - api.py actual no es accesible desde fuera del celular
+   - PythonAnywhere free tier: URL publica + HTTPS + 24/7
+   - Limitaciones: CPU 100s/dia, 512 MB disco, se duerme
+   - Arquitectura: api.py en PythonAnywhere, LLM en Termux
+   - Alternativas: Render, Railway, Fly.io
+
+3. MCP (Model Context Protocol)
+   - Estandar de Anthropic para que LLMs consuman tools
+   - Compatible: Claude Desktop, Cursor, Continue.dev
+   - Exponer 6 endpoints utiles: health, search, nicho,
+     videos, analizar, resumen
+   - Implementacion: pip install mcp + mcp_server.py
+   - Uso real: Dardo con 20 PDFs puede cruzar con BrainHub
+
+#### Orden recomendado
+
+1. MCP server local (1h) -- rapido, util ya
+2. Jinja para dashboard (2h) -- solo si crece
+3. PythonAnywhere (3h) -- solo si acceso externo
+
+#### Leccion
+
+> Exponer APIs sin cliente concreto es overkill.
+> MCP convierte los endpoints en herramientas para LLMs
+> y es el caso de uso mas claro hoy.
+
+#### Estado
+
+NO implementado. Documentado para cuando surja necesidad real.
+
+---
+
