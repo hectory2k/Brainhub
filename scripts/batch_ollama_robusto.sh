@@ -88,6 +88,14 @@ for txt in "$JSONS_DIR"/*.txt; do
     [[ "$txt" == *"_quarantine"* ]] && continue
     [[ "$txt" == *".motivo."* ]] && continue
     
+    # Filtro: no procesar basura ni datasets no-video
+    base_file=$(basename "$txt" .txt)
+    case "$base_file" in
+        README|salida|texto_continuo|atlas|documento|modelo_robusto*|"grok cookies"|WebSSH2-*)
+            continue
+            ;;
+    esac
+    
     base=$(basename "$txt" .txt)
     json="$JSONS_DIR/${base}_analisis_completo.json"
     
