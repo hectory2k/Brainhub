@@ -1,0 +1,176 @@
+# BrainHub — Prompt de Retoma
+
+## Fecha
+2026-09-17 (última sesión: RAG básico + 5 bugs + config)
+
+## Estado (v7.2.0)
+- 79 videos en DB, 73+ con resumen LLM
+- DuckDB CLI 1.5.5, RAG básico funcionando
+- Pipeline completo: procesar → analizar → pipeline_db.sh
+- Config centralizado: brainhub_config.json
+- 116 tests Python + 17 tests DB + 8 guardias
+
+## Arquitectura
+
+### Base de datos (DuckDB)
+- `analysis` (79 filas) — documento, nicho, sentimiento, resumen_llm
+- `terminos_raw` (~1382 filas) — video, term, frequency
+- `content_control` — idempotencia de ~/yt (perdida en cada reconstruccion)
+- `anatomia` (3432), `mesh_terms`, `cache_mesh`
+- `v_terminos_tecnicos` (3926) — vista unificada
+- `progreso`, `stopwords`, `terminos_diccionarios`
+
+### LLM (Ollama)
+- `gemma:2b` (default) — español nativo, ~30-150s por video
+- `num_ctx=512`, `keep_alive=0`, `num_predict=80`
+- **Muere cada 10-30 min** (Phantom Process Killer en Motorola/Android 16)
+- **Fallback a plantilla** siempre disponible (nunca falla)
+
+### RAG (BM25 + Ollama)
+- `modulos/rag_simple.py` — BM25 (k1=1.5, b=0.75), plurales normalizados
+- `scripts/preguntar.py` — pipeline SQL + BM25 + Ollama
+- Indexa: `analysis.resumen_llm` + `terminos_raw` (JOIN + `||SEP||`)
+- `responder_con_contexto()` — sintetiza respuesta final
+
+### Chunking (PENDIENTE — próxima sesión)
+- No existe `brainhub/chunking/` ni tabla `chunks`
+- No existe `scripts/chunkear.py`
+- Plan documentado abajo
+
+### Config
+- `brainhub_config.json` + `brainhub_config.py`
+- `cfg.get('llm.modelo')`, `cfg.get('rag.top_k')`, `cfg.reload()`
+
+## Comandos clave
+
+### Pipeline principal
+    procesar URL                     # descarga transcripcion YouTube
+    analizar archivo.txt             # analisis + resumen LLM
+    pipeline_db.sh                   # reconstruye DB desde JSONs
+
+### RAG
+    preguntar 'pregunta'             # RAG sobre resumenes
+    preguntar 'pregunta' NICHO       # con filtro de nicho
+
+### Ollama
+    start_ollama_optimizado.sh       # arrancar con env vars optimizadas
+    start_ollama_nohup               # arrancar sin tmux
+
+### Validacion
+    test_regresion_db.sh             # 17 checks
+    guardia_contaminacion.sh         # cobertura de terminos
+    filtro_basura.sh                 # limpieza (dry-run por defecto)
+    filtro_basura.sh --apply         # aplicar limpieza
+    batch_robusto.sh                 # batch con reintentos + cuarentena
+
+### Config
+    python3 -c "import brainhub_config as cfg; print(cfg.get('llm.modelo'))"
+
+## Bugs RESUELTOS
+
+| Fecha | Bug | Fix |
+|-------|-----|-----|
+| 09-15 | storage version 999 | `pkg install duckdb` |
+| 09-15 | SQL injection (x4) | `_escape_sql_string` |
+| 09-15 | keep_alive/num_predict | payload correcto |
+| 09-15 | resumen LLM colgado | num_ctx + keep_alive |
+| 09-16 | contenido legal como CIBERSEG | pendiente detector |
+| 09-17 | RAG sobre resumenes no encontraba | JOIN terminos_raw + `||SEP||` |
+| 09-17 | `__pycache__` obsoleto | `rm -rf scripts/__pycache__` |
+| 09-17 | content_control perdida | recrear tabla |
+| 09-17 | muletillas orales (pasa, hablando) | HABLA +8 terminos |
+| 09-17 | warning consolidar_en_duckdb | INSERT OR IGNORE → DELETE+INSERT |
+
+## Deuda VIVA (priorizada)
+
+### Alta
+1. **Chunking (2-3h)** — resuelve RAG de calidad
+2. **Migrar a brainhub_config (1h)** — 4 archivos: ollama_client, abstract_llm, preguntar, rag_simple
+
+### Media
+3. **Ollama estable** (sesión dedicada)
+4. **content_control en reconstruir_db.sh** (5 min)
+5. **analizar.sh idempotente** (10 min)
+
+### Baja
+6. Refinar validador (cobertura 12%)
+7. Mejorar prompt del LLM para resumen
+
+## Lecciones criticas
+
+### Bash/Termux
+> Heredocs con variables SIEMPRE con `<< 'EOF'` (comillas simples)
+> Heredoc anidado en bash rompe Python por indentacion
+> Tras editar `.py`, borrar `__pycache__` antes de probar
+> Usar `~/tmp`, NO `/tmp`
+
+### DuckDB
+> Cuando DuckDB es la herramienta, no hace falta Python.
+> La CLI cubre el 95% de los casos.
+> `INSERT OR IGNORE` requiere PRIMARY KEY en DuckDB 1.5.5
+> Las tablas DB no se recrean solas. Agregar a `reconstruir_db.sh`.
+
+### LLM/Ollama
+> El prompt del LLM no debe incluir metadata ruidosa (segmentos, polaridad)
+> `keep_alive=0` + `num_predict` obligatorios
+> `gemma:2b` es el sweet spot (espanol, sin alucinaciones)
+> `tinyllama` alucina, no usar
+> Ollama muere cada 10-30 min en Motorola + Android 16
+
+### Pipeline
+> El prompt es un snapshot, no la fuente de verdad
+> Antes de arrancar: `git log --oneline -10`
+> Los resumenes LLM no son buenos indices para BM25
+> Los `terminos_raw` si. La mezcla funciona.
+
+## Contexto operativo
+- **Entorno:** Termux en Android (moto g56 5G, Android 16)
+- **Python:** 3.14 (no 3.11)
+- **DuckDB:** CLI 1.5.5 (NO modulo Python)
+- **NO usar:** Docker, Kubernetes, sklearn, `pip install duckdb`
+- **Ollama:** muere cada 10-30 min (Phantom Process Killer)
+- **Batches largos:** wake-lock + foreground + `batch_robusto.sh`
+- **Shell:** bash con `echo >>` para editar .md largos
+- **Heredoc:** `<< 'EOF'` siempre
+
+## Sesiones anteriores
+- 2026-09-10: Validador federado + tests
+- 2026-09-11: Lematizacion + clustering + 8 guardias
+- 2026-09-15: DuckDB reconstruida + LLM + SQLi + 72 videos
+- 2026-09-16: Batch + guardias + auditoria + Phantom Killer
+- 2026-09-17: RAG + 5 bugs + config
+
+Historia completa en `~/proyectos/nlp/BITACORA.md`
+
+## Proximo paso
+Chunking (2-3h) para RAG de calidad.
+
+### Plan de chunking
+1. `brainhub/chunking/chunker.py` (Clase Chunker)
+2. `scripts/chunkear.py` (indexar .txt en tabla chunks)
+3. Modificar `preguntar.py` para usar chunks
+4. Test con video KV cache
+5. Test con 4-5 preguntas
+
+### Esquema chunks
+    CREATE TABLE chunks (
+        chunk_id INTEGER,
+        video VARCHAR,
+        posicion INTEGER,
+        texto VARCHAR
+    );
+
+### Estrategias del Chunker
+- `por_oraciones(texto, max_oraciones=10)`
+- `por_parrafos(texto, max_parrafos=3)`
+- `por_caracteres(texto, max_chars=2000, overlap=200)`
+
+## Documentacion viva
+- `BITACORA.md` — historia narrativa (1695 lineas)
+- `README.md`, `TUTORIAL.md`, `ROADMAP.md`, `CONTRIBUTING.md`, `CHANGELOG.md`
+- `~/.brainhub/prompt_actual.md` — este archivo
+
+## Comandos de arranque
+    cd ~/proyectos/nlp
+    git log --oneline -10
+    cat ~/.brainhub/prompt_actual.md
