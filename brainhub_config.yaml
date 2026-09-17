@@ -1,0 +1,27 @@
+paths:
+  download: /sdcard/Download
+  logs: ~/proyectos/nlp/logs
+  data: ~/proyectos/nlp/data
+
+db:
+  path: /sdcard/Download/analisis_consolidado.duckdb
+
+llm:
+  modelo: gemma:2b
+  num_ctx: 512
+  num_predict: 80
+  ram_min_gb: 2.3
+  timeout_seg: 180
+
+rag:
+  top_k: 5
+  bm25_k1: 1.5
+  bm25_b: 0.75
+
+nichos:
+  habla_activo: true
+  diccionarios:
+    - stopwords.json
+    - terminos_tecnicos.json
+    - diccionario_clinico.json
+    - diccionario_nichos.json
