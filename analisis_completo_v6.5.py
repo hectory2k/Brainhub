@@ -611,7 +611,8 @@ INSERT INTO terminos_raw (video, term, frequency)
 SELECT '{video_id}' as video, "{term_col}" as term, "{freq_col}" as frequency
 FROM read_csv_auto('{csv_path}');
 
-INSERT OR IGNORE INTO progreso (video, estado)
+DELETE FROM progreso WHERE video = '{video_id}';
+INSERT INTO progreso (video, estado)
 VALUES ('{video_id}', 'pendiente');
 """
         

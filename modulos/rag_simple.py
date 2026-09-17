@@ -35,8 +35,20 @@ class RAGSimple:
             self.idf[token] = math.log((1 + self.total_docs) / (1 + freq)) + 1
     
     def _tokenizar(self, texto: str) -> List[str]:
-        """Tokeniza texto simple."""
-        return texto.lower().split()
+        """Tokeniza texto simple con normalización de plurales."""
+        tokens = []
+        for t in texto.lower().split():
+            # Quitar puntuación
+            t = t.strip(".,;:!?¡¿()[]{}\"'")
+            if len(t) < 2:
+                continue
+            # Singularizar plurales simples (español + inglés)
+            if t.endswith("es") and len(t) > 4:
+                t = t[:-2]
+            elif t.endswith("s") and len(t) > 3:
+                t = t[:-1]
+            tokens.append(t)
+        return tokens
     
     def _tf(self, termino: str, doc: str) -> float:
         """Frecuencia de término en documento."""
