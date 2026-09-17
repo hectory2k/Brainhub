@@ -753,3 +753,205 @@ NO implementado. Documentado para cuando surja necesidad real.
 
 ---
 
+
+## 2026-09-17 — RAG basico + 5 bugs + config centralizado
+
+### Contexto
+
+Sesion de continuacion despues del maraton del 15-16/09.
+Foco: RAG sobre los 79 videos ya procesados + limpiar deuda
+tecnica del pipeline.
+
+### Logros
+
+1. RAG basico funcionando (scripts/preguntar.py)
+2. content_control recreada con schema correcto
+3. Video KV cache (t4OnW22zXi4) procesado
+4. 3 bugs del pipeline arreglados
+5. Config centralizado (brainhub_config)
+
+### Bug 1: RAG sobre resumenes LLM no funcionaba
+
+SINTOMA:
+- Query: 'que se dijo sobre plantas industriales'
+- BM25 devolvia Como_dejar_el_1a1_ES (SALUD) score 3.8
+- El video correcto (Transcript_ME_lJOHAPUo_ES) no aparecia
+
+CAUSA:
+- Solo se indexaba resumen_llm (texto abstracto: 'ataque a un
+  sistema empresarial')
+- Los terminos_clave reales (planta 170, industrial 155)
+  no estaban en el indice
+
+FIX:
+- cargar_documentos() une analysis.resumen_llm con terminos_raw
+  via JOIN + string_agg (term repetido 3x para pesar mas)
+- Contexto al LLM con separador ||SEP||: 'Resumen: ... /
+  Terminos clave: ...'
+- Fix _tokenizar: normaliza plurales (plantas -> planta)
+
+RESULTADO:
+- BM25 ahora devuelve Transcript_ME_lJOHAPUo_ES score 16.36
+- Recall@3 = 1.0, MRR = 1.0
+
+### Bug 2: __pycache__ obsoleto
+
+SINTOMA:
+- preguntar.py tenia ||SEP|| en el codigo
+- Pero el comando usaba la version vieja (sin separador)
+- Terminos clave aparecian vacios
+
+CAUSA:
+- Python cachea bytecode en __pycache__/
+- El .pyc era mas nuevo que el .py
+
+FIX:
+  rm -rf scripts/__pycache__
+
+LECCION:
+> Tras editar scripts, borrar __pycache__ antes de probar.
+> O usar python3 -B script.py (no escribe .pyc).
+
+### Bug 3: content_control se perdio al reconstruir la DB
+
+SINTOMA:
+- procesar URL tiraba 'Table with name content_control does not exist'
+- El pipeline funcionaba igual pero con warning
+
+CAUSA:
+- ~/yt usa content_control para idempotencia
+  (INSERT OR IGNORE + UPDATE status)
+- La tabla existia en la DB v999 (perdida)
+- No se recreo en pipeline_db.sh
+
+FIX:
+  CREATE TABLE content_control (
+    content_id VARCHAR PRIMARY KEY,
+    source_type VARCHAR,
+    source_url VARCHAR,
+    status VARCHAR DEFAULT 'pending',
+    processed_at TIMESTAMP,
+    error_message VARCHAR
+  );
+
+PENDIENTE:
+- Agregar content_control a reconstruir_db.sh
+
+### Bug 4: resumen LLM alucinaba 'traduccion de idiomas'
+
+SINTOMA:
+- Video KV cache (t4OnW22zXi4) resumido como 'traduccion de
+  idiomas'
+- Los terminos clave eran: palabra(29), pasa(25), hablando(22),
+  vez(22), viene(14), vuelta(13), llama(13)
+
+CAUSA (2 sub-problemas):
+A. Muletillas orales no filtradas por HABLA
+B. El prompt del resumen incluia metadata ruidosa:
+   - Segmentos, Dialogos, Polaridad
+   - Terminos con frecuencia 'cache(39)' interpretado como
+     identificador literal
+
+FIX A:
+- HABLA: 119 -> 127 terminos
+- Agregadas: pasa, hablando, viene, vuelta, llama, lomo,
+  lomos, vuelto
+- AnalizadorNichos ya devolvia HABLA en nichos_para_filtrar,
+  solo faltaban los terminos
+
+FIX B:
+- Quitar Segmentos, Dialogos, Polaridad del contexto
+- Terminos sin frecuencia: 'cache, modelo, prompt, tokens'
+- Prompt con REGLAS explicitas
+
+RESULTADO A:
+- Terminos ahora: cache(39), modelo(15), prompt(13), tokens(12),
+  memoria(10)
+
+### Bug 5: warning consolidar_en_duckdb
+
+SINTOMA:
+- Cada analisis tiraba 'Binder Error: There are no UNIQUE/
+  PRIMARY KEY constraints that refer to this table'
+
+CAUSA:
+- analisis_completo_v6.5.py:613 hacia INSERT OR IGNORE INTO
+  progreso
+- DuckDB 1.5.5 requiere PRIMARY KEY para INSERT OR IGNORE
+- progreso (creada por reconstruir_db.sh) no tiene PK
+
+FIX:
+- Cambiar INSERT OR IGNORE por DELETE + INSERT
+- Consistente con el DELETE que ya hace para terminos_raw
+- Tambien: marcar consolidar_en_duckdb de exportar_sqlite.py
+  como obsoleta (usaba import duckdb, no instalable en py3.14)
+
+### Logro: config centralizado
+
+Inspirado en ProjectConfig de Brain-Tumor-3D-Segmentation.
+
+- brainhub_config.json: config unificada
+  (paths, db, llm, rag, nichos)
+- brainhub_config.py: loader con dot-notation
+  - cfg.get('db.path')
+  - cfg.reload()
+- Sin dependencias (JSON built-in, no pyyaml)
+
+PENDIENTE: migrar ollama_client, abstract_llm, preguntar,
+rag_simple para usar cfg
+
+### Aprendizaje: proyecto Brain-Tumor-3D-Segmentation
+
+FUENTE: https://github.com/bielvicens/Brain-Tumor-3D-Segmentation
+
+QUE TOMAR:
+- Arquitectura modular por responsabilidades
+- Config centralizada (aplicado)
+- Sliding-window inference (= chunking)
+- Streamlit para demo
+- Checkpoints best/last para batches LLM
+
+QUE NO TOMAR:
+- 3D U-Net / PyTorch / CUDA (no aplica a NLP)
+- Reportar validacion como resultado (peligroso)
+- Sin baselines ni ablacion (no es peer-reviewed)
+
+### Metricas de la sesion
+
+- Bugs resueltos: 5
+- Scripts nuevos: 1 (brainhub_config)
+- Videos procesados: 1 (t4OnW22zXi4 KV cache)
+- HABLA: 119 -> 127 terminos
+- Commits: ~5
+
+### Estado
+
+- 79 videos en DB (73+ con resumen LLM)
+- RAG basico funcionando (BM25 + Ollama)
+- 5 bugs resueltos
+- Config centralizado
+
+### Deuda tecnica
+
+1. Chunking (2-3h) para RAG de calidad
+2. Ollama estable (diferido a sesion dedicada)
+3. Migrar scripts a brainhub_config
+4. Agregar content_control a reconstruir_db.sh
+5. analizar.sh no es idempotente en nombres
+
+### Lecciones
+
+> Los resumenes LLM no son buenos indices para BM25.
+> Los terminos_raw si. La mezcla funciona.
+>
+> __pycache__ puede hacer que un fix no se aplique.
+> Tras editar, borrar el cache.
+>
+> El prompt del LLM no debe incluir metadata ruidosa
+> (segmentos, dialogos, polaridad). Confunde al modelo.
+>
+> Las tablas de la DB no se recrean solas. Si una falta,
+> agregarla a reconstruir_db.sh.
+
+---
+
