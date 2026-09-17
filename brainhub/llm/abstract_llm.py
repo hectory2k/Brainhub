@@ -112,23 +112,23 @@ def generar_resumen_desde_analisis(
         return None
 
     terminos = analisis.get("terminos_clave", [])[:10]
-    terminos_str = ", ".join(f"{t}({f})" for t, f in terminos)
-    sent = analisis.get("sentimiento_global", {})
-    polaridad = sent.get("polaridad", 0)
+    # Solo los términos, sin frecuencia (evita confusión del LLM)
+    terminos_str = ", ".join(str(t) for t, f in terminos)
 
     contexto = (
-        f"Documento: {analisis.get('documento', '?')}\n"
+        f"Video: {analisis.get('documento', '?')}\n"
         f"Nicho: {analisis.get('nicho', 'GENERAL')}\n"
-        f"Segmentos: {analisis.get('total_segmentos', 0)}\n"
-        f"Dialogos: {analisis.get('total_dialogos', 0)}\n"
-        f"Polaridad: {polaridad:.2f}\n"
-        f"Top terminos: {terminos_str}"
+        f"Términos clave: {terminos_str}"
     )
 
     prompt = (
-        "Genera un abstract de 3 oraciones en espanol. "
-        "Debe describir el tema principal, el enfoque y el tono. "
-        "NO inventes datos. Solo interpreta lo que ves.\n\n"
+        "Dados estos datos sobre un video, generá un abstract de 3 oraciones "
+        "en español describiendo el tema.\n\n"
+        "REGLAS:\n"
+        "- Basate en los 'Términos clave' (son las palabras más importantes del video)\n"
+        "- NO menciones: polaridad, segmentos, diálogos, ni números\n"
+        "- NO inventes: si no podés inferir el tema, decí 'Tema no claro'\n"
+        "- Mencioná el tema principal y qué enfoque tiene\n\n"
         f"{contexto}\n\n"
         "Abstract:"
     )
