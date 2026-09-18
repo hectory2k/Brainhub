@@ -174,3 +174,41 @@ Chunking (2-3h) para RAG de calidad.
     cd ~/proyectos/nlp
     git log --oneline -10
     cat ~/.brainhub/prompt_actual.md
+
+### Cierre 2026-09-17: plantilla agregada
+
+Documento nuevo: docs/PLANTILLA_CLASE_40MIN.md (152 lineas)
+
+Caso de uso: preparar clase/ateneo a partir de un paper.
+Flujo: analizar paper -> documento_8020 -> narrativa propia.
+Ahorro: 2h 25min -> 40 min (1h 45min por clase).
+
+Commits del dia: 11 total.
+Ultimo: 328df2c (fix plantilla sin duplicacion + v7.2.0)
+
+### Descartado hoy: Textstat
+- Libreria de legibilidad (Flesch, Fernandez-Huerta, etc)
+- Motivo: no resuelve ningun bug, agrega dependencia (pyphen, cmudict)
+- Regla VigiSalud: no agregar features que no resuelvan un bug
+
+### Roadmap largo plazo (diferido)
+- Streamlit (demo interactiva)
+- MCP server (exponer endpoints como tools)
+- Jinja (templates para dashboard)
+- PythonAnywhere (hosting publico)
+- LiteLLM (multi-proveedor LLM)
+- Grafos (8 bugs pendientes desde 2026-09-10)
+- Denoise (limpieza de audio)
+
+### Estado del proyecto al cierre
+- 79 videos en DB (73+ con resumen LLM)
+- RAG basico funcionando
+- Config centralizado
+- Prompt: 176 lineas (limpio)
+- Bitacora: 957 lineas (completa)
+- Plantilla: 152 lineas
+- Todo pusheado a GitHub
+
+### Proxima sesion: chunking
+Plan detallado en seccion 'Proximo paso' de arriba.
+
