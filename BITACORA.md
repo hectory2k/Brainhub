@@ -955,3 +955,92 @@ QUE NO TOMAR:
 
 ---
 
+
+### Cierre 2026-09-17: plantilla + balance del día
+
+#### Documento nuevo: PLANTILLA_CLASE_40MIN.md
+
+Ubicacion: docs/PLANTILLA_CLASE_40MIN.md
+Tamaño final: 152 lineas
+
+Contenido:
+- Cronometro de 40 min para preparar una clase
+- 8 etapas (0-3, 3-5, 5-8, 8-20, 20-28, 28-33, 33-38, 38-40)
+- Checklist reutilizable
+- Tabla comparativa: sin BrainHub vs con BrainHub
+- Ejemplo real: paper 'Is AI making us stupid?'
+- Formula: Datos (BrainHub) + Interpretacion (vos) = Clase 40 min
+
+Caso de uso: preparar un ateneo/clase a partir de un paper
+en 40 min en vez de 2h 25min (ahorro: 1h 45min)
+
+#### Commits del dia (11 total)
+
+| Commit | Contenido |
+|--------|-----------|
+| 328df2c | Fix plantilla (152 lineas, sin duplicacion) |
+| e76f174 | Primer fix fallido (rompio el documento) |
+| 6c3f9e4 | Plantilla nueva (183 lineas, con duplicacion) |
+| 316d8b5 | Prompt consolidado (176 lineas) |
+| 6e7edbf | Bitacora completa (957 lineas) |
+| 8f86c4f | Config JSON |
+| 60aa681 | Config JSON (v1) |
+| 84656ea | 3 mejoras pipeline (HABLA + warning + prompt) |
+| 846963d | Warning consolidar + video KV cache |
+| 381d8f3 | Limpieza derivados atlas |
+| b0e3f38 | 72 videos con resumen LLM |
+
+#### Balance del dia
+
+Logros:
+- RAG basico funcionando (preguntar.py)
+- 5 bugs resueltos (RAG, pycache, content_control, muletillas, warning)
+- Config centralizado (brainhub_config.json)
+- Video KV cache procesado (t4OnW22zXi4)
+- Prompt: 1695 -> 176 lineas (10x mas corto)
+- Plantilla nueva: 152 lineas
+- Aprendizaje del proyecto Brain-Tumor-3D
+
+Descartado:
+- Textstat (no resuelve bugs, agrega complejidad)
+
+Diferido:
+- Chunking (2-3h) -> proxima sesion
+- Migrar a brainhub_config (1h) -> proxima sesion
+- Ollama estable -> sesion dedicada
+- Streamlit, MCP, Jinja, PythonAnywhere -> roadmap largo
+
+#### Lecciones del dia
+
+> __pycache__ puede hacer que un fix no se aplique.
+> Tras editar scripts, borrar el cache.
+>
+> Los resumenes LLM no son buenos indices para BM25.
+> Los terminos_raw si. La mezcla funciona.
+>
+> El prompt del LLM no debe incluir metadata ruidosa
+> (segmentos, dialogos, polaridad). Confunde al modelo.
+>
+> Las tablas DB no se recrean solas.
+> Agregar a reconstruir_db.sh.
+>
+> No agregar features que no resuelvan un bug.
+> Regla VigiSalud aplicada a Textstat (descartado).
+
+#### Deuda viva
+
+Alta:
+1. Chunking (2-3h) - RAG de calidad
+2. Migrar a brainhub_config (1h)
+
+Media:
+3. Ollama estable (sesion dedicada)
+4. content_control en reconstruir_db.sh (5 min)
+5. analizar.sh idempotente (10 min)
+
+Baja:
+6. Refinar validador (cobertura 12%)
+7. Mejorar prompt del LLM para resumen
+
+---
+
