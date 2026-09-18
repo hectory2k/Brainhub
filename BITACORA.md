@@ -1135,3 +1135,37 @@ Documento 80/20: 60 lineas generadas
 >
 > /tmp no escribible en Termux. Usar ~/tmp.
 
+
+## 2026-09-18 — Fixes PDFs + deploy.sh idempotente
+
+### Bugs resueltos (8)
+
+#### procesar (4 bugs)
+1. No detectaba PDFs -> elif *.pdf
+2. analizar era alias -> python3 directo
+3. KeyError en preguntas_debate.py -> isinstance()
+4. Descolumnado forzado -> auto-deteccion
+
+#### Infra (4 bugs)
+5. deploy.sh no idempotente -> detecta cambios reales
+6. .gitignore sin *.bak.* -> backups con timestamp se subian
+7. .bak trackeados -> git rm --cached
+8. Comentarios de prueba en BITACORA -> borrados
+
+### Test end-to-end
+- PDF: RESUMEN FARMACOLOGIA
+- Nicho: SALUD
+- Documento 80/20 generado (60 lineas)
+
+### Comando nuevo
+    procesar archivo.pdf
+
+### Lecciones
+> Los alias NO funcionan dentro de scripts bash
+> Validar isinstance() para datos de tipo variable
+> Las guardias deben tener auto-fallback, no flag manual
+> deploy.sh debe detectar cambios con git status --porcelain
+> *.bak no matchea archivo.bak.20260918_1322
+> Usar *.bak.* tambien
+
+---
