@@ -1169,3 +1169,61 @@ Documento 80/20: 60 lineas generadas
 > Usar *.bak.* tambien
 
 ---
+
+## 2026-09-18 — Fix: content_control schema en DuckDB
+
+### Síntoma
+- procesar ~/yt fallaba con 'NOT NULL constraint failed: content_control.id'
+- El INSERT no especificaba 'id', pero el schema lo exigía
+- content_control tenía 'id INTEGER PRIMARY KEY' sin default
+
+### Diagnóstico (largo)
+1. Pensé que era el fix anterior que no se había aplicado
+   - Falso: el script ya tenía CREATE OR REPLACE
+2. Pensé que había que recrear la tabla en la DB viva
+   - Falso: DESCRIBE mostró que ya estaba correcta
+3. La causa real: DuckDB NO autogenera INTEGER PRIMARY KEY
+   - A diferencia de SQLite, no hay ROWID implícito ni AUTOINCREMENT
+   - Un INSERT sin 'id' explícito revienta con NOT NULL
+
+### Causa real
+El schema original era:
+  id INTEGER PRIMARY KEY   -- sin DEFAULT, sin SEQUENCE
+
+En SQLite eso funciona (autoincremento implícito).
+En DuckDB no: el entero queda NULL y viola el NOT NULL.
+
+### Fix
+1. content_control usa 'content_id VARCHAR PRIMARY KEY'
+   - content_id ya es único por diseño ('youtube:s6WTGMuFL8s')
+   - No hace falta ID sintético
+2. CREATE OR REPLACE TABLE (era CREATE TABLE IF NOT EXISTS)
+   - IF NOT EXISTS no actualiza el schema de tablas existentes
+   - OR REPLACE sí, y es idempotente al reconstruir
+3. INSERT con ON CONFLICT (content_id) DO NOTHING
+   - Reconstruir desde Transcript_*.txt no duplica
+
+### Lección
+> DuckDB ≠ SQLite en autoincremento.
+> Si el dato ya tiene un identificador natural único,
+> usá ese como PK. Más simple, KISS, y sobrevive a reconstrucciones.
+>
+> CREATE TABLE IF NOT EXISTS es una trampa para migraciones:
+> no actualiza el schema si la tabla ya existe.
+> Para scripts de reconstrucción, CREATE OR REPLACE.
+>
+> Cuando un replace() exacto 'no matchea',
+> regex con re.DOTALL + re.IGNORECASE es más robusto.
+>
+> El test directo de inserción valió más que el test del pipeline.
+> Aislar la operación atómica primero, después el flujo completo.
+
+### Estado
+- content_control: 23 filas, schema sin 'id'
+- PK: content_id VARCHAR PRIMARY KEY
+- DuckDB v1.5.5 (Variegata)
+- ~/yt ya no falla al insertar
+- Commit: e6cdf5f fix(reconstruir_db): content_control schema correcto
+
+---
+
