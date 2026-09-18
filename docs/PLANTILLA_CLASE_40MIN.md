@@ -149,7 +149,7 @@ BrainHub no piensa por vos. Te da los datos para que pienses mejor.
 
 ---
 
-*Documento generado para BrainHub v6.5*
+*Documento generado para BrainHub v7.2.0*
 *Fuente: experiencia real de preparación de ateneo*
 
 ---
@@ -173,11 +173,3 @@ BrainHub no piensa por vos. Te da los datos para que pienses mejor.
 3. **Herramientas**: IA
 4. **Riesgo**: descarga cognitiva mal usada
 5. **Analogía**: GPS (guía vs piloto automático)
-6. **Aplicación**: anestesia (calcular dosis con verificación)
-7. **Preguntas**: "¿Cuándo la IA complementa y cuándo reemplaza?"
-
----
-
-*Documento generado para BrainHub v6.5*
-*Fuente: experiencia real de preparación de ateneo*
-
