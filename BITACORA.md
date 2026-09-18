@@ -1137,3 +1137,120 @@ Documento 80/20: 60 lineas generadas
 
 ---
 
+
+## 2026-09-18 — Soporte PDFs + auto-detección descolumnado
+
+### Contexto
+
+Se probó procesar un PDF (RESUMEN FARMACOLOGIA) y el flujo
+falló en 4 puntos. Todos resueltos.
+
+### Bug 1: procesar no detectaba PDFs
+
+SINTOMA:
+- procesar RESUMEN.pdf -> trataba como 'texto directo'
+- Guardaba en /tmp/texto_directo.txt (no escribible en Termux)
+
+FIX:
+- Agregado elif *.pdf -> procesar_paper
+- /tmp/texto_directo.txt -> ~/tmp/texto_directo.txt
+
+### Bug 2: procesar_paper.sh no encontraba analizar
+
+SINTOMA:
+- 'analizar: command not found' dentro del script
+
+CAUSA:
+- analizar es un ALIAS de bash:
+    alias analizar='python3 ~/proyectos/nlp/analisis_completo_v6.5.py'
+- Los alias NO funcionan dentro de scripts bash
+
+FIX:
+- Cambiar analizar por python3 + ruta absoluta
+
+### Bug 3: KeyError en preguntas_debate.py
+
+SINTOMA:
+- KeyError: slice(None, 150, None) al generar documento 80/20
+
+CAUSA:
+- citas_clave[0] es un dict {'hablante': ..., 'texto': ...}
+- El código asumía que era string
+- terminos_clave[0] es [term, freq]
+- El código asumía que era string
+
+FIX:
+- isinstance() check antes de operar
+- Si dict -> .get('texto')
+- Si list/tuple -> [0]
+
+### Bug 4: descolumnado forzado en PDFs de 1 columna
+
+SINTOMA:
+- descolumnar.py fallaba con 'GUARDIA DE DESCOLUMNADO FALLÓ'
+- 58.3% de líneas cortadas en el PDF de farmacología
+- El texto quedaba roto en pedazos
+
+CAUSA:
+- descolumnar.py asume PDFs de 2 columnas (papers científicos)
+- RESUMEN FARMACOLOGIA es de 1 columna
+
+FIX (auto-detección):
+- Capturar output de descolumnar.py
+- Si contiene 'GUARDIA.*FALLÓ' -> usar texto original
+- Sin flag manual (era un parche)
+
+### Test end-to-end
+
+PDF: RESUMEN FARMACOLOGIA (20447 chars, 83 segmentos)
+Nicho detectado: SALUD
+Términos clave: accion(20), farmacos(16), sustancias(14)
+Co-ocurrencias: farmacos + farmaco (14)
+Documento 80/20: 60 lineas generadas
+
+### Comando nuevo
+
+    procesar archivo.pdf      # PDFs ahora soportados
+
+### Lecciones
+
+> Los alias NO funcionan dentro de scripts bash.
+> Usar rutas absolutas (python3 ~/ruta/script.py)
+>
+> Los datos pueden venir en distintos tipos:
+> - citas_clave[0] puede ser str o dict
+> - terminos_clave[0] puede ser str, list o tuple
+> Validar isinstance() antes de operar.
+>
+> Las guardias deben tener escape hatch automático,
+> no flag manual (que el usuario tiene que saber).
+>
+> /tmp no escribible en Termux. Usar ~/tmp.
+
+---
+
+
+## 2026-09-18 — Soporte PDFs + auto-desconvolumnado
+
+### Bug 1: procesar no detectaba PDFs
+FIX: elif *.pdf -> procesar_paper + /tmp -> ~/tmp
+
+### Bug 2: analizar era alias (no funciona en scripts)
+FIX: python3 ~/proyectos/nlp/analisis_completo_v6.5.py
+
+### Bug 3: KeyError en preguntas_debate.py
+FIX: isinstance() check (citas dict, terminos list)
+
+### Bug 4: descolumnado forzado en PDFs de 1 columna
+FIX: auto-deteccion (si guardia falla -> usar original)
+
+### Comando nuevo: procesar archivo.pdf
+
+### Lecciones
+> Los alias NO funcionan dentro de scripts bash
+> Validar isinstance() para datos de tipo variable
+> Las guardias deben tener auto-fallback, no flag manual
+> /tmp no escribible en Termux -> usar ~/tmp
+
+---
+
