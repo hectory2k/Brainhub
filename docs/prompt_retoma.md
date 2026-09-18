@@ -212,3 +212,27 @@ Ultimo: 328df2c (fix plantilla sin duplicacion + v7.2.0)
 ### Proxima sesion: chunking
 Plan detallado en seccion 'Proximo paso' de arriba.
 
+
+### Comando nuevo: procesar PDF
+
+    procesar archivo.pdf
+
+Flujo completo:
+1. pdftotext -layout -> txt
+2. descolumnar.py (auto-deteccion)
+   - Si guardia falla -> usa texto original
+3. analizar -> analisis_completo_v6.5.py
+4. documento_8020.sh -> documento markdown
+
+### Bugs resueltos 2026-09-18
+- procesar no detectaba PDFs
+- procesar_paper.sh no encontraba analizar (era alias)
+- KeyError en preguntas_debate.py (citas dict, terminos list)
+- descolumnado forzado en PDFs de 1 columna
+
+### Leccion
+- Los alias NO funcionan dentro de scripts bash
+- Validar isinstance() para datos que vienen en varios tipos
+- /tmp no escribible en Termux -> usar ~/tmp
+- Las guardias deben tener auto-fallback, no flag manual
+
