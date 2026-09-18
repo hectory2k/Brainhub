@@ -151,25 +151,3 @@ BrainHub no piensa por vos. Te da los datos para que pienses mejor.
 
 *Documento generado para BrainHub v7.2.0*
 *Fuente: experiencia real de preparación de ateneo*
-
----
-
-## 🎯 Ejemplo de aplicación real
-
-**Paper**: "Is AI making us stupid?"
-
-- **Nicho**: AI_SAFETY
-- **Top términos**: cognitive (51), skills (20), skill (16)
-- **Co-ocurrencias clave**:
-  - thinking + critical: 179
-  - tools + tool: 124
-  - thinking + tool: 108
-  - cognitive + offloading: 87
-
-**Estructura de la clase**:
-
-1. **Datos**: co-ocurrencias de BrainHub
-2. **Núcleo**: pensamiento crítico
-3. **Herramientas**: IA
-4. **Riesgo**: descarga cognitiva mal usada
-5. **Analogía**: GPS (guía vs piloto automático)
