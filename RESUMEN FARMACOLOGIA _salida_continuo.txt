@@ -1,0 +1,570 @@
+=== COLUMNA IZQUIERDA ===
+
+Introducción
+¿Sabías que algunos gases anestésicos duermen pr
+necesidad de unirse a un receptor específico en
+fármacos requieren un encaje molecular perfecto
+es la delgada línea que separa la vida, el dolor
+más críticos de la medicina. En esta lección, ex
+sustancias con nuestro organismo y cómo se gesti
+de emergencia.
+Drogas y Fármacos: Definiendo la
+Ciencia de la Vida
+Para adentrarnos en la farmacología clínica, pri
+que a menudo se confunden en el lenguaje cotidia
+La Organización Mundial de la Salud (OMS) define
+psicoactiva) como cualquier sustancia de origen
+que, al introducirse en el organismo por cualqui
+funcionamiento del sistema nervioso central (SNC
+de modificar el pensamiento, las emociones, las
+Por otro lado, un fármaco es una sustancia quími
+organismo vivo, modifica sus funciones fisiológi
+definición de fármaco no necesariamente implica
+ejemplo, las hormonas anticonceptivas son fármac
+fisiológica.
+La Naturaleza y Acción Farmacológica
+Las sustancias activas logran sus efectos porque
+suelen imitar o "engañar" a los neurotransmisore
+interfiriendo con los circuitos de recompensa, p
+los circuitos de la dopamina).
+Cuando un fármaco ingresa al cuerpo, genera una
+divide en cinco tipos fundamentales:
+    ●​ Estimulación: Aumento de la actividad de
+         (ej. la cafeína).
+    ●​ Depresión: Disminución e inhibición de la
+    ●​ Irritación: Estimulación violenta que cau
+         los tejidos.
+    ●​ Reemplazo: Sustitución de una sustancia e
+         forma deficiente o no produce (ej. la i
+    ●​ Acción antiinfecciosa o antimicrobiana: D
+         microorganismos patógenos en el organis
+Clasificación, Dosificación y
+Dinámica de las Sustancias
+Las sustancias se organizan bajo tres criterios
+social:
+   ●​ Según sus efectos en el SNC:
+         ○​ Depresoras: Desaceleran la actividad
+             somnolencia (ej. alcohol, fentanilo
+         ○​ Estimulantes: Activan y aceleran el
+             la alerta, energía y frecuencia car
+             cafeína).
+         ○​ Alucinógenas o perturbadoras: Distor
+             el sentido del tiempo (ej. LSD).
+   ●​ Según su origen:
+         ○​ Naturales: Consumidas directamente d
+             tabaco).
+         ○​ Semisintéticas: Sintetizadas en labo
+             (ej. cocaína procesada, heroína).
+         ○​ Sintéticas: Creadas de forma 100% qu
+             fentanilo sintético).
+   ●​ Según su estado legal:
+         ○​ Lícitas (legales): Permitidas por la
+             receta médica.
+         ○​ Ilícitas (ilegales): Penalizadas por
+Conceptos Críticos de Dosificación
+En la administración de cualquier sustancia, la
+clínico. Distinguimos tres tipos de dosis esenci
+    ●​ Dosis eficaz: La cantidad mínima necesari
+        terapéutico buscado.
+    ●​ Dosis tóxica: La cantidad que comienza a
+        efectos secundarios de gravedad.
+    ●​ Dosis letal (sobredosis): Cantidad de sus
+        y puede provocar la muerte.
+Con el uso repetido de ciertas sustancias, el or
+tolerancia (necesidad de aumentar la dosis para
+dependencia (necesidad física o psicológica para
+síndrome de abstinencia si se suspende el consum
+Farmacología en el Quirófano:
+Hipnosis, Analgésicos y Gases
+Anestésicos
+La anestesiología moderna busca garantizar tres
+inducción de la inconsciencia (hipnosis), la ana
+manteniendo siempre la estabilidad hemodinámica
+1. Hipnóticos y Anestésicos Endovenosos
+En este grupo destacan las benzodiacepinas, clas
+    ●​ Midazolam: La benzodiacepina estándar en
+       (duración de 1 a 2 horas), inicio rápido
+       hidrosoluble, no genera dolor ni irritaci
+       la premedicación inmediata y la sedación
+       amnesia anterógrada.
+    ●​ Diazepam: De acción prolongada. Se utiliz
+       debido a que su vehículo comercial puede
+       Se prefiere para premedicación oral la no
+       y como miorrelajante.
+    ●​ Lorazepam: De acción intermedia. Su efect
+       midazolam, pero su duración es considerab
+       cirugías mayores de larga duración.
+2. Anestésicos Inhalatorios (Gases)
+Estos fármacos actúan alterando la transmisión s
+inespecífica:
+    ●​ Sevoflurano: Altamente utilizado para ind
+       en pacientes de todas las edades. Al tene
+       vías respiratorias, es el gas de elección
+       muy rápido al suspenderse.
+    ●​ Isoflurano: Posee una alta estabilidad me
+       mantenimiento anestésico prolongado.
+    ●​ Óxido nitroso: Gas coadyuvante con propie
+       desuso).
+3. Analgésicos Opioides Mayores
+    ●​ Fentanilo: Opioide sintético potente de a
+       respuestas hipertensivas durante la intub
+    ●​ Remifentanilo: De metabolismo ultra rápid
+       lo convierte en el fármaco ideal para inf
+       la anestesia.
+   ●​ Morfina: Reservado principalmente para el
+      postoperatorio.
+   ●​ Antagonista crítico: La naloxona, empleada
+      depresión respiratoria causada por sobredo
+Bloqueantes Neuromusculares y
+Soporte de Emergencia
+Para facilitar la intubación endotraqueal y opti
+los bloqueantes neuromusculares (relajantes musc
+    ●​ Despolarizantes (Succinilcolina): De acci
+       secuencias de intubación rápida en emerge
+       fasciculaciones (contracciones musculares
+       parálisis.
+    ●​ No despolarizantes (Rocuronio, Vecuronio)
+       acetilcolina en la unión neuromuscular, g
+       prolongado.
+    ●​ Reversión del bloqueo: Se utiliza neostig
+       efectos secundarios muscarínicos) o sugam
+       revertir el efecto del rocuronio.
+Soporte Hemodinámico y Reanimación en Emergencia
+En situaciones de inestabilidad o paro cardiorre
+y el conocimiento de los fármacos es vital:
+    ●​ Adrenalina (Epinefrina): Vasoconstrictor
+       elección en paros cardíacos, shocks anafi
+    ●​ Atropina: Anticolinérgico utilizado para
+       sintomáticas severas e intoxicaciones por
+    ●​ Amiodarona: Antiarrítmico de amplio espec
+       ventricular o taquicardia ventricular sin
+    ●​ Adenosina: Utilizada para revertir taquic
+       (TSVP) mediante una administración rápida
+La Distribución Estándar del Carro de Paro (Cras
+El carro de paro es una unidad móvil diseñada pa
+fármacos críticos de reanimación. Su organizació
+el margen de error humano bajo estrés:
+    ●​ Cajón 1: Medicamentos cardiovasculares y
+    ●​ Cajón 2: Material de intubación y manejo
+    ●​ Cajón 3: Soluciones intravenosas, agujas
+    ●​ Cajón 4: Equipos de infusión, desfibrilad
+Fundamentos de la Acción y el Efecto Farmacológ
+La comprensión de la farmacología requiere una d
+inicial y el resultado biológico:
+    ●​ Acción Farmacológica: Se define como la m
+        orgánica inducida específicamente por un
+    ●​ Efecto Farmacológico: Es la consecuencia
+        los sentidos o instrumentos de medición.
+        relación entre la magnitud de la respues
+        representada en la curva dosis-respuesta
+Definición y Naturaleza de las Drogas
+Concepto de Droga
+Se definen como sustancias químicas —ya sean nat
+semisintéticas— que, tras su introducción en el
+provocan alteraciones en el funcionamiento del s
+alteraciones afectan:
+    ●​ Pensamiento: Procesos cognitivos y razona
+    ●​ Emociones: Estados de ánimo y respuestas
+    ●​ Percepciones: Interpretación de los estím
+    ●​ Conducta: Comportamiento observable del i
+Interacción Cerebral y Mecanismo de Acción
+La naturaleza de una droga se fundamenta en su c
+interactuar con la arquitectura cerebral. Los pu
+    ●​ Similitud Molecular: Su estructura suele
+       neurotransmisores naturales del cuerpo hu
+    ●​ Mimetismo Receptivo: Al ingresar al organ
+       los receptores neuronales.
+    ●​ Alteración Química: Intervienen en la pro
+       como la dopamina.
+    ●​ Interferencia de Circuitos: Afectan direc
+       responsables de la recompensa, el placer
+Características Principales del Consumo
+Las sustancias catalogadas como drogas comparten
+definen su impacto en el usuario:
+   Característica                             De
+Psicoactividad        Capacidad de traspasar la
+                      generar cambios inmediatos
+ Tolerancia            Adaptación del cuerpo a
+                       cada vez mayores para obt
+ Dependencia           Necesidad física o psicol
+                       para funcionar con normal
+ Síndrome de           Reacciones físicas y psic
+ Abstinencia           potencialmente mortales)
+                       drásticamente.
+Clasificación de las Drogas
+El análisis de las sustancias se organiza bajo t
+A. Según sus Efectos en el Sistema Nervioso Cent
+    1.​ Depresoras: Desaceleran y adormecen la a
+        relajación, somnolencia y reducción de r
+            ○​ Ejemplos: Alcohol, heroína, morfi
+    2.​ Estimulantes: Activan y aceleran el func
+        energía, el estado de alerta, la frecuen
+            ○​ Ejemplos: Cocaína, anfetaminas, n
+    3.​ Alucinógenas o Perturbadoras: Distorsion
+        tiempo y los sentidos, pudiendo crear il
+            ○​ Ejemplos: LSD.
+B. Según su Origen
+   ●​ Naturales: Consumidas directamente de la n
+      químicas de laboratorio (ej. hoja de tabac
+   ●​ Semisintéticas: Obtenidas mediante proceso
+      partiendo de una base natural (ej. cocaína
+   ●​ Sintéticas: Creadas íntegramente mediante
+      laboratorios (ej. Éxtasis/MDMA, fentanilo,
+C. Según su Estado Legal
+   ●​ Lícitas (Legales): Aquellas cuyo comercio
+      aunque regulados por normativas de edad (e
+      recetados).
+   ●​ Ilícitas (Ilegales): Sustancias cuya produ
+      penalizadas por la ley (ej. cocaína, heroí
+Acciones Farmacológicas en el Organismo
+Más allá de su clasificación general, las sustan
+específicas sobre las funciones celulares y los
+   ●​ Estimulación: Aumento de la función de las
+      (ej. cafeína).
+   ●​ Depresión: Disminución e inhibición de la
+   ●​ Irritación: Estimulación violenta que prov
+      estructura y nutrición de los tejidos.
+   ●​ Reemplazo: Sustitución de una sustancia qu
+      produce en cantidades insuficientes (ej. i
+   ●​ Acción Antiinfecciosa o Antimicrobiana: Ca
+      crecimiento de microorganismos patógenos d
+Clasificación según el Mecanismo de Acción
+Los fármacos se dividen en dos grandes grupos se
+organismo:
+   1.​ Fármacos de Acción Inespecífica: Carecen
+       estructura-actividad definida y no intera
+       Ejemplos incluyen los antiácidos y gases
+       isoflurano.
+   2.​ Fármacos de Acción Específica: Interaccio
+       macromoleculares determinados, denominado
+       sitios de fijación específicos. Ejemplos
+       opioides.
+Los Receptores Farmacológicos
+Los receptores son macromoléculas proteicas (aso
+hidrocarburos) ubicadas en la membrana celular,
+como sitios de unión para fármacos que funcionan
+de ligandos endógenos.
+Requisitos Básicos del Receptor
+Para que una molécula sea considerada un recepto
+cualidades:
+   ●​ Afinidad: Capacidad de fijar el fármaco in
+       extremadamente bajas.
+   ●​ Especificidad: Capacidad de distinguir ent
+       la interacción solo con aquellas que pose
+Eficacia o Actividad Intrínseca
+Es la capacidad del fármaco para, tras la intera
+procesos de transducción de respuesta celular y
+3. Dinámica de Interacción Fármaco-Receptor
+Dependiendo de cómo el fármaco afecte la activid
+cuatro categorías principales:
+      Tipo de                         Caracterís
+    Interacción
+ Agonista             Posee elevada eficacia y
+ Antagonista          Eficacia nula; se une al r
+                      la respuesta.
+ Agonista Parcial     Genera una respuesta infer
+                      saturación de receptores.
+ Agonista Inverso     Disminuye la activación co
+4. Clasificación Estructural de los Receptores
+Los receptores se categorizan según su arquitect
+transducción de señales que emplean:
+    ●​ Receptores Ionotrópicos (Canales iónicos
+       directamente a un canal iónico; median la
+       respuesta rápida.
+    ●​ Receptores Acoplados a Proteínas G (Metab
+       segmentos transmembrana. Utilizan sistema
+       adenililciclasa, fosfolipasas y canales i
+    ●​ Receptores Ligados a Cinasas: Poseen un d
+       ligando y actividad enzimática intrínseca
+       ciclasa).
+    ●​ Receptores Nucleares: Actúan como factore
+       dominios específicos para la unión al ADN
+5. Vías de Administración de Medicamentos
+Las vías de administración determinan el trayect
+ingresar al organismo.
+Vía Enteral (Sistema Digestivo)
+Incluye las vías oral, sublingual y rectal.
+    ●​ Ventajas: Administración fácil, segura y
+    ●​ Desventajas: Absorción lenta; su eficacia
+       o episodios de vómito.
+Vía Parenteral (Inyectable)
+Incluye las vías intravenosa, intramuscular e in
+    ●​ Ventajas: Acción rápida, alta biodisponib
+       alternativa cuando la vía oral no es viab
+    ●​ Desventajas: Requiere instrumental estéri
+       mayor riesgo de infecciones y necesidad d
+Otras Vías de Administración
+   ●​ Tópica, Inhalatoria, Oftálmica, Ótica, Vag
+6. Respuestas Orgánicas, Toxicidad y Manejo Tera
+La interacción química de los fármacos con el or
+no deseados:
+    ●​ Efectos Secundarios: Respuestas previstas
+       diarrea, que suelen ser de carácter moder
+    ●​ Efecto Paradojal: Respuesta biológica opu
+       Es impredecible y suele estar ligada a fa
+       provocando agitación e hiperactividad).
+    ●​ Toxicidad: Acción indeseada por acumulaci
+       deficiencias en la eliminación. Los sínto
+       náuseas y alteraciones cardiorrespiratori
+Gestión de Riesgos y Adicciones
+En el ámbito de la salud, el manejo de sustancia
+recae en el personal de enfermería, quienes debe
+correctos de administración" para evitar errores
+Ante la sospecha de adicciones, el enfoque debe
+   1.​ Detección: Vigilancia de cambios conductu
+   2.​ Intervención: Derivación a profesionales
+   3.​ Abordaje Terapéutico: Proceso médico de d
+       soporte en grupos de apoyo mutuo.
+Resumen
+En esta lección hemos abarcado las bases teórica
+la farmacología en contextos críticos:
+    ●​ Drogas vs. Fármacos: Las drogas alteran e
+       nervioso central, mientras que los fármac
+       modifican funciones biológicas con fines
+       terapéuticos.
+    ●​ Mecanismos de Acción: Los fármacos actúan
+       (interactuando con receptores celulares d
+       especificidad) o de manera inespecífica (
+       químicas globales).
+    ●​ Farmacología de Quirófano: La tríada anes
+       (Midazolam/Sevoflurano), analgesia (Fenta
+       (Succinilcolina/Rocuronio).
+    ●​ Seguridad en Emergencias: La reanimación
+       fármacos clave como la Adrenalina, la Atr
+       perfectamente clasificados y ordenados en
+       los tiempos de respuesta ante el paro car
+
+=== COLUMNA DERECHA ===
+
+ofundamente a un paciente sin
+el cerebro, mientras que otros
+para funcionar? La farmacología
+y la inconsciencia en los momentos
+ploraremos cómo interactúan estas
+onan en quirófanos y situaciones
+mero debemos aclarar dos términos
+no: droga y fármaco.
+una droga (o sustancia
+natural, semisintético o sintético
+er vía, altera de algún modo el
+). Las drogas tienen la capacidad
+percepciones y la conducta.
+ca activa que, introducida en el
+cas sin crear funciones nuevas. La
+la cura de una enfermedad; por
+os destinados a la regulación
+sus estructuras moleculares
+s naturales de nuestro cuerpo,
+lacer y supervivencia cerebral (como
+acción farmacológica, la cual se
+las células de un órgano o sistema
+función celular (ej. los sedantes).
+sa alteración o lesión estructural en
+sencial que el cuerpo produce de
+nsulina).
+estrucción o inhibición de
+mo.
+principales según el impacto clínico y
+cerebral, induciendo relajación y
+, morfina, benzodiacepinas).
+funcionamiento cerebral, elevando
+díaca (ej. cocaína, anfetaminas,
+sionan la percepción sensorial y
+e la naturaleza (ej. hoja de
+ratorio a partir de una base natural
+ímica en laboratorio (ej. éxtasis,
+ley, aunque reguladas por edad o
+las leyes vigentes del país.
+cantidad determina el resultado
+ales:
+a para producir el efecto
+generar daños, envenenamiento o
+tancia que colapsa funciones vitales
+ganismo puede experimentar
+obtener el mismo efecto),
+funcionar con normalidad) y
+o bruscamente.
+pilares quirúrgicos óptimos: la
+lgesia y la relajación muscular,
+del paciente.
+ificadas por su tiempo de acción:
+quirófano. De acción ultra corta
+(1-5 min) y rápida eliminación. Al ser
+ón en la inyección. Su uso principal es
+consciente, ofreciendo una potente
+a menos por vía intravenosa
+causar flebitis (irritación venosa).
+che anterior o mañana de la cirugía
+o inicia de forma más lenta que el
+lemente mayor, ideal para
+ináptica en el SNC de forma
+ucir y mantener anestesia general
+r un olor agradable y no irritar las
+en pediatría. Permite un despertar
+tabólica, ideal para el
+dades analgésicas leves (hoy en
+cción rápida. Clave para controlar las
+ación endotraqueal.
+o por esterasas plasmáticas, lo que
+usión continua en el mantenimiento de
+control prolongado del dolor
+de urgencia para revertir la
+sis de opioides.
+mizar el campo quirúrgico, se utilizan
+ulares):
+ón ultra rápida, ideal para
+ncias. Puede generar
+visibles breves) previas a la
+: Compiten directamente con la
+enerando un bloqueo competitivo
+mina (asociada a atropina para evitar
+madex, un agente específico para
+s
+spiratorio, la velocidad de respuesta
+potente y estimulante cardíaco de
+lácticos y bradicardias graves.
+tratar bradicardias sinusales
+organofosforados.
+tro, de elección para la fibrilación
+pulso refractaria.
+ardias supraventriculares paroxísticas
+en bolo.
+h Cart)
+ra centralizar los equipos y
+n estándar por cajones disminuye
+de reanimación.
+avanzado de la vía aérea.
+y catéteres.
+or y material complementario.
+ico
+istinción clara entre el proceso
+odificación de una función
+fármaco.
+de la acción, apreciable mediante
+Este se cuantifica a través de la
+ta y la dosis administrada,
+.
+urales, sintéticas o
+organismo por cualquier vía,
+istema nervioso central. Estas
+miento.
+afectivas.
+ulos sensoriales.
+ndividuo.
+apacidad farmacológica para
+ntos clave de esta interacción son:
+ser parecida a la de los
+mano.
+ismo, estas sustancias "engañan" a
+ducción y reciclaje de sustancias
+tamente los circuitos cerebrales
+y la supervivencia.
+rasgos fundamentales que
+scripción
+barrera hematoencefálica y
+en la actividad mental.
+la sustancia, requiriendo dosis
+ener el efecto inicial.
+ógica de mantener el consumo
+idad o evitar malestar.
+ológicas desagradables (y
+al suspender o reducir el consumo
+res criterios principales:
+ral
+ctividad cerebral. Inducen
+eflejos.
+na, fentanilo, benzodiacepinas.
+ionamiento cerebral. Incrementan la
+cia cardiaca y la presión arterial.
+icotina, cafeína.
+an la percepción de la realidad, el
+usiones.
+aturaleza sin alteraciones
+o, hongos, marihuana).
+s de síntesis en laboratorio
+procesada, heroína).
+componentes químicos en
+metanfetaminas).
+y consumo están permitidos,
+j. alcohol, tabaco, fármacos
+cción, distribución y posesión están
+na, éxtasis).
+cias pueden ejercer acciones
+tejidos:
+células de un órgano o sistema
+función celular (ej. sedantes).
+oca alteraciones o lesiones en la
+e el organismo no produce o
+nsulina).
+pacidad de destruir o inhibir el
+entro del cuerpo.
+gún su interacción con el
+de una relación
+ctúan con dianas específicas.
+anestésicos como el sevoflurano e
+nan con componentes
+s dianas farmacológicas o
+notables son la ketamina y los
+ciadas en ocasiones a lípidos o
+el citoplasma o el núcleo. Actúan
+como agonistas o antagonistas
+r funcional, debe poseer dos
+cluso en concentraciones
+re moléculas similares, permitiendo
+en la estructura correcta.
+cción con el receptor, activar
+generar un efecto biológico.
+ad del receptor, se clasifica en
+ticas y Respuesta
+genera una respuesta máxima.
+eceptor pero no lo activa, impidiendo
+ior a la máxima, incluso con
+nstitutiva (basal) del receptor.
+ura y el mecanismo de
+regulados por ligandos): Acoplados
+actividad de neurotransmisores de
+otrópicos): Estructura de siete
+s efectores como la
+ónicos.
+ominio extracelular de unión al
+(como tirosina cinasa o guanilil
+s de transcripción. Tienen
+y al ligando.
+o que sigue el fármaco para
+económica.
+puede verse afectada por alimentos
+tradérmica.
+ilidad y dosificación exacta. Es la
+le.
+l, personal calificado y conlleva un
+e hospitalización.
+inal y Transdérmica.
+péutico
+ganismo puede derivar en efectos
+y documentadas, como la
+ado.
+esta al efecto terapéutico buscado.
+ctores genéticos (ej. el clonazepam
+ón de fármaco, exceso de dosis o
+mas incluyen mareos, confusión,
+as.
+s críticas (opioides, anestésicos)
+n asegurar los "principios
+que comprometan la vida.
+ser integral:
+ales drásticos o de rendimiento.
+de salud mental.
+esintoxicación, psicoterapia y
+s y las aplicaciones prácticas de
+l funcionamiento del sistema
+os son sustancias activas que
+diagnósticos, preventivos o
+de manera específica
+efinidos gracias a su afinidad y
+basados en propiedades físicas o
+tésica incluye hipnosis
+nilo) y relajación neuromuscular
+cardiovascular depende de
+opina y la Amiodarona,
+el Carro de Paro para optimizar
+díaco.
