@@ -236,3 +236,13 @@ Flujo completo:
 - /tmp no escribible en Termux -> usar ~/tmp
 - Las guardias deben tener auto-fallback, no flag manual
 
+
+### Fix: conceptos matcheaban por substring (2026-09-18)
+
+Bug: 'anterior' activaba LESION_DEPORTIVA (substring matching).
+
+Fix: word-boundary con re.search(rf"\b{re.escape(p)}\b", texto).
+Aplicado en v6.3 (l.363), v6.4 (l.361), v6.5 (l.330).
+
+Deuda técnica: v6.5 líneas 262, 319, 742 tienen substring matching sin bug confirmado.
+

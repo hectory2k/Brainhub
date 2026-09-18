@@ -1227,3 +1227,64 @@ En DuckDB no: el entero queda NULL y viola el NOT NULL.
 
 ---
 
+
+## 2026-09-18 — Fix: conceptos matcheaban por substring
+
+### Síntoma
+- Procesé video de congreso de salud (s6WTGMuFL8s)
+- Reporte mostraba: 'LESION_DEPORTIVA: 1'
+- El video NO habla de lesiones deportivas
+
+### Diagnóstico
+1. Busqué 'lesion', 'deportiv', 'sport', 'injury' en el transcript
+   - Resultado: 0 matches
+2. Pero el diccionario tiene 'anterior' y 'cruzado' como keywords de LESION_DEPORTIVA
+3. Busqué 'anterior' en el transcript: 1 match
+4. El matcher era substring: 'anterior' in texto
+   - 'anterior' matchea dentro de 'anteriormente', 'año anterior', etc.
+   - Falso positivo → contador +1 → LESION_DEPORTIVA aparece
+
+### Causa real
+En analisis_conceptos (v6.5 línea 329):
+    if any(p in seg['texto'].lower() for p in patrones):
+
+Substring matching. Cualquier keyword del diccionario que aparezca
+dentro de otra palabra activa el concepto. 'anterior' es la peor:
+aparece en cualquier texto en español, en cualquier contexto.
+
+### Fix
+Cambiar a word-boundary matching con regex:
+    texto_lower = seg["texto"].lower()
+    if any(re.search(rf"\b{re.escape(p)}\b", texto_lower) for p in patrones):
+
+Aplicado en las 3 versiones activas:
+- v6.3: línea 363
+- v6.4: línea 361
+- v6.5: línea 330
+
+### Verificación
+Reprocesé el mismo transcript:
+- Antes: LESION_DEPORTIVA: 1
+- Después: CONCEPTOS DOMINANTES vacío (correcto)
+- Términos, co-ocurrencias, sentimiento: idénticos (no rompió nada)
+
+### Lección
+> Substring matching en NLP es trampa.
+> 'anterior' matchea 'anteriormente'. 'test' matchea 'testing'.
+> Usar word-boundary con re.search(rf'\b{re.escape(p)}\b', texto).
+>
+> Los diccionarios de keywords deben ser específicos.
+> 'anterior' y 'cruzado' NO son keywords de LESION_DEPORTIVA
+> sin contexto ('ligamento anterior', 'ligamento cruzado').
+>
+> Deuda técnica pendiente:
+> - v6.5 líneas 262, 319, 742: otros substring matching sin bug confirmado
+> - Diccionario: revisar keywords demasiado genéricas ('anterior', 'test', 'funcion')
+
+### Estado
+- Fix aplicado en v6.3, v6.4, v6.5
+- Test con transcript real: OK
+- No hay regresión en otros conceptos
+
+---
+

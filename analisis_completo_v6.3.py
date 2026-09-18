@@ -359,7 +359,8 @@ def analisis_conceptos(segmentos, nicho='GENERAL'):
     for seg in segmentos:
         conceptos_encontrados = []
         for concepto, patrones in conceptos.items():
-            if any(p in seg['texto'].lower() for p in patrones):
+            texto_lower = seg["texto"].lower()
+            if any(re.search(rf"\b{re.escape(p)}\b", texto_lower) for p in patrones):
                 conceptos_encontrados.append(concepto)
         for c in conceptos_encontrados:
             contador_conceptos[c] += 1
