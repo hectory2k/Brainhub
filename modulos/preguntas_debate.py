@@ -20,8 +20,25 @@ class GeneradorPreguntas:
         if not citas_clave:
             return self._generar_desde_coocurrencias(terminos_clave)
         
-        cita_principal = citas_clave[0][:150] if citas_clave else ''
-        termino_top = terminos_clave[0] if terminos_clave else 'el fenómeno'
+        # Extraer texto de la primera cita (puede ser str o dict)
+        if citas_clave:
+            primera = citas_clave[0]
+            if isinstance(primera, dict):
+                cita_principal = str(primera.get('texto', ''))[:150]
+            else:
+                cita_principal = str(primera)[:150]
+        else:
+            cita_principal = ''
+        
+        # Extraer el primer término (puede ser str, list o tuple)
+        if terminos_clave:
+            primer_term = terminos_clave[0]
+            if isinstance(primer_term, (list, tuple)):
+                termino_top = str(primer_term[0])
+            else:
+                termino_top = str(primer_term)
+        else:
+            termino_top = 'el fenómeno'
         
         preguntas.append({
             'tipo': 'Evidencia',
@@ -29,7 +46,13 @@ class GeneradorPreguntas:
         })
         
         if len(terminos_clave) >= 2:
-            t1, t2 = terminos_clave[0], terminos_clave[1]
+            # Extraer solo el nombre del término (puede ser [term, freq])
+            def _nombre_term(t):
+                if isinstance(t, (list, tuple)):
+                    return str(t[0])
+                return str(t)
+            t1 = _nombre_term(terminos_clave[0])
+            t2 = _nombre_term(terminos_clave[1])
             preguntas.append({
                 'tipo': 'Implicación Práctica',
                 'pregunta': f"Según el análisis, {t1} afecta {t2}. ¿Qué implicaciones tiene esto?"
