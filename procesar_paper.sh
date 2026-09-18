@@ -37,4 +37,24 @@ python3 ~/proyectos/nlp/analisis_completo_v6.5.py "${BASE}_salida_continuo.txt"
 echo "📚 Generando documento..."
 ~/proyectos/nlp/documento_8020.sh "${BASE}_salida_continuo_analisis_completo.json"
 
-echo "✅ Paper procesado completo"
+# 5. Preguntar si consolidar
+echo ""
+read -p "¿Consolidar en la DB? [Y/n] " RESPUESTA
+
+if [[ "$RESPUESTA" =~ ^[Nn]$ ]]; then
+    echo "⏭️  Consolidación omitida"
+    echo ""
+    echo "✅ Paper procesado (sin consolidar)"
+    echo "📋 Para consolidar después:"
+    echo "    cd ~/proyectos/nlp && pipeline_db.sh"
+    exit 0
+fi
+
+echo ""
+echo "🗄️  Consolidando..."
+cd ~/proyectos/nlp
+rm -f /sdcard/Download/stopwords.csv
+pipeline_db.sh 2>&1 | tail -3
+
+echo ""
+echo "✅ Paper procesado completo (DB actualizada)"

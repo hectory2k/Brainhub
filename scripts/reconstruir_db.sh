@@ -138,6 +138,28 @@ FROM normalizado n
 WHERE term NOT IN (SELECT term FROM stopwords)
 QUALIFY row_number() OVER (PARTITION BY video, term) = 1;
 
+-- ═══ content_control (ESTADO: preservar/reconstruir) ═══
+CREATE OR REPLACE TABLE content_control (
+    content_id VARCHAR PRIMARY KEY,
+    source_type VARCHAR,
+    source_url VARCHAR,
+    status VARCHAR DEFAULT 'pending',
+    processed_at TIMESTAMP,
+    error_message VARCHAR
+);
+
+-- Reconstruir desde los Transcript_*.txt existentes
+INSERT INTO content_control (content_id, source_type, source_url, status, processed_at)
+SELECT DISTINCT
+    'youtube:' || regexp_extract(file, 'Transcript_([^_]+)', 1),
+    'youtube',
+    'https://youtu.be/' || regexp_extract(file, 'Transcript_([^_]+)', 1),
+    'completed',
+    CURRENT_TIMESTAMP
+FROM glob('$JSONS_DIR/Transcript_*.txt')
+WHERE regexp_extract(file, 'Transcript_([^_]+)', 1) != ''
+ON CONFLICT (content_id) DO NOTHING;
+
 -- ═══ progreso ═══
 CREATE TABLE progreso AS
 SELECT DISTINCT filename AS video, 'completado' AS estado FROM analysis;
