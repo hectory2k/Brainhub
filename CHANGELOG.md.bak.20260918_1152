@@ -1,0 +1,346 @@
+# Changelog - BrainHub
+
+## [6.5.1] - 2026-09-07
+
+### Mejoras
+- **Preguntas dinámicas**: reemplazadas plantillas fijas por generación basada en co-ocurrencias reales
+- **Detección de idioma**: preguntas se generan en ES o EN según el documento
+- **Coherencia de nichos**: nuevo módulo `coherencia_nichos.py` valida jerarquía lógica
+- **Scoring por densidad**: `detectar_nicho.py` ahora clasifica por evidencia, no por prioridad
+- **Dominio COMPRAS_PUBLICAS**: nuevo nicho con 11 términos
+
+### Cambios técnicos
+- `preguntas_debate.py`: plantillas morfológicas + datos reales
+- `coherencia_nichos.py`: reglas de herramientas y contextos válidos por nicho
+- `detectar_nicho.py`: scoring por densidad en vez de prioridad dura
+- `diccionario_nichos.json`: agregado COMPRAS_PUBLICAS
+
+### Problemas resueltos
+- Falso positivo: defensa de tesis COMPRAR detectada como SALUD
+- Falso positivo: documento RAG con herramienta CIBERSEGURIDAD
+- Preguntas genéricas que no usaban el contenido del documento
+
+## [6.5.0] - 2026-09-05
+
+### Mejoras
+- **RAG simple**: BM25 con Recall@3 = 1.0
+- **Guardias de startup**: 4 precondiciones (identidad, schema, stopwords, diccionarios)
+- **Adapters por fuente**: YouTube, GitHub, PDF, texto
+- **Schemas Pydantic**: validación opcional
+- **Fuzzy matching**: tolerancia a errores de transcripción
+
+### Módulos nuevos (12)
+- schemas.py, adapters_fuente.py, rag_simple.py
+- fuzzy_nicho.py, nicho_multietiqueta.py, etiquetas_hibridas.py
+- ponderacion_nichos.py, generar_abstract.py, preguntas_debate.py
+- generar_documento.py, metricas.py, coherencia_nichos.py
+
+## [6.4.0] - 2026-09-03
+
+### Pipeline
+- Eliminado DEBUG hardcodeado
+- Eliminado nombres hardcodeados (Ana Brusco)
+- DetectorHablantes con modos (tutorial, ateneo, legal, auto)
+- Timestamps VTT con grounding temporal
+- Métricas KISS por etapa
+
+## [6.3.0] - 2026-08
+
+### Base
+- Pipeline NLP funcional
+- 11 tests críticos
+- Stopwords dinámicas desde JSON
+- DuckDB como base analítica
+- Detección de nicho básica
+
+## [6.5.2] - 2026-09-07
+
+### Mejoras
+- **Paginación DuckDB**: cursor pagination para datasets grandes
+- **Reflexión post-análisis**: insights automáticos sobre resultados
+- **Preguntas bilingües**: detección de idioma ES/EN
+- **Co-ocurrencias reales**: preguntas basadas en datos del documento
+
+### Módulos nuevos
+- paginacion.py: consultas paginadas
+- reflexion.py: reflexiones post-análisis
+
+### Correcciones
+- GeneradorDocumento: sección de reflexiones integrada
+- Scoring por densidad en detectar_nicho
+
+## [6.5.3] - 2026-09-07
+
+### Mejoras
+- **Shadow Testing**: compara versiones antes del push
+- Detecta regresiones de tiempo y de salida
+
+## [6.5.4] - 2026-09-07
+
+### Rama PubMed/MeSH
+- **MeSH Cache**: consulta on-demand con cache local en DuckDB
+- **MeSH Sugerente**: sugiere búsquedas cuando evidencia es baja
+- **PICO Generator**: preguntas clínicas estructuradas
+- **Alias MeSH**: descriptores oficiales en diccionario clínico
+
+### Soporte Multilingüe
+- **Stopwords checas**: 40+ palabras (jsem, tak, ten...)
+- **Términos médicos checos**: vazu, koleno, riziko, operace
+- **Filtrado ES+EN+CS**: el pipeline ahora maneja 3 idiomas
+
+### Mejoras MeSH
+- Nombres oficiales legibles (no solo IDs)
+- Términos normalizados (vazu → ligamento → Anterior Cruciate Ligament)
+- Evita falsos positivos (solo términos clínicos validados)
+
+### Caso real validado
+- Video checo de LCA → MeSH: Anterior Cruciate Ligament Reconstruction
+- Video checo de rodilla → MeSH: Knee Joint
+
+## [6.5.5] - 2026-09-08
+
+### Papers Científicos
+- descolumnar.py: descolumnar PDFs de 2 columnas
+- procesar_paper.sh: flujo PDF → descolumnar → analizar → documento
+- Paper Cash et al 2026 procesado completo
+
+### Mejoras
+- Preguntas específicas basadas en co-ocurrencias
+- Alias MeSH autoritativo (evita falsos positivos)
+- Nicho PSICOLOGÍA agregado
+- Tabla preguntas_mesh en DuckDB (sin automatizar)
+
+## [6.5.6] - 2026-09-09
+
+### Multiplataforma
+- **BRAINHUB_DB**: variable de entorno para rutas de DuckDB
+- **20 archivos corregidos**: sin rutas hardcodeadas
+- **Windows compatible**: PyCharm + Python 3.12 + DuckDB CLI
+- **Tests**: 60 passed en Termux, 52+skips en CI
+
+### Archivos corregidos
+- config.py: centralizado
+- generar_documento.py: reflexiones opcionales
+- 18 módulos: rutas relativas
+
+## [6.6.2] - 2026-09-10
+
+### Fixed
+- `tests/test_duckdb.py::test_consulta_ml_pytorch`: skip condicional
+  si la DB local no contiene términos de ML/PyTorch.
+  Antes fallaba con AssertionError si la DB tenía otros dominios.
+
+### Changed
+- `tests/test_regresion_economia.py`: activado `test_fix_nicho_correcto`
+  (antes skipeado). Verifica que el nicho sea FINANZAS, no TECNOLOGIA.
+
+### Tests
+- 65 passed, 2 skipped (antes: 64 passed, 1 failed, 2 skipped)
+
+## [6.7.0] - 2026-09-10
+
+### Added
+- **Validador federado de preguntas** (`modulos/validador_preguntas.py`):
+  - Federación de 5+ fuentes de conocimiento
+  - Fuentes nuevas: `terminos_vacios.json` (159), `terminos_tecnicos.json` (~200)
+  - API: `es_generico()`, `es_tecnico()`, `validar_conceptos()`, `filtrar_terminos()`, `stats()`
+  - Soporte por nicho (MeSH + anatomía solo para SALUD)
+  - 45 tests parametrizados con IDs descriptivos
+
+### Changed
+- `modulos/preguntas_debate.py`: integra validador federado
+  - Filtra términos genéricos antes de generar preguntas
+  - Backward compatible: `GeneradorPreguntas()` sin nicho usa GENERAL
+- `diccionario_nichos.json`: FINANZAS ampliado (deuda, mora, BCRA, inflación)
+
+### Fixed
+- Preguntas con `word`/`paper`/`idea` como anclas: **ya no se generan**
+- Siglas (`SRE`, `BCRA`) detectadas correctamente como técnicas
+- Términos económicos (`deuda`, `mora`) reconocidos como técnicos
+
+### Philosophy
+Federación de fuentes: agregar conocimiento = editar JSON, no código.
+Nueva fuente = JSON + 1 método `_cargar_X()`.
+
+### Tests
+- 110 passed, 2 skipped (antes: 65 passed, 2 skipped)
+
+## [7.0.0] - 2026-09-11
+
+### Added
+- `brainhub/analisis/nichos.py`: AnalizadorNichos (orquesta 3 módulos)
+- Nicho `HABLA`: 258 stopwords español para transcripciones
+- `filtrar_stopwords()` acepta lista de nichos
+
+### Changed
+- `analisis_completo_v6.5.py`: usa AnalizadorNichos
+- `modulos/detectar_nicho.py`: regex \b + eliminado retorno temprano AI_SAFETY
+- `stopwords.json`: +258 términos HABLA
+
+### Fixed
+- Bug: filtrar_stopwords no aceptaba lista → except silencioso → no filtraba
+- Bug: TECNOLOGIA perdía contra AI_SAFETY por substring
+- Bug: 'ia' matcheaba en 'memoria', 'agi' en 'imagen'
+
+### Modules Activated
+- nicho_multietiqueta (clasificación simultánea)
+- ponderacion_nichos (jerarquización)
+- coherencia_nichos (validación)
+
+## [7.0.0] - 2026-09-11
+
+### Added
+- brainhub/analisis/nichos.py: AnalizadorNichos (orquesta 3 módulos)
+- Nicho HABLA: 258 stopwords español para transcripciones
+- filtrar_stopwords() acepta lista de nichos
+
+### Changed
+- analisis_completo_v6.5.py: usa AnalizadorNichos
+- modulos/detectar_nicho.py: regex \b + eliminado retorno temprano AI_SAFETY
+- stopwords.json: +258 términos HABLA
+
+### Fixed
+- Bug: filtrar_stopwords no aceptaba lista → except silencioso
+- Bug: TECNOLOGIA perdía contra AI_SAFETY por substring
+- Bug: 'ia' matcheaba en 'memoria', 'agi' en 'imagen'
+
+### Modules Activated
+- nicho_multietiqueta (clasificación simultánea)
+- ponderacion_nichos (jerarquización)
+- coherencia_nichos (validación)
+
+## [7.0.1] - 2026-09-15
+
+### Fixed
+- **Scoring de nicho**: ponderado por frecuencia (no solo presencia)
+  - `bitcoin (1x)` ya no pesa igual que `malware (18x)`
+  - `score += min(matches, 5)` con cap a 5
+- **CIBERSEGURIDAD**: ampliado de 9 a 34 términos
+  - Agregados: ciberseguridad, industrial, planta, scada, ics, ot, ...
+- **FINANZAS**: quitados falsos positivos
+  - `banco` matcheaba "banco de batería"
+  - `mercado` matcheaba "mercado de herramientas"
+  - `precios` matcheaba cualquier contexto
+- **AI_SAFETY**: eliminado retorno temprano
+  - Bug: si score >= 3, retornaba sin evaluar CIBERSEGURIDAD
+- **SQLite**: DROP TABLE antes de CREATE (idempotencia)
+  - Bug: UNIQUE constraint failed al re-analizar
+
+### Added
+- `tests/test_nicho_regresion.py`: 4 tests de regresión
+  - Verifica que AI_SAFETY no retorne temprano
+  - Verifica que CIBERSEGURIDAD gane cuando corresponde
+  - Verifica no-regresión en Kubernetes y economía
+
+### Tests
+- 116 passed (antes 112)
+
+### Descubrimiento
+Todos los bugs fueron descubiertos procesando un video industrial
+de ciberseguridad (453k caracteres, 1829 segmentos).
+La filosofía VigiSalud funciona: el contenido real revela lo que
+los tests no ven.
+
+## [7.1.0] - 2026-09-16
+
+### Added
+- **scripts/batch_robusto.sh**: batch con reintentos (3/video), logging detallado, cuarentena automatica de fallos
+- **scripts/filtro_basura.sh**: limpieza proactiva (8 categorias, dry-run por defecto)
+- **scripts/start_ollama_optimizado.sh**: env vars de bajo consumo (NUM_PARALLEL=1, CONTEXT_LENGTH=512, KEEP_ALIVE=0)
+- **start_ollama_nohup**: version sin tmux (mas robusta)
+- **guardias/test_regresion_db.sh**: wrapper para startup
+
+### Changed
+- ~/yt: recreada tabla content_control con schema correcto
+  - Columnas: content_id, source_type, source_url, status, processed_at, error_message
+- ollama_client.py: num_ctx=512 (era default 8192)
+- .bashrc: eliminada _ollama_api duplicada (bug latente)
+
+### Fixed
+- Deteccion de binarios rota: grep -q $'\x00' clasificaba todos los .txt como binarios
+  - Fix: usar file -b en su lugar
+- Filtro de basura con categorias amplias: *_resumen*.json matcheaba JSONs validos
+- Phantom Process Killer documentado: Motorola + Android 16 mata Termux cada 10-30 min
+  - No es OOM (3.75 GB disponibles al morir)
+  - No es SELinux (solo warning avc denied)
+  - wake-lock + nohup no alcanzan
+
+### Data
+- 79 videos en DB
+- 73+ con resumen LLM (gemma:2b)
+- 184 archivos basura movidos a _legacy_
+- 26 JSONs recuperados de _quarantine_
+
+### Tests
+- 116 passed
+
+### Lecciones
+- Los errores en cadena son la norma, no la excepcion
+- Cuarentena + legacy salvaron el dia (nada se perdio)
+- Los heredocs con variables SIEMPRE con << 'EOF'
+- Los logs con estructura (timestamps, categorias) son oro
+- El silencio es el peor enemigo: sin output no hay debugging
+
+## [7.2.0] - 2026-09-17
+
+### Added
+- **scripts/preguntar.py**: RAG completo (BM25 + Ollama)
+  - Uso: preguntar 'pregunta' [nicho]
+  - Indexa analysis.resumen_llm + terminos_raw (JOIN + ||SEP||)
+- **brainhub_config.json** + **brainhub_config.py**: config centralizado
+  - Dot-notation: cfg.get('llm.modelo')
+  - Sin dependencias (JSON built-in)
+- **docs/PLANTILLA_CLASE_40MIN.md**: plantilla para preparar clase en 40 min
+  - Cronometro de 8 etapas
+  - Caso real: paper "Is AI making us stupid?"
+- **docs/prompt_retoma.md**: prompt consolidado (214 lineas)
+
+### Changed
+- prompt_actual.md: reconstruido de 1695 -> 214 lineas
+  - Eliminadas 196 secciones duplicadas
+  - Historia movida a BITACORA.md
+- analisis_completo_v6.5.py: prompt del resumen sin metadata ruidosa
+  - Quitados: Segmentos, Dialogos, Polaridad
+  - Terminos sin frecuencia (cache en vez de cache(39))
+- stopwords.json: HABLA 119 -> 127 terminos
+  - Agregadas: pasa, hablando, viene, vuelta, llama, lomo, lomos, vuelto
+- modulos/rag_simple.py: _tokenizar normaliza plurales
+
+### Fixed
+- Bug 1: RAG sobre resumenes no encontraba
+  - Solo indexaba resumen_llm (texto abstracto)
+  - Fix: JOIN con terminos_raw + separador ||SEP||
+  - Score del video correcto: 3.8 -> 16.36
+- Bug 2: __pycache__ obsoleto
+  - El fix no se aplicaba aunque el codigo estaba bien
+  - Fix: rm -rf scripts/__pycache__
+- Bug 3: content_control se perdia al reconstruir
+  - Fix: recrear tabla con schema completo
+- Bug 4: resumen LLM alucinaba "traduccion de idiomas"
+  - Muletillas orales dominaban el top 10
+  - Fix A: HABLA +8 terminos
+  - Fix B: prompt sin metadata ruidosa
+- Bug 5: warning consolidar_en_duckdb
+  - INSERT OR IGNORE INTO progreso requiere PRIMARY KEY
+  - Fix: DELETE + INSERT
+
+### Data
+- Video nuevo: t4OnW22zXi4 (KV Cache vs Prompt - Gentleman Programming)
+- 79 videos en DB (era 78)
+
+### Descartado
+- Textstat: no resuelve bugs, agrega complejidad
+  - Regla VigiSalud aplicada
+
+### Diferido
+- Chunking (2-3h)
+- Migrar scripts a brainhub_config (1h)
+- Ollama estable (sesion dedicada)
+- Streamlit, MCP, Jinja, PythonAnywhere
+
+### Lecciones
+- Los resumenes LLM no son buenos indices para BM25
+- Los terminos_raw si. La mezcla funciona
+- El prompt del LLM no debe incluir metadata ruidosa
+- Las tablas DB no se recrean solas. Agregar a reconstruir_db.sh
+- No agregar features que no resuelvan un bug
