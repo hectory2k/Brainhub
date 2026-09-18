@@ -1,7 +1,7 @@
 # BrainHub — Prompt de Retoma
 
 ## Fecha
-2026-09-17 (última sesión: RAG básico + 5 bugs + config)
+2026-09-18 (última sesión: fix content_control schema + permisos deploy.sh)
 
 ## Estado (v7.2.0)
 - 79 videos en DB, 73+ con resumen LLM
@@ -15,7 +15,7 @@
 ### Base de datos (DuckDB)
 - `analysis` (79 filas) — documento, nicho, sentimiento, resumen_llm
 - `terminos_raw` (~1382 filas) — video, term, frequency
-- `content_control` — idempotencia de ~/yt (perdida en cada reconstruccion)
+- `content_control` — idempotencia de ~/yt (persistente, sobrevive a reconstruccion via CREATE OR REPLACE + ON CONFLICT)
 - `anatomia` (3432), `mesh_terms`, `cache_mesh`
 - `v_terminos_tecnicos` (3926) — vista unificada
 - `progreso`, `stopwords`, `terminos_diccionarios`
@@ -80,6 +80,7 @@
 | 09-17 | content_control perdida | recrear tabla |
 | 09-17 | muletillas orales (pasa, hablando) | HABLA +8 terminos |
 | 09-17 | warning consolidar_en_duckdb | INSERT OR IGNORE → DELETE+INSERT |
+| 09-18 | content_control persistente | CREATE OR REPLACE + ON CONFLICT (e6cdf5f) |
 
 ## Deuda VIVA (priorizada)
 
@@ -89,8 +90,7 @@
 
 ### Media
 3. **Ollama estable** (sesión dedicada)
-4. **content_control en reconstruir_db.sh** (5 min)
-5. **analizar.sh idempotente** (10 min)
+4. **analizar.sh idempotente** (10 min)
 
 ### Baja
 6. Refinar validador (cobertura 12%)
