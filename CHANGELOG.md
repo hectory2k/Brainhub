@@ -186,29 +186,6 @@ Nueva fuente = JSON + 1 método `_cargar_X()`.
 - nicho_multietiqueta (clasificación simultánea)
 - ponderacion_nichos (jerarquización)
 - coherencia_nichos (validación)
-
-## [7.0.0] - 2026-09-11
-
-### Added
-- brainhub/analisis/nichos.py: AnalizadorNichos (orquesta 3 módulos)
-- Nicho HABLA: 258 stopwords español para transcripciones
-- filtrar_stopwords() acepta lista de nichos
-
-### Changed
-- analisis_completo_v6.5.py: usa AnalizadorNichos
-- modulos/detectar_nicho.py: regex \b + eliminado retorno temprano AI_SAFETY
-- stopwords.json: +258 términos HABLA
-
-### Fixed
-- Bug: filtrar_stopwords no aceptaba lista → except silencioso
-- Bug: TECNOLOGIA perdía contra AI_SAFETY por substring
-- Bug: 'ia' matcheaba en 'memoria', 'agi' en 'imagen'
-
-### Modules Activated
-- nicho_multietiqueta (clasificación simultánea)
-- ponderacion_nichos (jerarquización)
-- coherencia_nichos (validación)
-
 ## [7.0.1] - 2026-09-15
 
 ### Fixed
@@ -240,3 +217,107 @@ Todos los bugs fueron descubiertos procesando un video industrial
 de ciberseguridad (453k caracteres, 1829 segmentos).
 La filosofía VigiSalud funciona: el contenido real revela lo que
 los tests no ven.
+
+## [7.1.0] - 2026-09-16
+
+### Added
+- **scripts/batch_robusto.sh**: batch con reintentos (3/video), logging detallado, cuarentena automatica de fallos
+- **scripts/filtro_basura.sh**: limpieza proactiva (8 categorias, dry-run por defecto)
+- **scripts/start_ollama_optimizado.sh**: env vars de bajo consumo (NUM_PARALLEL=1, CONTEXT_LENGTH=512, KEEP_ALIVE=0)
+- **start_ollama_nohup**: version sin tmux (mas robusta)
+- **guardias/test_regresion_db.sh**: wrapper para startup
+
+### Changed
+- ~/yt: recreada tabla content_control con schema correcto
+  - Columnas: content_id, source_type, source_url, status, processed_at, error_message
+- ollama_client.py: num_ctx=512 (era default 8192)
+- .bashrc: eliminada _ollama_api duplicada (bug latente)
+
+### Fixed
+- Deteccion de binarios rota: grep -q $'\x00' clasificaba todos los .txt como binarios
+  - Fix: usar file -b en su lugar
+- Filtro de basura con categorias amplias: *_resumen*.json matcheaba JSONs validos
+- Phantom Process Killer documentado: Motorola + Android 16 mata Termux cada 10-30 min
+  - No es OOM (3.75 GB disponibles al morir)
+  - No es SELinux (solo warning avc denied)
+  - wake-lock + nohup no alcanzan
+
+### Data
+- 79 videos en DB
+- 73+ con resumen LLM (gemma:2b)
+- 184 archivos basura movidos a _legacy_
+- 26 JSONs recuperados de _quarantine_
+
+### Tests
+- 116 passed
+
+### Lecciones
+- Los errores en cadena son la norma, no la excepcion
+- Cuarentena + legacy salvaron el dia (nada se perdio)
+- Los heredocs con variables SIEMPRE con << 'EOF'
+- Los logs con estructura (timestamps, categorias) son oro
+- El silencio es el peor enemigo: sin output no hay debugging
+
+## [7.2.0] - 2026-09-17
+
+### Added
+- **scripts/preguntar.py**: RAG completo (BM25 + Ollama)
+  - Uso: preguntar 'pregunta' [nicho]
+  - Indexa analysis.resumen_llm + terminos_raw (JOIN + ||SEP||)
+- **brainhub_config.json** + **brainhub_config.py**: config centralizado
+  - Dot-notation: cfg.get('llm.modelo')
+  - Sin dependencias (JSON built-in)
+- **docs/PLANTILLA_CLASE_40MIN.md**: plantilla para preparar clase en 40 min
+  - Cronometro de 8 etapas
+  - Caso real: paper "Is AI making us stupid?"
+- **docs/prompt_retoma.md**: prompt consolidado (214 lineas)
+
+### Changed
+- prompt_actual.md: reconstruido de 1695 -> 214 lineas
+  - Eliminadas 196 secciones duplicadas
+  - Historia movida a BITACORA.md
+- analisis_completo_v6.5.py: prompt del resumen sin metadata ruidosa
+  - Quitados: Segmentos, Dialogos, Polaridad
+  - Terminos sin frecuencia (cache en vez de cache(39))
+- stopwords.json: HABLA 119 -> 127 terminos
+  - Agregadas: pasa, hablando, viene, vuelta, llama, lomo, lomos, vuelto
+- modulos/rag_simple.py: _tokenizar normaliza plurales
+
+### Fixed
+- Bug 1: RAG sobre resumenes no encontraba
+  - Solo indexaba resumen_llm (texto abstracto)
+  - Fix: JOIN con terminos_raw + separador ||SEP||
+  - Score del video correcto: 3.8 -> 16.36
+- Bug 2: __pycache__ obsoleto
+  - El fix no se aplicaba aunque el codigo estaba bien
+  - Fix: rm -rf scripts/__pycache__
+- Bug 3: content_control se perdia al reconstruir
+  - Fix: recrear tabla con schema completo
+- Bug 4: resumen LLM alucinaba "traduccion de idiomas"
+  - Muletillas orales dominaban el top 10
+  - Fix A: HABLA +8 terminos
+  - Fix B: prompt sin metadata ruidosa
+- Bug 5: warning consolidar_en_duckdb
+  - INSERT OR IGNORE INTO progreso requiere PRIMARY KEY
+  - Fix: DELETE + INSERT
+
+### Data
+- Video nuevo: t4OnW22zXi4 (KV Cache vs Prompt - Gentleman Programming)
+- 79 videos en DB (era 78)
+
+### Descartado
+- Textstat: no resuelve bugs, agrega complejidad
+  - Regla VigiSalud aplicada
+
+### Diferido
+- Chunking (2-3h)
+- Migrar scripts a brainhub_config (1h)
+- Ollama estable (sesion dedicada)
+- Streamlit, MCP, Jinja, PythonAnywhere
+
+### Lecciones
+- Los resumenes LLM no son buenos indices para BM25
+- Los terminos_raw si. La mezcla funciona
+- El prompt del LLM no debe incluir metadata ruidosa
+- Las tablas DB no se recrean solas. Agregar a reconstruir_db.sh
+- No agregar features que no resuelvan un bug
