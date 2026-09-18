@@ -1134,3 +1134,4 @@ Documento 80/20: 60 lineas generadas
 > no flag manual (que el usuario tiene que saber).
 >
 > /tmp no escribible en Termux. Usar ~/tmp.
+
