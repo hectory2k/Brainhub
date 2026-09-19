@@ -246,3 +246,31 @@ Aplicado en v6.3 (l.363), v6.4 (l.361), v6.5 (l.330).
 
 Deuda técnica: v6.5 líneas 262, 319, 742 tienen substring matching sin bug confirmado.
 
+
+---
+
+### Deuda tecnica: documento 8020 (2026-09-18)
+
+El generador 8020 (`documento_8020.sh`) funciona pero no rinde sin LLM.
+
+**Sintoma**: contenido hueco o forzado en el documento generado.
+
+**Causa**: dependencia de Ollama para modulos clave, y diccionarios chicos.
+
+**Detalle**:
+- Reflexiones Post-Analisis: vacias (depende de Ollama)
+- MeSH Sugeridos: solo 1 match forzado ("hospital" -> "Safety-net Providers")
+- Preguntas de Debate: plantillas genericas con variables, no especificas
+- Resumen Ejecutivo: template rigido con variables (SALUD/TECNOLOGIA/FINANZAS)
+- Jerarquia: FINANZAS y PSICOLOGIA dudosos para videos de gestion sanitaria
+
+**Cuando mejora**: con RAM suficiente para Ollama, el contenido se vuelve real.
+
+**Mejoras posibles** (backlog):
+- Ampliar diccionario MeSH
+- Templates especificos por nicho
+- Fallback a heuristica cuando no hay LLM (en vez de seccion vacia)
+
+**Decision**: no arreglar hoy. Anotar. El `_reporte.md` del analisis crudo
+sigue siendo mas util que el 8020 sin LLM.
+
