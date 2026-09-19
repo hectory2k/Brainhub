@@ -274,3 +274,35 @@ El generador 8020 (`documento_8020.sh`) funciona pero no rinde sin LLM.
 **Decision**: no arreglar hoy. Anotar. El `_reporte.md` del analisis crudo
 sigue siendo mas util que el 8020 sin LLM.
 
+
+---
+
+### Fix: analizar_github (2026-09-19)
+
+Bug: analizaba repos equivocados por cache. El find con head -1
+tomaba la primera carpeta *-main del directorio compartido.
+
+Fix (commit 20d833c):
+- Workdir con timestamp: ~/temp/github_analisis/run_YYYYMMDD_HHMMSS
+- Symlink latest -> ultimo analisis
+- Rotacion automatica (mantiene 5 corridas)
+- Fix contador (process substitution en lugar de pipe)
+- Excluye lock files (pnpm-lock, package-lock, yarn.lock, Cargo.lock)
+- Excluye .json .yaml .yml .toml .xml .html .css (config/visual)
+
+Verificado con midudev/libros-programacion-gratis:
+- Antes: 11665 lineas, terminos de pnpm-lock.yaml
+- Despues: 590 lineas, terminos de contenido (pdf, books, python)
+
+### Deuda tecnica pendiente (motor analisis v6.4/v6.5)
+
+1. **SQLite keywords.id explicito** (v6.4 linea ~518)
+   - INSERT INTO keywords (id, analysis_id, ...) rompe idempotencia
+   - Fix: sacar id del INSERT, dejar AUTOINCREMENT
+
+2. **DuckDB progreso sin PK**
+   - INSERT OR IGNORE INTO progreso falla con Binder Error
+   - Fix: video VARCHAR PRIMARY KEY (mismo patron que content_control)
+
+3. **Substring matching sin bug confirmado** (v6.5 lineas 262, 319, 742)
+

@@ -1288,3 +1288,72 @@ Reprocesé el mismo transcript:
 
 ---
 
+
+## 2026-09-19 — Fix: analizar_github analizaba repos equivocados
+
+### Sintoma
+- Pedia analizar midudev/libros-programacion-gratis
+- El analisis devolvia terminos de algebra lineal (vectors, matrix, linear)
+- El output decia: 'Extraido en: ML-Math-Bridge-main'
+- Estaba analizando un repo de ML (bajado semanas antes) en lugar del pedido
+
+### Diagnostico
+1. El ZIP correcto SI se bajaba (250 MB, nombre correcto)
+2. Pero no se extraia: ya habia carpetas con nombres parecidos
+3. El find con head -1 tomaba la PRIMERA carpeta *-main del directorio compartido
+   - ML-Math-Bridge-main (Aug 4) va antes que libros-programacion-gratis-main
+4. Todo caia en /sdcard/Download/github_analisis (compartido entre corridas)
+
+### Causa real
+El script usaba un OUTPUT_DIR compartido y reusaba archivos existentes.
+Con el tiempo se acumularon multiples extracciones, y el find tomaba
+la primera alfabeticamente, no la recien bajada.
+
+Ademas, aunque se arreglara el cache, el analisis quedaba dominado por
+archivos de build:
+- pnpm-lock.yaml: 4055 lineas (35% del texto)
+- web/pnpm-lock.yaml: 3944 lineas (34%)
+- web/src/styles/global.css: 2915 lineas (80% del texto post-lock)
+
+### Fix
+1. Workdir con timestamp: ~/temp/github_analisis/run_YYYYMMDD_HHMMSS
+   - Cada corrida tiene su propio directorio, sin colisiones
+2. Symlink latest apunta al ultimo analisis
+3. Rotacion automatica: mantiene ultimas 5 corridas
+4. Fix del contador FILE_COUNT (era 0 por bug de subshell)
+   - Cambiado pipe | while por process substitution < <(find ...)
+5. Excluir lock files: pnpm-lock, package-lock, yarn.lock, Cargo.lock, etc.
+6. Excluir extensiones de config/visual: .json .yaml .yml .toml .xml .html .css
+   - Mantiene: .md .txt .rst .py .js .java .c .cpp .h .go .rs .sh
+
+### Verificacion
+Corrida sobre midudev/libros-programacion-gratis:
+- Antes: 11665 lineas, 13 archivos, terminos de pnpm-lock.yaml
+  (resolution: 850, integrity: 850, true: 452, linux: 442)
+- Post lock files: 3662 lineas, 11 archivos, terminos de CSS
+  (var: 310, color: 232, rgba: 204, border: 192)
+- Post extensiones: 590 lineas, 4 archivos, terminos de contenido
+  (pdf: 126, dev: 59, librosgratis: 58, books: 54, python: 19, javascript: 14)
+
+### Leccion
+> Substring matching en NLP es trampa. Word-boundary con re.search.
+>
+> Directorios compartidos entre corridas son trampa.
+> Usar workdir con timestamp (YYYYMMDD_HHMMSS) + symlink latest.
+>
+> Filtrar archivos de build en analisis semanticos:
+> - Lock files: pnpm-lock, package-lock, yarn.lock, Cargo.lock
+> - Config/visual: .json .yaml .yml .toml .xml .html .css
+> Dejar solo: docs + codigo fuente.
+>
+> Bug del contador en bash: pipe | while read crea subshell,
+> las variables no se propagan al padre. Usar < <(find ...).
+
+### Estado
+- analizar_github.sh arreglado y verificado
+- Commit: 20d833c
+- Workdir temporal en ~/temp/github_analisis/
+- /sdcard/Download/github_analisis/ ya no es destino (limpiado)
+
+---
+
