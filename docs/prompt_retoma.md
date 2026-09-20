@@ -306,3 +306,19 @@ Verificado con midudev/libros-programacion-gratis:
 
 3. **Substring matching sin bug confirmado** (v6.5 lineas 262, 319, 742)
 
+
+---
+
+### Fix: analizar_github flag --docs-only (2026-09-20)
+
+Repos de codigo puro dominaban el analisis con sintaxis del lenguaje
+(self: 560, def: 134 en OracleCortex).
+
+Fix: flag opt-in --docs-only que restringe a .md .txt .rst.
+
+Uso:
+  analizar_github.sh usuario/repo main              (default)
+  analizar_github.sh usuario/repo main --docs-only  (solo docs)
+
+Verificado en OracleCortex (30 -> 6 archivos) y midudev (sin regresion).
+

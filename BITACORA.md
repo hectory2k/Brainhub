@@ -1357,3 +1357,60 @@ Corrida sobre midudev/libros-programacion-gratis:
 
 ---
 
+
+## 2026-09-20 — Feature: flag --docs-only en analizar_github
+
+### Contexto
+El fix de ayer (filtros de contenido) resolvio el caso de repos de
+contenido puro, pero seguia contaminado con repos de codigo. Cuando
+se analizo Arkay92/OracleCortex, los terminos dominantes fueron
+sintaxis Python: self (560), def (134), import (122), int (132).
+
+### Sintoma
+- Repo de codigo puro (30 archivos .py, 4114 lineas)
+- Analisis dominado por keywords del lenguaje, no por el proyecto
+- Inutil para entender que hace el repo
+
+### Diagnostico
+El script procesa docs + codigo por default. Para repos de contenido
+eso funciona (el codigo es minoritario), pero para repos de codigo
+puro, el codigo domina y sepulta la documentacion.
+
+Es el mismo patron que lock files (pnpm-lock) y CSS (global.css).
+Una categoria de archivo domina el analisis semantico.
+
+### Fix
+Flag opt-in --docs-only que restringe el analisis a .md, .txt, .rst.
+
+Uso:
+  analizar_github.sh usuario/repo main              (default: codigo + docs)
+  analizar_github.sh usuario/repo main --docs-only  (solo documentacion)
+
+### Verificacion
+Corrida sobre Arkay92/OracleCortex:
+- Default: 30 archivos, terminos top: self, def, import, int
+- --docs-only: 6 archivos, terminos top: memory (20), hdc (20),
+  sleep (18), concepts (15), symbolic (14), emergent (14), oracle (14)
+
+Corrida sobre midudev/libros-programacion-gratis (sin regresion):
+- Default: 4 archivos, terminos top: pdf, dev, librosgratis, books
+- (identico a la corrida anterior al flag)
+
+### Leccion
+> Analisis semantico en repos de codigo vs repos de contenido
+> requieren filtros distintos. No hay un default que sirva para todo.
+>
+> El patron que se repite: una categoria de archivo domina el analisis
+> - Repos de contenido + lock files -> pnpm-lock.yaml domina
+> - Repos de contenido + web    -> global.css domina
+> - Repos de codigo             -> sintaxis del lenguaje domina
+>
+> Solucion: filtros en capas. Default + flags para casos especificos.
+
+### Estado
+- Flag --docs-only en analizar_github.sh
+- Commit: feat(analizar_github): flag --docs-only para repos de codigo
+- Sin regresion en repos de contenido
+
+---
+
