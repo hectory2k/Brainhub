@@ -7,10 +7,16 @@
 
 REPO="$1"
 BRANCH="${2:-main}"
+DOCS_ONLY=false
+
+if [ "$3" = "--docs-only" ]; then
+    DOCS_ONLY=true
+fi
 
 if [ -z "$REPO" ]; then
-    echo "❌ Uso: ./analizar_github.sh usuario/repo [rama]"
+    echo "❌ Uso: ./analizar_github.sh usuario/repo [rama] [--docs-only]"
     echo "📋 Ejemplo: ./analizar_github.sh midudev/libros-programacion-gratis main"
+    echo "📋 Docs-only: ./analizar_github.sh Arkay92/OracleCortex main --docs-only"
     exit 1
 fi
 
@@ -71,34 +77,48 @@ TEMP_FILE="$WORK_DIR/texto_combinado.txt"
 
 # Contar archivos encontrados (fix: process substitution)
 FILE_COUNT=0
-while read -r file; do
-    echo "--- Archivo: $(basename "$file") ---" >> "$TEMP_FILE"
-    cat "$file" 2>/dev/null >> "$TEMP_FILE"
-    echo "" >> "$TEMP_FILE"
-    FILE_COUNT=$((FILE_COUNT + 1))
-done < <(find "$EXTRACT_DIR" -type f \( \
-    -name "*.md" -o \
-    -name "*.txt" -o \
-    -name "*.rst" -o \
-    -name "*.py" -o \
-    -name "*.js" -o \
-    -name "*.java" -o \
-    -name "*.c" -o \
-    -name "*.cpp" -o \
-    -name "*.h" -o \
-    -name "*.go" -o \
-    -name "*.rs" -o \
-    -name "*.sh" \
-\) \
--not -name "pnpm-lock.yaml" \
--not -name "package-lock.json" \
--not -name "yarn.lock" \
--not -name "poetry.lock" \
--not -name "Cargo.lock" \
--not -name "Gemfile.lock" \
--not -name "composer.lock" \
--not -name "*.lock" \
--not -path "*/.*" -not -path "*/node_modules/*" -not -path "*/__pycache__/*" 2>/dev/null)
+if [ "$DOCS_ONLY" = true ]; then
+    echo "📄 Modo docs-only: solo .md, .txt, .rst"
+    while read -r file; do
+        echo "--- Archivo: $(basename "$file") ---" >> "$TEMP_FILE"
+        cat "$file" 2>/dev/null >> "$TEMP_FILE"
+        echo "" >> "$TEMP_FILE"
+        FILE_COUNT=$((FILE_COUNT + 1))
+    done < <(find "$EXTRACT_DIR" -type f \( \
+        -name "*.md" -o -name "*.txt" -o -name "*.rst" \
+    \) \
+    -not -path "*/.*" -not -path "*/node_modules/*" -not -path "*/__pycache__/*" 2>/dev/null)
+else
+    echo "📄 Modo completo: código + docs"
+    while read -r file; do
+        echo "--- Archivo: $(basename "$file") ---" >> "$TEMP_FILE"
+        cat "$file" 2>/dev/null >> "$TEMP_FILE"
+        echo "" >> "$TEMP_FILE"
+        FILE_COUNT=$((FILE_COUNT + 1))
+    done < <(find "$EXTRACT_DIR" -type f \( \
+        -name "*.md" -o \
+        -name "*.txt" -o \
+        -name "*.rst" -o \
+        -name "*.py" -o \
+        -name "*.js" -o \
+        -name "*.java" -o \
+        -name "*.c" -o \
+        -name "*.cpp" -o \
+        -name "*.h" -o \
+        -name "*.go" -o \
+        -name "*.rs" -o \
+        -name "*.sh" \
+    \) \
+    -not -name "pnpm-lock.yaml" \
+    -not -name "package-lock.json" \
+    -not -name "yarn.lock" \
+    -not -name "poetry.lock" \
+    -not -name "Cargo.lock" \
+    -not -name "Gemfile.lock" \
+    -not -name "composer.lock" \
+    -not -name "*.lock" \
+    -not -path "*/.*" -not -path "*/node_modules/*" -not -path "*/__pycache__/*" 2>/dev/null)
+fi
 
 echo "✅ Archivos procesados: $FILE_COUNT"
 echo "✅ Texto combinado guardado: $(basename "$TEMP_FILE")"
