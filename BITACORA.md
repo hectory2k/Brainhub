@@ -1414,3 +1414,128 @@ Corrida sobre midudev/libros-programacion-gratis (sin regresion):
 
 ---
 
+
+## 2026-09-21 — Alineaciones con 'Scripting avanzado con Python'
+
+### Contexto
+Lei 'Scripting avanzado con Python' (Alejandro G Vera, 2026).
+El libro esta pensado para Kali Linux y seguridad ofensiva, pero varios
+capitulos contienen patrones arquitectonicos aplicables a BrainHub.
+
+### Que NO aplica
+- Cap 5: Scapy, captura/generacion de paquetes
+- Cap 6: Nmap, reconocimiento activo
+- Cap 7: Playwright, auditoria web ofensiva
+- Cap 12: framework de pentesting
+
+### Que SI aplica (5 patrones a incorporar)
+
+**1. argparse con subcomandos (Cap 1)**
+- Unificar 30+ scripts sueltos en `brainhub <comando>`
+- Hoy: procesar.sh, analizar.sh, preguntar.py, pipeline_db.sh, etc.
+- Despues: brainhub procesar, brainhub analizar, brainhub preguntar
+
+**2. Config con precedencia (Cap 1.3)**
+- Patron: default -> archivo -> env vars -> CLI
+- Aplicar a los 4 archivos pendientes de migrar a brainhub_config:
+  ollama_client, abstract_llm, preguntar, rag_simple
+- deep_merge recursivo, build_settings, command_line_overrides
+
+**3. retry_async con backoff + jitter (Cap 3)**
+- Para Ollama (muere cada 10-30 min)
+- Reintentos con espera exponencial + variacion aleatoria
+- Solo para errores transitorios (TimeoutError, ConnectionError)
+
+**4. Migraciones versionadas no destructivas (Cap 9)**
+- Hoy: reconstruir_db.sh usa CREATE OR REPLACE (destructivo)
+- Patron: MIGRATIONS dict + PRAGMA user_version + backup previo
+- Preserva datos entre versiones del esquema
+
+**5. Logging estructurado en JSONL (Cap 1.4)**
+- Hoy: stdout
+- Patron: JsonFormatter + RotatingFileHandler
+- Cada evento con run_id y profile
+
+### Leccion
+> Copiar el COMO (arquitectura, patrones), no el QUE (comandos de seguridad).
+> El libro brilla en Cap 1, 3, 8, 9, 11. El resto es de otro dominio.
+
+### Estado
+- Documentado como hoja de ruta
+- Sin aplicar todavia (BrainHub core sigue prioritario)
+- Referencia: 'Scripting avanzado con Python', Alejandro G Vera, 2026
+
+---
+
+
+## 2026-09-21 — Leccion: codigo generado en AI Studio
+
+### Contexto
+Genere 'BrainHub Studio' con Google AI Studio (Gemini). Un dashboard
+React/TypeScript con 6 modulos (Dashboard, PostCrafter, BuzzwordCleaner,
+AudienceRadar, EngagementSimulator, BridgePanel).
+
+En el canvas de AI Studio compilaba limpio. 'Verificado', decia.
+Lo baje como ZIP a Termux. Y ahi empezo el trabajo real.
+
+### Que se rompe al exportar de AI Studio
+
+**1. Versiones de dependencias inventadas**
+- package.json declaraba Vite 8, TypeScript 7, @vitejs/plugin-react 6
+- Ninguna de esas versiones existe en npm publico
+- AI Studio usa versiones internas en su sandbox
+
+**2. Modelo inexistente fuera del sandbox**
+- El codigo usaba 'gemini-3.8-flash'
+- Ese modelo no existe en la API publica de Google
+- Es un alias interno de AI Studio
+
+**3. Codigo muerto**
+- src/server/geminiService.ts: nadie lo importaba
+- express y dotenv en dependencies: sin uso
+- User-Agent 'aistudio-build': especifico del sandbox
+
+**4. Nombre por defecto del template**
+- package.json decia 'react-example'
+
+### Que aprendimos
+> El codigo generado por IA funciona en el sandbox de la IA.
+> En la maquina real, el trabajo es la traduccion.
+>
+> Antes de publicar cualquier proyecto generado por IA, auditar:
+> 1. Versiones de dependencias contra npm publico
+> 2. Modelos contra la documentacion oficial
+> 3. Codigo muerto (archivos sin import, deps sin uso)
+> 4. Nombres por defecto del template
+> 5. Secretos hardcodeados
+>
+> 80% del scaffolding es rapido y funcional.
+> 20% del trabajo real es portabilidad, paths, permisos y limpieza.
+
+### Comparacion con BrainHub
+BrainHub (codigo propio) tuvo bugs equivalentes en la traduccion:
+- Hardcodeos que no corrian en Windows
+- Paths absolutos de Termux
+- Permisos de scripts que dependian de como se crearon
+
+La diferencia: en BrainHub yo escribi el codigo y podia rastrear
+la causa. En Studio, Gemini genero codigo que no entiendo del todo
+y tuve que auditar para entender que habia adentro.
+
+### Decision
+- NO publicar BrainHub Studio en GitHub
+- NO mencionarlo como producto en LinkedIn
+- SI usarlo como herramienta personal (si se arreglan 4 cosas)
+- SI publicar la leccion en LinkedIn (post 'sandbox != produccion')
+
+### Estado
+- ZIP descargado, auditado, no publicado
+- Post publicado en LinkedIn el 2026-09-21
+- Correcciones pendientes (si se retoma como herramienta):
+  1. package.json: nombre + versiones reales
+  2. Eliminar src/server/ (codigo muerto)
+  3. Sacar express, dotenv, esbuild, @google/genai
+  4. Reemplazar Gemini por Ollama si se quiere 100% local
+
+---
+

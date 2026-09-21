@@ -322,3 +322,81 @@ Uso:
 
 Verificado en OracleCortex (30 -> 6 archivos) y midudev (sin regresion).
 
+
+---
+
+### Alineaciones con 'Scripting avanzado con Python' (2026-09-21)
+
+Referencia: Alejandro G Vera, 'Scripting avanzado con Python', 2026.
+Pensado para Kali Linux. Solo extraemos patrones arquitectonicos.
+
+**NO aplicar**: Scapy (Cap 5), Nmap (Cap 6), Playwright (Cap 7),
+framework de pentesting (Cap 12).
+
+
+
+1. **Config con precedencia (Cap 1.3)** — 1-2h
+   - default -> archivo -> env -> CLI
+   - Aplicar a: ollama_client, abstract_llm, preguntar, rag_simple
+   - deep_merge recursivo + build_settings + validacion
+   - Cierra la deuda 'Migrar a brainhub_config (1h)'
+
+2. **argparse con subcomandos (Cap 1.2)** — 2-3h
+   - Unificar 30+ scripts en 'brainhub <comando>'
+   - brainhub procesar / analizar / preguntar / pipeline
+   - Codigos de salida documentados (0 ok, 2 input, 3 config, 4 op)
+
+3. **retry_async con backoff + jitter (Cap 3)** — 1h
+   - Para Ollama (muere cada 10-30 min)
+   - Intentos limitados, solo errores transitorios
+   - Resuelve parcialmente 'Ollama estable'
+
+4. **Migraciones versionadas DuckDB (Cap 9.3)** — 3-4h
+   - Reemplaza CREATE OR REPLACE de reconstruir_db.sh
+   - MIGRATIONS dict + backup + user_version
+   - No destructivo: preserva datos entre versiones
+
+5. **Logging JSONL (Cap 1.4)** — 1-2h
+   - JsonFormatter + RotatingFileHandler
+   - Cada evento con run_id y profile
+   - Reemplaza stdout
+
+**Orden recomendado**: 1 -> 2 -> 3 -> 5 -> 4
+El 4 es el mas invasivo. Los otros son incrementales.
+
+
+---
+
+### Regla: auditar codigo generado por IA (2026-09-21)
+
+Codigo generado en AI Studio (Gemini) funciona en el sandbox de Google,
+no en la maquina real. Antes de publicar o usar cualquier proyecto
+generado por IA, auditar 5 cosas:
+
+1. Versiones de dependencias contra npm publico
+   (AI Studio inventa versiones que no existen: Vite 8, TS 7, etc.)
+
+2. Modelos de IA contra la documentacion oficial
+   (gemini-3.8-flash no existe fuera del sandbox)
+
+3. Codigo muerto (archivos sin import, deps sin uso)
+   (express, dotenv, src/server/geminiService.ts: nadie los usa)
+
+4. Nombres por defecto del template
+   ('react-example' en package.json)
+
+5. Secretos hardcodeados o URLs expuestas
+
+### Regla: no publicar como producto lo que no se escribio
+- Codigo propio -> publicable
+- Codigo generado -> auditar primero, publicar como caso de estudio
+- Codigo generado y no auditado -> NO publicar
+
+### BrainHub Studio (2026-09-21)
+Estado: auditado, NO publicado, guardado en ~/brainhub-studio.
+Si se retoma como herramienta personal:
+  - package.json: nombre + versiones reales
+  - rm -rf src/server/
+  - Sacar express, dotenv, esbuild, @google/genai
+  - Opcional: reemplazar Gemini por Ollama
+

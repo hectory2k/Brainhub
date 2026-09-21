@@ -5,6 +5,7 @@ Expone consultas a DuckDB, grafos y análisis.
 """
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import sys
 sys.path.insert(0, '/data/data/com.termux/files/home/proyectos/nlp')
 
@@ -13,6 +14,7 @@ from modulos.rag_simple import RAGSimple
 from modulos.integrar_duckdb import consultar, _escape_sql_string
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/api/health', methods=['GET'])
