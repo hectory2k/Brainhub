@@ -1,12 +1,29 @@
 # BrainHub — Prompt de Retoma
 
+## Bloque pegable (inicio de chat nuevo)
+
+> Soy Héctor, traumatólogo y desarrollador. Trabajo en BrainHub, un
+> ecosistema de NLP local-first que corre en Termux/Android (Moto G56,
+> Python 3.14, DuckDB CLI 1.5.5). Procesa YouTube, PDFs, GitHub y webs,
+> y genera análisis estructurados + RAG sobre Ollama local.
+>
+> Reglas: KISS, local-first, frugal. Sin Docker, sin cloud, sin APIs externas.
+> No agregar features que no resuelvan un bug. Diagnóstico con evidencia
+> antes de tocar. Documentar en BITACORA.md y este archivo.
+>
+> Estado: v7.2.0, 81 analysis, 1439 terminos_raw, RAG basico, 116 tests.
+> Deuda: 115 JSONs sin consolidar, 18 defaults Python apuntan a DB corrupta.
+> Próximo paso: [completar según la sesión].
+
+
 ## Fecha
-2026-09-18 (última sesión: fix content_control schema + permisos deploy.sh)
+2026-09-22 (última sesión: pipeline_db + verificador de claims)
 
 ## Estado (v7.2.0)
-- 79 videos en DB, 73+ con resumen LLM
+- 81 analysis en DB, 1439 terminos_raw, 4196 tecnicos
 - DuckDB CLI 1.5.5, RAG básico funcionando
 - Pipeline completo: procesar → analizar → pipeline_db.sh
+- Deuda: 115 JSONs sin consolidar, 18 defaults Python apuntan a DB corrupta
 - Config centralizado: brainhub_config.json
 - 116 tests Python + 17 tests DB + 8 guardias
 

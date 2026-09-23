@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "description": "Claims verificables sobre BrainHub",
+  "claims": [
+    {
+      "id": "analisis-total",
+      "text": "Analisis en DB (analysis)",
+      "value": 81,
+      "source": "duckdb:SELECT count(*) FROM analysis"
+    },
+    {
+      "id": "content-control-filas",
+      "text": "Filas en content_control",
+      "value": 24,
+      "source": "duckdb:SELECT count(*) FROM content_control"
+    },
+    {
+      "id": "terminos-raw-filas",
+      "text": "Terminos raw (filas totales)",
+      "value": 1439,
+      "source": "duckdb:SELECT count(*) FROM terminos_raw"
+    },
+    {
+      "id": "anatomia-total",
+      "text": "Conceptos de anatomia",
+      "value": 3432,
+      "source": "duckdb:SELECT count(*) FROM anatomia"
+    },
+    {
+      "id": "terminos-tecnicos",
+      "text": "Terminos tecnicos unicos",
+      "value": 4196,
+      "source": "duckdb:SELECT count(*) FROM v_terminos_tecnicos"
+    }
+  ]
+}
