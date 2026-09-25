@@ -13,7 +13,10 @@
 >
 > Estado: v7.2.0, 81 analysis, 1439 terminos_raw, RAG basico, 116 tests.
 > Deuda: 115 JSONs sin consolidar, 18 defaults Python apuntan a DB corrupta.
-> Próximo paso: [completar según la sesión].
+> Proximo paso: cerrar deuda de perimetro.
+> 1. Fix 18 defaults Python (data/ -> /sdcard/) - 20 min
+> 2. Regla OLLAMA_HOST=127.0.0.1 en scripts de Ollama - 5 min
+> 3. Investigar 115 JSONs huerfanos sin consolidar - sesion aparte
 
 
 ## Fecha
@@ -30,11 +33,11 @@
 ## Arquitectura
 
 ### Base de datos (DuckDB)
-- `analysis` (79 filas) — documento, nicho, sentimiento, resumen_llm
-- `terminos_raw` (~1382 filas) — video, term, frequency
+- `analysis` (81 filas) — documento, nicho, sentimiento, resumen_llm
+- `terminos_raw` (1439 filas) — video, term, frequency
 - `content_control` — idempotencia de ~/yt (persistente, sobrevive a reconstruccion via CREATE OR REPLACE + ON CONFLICT)
 - `anatomia` (3432), `mesh_terms`, `cache_mesh`
-- `v_terminos_tecnicos` (3926) — vista unificada
+- `v_terminos_tecnicos` (4196) — vista unificada
 - `progreso`, `stopwords`, `terminos_diccionarios`
 
 ### LLM (Ollama)
