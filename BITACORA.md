@@ -1539,3 +1539,62 @@ y tuve que auditar para entender que habia adentro.
 
 ---
 
+
+## 2026-09-25 — Concepto: Deuda de perímetro
+
+### Origen
+Lei un post de un DevOps Manager (Clarivate) sobre por que el 50% de
+los proyectos GenAI mueren despues del PoC (Gartner predijo 30%, la
+realidad fue 50%). Su diagnostico: no es la tecnologia, es DONDE se
+construyen los proyectos.
+
+Su frase: "deuda de perimetro: el trabajo que aplazas cuando construis
+el PoC fuera de los controles dentro de los que tendra que vivir".
+
+### Aplicado a BrainHub
+Es el mismo fenomeno, en otro dominio. BrainHub es local-first por
+diseno, pero el perimetro real (defaults seguros, salidas escritas,
+controles de red) no estaba definido.
+
+Ejemplos concretos:
+- Ollama sin auth: si arranca y la red cambia, queda expuesto
+- 18 defaults Python apuntan a DB corrupta (funciona solo si
+  BRAINHUB_DB esta seteada en el shell)
+- 2 DBs 'version 999' que ya no se pueden leer
+- 115 JSONs huerfanos sin consolidar
+
+### Recategorizacion de pendientes
+
+**Deuda de perimetro** (seguridad + portabilidad):
+- 18 defaults Python apuntan a DB corrupta
+- Ollama sin regla de host explicita
+
+**Deuda de datos** (funcionalidad):
+- 115 JSONs huerfanos en /sdcard/Download/
+
+**Deuda de higiene** (limpieza, no bloquea):
+- 2 DBs corruptas en data/ (renombradas)
+
+### Regla nueva
+> Local-first no es solo "no hay cloud". Es "hay controles, hay
+> defaults seguros, hay salidas escritas".
+>
+> Antes de agregar un default o exponer un servicio, escribir:
+> - A donde apunta por defecto
+> - Quien puede acceder
+> - Como se saca
+
+### Practica inspirada (post original)
+El autor propone para empresas reguladas:
+1. Escribir el perimetro antes que el prompt
+2. POC dentro del perimetro desde dia 1
+3. 3 semanas, criterios de exito en papel
+4. Medir donde corre el flujo
+5. Escribir la salida en el arranque
+
+Aplicable a BrainHub en escala: cada nuevo modulo, cada nuevo
+default, cada nuevo servicio expuesto debe tener perimetro definido
+antes de la primera linea de codigo.
+
+---
+

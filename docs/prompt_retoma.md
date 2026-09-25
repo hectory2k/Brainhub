@@ -417,3 +417,29 @@ Si se retoma como herramienta personal:
   - Sacar express, dotenv, esbuild, @google/genai
   - Opcional: reemplazar Gemini por Ollama
 
+
+---
+
+### Concepto: Deuda de perimetro (2026-09-25)
+
+Adaptado de un post de DevOps (Clarivate): el trabajo que aplazas
+cuando construis el PoC fuera de los controles donde tendra que vivir.
+
+**Regla**: antes de agregar un default, exponer un servicio o crear
+un modulo nuevo, escribir 3 cosas:
+1. A donde apunta por defecto
+2. Quien puede acceder
+3. Como se saca
+
+**Categorizacion de deudas**:
+
+Perimetro (seguridad + portabilidad):
+- 18 defaults Python apuntan a data/analisis_consolidado.duckdb
+- Ollama sin regla de host explicita (hoy seguro por default localhost)
+
+Datos (funcionalidad):
+- 115 JSONs huerfanos en /sdcard/Download/ sin consolidar
+
+Higiene (limpieza, no bloquea):
+- 2 DBs corruptas version 999 en data/ (renombradas)
+
