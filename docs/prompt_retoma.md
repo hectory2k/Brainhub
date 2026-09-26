@@ -500,3 +500,29 @@ devuelve 4196. La vista se actualiza entre el paso 4 y el paso 5.
     grep -n "INSERT\|CREATE\|v_terminos" ~/proyectos/nlp/scripts/guardia_contaminacion.sh
 
 **Prioridad**: baja.
+
+---
+
+### Sesion 2026-09-26: Curso LangGraph + fixes
+
+**Contenido agregado**:
+- 16 videos del curso 'Building Production AI Agents with LangGraph'
+- 4 pendientes por rate limit: JOGT7_QUMHo, Yq-GQ-5FpYc, Z-EnYMPyrQg, EOZqDMJFnfk
+
+**Workflow nuevo validado**:
+- youtube_transcript_api (fallback de yt-dlp)
+- Fallback idiomas: es -> es-US -> en
+- Delays de 5-15s para evitar 429
+
+**Numeros actualizados**: 99 analysis, 1782 terminos_raw, 4196 tecnicos
+
+**Pendientes alta prioridad**:
+1. Fix 18 defaults Python (data/ -> /sdcard/)
+2. Fix reconstruir_db.sh (no toca tablas tecnicas)
+3. Verificar 4 videos pendientes (esperar rate limit)
+
+**Pendientes media prioridad**:
+4. procesar_playlist.sh (formalizar workflow)
+5. UNIQUE constraint en analysis.filename
+6. Diccionario: agregar AGENTES_IA, LANGGRAPH
+

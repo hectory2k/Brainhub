@@ -1598,3 +1598,102 @@ antes de la primera linea de codigo.
 
 ---
 
+
+## 2026-09-26 — Curso LangGraph + fixes de arquitectura
+
+### Contexto
+Bajamos el curso 'Building Production AI Agents with LangGraph'
+(20 videos, YouTube) y procesamos 16. El objetivo era aprender
+sobre agentes IA y validar el pipeline con contenido nuevo.
+
+### Que funciono
+- youtube_transcript_api (fallback cuando yt-dlp falla con 429)
+- Fallback de idiomas: es -> es-US -> en
+- analizar 16 videos en loop, batches, todo OK
+- Pipeline completo: 99 analysis, 1782 terminos_raw
+
+### Que fallo (y como se resolvio)
+
+**1. yt-dlp bloqueado con HTTP 429**
+- Solucion: youtube_transcript_api (via distinta a YouTube)
+- Delays de 5-15s entre videos
+
+**2. Idioma es no disponible**
+- Solucion: es-US (traduccion automatica de YouTube)
+- Fallback en orden: es, es-US, es-419, en
+
+**3. DuckDB con lock persistente (proceso stopped)**
+- Causa: Ctrl+Z dejo el proceso en estado T con el lock abierto
+- Solucion: kill -CONT PID + kill -9 PID
+- Los procesos stopped no responden a SIGKILL directamente
+
+**4. /tmp no escribible en Termux**
+- Solucion: usar ~/tmp o ~/playlist_brainhub
+
+**5. analizar escribe en terminos_raw pero no en analysis**
+- analysis se llena solo con reconstruir_db.sh
+- Los JSONs deben estar en /sdcard/Download/ para que se vean
+- Solucion manual: copiar JSONs + correr reconstruir_db.sh
+
+**6. reconstruir_db.sh es destructivo**
+- Solo toca 5 tablas (analysis, terminos_raw, progreso,
+  stopwords, content_control)
+- Pierde anatomia, mesh_terms, cache_mesh, v_terminos_tecnicos
+- Solucion: correr pipeline_db.sh completo
+
+**7. analysis.filename no guarda path**
+- Analizar el mismo archivo desde 2 directorios duplica filas
+- Solucion manual: DELETE del duplicado
+
+### Numeros finales
+- analysis: 99 (era 81, +18)
+- terminos_raw: 1782 (era 1439, +343)
+- content_control: 25
+- TECNOLOGIA: 61 (era 44, +17)
+
+### Corpus nuevo
+16 videos del curso LangGraph:
+- 00. Overview
+- 01. Environment Setup
+- 02. Why Graphs Not Chains
+- 03. State Nodes Edges
+- 04. Control Flow
+- 05. Tools And React
+- 06. Checkpointers And Threads
+- 07. Durable Execution
+- 08. Human In The Loop
+- 09. Time Travel
+- 10. Memory
+- 11. Subgraphs
+- 12. Supervisor Teams
+- 13. Swarm And Handoff
+- 14. Plan Execute Reflection
+- 15. Streaming
+
+Pendientes (rate limit): 16, 17, 18, 19
+
+### Deudas documentadas
+1. reconstruir_db.sh destructivo (no toca tablas tecnicas)
+2. analizar + reconstruir_db desacoplados
+3. analysis.filename no guarda path
+4. v_terminos_tecnicos discrepa entre output y query
+5. 4 videos del curso pendientes (rate limit)
+6. Diccionario sin AGENTES_IA/LANGGRAPH (conceptos caen a DATA_SCIENCE)
+
+### Lecciones para el futuro
+
+> yt-dlp bloquea con 429. youtube_transcript_api es el fallback.
+> Termux: /tmp no escribible, usar ~/tmp
+> DuckDB: Ctrl+Z deja lock persistente. Usar .quit
+> Procesos stopped no responden a SIGKILL. Primero SIGCONT.
+> Verificar que el archivo bajado NO sea un mensaje de error
+> pipeline_db.sh es el flujo canonico, no reconstruir_db.sh solo
+> analizar escribe terminos_raw; reconstruir_db llena analysis
+
+### Estado
+- Commit del dia: feat: curso LangGraph + fixes de arquitectura
+- BITACORA actualizada 2026-09-26
+- Todo pusheado a GitHub
+
+---
+
