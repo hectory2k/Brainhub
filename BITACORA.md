@@ -1779,3 +1779,58 @@ Media. Ideas para futuro, no bugs concretos.
 
 ---
 
+
+## 2026-09-26 — Script mapa_corpus.py + fix CAIS
+
+### mapa_corpus.py (nuevo)
+Script que genera un mapa navegable del corpus desde DuckDB.
+
+**4 modos**:
+- `--tabla` — indice de documentos
+- `--termino X` — documentos que mencionan X
+- `--nicho Y` — documentos de un nicho
+- `--stats` — metricas agregadas
+
+**Opciones**: --json, --output archivo, --limit N
+**Config**: variable BRAINHUB_DB
+**Dependencias**: ninguna (stdlib)
+
+Lee directo de la DB, no re-parsea JSONs.
+Util para: ver corpus, buscar terminos, entender distribucion,
+detectar contenido duplicado.
+
+### Fix: clasificacion CAIS
+Los 5 archivos CAIS_2026 (Congreso Argentino de Informatica en Salud)
+estaban clasificados como TECNOLOGIA. Reclasificados como SALUD.
+
+**Fix**:
+    UPDATE analysis SET nicho='SALUD' WHERE filename LIKE 'CAIS%';
+
+**Resultado**: SALUD 9 -> 14, TECNOLOGIA 61 -> 56
+
+### Hallazgo: CAIS no es duplicado
+Pensamos que CAIS_2026_Completo duplicaba los diarios.
+Al verificar:
+- Completo: 3977 segmentos, 16 terminos_raw
+- Diarios: 3273 segmentos, 52 terminos_raw
+
+Son dos granularidades del mismo evento. Cada uno aporta terminos
+distintos. No hay duplicacion real.
+
+**Decision**: mantener los 5 archivos.
+
+### Leccion
+> Antes de eliminar 'duplicados', verificar si son realmente
+> duplicados o representaciones distintas del mismo contenido.
+>
+> Los reportes agregados (stats, mapa) ayudan a detectar
+> patrones que no se ven a nivel individual.
+
+### Estado
+- mapa_corpus.py en scripts/
+- CAIS reclasificado como SALUD
+- Commit: feat: mapa_corpus.py + fix clasificacion CAIS
+- Todo pusheado a GitHub
+
+---
+
