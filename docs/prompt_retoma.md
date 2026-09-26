@@ -11,7 +11,7 @@
 > No agregar features que no resuelvan un bug. Diagnóstico con evidencia
 > antes de tocar. Documentar en BITACORA.md y este archivo.
 >
-> Estado: v7.2.0, 81 analysis, 1439 terminos_raw, RAG basico, 116 tests.
+> Estado: v7.2.0, 99 analysis, 1782 terminos_raw, RAG basico, 116 tests.
 > Deuda: 115 JSONs sin consolidar, 18 defaults Python apuntan a DB corrupta.
 > Proximo paso: cerrar deuda de perimetro.
 > 1. Fix 18 defaults Python (data/ -> /sdcard/) - 20 min
@@ -23,7 +23,7 @@
 2026-09-22 (última sesión: pipeline_db + verificador de claims)
 
 ## Estado (v7.2.0)
-- 81 analysis en DB, 1439 terminos_raw, 4196 tecnicos
+- 99 analysis en DB, 1782 terminos_raw, 4196 tecnicos
 - DuckDB CLI 1.5.5, RAG básico funcionando
 - Pipeline completo: procesar → analizar → pipeline_db.sh
 - Deuda: 115 JSONs sin consolidar, 18 defaults Python apuntan a DB corrupta
@@ -33,8 +33,8 @@
 ## Arquitectura
 
 ### Base de datos (DuckDB)
-- `analysis` (81 filas) — documento, nicho, sentimiento, resumen_llm
-- `terminos_raw` (1439 filas) — video, term, frequency
+- `analysis` (99 filas) — filename, nicho, sentimiento, resumen_llm
+- `terminos_raw` (1782 filas) — video, term, frequency
 - `content_control` — idempotencia de ~/yt (persistente, sobrevive a reconstruccion via CREATE OR REPLACE + ON CONFLICT)
 - `anatomia` (3432), `mesh_terms`, `cache_mesh`
 - `v_terminos_tecnicos` (4196) — vista unificada
@@ -446,3 +446,57 @@ Datos (funcionalidad):
 Higiene (limpieza, no bloquea):
 - 2 DBs corruptas version 999 en data/ (renombradas)
 
+
+### Deuda de perimetro: procesar playlists (2026-09-26)
+
+`procesar` no acepta playlists. Detecta el ID de la playlist como si
+fuera un video, extrae "PLLPJgUybOZ" y queda colgado.
+
+**Workaround**: usar `yt-dlp` directo + `analizar` por cada `.txt`.
+
+**Riesgo**: YouTube rate-limita (HTTP 429) si se descargan muchos
+subtítulos seguidos. Esperar 1-6h entre intentos fallidos.
+
+**Mejora posible**: nuevo script `procesar_playlist.sh` que:
+- Acepta URL de playlist
+- Baja subtitulos con delays grandes
+- Convierte a .txt
+- Corre analizar en batches de 5
+- Consolida en DB
+
+**Prioridad**: media. Util para cursos completos.
+
+---
+
+### Deuda de arquitectura: reconstruir_db destructivo (2026-09-26)
+
+`reconstruir_db.sh` usa CREATE OR REPLACE TABLE en 5 tablas. NO toca
+las tablas tecnicas (anatomia, mesh_terms, cache_mesh, v_terminos_tecnicos).
+
+**Problema**: correr solo reconstruir_db.sh deja la DB sin tablas tecnicas.
+Verificar con:
+    duckdb /sdcard/Download/analisis_consolidado.duckdb "SHOW TABLES;"
+
+Si falta anatomia o v_terminos_tecnicos, correr pipeline_db.sh completo.
+
+**Prioridad**: alta.
+
+### Deuda: analysis.filename no guarda path (2026-09-26)
+
+`analysis` guarda filename, no el path completo. Analizar el mismo
+archivo desde 2 directorios genera 2 filas con el mismo filename.
+Fix manual: DELETE + reconstruir.
+
+**Prioridad**: media.
+
+### Hallazgo: v_terminos_tecnicos discrepa entre output y query (2026-09-26)
+
+El pipeline imprime 3926 terminos tecnicos, pero la query directa
+devuelve 4196. La vista se actualiza entre el paso 4 y el paso 5.
+
+**Posible causa**: guardia_contaminacion.sh modifica la vista.
+
+**Verificar**:
+    grep -n "INSERT\|CREATE\|v_terminos" ~/proyectos/nlp/scripts/guardia_contaminacion.sh
+
+**Prioridad**: baja.

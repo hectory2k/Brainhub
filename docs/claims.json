@@ -5,19 +5,19 @@
     {
       "id": "analisis-total",
       "text": "Analisis en DB (analysis)",
-      "value": 81,
+      "value": 99,
       "source": "duckdb:SELECT count(*) FROM analysis"
     },
     {
       "id": "content-control-filas",
       "text": "Filas en content_control",
-      "value": 24,
+      "value": 25,
       "source": "duckdb:SELECT count(*) FROM content_control"
     },
     {
       "id": "terminos-raw-filas",
       "text": "Terminos raw (filas totales)",
-      "value": 1439,
+      "value": 1782,
       "source": "duckdb:SELECT count(*) FROM terminos_raw"
     },
     {
