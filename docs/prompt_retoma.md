@@ -591,3 +591,49 @@ Los 5 archivos CAIS estaban como TECNOLOGIA. Reclasificados como SALUD:
     UPDATE analysis SET nicho='SALUD' WHERE filename LIKE 'CAIS%';
 
 Resultado: SALUD 9 -> 14, TECNOLOGIA 61 -> 56.
+
+---
+
+### Auditoria de dependencias Python (2026-09-26)
+
+En Termux, todos los proyectos comparten el interprete global.
+
+Total: 123 paquetes instalados.
+Backup: ~/proyectos/nlp/requirements-before-audit.txt
+
+**Proyectos Python en ~**:
+- ~/proyectos/nlp (BrainHub)
+- ~/vigisalud, ~/vigisalud-core, ~/vigisalud-dashboard, ~/vigisalud-docs
+- ~/sistema-alquiler
+- ~/shodan_termux_env
+- ~/solidity_scanner
+- ~/arquitectura
+
+**Paquetes usados por OTROS proyectos (NO SACAR)**:
+- fastapi, uvicorn, starlette (vigisalud, sistema-alquiler)
+- cryptography (pdfminer.six + auth)
+- passlib, bcrypt (auth)
+- shodan (shodan_termux_env)
+- openai (algún proyecto)
+- python-jose (sistema-alquiler)
+- ecdsa, rsa, pyasn1 (dependencias de python-jose)
+
+**Paquetes huerfanos claros (12)**:
+- azure-ai-documentintelligence, azure-core, azure-identity
+- msal, msal-extensions
+- pycryptodomex
+- pydub, mutagen, audioop-lts
+- googletrans, deep-translator
+- markitdown
+
+**Decision**: NO desinstalar por ahora.
+- Ahorro: ~150 MB de 110 GB libres
+- Riesgo: romper otros proyectos por dependencias cruzadas
+- Regla KISS: si funciona, no lo toques
+
+**Fix a futuro (opcional)**:
+- venv por proyecto
+- pipx para apps
+- Auditoria anual de deps
+
+**Prioridad**: baja.

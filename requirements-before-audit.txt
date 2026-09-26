@@ -1,0 +1,123 @@
+annotated-doc==0.0.5
+annotated-types==0.8.0
+anyio==4.14.2
+audioop-lts==0.2.2
+azure-ai-documentintelligence==1.0.2
+azure-core==1.41.0
+azure-identity==1.25.3
+bcrypt==5.0.0
+beautifulsoup4==4.15.0
+blinker==1.9.0
+Brotli @ file:///home/builder/.termux-build/python-brotli/src
+certifi==2026.7.22
+cffi==2.1.0
+chardet==3.0.4
+charset-normalizer==3.5.1
+click==8.4.2
+click-plugins==1.1.1.2
+cmake @ file:///home/builder/.termux-build/python-cmake/src
+cobble==0.1.4
+colorama==0.4.6
+contourpy @ file:///home/builder/.termux-build/python-contourpy/src/dist/contourpy-1.3.3-cp314-cp314-android_aarch64.whl#sha256=f11e072c913ecfd663fcd93e5c8237f5e0aad8fcc85abaa62095906c79f436c5
+coverage==7.16.0
+cryptography @ file:///home/builder/.termux-build/python-cryptography/src
+curl_cffi==0.16.3
+cycler==0.12.1
+deep-translator==1.11.4
+defusedxml==0.7.1
+dnspython==2.8.0
+ecdsa==0.19.2
+email-validator==2.3.0
+et_xmlfile==2.0.0
+fastapi==0.141.1
+filelock==3.32.2
+Flask==3.1.3
+flask-cors==6.0.5
+fonttools==4.63.0
+googletrans==4.0.0rc1
+h11==0.16.0
+h2==3.2.0
+hpack==3.0.0
+hstspreload==2025.1.1
+httpcore==0.9.1
+httpcore2==2.12.0
+httpx==0.13.3
+httpx2==2.12.0
+hyperframe==5.2.0
+idna==3.19
+iniconfig==2.3.0
+isodate==0.7.2
+itsdangerous==2.2.0
+Jinja2==3.1.6
+jiter==0.16.0
+joblib==1.5.3
+kiwisolver==1.5.0
+lxml==6.1.2
+mammoth==1.12.1
+markdownify==1.2.3
+markitdown==0.0.2
+MarkupSafe==3.0.3
+matplotlib @ file:///home/builder/.termux-build/matplotlib/src/dist/matplotlib-3.11.1-cp314-cp314-android_aarch64.whl#sha256=753406a13bceba7596cec5872e0c8c9f535abbbeba96896babd3c5f352ea963f
+msal==1.38.0
+msal-extensions==1.3.1
+mutagen==1.48.1
+nltk==3.10.3
+numpy @ file:///home/builder/.termux-build/python-numpy/src/dist/numpy-2.4.4-cp314-cp314-android_aarch64.whl#sha256=68ef31f0d8925d96da2b5e014c2c3d32a16dd68887329eeecb7f3a548222e24d
+olefile==0.47
+openai==3.3.1
+openpyxl==3.1.5
+packaging==26.2
+pandas @ file:///home/builder/.termux-build/python-pandas/src/dist/pandas-3.0.5-cp314-cp314-android_aarch64.whl#sha256=2a35f0521e37d4736d43c1be8e440673d00f1d929bf5bc07090d0d6519e987bd
+passlib==1.7.4
+pathvalidate==3.3.1
+pdfminer.six==20260107
+pillow @ file:///home/builder/.termux-build/python-pillow/src
+pluggy==1.6.0
+psutil @ file:///home/builder/.termux-build/python-psutil/src
+puremagic==2.2.0
+pyasn1==0.6.4
+pycparser==3.0
+pycryptodomex @ file:///home/builder/.termux-build/python-pycryptodomex/src
+pydantic==2.13.4
+pydantic_core==2.46.4
+pydub==0.25.1
+Pygments==2.21.0
+PyJWT==2.13.0
+pyparsing==3.3.2
+pytest==9.1.1
+pytest-cov==7.1.0
+python-dateutil==2.9.0.post0
+python-jose==3.5.0
+python-multipart==0.0.32
+python-pptx==1.0.2
+PyYAML==6.0.3
+regex==2026.7.19
+requests==2.34.2
+requests-file==3.0.1
+rfc3986==1.5.0
+rsa==4.9.1
+scipy @ file:///home/builder/.termux-build/python-scipy/src/dist/scipy-1.18.1-cp314-cp314-android_aarch64.whl#sha256=26fa3c9be785483a304e9673dc82496f38bc950b92a3d1b6974b51abec20729f
+shodan==1.31.0
+six==1.17.0
+sniffio==1.3.1
+soupsieve==2.9.2
+SpeechRecognition==3.17.0
+standard-aifc==3.13.0
+standard-chunk==3.13.0
+starlette==1.6.0
+textblob==0.20.1
+tldextract==5.3.1
+tqdm==4.70.0
+truststore==0.10.4
+typing-inspection==0.4.4
+typing_extensions==4.16.0
+urllib3==2.7.0
+uvicorn==0.52.4
+websockets==17.1
+Werkzeug==3.1.8
+wheel==0.48.0
+xlrd==2.0.2
+xlsxwriter==3.2.9
+youtube-transcript-api==1.2.4
+yt-dlp @ file:///home/builder/.termux-build/python-yt-dlp/src
+yt-dlp-ejs @ file:///home/builder/.termux-build/yt-dlp-ejs/src/dist/yt_dlp_ejs-0.8.0-py3-none-any.whl#sha256=e39384d39678051f568ff8b82bf449d96c85d8a3cd1e6eab7a26ec6ef5ccfd2b

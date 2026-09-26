@@ -1834,3 +1834,44 @@ distintos. No hay duplicacion real.
 
 ---
 
+
+## 2026-09-26 — Auditoria de dependencias Python
+
+### Contexto
+Detectamos 123 paquetes instalados globalmente en Termux.
+Algunos parecían "sin uso" pero podían ser usados por otros proyectos.
+
+### Hallazgos
+- 12 paquetes con 0 uso real en TODOS los proyectos
+- 5 paquetes usados por otros proyectos (sistema-alquiler)
+- Resto son legítimos de BrainHub o dependencias transitivas
+
+### Paquetes usados por otros proyectos (NO SACAR)
+- fastapi, uvicorn, starlette (vigisalud, sistema-alquiler)
+- cryptography, passlib, bcrypt (auth)
+- shodan (shodan_termux_env)
+- python-jose (sistema-alquiler)
+
+### Paquetes huérfanos (12)
+azure-*, msal, pycryptodomex, pydub, mutagen, audioop-lts,
+googletrans, deep-translator, markitdown
+
+### Decision
+NO desinstalar. Motivos:
+- Ahorro ~150 MB de 110 GB libres
+- Riesgo de romper otros proyectos por dependencias cruzadas
+- Regla KISS: si funciona, no lo toques
+
+### Leccion
+> En Termux, todos los proyectos comparten Python global.
+> No hay aislamiento de dependencias.
+> Una "limpieza" local puede romper proyectos remotos.
+
+### Fix a futuro
+- venv por proyecto
+- pipx para apps
+- Auditoria anual
+
+Backup: ~/proyectos/nlp/requirements-before-audit.txt
+
+---
