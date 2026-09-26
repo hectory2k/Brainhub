@@ -526,3 +526,47 @@ devuelve 4196. La vista se actualiza entre el paso 4 y el paso 5.
 5. UNIQUE constraint en analysis.filename
 6. Diccionario: agregar AGENTES_IA, LANGGRAPH
 
+
+---
+
+### Patrón: caché persistente + ventana incremental (2026-09-26)
+
+Cuando tenés latencia heredada que no podés cambiar, la solución no
+es la buena práctica (cambiar el sistema), es mitigar con caché
+persistente + ventana incremental.
+
+**Patrón**:
+1. Primera consulta -> traer histórico completo -> guardar en caché
+2. Consultas siguientes -> devolver histórico + pedir solo reciente
+3. Interfaz -> separar 'reciente' de 'histórico (stale)'
+4. Ciclo de vida -> descartar contextos no reutilizados
+
+**Resultado**: trabajo reducido 2-3 órdenes de magnitud.
+
+**3 conceptos clave**:
+- Casi nunca el algoritmo ideal está en las buenas prácticas
+- Recientes vs histórico: separación simple y poderosa
+- Ciclo de vida por observabilidad, no por tiempo fijo
+
+
+
+1. Re-análisis incremental
+   - reconstruir_db.sh --incremental (solo procesa nuevos)
+   - Ahorro: saltar ~80% si solo hay 5-10 nuevos
+
+2. RAG con caché de temas
+   - Cachear resultados de temas repetidos
+   - Queries repetidas son instantáneas
+
+3. Transcripciones cacheadas
+   - content_control ya hace esto parcialmente
+   - Hacerlo explícito con tabla cache_transcripts
+
+**Relación con deuda de perímetro**:
+Buena práctica = 'hacé X bien desde el principio'
+Realidad = 'no podés cambiar X, mitigá'
+BrainHub es local-first con restricciones -> el patrón de mitigación
+aplica más que el de 'hacé las cosas bien'.
+
+**Prioridad**: media. Ideas para futuro, no bugs concretos.
+

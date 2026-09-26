@@ -1697,3 +1697,85 @@ Pendientes (rate limit): 16, 17, 18, 19
 
 ---
 
+
+## 2026-09-26 — Patrón: caché persistente + ventana incremental
+
+### Origen
+Aporte de contacto DevOps: en diseño de sistemas basados en
+prácticas DevOps (y en general), los algoritmos más efectivos para
+un caso de uso especial CASI NUNCA están en las buenas prácticas.
+
+Motivo: las buenas prácticas plantean lo ideal a buscar CAMBIANDO
+el contexto y el marco técnico. No tienen solución cuando no podés
+cambiar casi nada, solo agregar mejoras incrementales sobre lo que
+va a seguir funcionando mal.
+
+### Caso clásico: latencias heredadas
+Los microservicios modernos trasladan la demora del legacy al
+usuario si el origen no puede cambiarse.
+
+**Estrategia**: caché local persistente + ventana incremental.
+
+1. Primera consulta: traer histórico completo, guardar en caché
+   local consultable (SQLite, DuckDB)
+2. Consultas siguientes: devolver histórico desde caché + pedir
+   al origen solo la ventana reciente (ej: 30 registros en lugar
+   de 17.000)
+3. Interfaz: separar 'Actividad reciente' (fresh) de 'histórico'
+   (posiblemente stale)
+4. Ciclo de vida: descartar contextos que dejan de reutilizarse
+   (ej: 30-40 min sin uso), definido por observabilidad
+
+**Resultado típico**: trabajo reducido 2-3 órdenes de magnitud.
+
+### Los 3 conceptos clave
+
+**1. Casi nunca el algoritmo ideal está en las buenas prácticas**
+Porque asumen que podés cambiar el contexto. Cuando no podés, la
+solución es mitigar, no aplicar la práctica.
+
+**2. Recientes vs histórico**
+Separación simple y poderosa:
+- Reciente -> siempre fresh, pedilo al origen
+- Histórico -> cacheado, marcado como 'posiblemente stale'
+
+**3. Ciclo de vida por observabilidad**
+La caché no es infinita. Se descarta cuando deja de usarse.
+Eso se detecta con métricas de uso.
+
+### Aplicable a BrainHub (3 casos)
+
+**Caso 1: Re-análisis incremental**
+Hoy: pipeline_db.sh procesa todos los JSONs cada vez.
+Propuesta: flag --incremental que solo procese nuevos.
+Ahorro: saltar ~80% del trabajo si solo hay 5-10 nuevos.
+
+**Caso 2: RAG con caché de temas**
+Hoy: preguntar.py corre BM25 sobre todo el corpus cada vez.
+Propuesta: cachear resultados de temas repetidos.
+Ahorro: queries repetidas son instantáneas.
+
+**Caso 3: Transcripciones cacheadas**
+Hoy: content_control ya hace esto parcialmente.
+Propuesta: hacerlo explícito con tabla cache_transcripts.
+Ahorro: no re-bajar videos ya procesados.
+
+### Aplicado a aprendizaje del curso LangGraph
+El mismo patrón se aplica a cómo usar el análisis como índice:
+- Primera vez que buscás 'checkpointer' -> búsqueda completa
+- Segunda vez -> ya está cacheado -> instantáneo
+
+### Relación con 'deuda de perímetro'
+El patrón es deuda de perímetro en otra forma:
+- Buena práctica = 'hacé X bien desde el principio'
+- Realidad = 'no podés cambiar X, mitigá'
+
+BrainHub es local-first con restricciones (Termux, 4 GB RAM, sin GPU).
+Eso significa que el patrón de mitigación aplica más que el de
+'hacé las cosas bien'.
+
+### Prioridad
+Media. Ideas para futuro, no bugs concretos.
+
+---
+
