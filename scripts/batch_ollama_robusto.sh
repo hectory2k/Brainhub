@@ -78,6 +78,7 @@ log "═════════════════════════
 procesados=0
 saltados=0
 errores=0
+tiempo_total=0
 
 for txt in "$JSONS_DIR"/*.txt; do
     # Skip basura
@@ -122,16 +123,29 @@ for txt in "$JSONS_DIR"/*.txt; do
         restart_ollama || break
     fi
     
-    # ─── Procesar ───
+    # ─── Procesar (con medición de tiempo) ───
+    t_inicio=$(date +%s)
+
     if bash "$HOME/proyectos/nlp/scripts/analizar.sh" "$txt" 2>&1 | grep -q "Resumen: gemma"; then
         procesados=$((procesados + 1))
-        log "   ✅ OK con LLM"
+        t_fin=$(date +%s)
+        t_total=$((t_fin - t_inicio))
+        log "   ✅ OK con LLM (${t_total}s)"
+        tiempo_total=$((tiempo_total + t_total))
     else
         errores=$((errores + 1))
-        log "   ⚠️  Fallback a plantilla o error"
+        t_fin=$(date +%s)
+        t_total=$((t_fin - t_inicio))
+        log "   ⚠️  Fallback a plantilla o error (${t_total}s)"
     fi
     
-    sleep 2
+    # Pausa mas larga cada 5 videos para liberar RAM
+    if [ $((procesados % 5)) -eq 0 ] && [ "$procesados" -gt 0 ]; then
+        log "   💤 Pausa de 30s cada 5 videos..."
+        sleep 30
+    else
+        sleep 5
+    fi
 done
 
 log ""
@@ -141,6 +155,10 @@ log "═════════════════════════
 log "Procesados con LLM:  $procesados"
 log "Saltados (ya tenían): $saltados"
 log "Errores:             $errores"
+if [ "$procesados" -gt 0 ]; then
+    log "Tiempo total:        ${tiempo_total}s"
+    log "Promedio por video:  $((tiempo_total / procesados))s"
+fi
 log ""
 log "Log: $LOG"
 log "✅ Batch terminado"

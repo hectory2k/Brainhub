@@ -637,3 +637,25 @@ Backup: ~/proyectos/nlp/requirements-before-audit.txt
 - Auditoria anual de deps
 
 **Prioridad**: baja.
+
+---
+
+### Mejora: batch_ollama_robusto (2026-09-26)
+
+Aplicado el patron 'mas rapido con menos recursos' (inspirado en Unsloth).
+
+**Cambios**:
+- Pausa 5s entre videos (era 2s)
+- Pausa 30s cada 5 videos (preventiva)
+- Medicion de tiempo por video
+- Resumen con tiempo total + promedio
+
+**Motivo**: Ollama muere cada 10-30 min por presion de memoria.
+La pausa adaptativa evita saturacion.
+
+**Ya existia en el script**:
+- Chequeo de RAM antes de cada video
+- Reinicio Ollama si RAM < 800 MB
+- Skip si ya procesado con gemma:2b
+
+Ahora agrega la pausa preventiva y la medicion.

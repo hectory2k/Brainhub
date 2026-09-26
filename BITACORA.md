@@ -1875,3 +1875,22 @@ NO desinstalar. Motivos:
 Backup: ~/proyectos/nlp/requirements-before-audit.txt
 
 ---
+
+## 2026-09-26 — Mejora batch_ollama_robusto
+
+### Contexto
+El script ya tenia chequeo de RAM + reinicio Ollama. Faltaba:
+- Pausa preventiva (solo pausaba reactivamente)
+- Medicion de tiempo
+
+### Cambios aplicados
+1. Pausa 5s entre videos (era 2s)
+2. Pausa 30s cada 5 videos (preventiva)
+3. Medicion de tiempo por video
+4. Resumen con tiempo total + promedio
+
+### Beneficio
+- Mas estabilidad en batches largos
+- Visibilidad del tiempo real
+
+---
