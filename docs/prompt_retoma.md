@@ -570,3 +570,24 @@ aplica más que el de 'hacé las cosas bien'.
 
 **Prioridad**: media. Ideas para futuro, no bugs concretos.
 
+
+---
+
+### Hallazgo: CAIS no es duplicado, es multigranularidad (2026-09-26)
+
+Los 5 archivos CAIS 2026 no son duplicados:
+- CAIS_2026_Completo: 3977 segmentos, 16 terminos_raw
+- CAIS_2026_Dia1_ES, Dia2_ES, Dia3_ES, Dia1_EN: 3273 segmentos, 52 terminos_raw
+
+Son dos granularidades del mismo evento. Cada uno aporta terminos
+distintos. No hay duplicacion real.
+
+Decision: mantener los 5.
+
+### Deuda: clasificacion CAIS (2026-09-26) - RESUELTO
+
+Los 5 archivos CAIS estaban como TECNOLOGIA. Reclasificados como SALUD:
+
+    UPDATE analysis SET nicho='SALUD' WHERE filename LIKE 'CAIS%';
+
+Resultado: SALUD 9 -> 14, TECNOLOGIA 61 -> 56.
