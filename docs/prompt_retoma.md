@@ -659,3 +659,56 @@ La pausa adaptativa evita saturacion.
 - Skip si ya procesado con gemma:2b
 
 Ahora agrega la pausa preventiva y la medicion.
+
+---
+
+### Feature: yt_transcript.py (2026-09-27)
+
+CLI para descargar transcripts con roles y validacion temporal.
+
+**Estructura**:
+    scripts/yt_transcript.py       # CLI
+    scripts/yt_lib/io.py           # archivos + state + metadata
+    scripts/yt_lib/fetch.py        # descarga con fallback
+    scripts/yt_lib/validate.py     # validacion de sincronizacion
+
+**Comandos**:
+    yt_transcript.py inspect VIDEO_ID
+    yt_transcript.py fetch VIDEO_ID --lang LANG --role ROLE
+    yt_transcript.py validate VIDEO_ID --track LANG_ROLE [--auto]
+    yt_transcript.py status VIDEO_ID
+
+**Estructura del corpus**:
+    /sdcard/Download/corpus/VIDEO_ID/
+    ├── metadata.json
+    ├── .state.json
+    └── transcripts/
+        ├── {lang}.{role}.jsonl
+        ├── {lang}.{role}.clean.txt
+        └── {lang}.{role}.timestamped.txt
+
+**Roles**: source, manual, asr, translated, dubbed, unknown
+
+**Idempotente**:
+- Si el track existe, no re-descarga (devuelve cached)
+- .state.json registra cada paso (done/failed/running)
+
+**Fallback**: youtube_transcript_api -> yt-dlp
+
+**Uso para video nuevo**:
+    yt_transcript.py inspect VIDEO_ID
+    yt_transcript.py fetch VIDEO_ID --lang en --role source
+    yt_transcript.py fetch VIDEO_ID --lang es-US --role translated
+    yt_transcript.py validate VIDEO_ID --track en_source
+    analizar /sdcard/Download/corpus/VIDEO_ID/transcripts/es-US.translated.clean.txt
+
+**Validado con HNClGfpmSfk**:
+- en_source: 208 segs, validated (offset 0.0s)
+- es-US_translated: 220 segs
+
+**Pendiente**:
+- Migrar ~/yt a este flujo (delegar)
+- DuckDB: tablas transcript_segments, transcript_tracks, analysis_evidence
+- Chunks con start/end
+- Reportes con links &t=Xs
+- Alineacion semantica entre idiomas

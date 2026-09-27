@@ -1894,3 +1894,85 @@ El script ya tenia chequeo de RAM + reinicio Ollama. Faltaba:
 - Visibilidad del tiempo real
 
 ---
+
+## 2026-09-27 — Feature: yt_transcript.py (MVP)
+
+### Contexto
+Necesidad de separar texto limpio (para analisis) de timestamps
+(para navegar al video). Los timestamps embebidos contaminaban el
+analisis NLP. Los timestamps separados requieren validacion porque
+las pistas traducidas tienen offsets (video de prueba: ~90s).
+
+### Que se implemento
+3 modulos + 1 CLI:
+- yt_lib/io.py: estructura de archivos + state + metadata
+- yt_lib/fetch.py: descarga con fallback (API -> yt-dlp)
+- yt_lib/validate.py: validacion en 5 puntos
+- yt_transcript.py: CLI con 4 subcomandos
+
+### Decisiones de diseno
+- Estructura por video, no por idioma
+- Roles explicitos: source, translated, etc.
+- Metadata con use_for_navigation + use_for_analysis
+- Idempotencia: si existe, no re-descarga
+- State resumible: .state.json con pasos
+- Escritura atomica: .tmp + replace
+
+### Lecciones
+> El idioma de navegacion NO siempre es el idioma del audio.
+> La pista en_source puede no ser la original.
+> Hay que validar sincronizacion en 5 puntos.
+> El "modo auto" da pending_validation, no validated.
+
+### Validado con HNClGfpmSfk
+- en_source: 208 segs, sync validado (offset 0.0s en 5 puntos)
+- es-US_translated: 220 segs (traduccion con offsets)
+
+### Pendiente
+- Migrar ~/yt al nuevo flujo
+- DuckDB con tablas de transcripts
+- Reportes con links temporales
+- Alineacion semantica entre idiomas
+
+---
+
+## 2026-09-27 — Feature: yt_transcript.py (MVP)
+
+### Contexto
+Necesidad de separar texto limpio (para analisis) de timestamps
+(para navegar al video). Los timestamps embebidos contaminaban el
+analisis NLP. Los timestamps separados requieren validacion porque
+las pistas traducidas tienen offsets (video de prueba: ~90s).
+
+### Que se implemento
+3 modulos + 1 CLI:
+- yt_lib/io.py: estructura de archivos + state + metadata
+- yt_lib/fetch.py: descarga con fallback (API -> yt-dlp)
+- yt_lib/validate.py: validacion en 5 puntos
+- yt_transcript.py: CLI con 4 subcomandos
+
+### Decisiones de diseno
+- Estructura por video, no por idioma
+- Roles explicitos: source, translated, etc.
+- Metadata con use_for_navigation + use_for_analysis
+- Idempotencia: si existe, no re-descarga
+- State resumible: .state.json con pasos
+- Escritura atomica: .tmp + replace
+
+### Lecciones
+> El idioma de navegacion NO siempre es el idioma del audio.
+> La pista en_source puede no ser la original.
+> Hay que validar sincronizacion en 5 puntos.
+> El "modo auto" da pending_validation, no validated.
+
+### Validado con HNClGfpmSfk
+- en_source: 208 segs, sync validado (offset 0.0s en 5 puntos)
+- es-US_translated: 220 segs (traduccion con offsets)
+
+### Pendiente
+- Migrar ~/yt al nuevo flujo
+- DuckDB con tablas de transcripts
+- Reportes con links temporales
+- Alineacion semantica entre idiomas
+
+---
