@@ -12,15 +12,17 @@
 > antes de tocar. Documentar en BITACORA.md y este archivo.
 >
 > Estado: v7.2.0, 99 analysis, 1782 terminos_raw, RAG basico, 116 tests.
-> Deuda: 115 JSONs sin consolidar, 18 defaults Python apuntan a DB corrupta.
+> Modelo LLM: brainhub-llama (gemma:2b + Modelfile optimizado, ~64s/video)
+> Deuda: 115 JSONs sin consolidar, 18 defaults Python, extractor citas
 > Proximo paso: cerrar deuda de perimetro.
 > 1. Fix 18 defaults Python (data/ -> /sdcard/) - 20 min
 > 2. Regla OLLAMA_HOST=127.0.0.1 en scripts de Ollama - 5 min
 > 3. Investigar 115 JSONs huerfanos sin consolidar - sesion aparte
+> 4. Extractor de citas para papers (virus.txt: 0 citas) - sesion aparte
 
 
 ## Fecha
-2026-09-22 (última sesión: pipeline_db + verificador de claims)
+2026-09-28 (última sesión: fix LLM + brainhub-llama)
 
 ## Estado (v7.2.0)
 - 99 analysis en DB, 1782 terminos_raw, 4196 tecnicos
@@ -41,7 +43,7 @@
 - `progreso`, `stopwords`, `terminos_diccionarios`
 
 ### LLM (Ollama)
-- `gemma:2b` (default) — español nativo, ~30-150s por video
+- `brainhub-llama` (default) — gemma:2b + Modelfile optimizado, ~60-70s/video
 - `num_ctx=512`, `keep_alive=0`, `num_predict=80`
 - **Muere cada 10-30 min** (Phantom Process Killer en Motorola/Android 16)
 - **Fallback a plantilla** siempre disponible (nunca falla)
@@ -656,7 +658,7 @@ La pausa adaptativa evita saturacion.
 **Ya existia en el script**:
 - Chequeo de RAM antes de cada video
 - Reinicio Ollama si RAM < 800 MB
-- Skip si ya procesado con gemma:2b
+- Skip si ya procesado con brainhub-llama
 
 Ahora agrega la pausa preventiva y la medicion.
 
