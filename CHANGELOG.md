@@ -321,3 +321,51 @@ los tests no ven.
 - El prompt del LLM no debe incluir metadata ruidosa
 - Las tablas DB no se recrean solas. Agregar a reconstruir_db.sh
 - No agregar features que no resuelvan un bug
+
+## 2026-09-18 a 2026-09-28 — Trazabilidad temporal + fixes
+
+### Nuevo
+- **yt_transcript.py**: CLI con 5 subcomandos (inspect, fetch, validate, status, link)
+- **yt_lib/**: 4 módulos (io, fetch, validate, links)
+- **Ciclo completo**: inspect → fetch → validate → link
+- **Corpus estructurado**: /sdcard/Download/corpus/VIDEO_ID/
+- **Validación de sincronización**: 5 puntos contra audio real
+- **Links verificables**: &t=Xs generados desde el video
+
+### Fixes
+- **content_control**: id INTEGER → content_id VARCHAR PRIMARY KEY
+- **CREATE TABLE IF NOT EXISTS** → CREATE OR REPLACE TABLE
+- **Conceptos NLP**: substring → word-boundary con re.search
+- **analizar_github.sh**: workdir timestamped + filtros + flag --docs-only
+- **batch_ollama_robusto.sh**: pausa adaptativa + medición de tiempo
+- **18 defaults Python**: data/ → /sdcard/ (pendiente de aplicar)
+- **CAIS**: reclasificado de TECNOLOGIA a SALUD
+
+### Data
+- Curso LangGraph: 16 videos analizados
+- 99 analysis en DB (era 79)
+- 1782 terminos_raw (era 1439)
+- 4196 terminos tecnicos (era 3926)
+
+### Deudas documentadas
+- Perímetro: 18 defaults Python, reconstruir_db destructivo
+- Datos: 115 JSONs huérfanos en /sdcard/Download/
+- Higiene: 2 DBs corruptas (version 999) renombradas
+- Conceptos IA: diccionario sin AGENTES_IA, LANGGRAPH
+
+### Descartado
+- **Unsloth**: requiere GPU + Python 3.11-3.13
+- **BrainHub Studio**: generado por IA, no publicado
+- **Textstat**: no resuelve bug
+
+### Lecciones
+- El minuto viene del video, no del modelo
+- Los idiomas de navegación y análisis pueden diferir
+- Validar sincronización en 5 puntos (no asumir)
+- El análisis es un índice, no un texto explicativo
+- En Termux, todos los proyectos comparten Python global
+
+### Diferido
+- Chunking (2-3h)
+- Migrar scripts a brainhub_config (1h)
+- Ollama estable (sesión dedicada)

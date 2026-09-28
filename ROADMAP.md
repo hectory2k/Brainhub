@@ -1,42 +1,46 @@
 # Roadmap de BrainHub
 
-Estado actual: **v7.0.0**
+Estado actual: **v7.2.0**
 
 > Filosofía: **"El sistema falla antes de fallar."**
 > Cada versión agrega guardias, tests y módulos sin romper lo anterior.
 
-## Estado actual (v7.0.0)
+## Estado actual (v7.2.0)
 
 | Métrica | Valor |
 |---------|-------|
-| Módulos | 47+ |
-| Tests | 112 passing |
+| Módulos | 60+ |
+| Tests | 116 passing |
 | Guardias | 8 |
 | Nichos | 9 (con HABLA) |
 | Fuentes federadas | 5 |
+| Análisis en DB | 99 |
+| Terminos raw | 1782 |
 | Plataformas | Termux, Linux, macOS, Windows |
 | CI/CD | GitHub Actions (tests + guardias) |
 
-## En progreso (v7.1)
+## En progreso (v7.3)
 
-- [ ] **Grafos mejorados** — 8 bugs identificados (nodos con ruido, path hardcoded)
-- [ ] **Integración con denoise** — limpieza de audio antes de transcribir
-- [ ] **Más módulos activados** — ~30 sin usar de 47 totales
-- [ ] **Conftest.py simplificado** — eliminar 13 sys.path.insert redundantes
+- [ ] **Migrar ~/yt al flujo nuevo** — delegar a yt_transcript.py (2h)
+- [ ] **Migrar los 4 videos pendientes** del curso LangGraph
+- [ ] **DuckDB: tablas de transcripts** — transcript_segments, transcript_tracks, analysis_evidence
+- [ ] **Chunks con start/end** — vincular análisis a rango temporal
+- [ ] **Reportes con links** `&t=Xs` automáticos
 
-## Próximo (v7.2)
+## Próximo (v7.4)
 
-- [ ] **OCRmyPDF** — soporte para PDFs escaneados
-- [ ] **Chunking** — procesamiento de documentos grandes (NDJSON)
-- [ ] **JWT en Flask** — para uso multi-usuario
-- [ ] **PostgreSQL opcional** — alternativa a DuckDB para producción
+- [ ] **Fix 18 defaults Python** (data/ → /sdcard/)
+- [ ] **Fix reconstruir_db.sh** (no toca tablas técnicas)
+- [ ] **115 JSONs huérfanos** — investigar por qué no se consolidan
+- [ ] **Diccionario IA** — agregar AGENTES_IA, LANGGRAPH, MULTIAGENTE
 
 ## Futuro (v8.0)
 
+- [ ] **Alineación semántica entre idiomas** — embeddings multilingües
 - [ ] **API pública** — REST con FastAPI + JWT
 - [ ] **Dashboard web** — visualización de grafos y análisis
-- [ ] **App móvil** — Android/iOS
-- [ ] **Multi-idioma completo** — ES, EN, PT, CS
+- [ ] **OCRmyPDF** — soporte para PDFs escaneados
+- [ ] **Chunking avanzado** — NDJSON + overlap temporal
 
 ## Ideas a explorar
 
@@ -45,6 +49,12 @@ Estado actual: **v7.0.0**
 - [ ] **Integración con Obsidian** — exportar como vault
 - [ ] **Voice cloning** — resúmenes en audio (ético)
 - [ ] **Kubernetes deployment** — para uso en producción
+
+## Descartado (con motivo)
+
+- **Unsloth** (2026-09-28): requiere GPU + Python 3.11-3.13, no aplica
+- **BrainHub Studio** (2026-09-21): generado por IA, no publicado
+- **Textstat** (2026-09-17): no resuelve bug, agrega dependencia
 
 ## Cómo contribuir
 
@@ -59,6 +69,6 @@ Ver [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---
 
-**Última actualización:** 2026-09-14
+**Última actualización:** 2026-09-28
 
 **¿Querés algo en el roadmap?** Abrí un issue o contactame.
