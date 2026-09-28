@@ -11,8 +11,8 @@ from typing import Optional, Tuple, Dict
 from brainhub.llm.ollama_client import OllamaClient, hay_ram_suficiente
 
 
-MODELO_DEFAULT = "gemma:2b"
-RAM_MINIMA_GB = 2.3
+MODELO_DEFAULT = "brainhub-llama"
+RAM_MINIMA_GB = 2.0
 TIMEOUT_SEG = 180
 NUM_PREDICT = 80
 
@@ -115,19 +115,43 @@ def generar_resumen_desde_analisis(
     # Solo los términos, sin frecuencia (evita confusión del LLM)
     terminos_str = ", ".join(str(t) for t, f in terminos)
 
+    # Conceptos dominantes (si existen)
+    conceptos = analisis.get("conceptos", [])[:5]
+    conceptos_str = ", ".join(f"{c}" for c, f in conceptos) if conceptos else "(ninguno)"
+
+    # Citas clave (si existen) — dan contexto real del contenido
+    citas = analisis.get("citas_clave", [])[:2]
+    citas_str = " | ".join(c.get("texto", "")[:150] for c in citas) if citas else "(sin citas)"
+
+    # Abstención: si no hay citas suficientes, no llamamos al LLM
+    # (evita que gemma:2b invente relaciones a partir de términos aislados)
+    if not citas or len(citas_str.strip()) < 80:
+        print("  ℹ️  Sin citas suficientes, se omite resumen LLM")
+        return {
+            "texto": "Tema no claro",
+            "modelo": "abstencion",
+            "tiempo_seg": 0.0,
+            "ram_antes_gb": 0.0,
+        }
+
     contexto = (
-        f"Video: {analisis.get('documento', '?')}\n"
+        f"Archivo: {analisis.get('documento', '?')}\n"
         f"Nicho: {analisis.get('nicho', 'GENERAL')}\n"
-        f"Términos clave: {terminos_str}"
+        f"Términos clave: {terminos_str}\n"
+        f"Conceptos dominantes: {conceptos_str}\n"
+        f"Citas del contenido: {citas_str}"
     )
 
     prompt = (
-        "Dados estos datos sobre un video, generá un abstract de 3 oraciones "
-        "en español describiendo el tema.\n\n"
+        "Dados estos datos sobre un documento de texto, generá un abstract "
+        "de 3 oraciones en español describiendo el tema.\n\n"
         "REGLAS:\n"
-        "- Basate en los 'Términos clave' (son las palabras más importantes del video)\n"
+        "- Basate UNICAMENTE en las 'Citas del contenido' y los 'Términos clave'\n"
+        "- NO inventes relaciones entre conceptos si no están en las citas\n"
         "- NO menciones: polaridad, segmentos, diálogos, ni números\n"
-        "- NO inventes: si no podés inferir el tema, decí 'Tema no claro'\n"
+        "- NO expandas ni traduzcas siglas: conservá exactamente LLM, HDC, RAG, NLP, etc.\n"
+        "- NO asumas que es un video: puede ser un paper, artículo o transcripción\n"
+        "- Si las citas están vacías o son insuficientes, respondé exactamente: 'Tema no claro'\n"
         "- Mencioná el tema principal y qué enfoque tiene\n\n"
         f"{contexto}\n\n"
         "Abstract:"

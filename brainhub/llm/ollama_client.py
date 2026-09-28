@@ -15,10 +15,10 @@ class OllamaClient:
 
     def __init__(
         self,
-        model: str = 'gemma:2b',
+        model: str = 'brainhub-llama',
         url: str = 'http://localhost:11434',
         timeout: int = 300,
-        num_predict: int = 150,
+        num_predict: int = 80,
     ):
         self.model = model
         self.url = url
@@ -39,7 +39,7 @@ class OllamaClient:
         except Exception:
             return []
 
-    def generar(self, prompt: str, system: Optional[str] = None, keep_alive: int = 300) -> str:
+    def generar(self, prompt: str, system: Optional[str] = None, keep_alive: int = 0) -> str:
         payload = {
             'model': self.model,
             'prompt': prompt,

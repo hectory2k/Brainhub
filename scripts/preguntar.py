@@ -57,7 +57,7 @@ def cargar_documentos(nicho: str = None):
     return docs, meta
 
 
-def preguntar(pregunta: str, nicho: str = None, top_k: int = 5, modelo: str = "gemma:2b"):
+def preguntar(pregunta: str, nicho: str = None, top_k: int = 5, modelo: str = "brainhub-llama"):
     """Pipeline RAG completo."""
     # 1. Cargar documentos
     docs, meta = cargar_documentos(nicho)

@@ -8,7 +8,7 @@
     "path": "/sdcard/Download/analisis_consolidado.duckdb"
   },
   "llm": {
-    "modelo": "gemma:2b",
+    "modelo": "brainhub-llama",
     "num_ctx": 512,
     "num_predict": 80,
     "ram_min_gb": 2.3,

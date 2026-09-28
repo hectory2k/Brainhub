@@ -405,6 +405,16 @@ def exportar_resumen_txt(analisis, archivo_salida):
             f.write("\n🔍 CONCEPTOS DOMINANTES:\n")
             for concepto, freq in analisis['conceptos']:
                 f.write(f"  {concepto}: {freq}\n")
+
+            # Resumen LLM (si existe)
+            f.write("\n📝 RESUMEN LLM:\n")
+            resumen = analisis.get('resumen_llm')
+            if resumen and isinstance(resumen, dict) and resumen.get('texto'):
+                f.write(f"  {resumen['texto']}\n")
+                f.write(f"  (modelo: {resumen.get('modelo', '?')}, {resumen.get('tiempo_seg', 0):.1f}s)\n")
+            else:
+                f.write("  (sin resumen LLM)\n")
+
         print(f"✅ Resumen TXT exportado: {archivo_salida}")
     except Exception as e:
         print(f"⚠️ Error exportando TXT: {e}")
@@ -452,6 +462,15 @@ def exportar_reporte_md(analisis, archivo_salida):
         reporte += "\n## 💬 Citas Clave\n"
         for dialogo in analisis['citas_clave'][:5]:
             reporte += f"- **{dialogo['hablante']}**: {dialogo['texto'][:150]}...\n"
+
+        # Resumen LLM (si existe)
+        reporte += "\n## 📝 Resumen LLM\n"
+        resumen = analisis.get('resumen_llm')
+        if resumen and isinstance(resumen, dict) and resumen.get('texto'):
+            reporte += f"{resumen['texto']}\n\n"
+            reporte += f"*(modelo: {resumen.get('modelo', '?')}, {resumen.get('tiempo_seg', 0):.1f}s)*\n"
+        else:
+            reporte += "*(sin resumen LLM)*\n"
 
         with open(archivo_salida, 'w', encoding='utf-8') as f:
             f.write(reporte)

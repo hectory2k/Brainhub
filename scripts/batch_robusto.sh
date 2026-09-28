@@ -196,7 +196,7 @@ except: print('error')
 " 2>/dev/null)
             
             case "$modelo" in
-                gemma:2b) log "  ✅ OK con LLM"; return 0 ;;
+                brainhub-llama) log "  ✅ OK con LLM"; return 0 ;;
                 plantilla) log "  ⚠️  OK con plantilla"; return 1 ;;
                 *) log "  ⚠️  OK sin resumen"; return 3 ;;
             esac
@@ -348,17 +348,17 @@ for txt in /sdcard/Download/*.txt; do
     
     log "  ✅ Validación OK"
     
-    # ¿Ya tiene gemma:2b?
+    # ¿Ya tiene brainhub-llama?
     tiene=$(python3 -c "
 import json
 try:
     d = json.load(open('$json'))
     r = d.get('resumen_llm')
-    print(1 if r and r.get('modelo') == 'gemma:2b' else 0)
+    print(1 if r and r.get('modelo') == 'brainhub-llama' else 0)
 except: print(0)
 " 2>/dev/null || echo 0)
     if [ "$tiene" = "1" ]; then
-        log "⏭️  SKIP $base (ya tiene gemma:2b)"
+        log "⏭️  SKIP $base (ya tiene brainhub-llama)"
         continue
     fi
     

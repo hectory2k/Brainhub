@@ -65,7 +65,7 @@ import json
 try:
     d = json.load(open('$1'))
     r = d.get('resumen_llm') or {}
-    print(1 if r.get('modelo') == 'gemma:2b' else 0)
+    print(1 if r.get('modelo') == 'brainhub-llama' else 0)
 except: print(0)
 " 2>/dev/null || echo 0
 }
@@ -100,7 +100,7 @@ for txt in "$JSONS_DIR"/*.txt; do
     base=$(basename "$txt" .txt)
     json="$JSONS_DIR/${base}_analisis_completo.json"
     
-    # ¿Ya tiene gemma:2b?
+    # ¿Ya tiene brainhub-llama?
     if [ "$(ya_procesado "$json")" = "1" ]; then
         saltados=$((saltados + 1))
         continue
