@@ -21,6 +21,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from yt_lib import fetch as fetch_mod
 from yt_lib import io
+from yt_lib import links as links_mod
 from yt_lib import validate as validate_mod
 
 
@@ -113,6 +114,22 @@ def cmd_status(args) -> int:
     return 0
 
 
+def cmd_link(args) -> int:
+    try:
+        segundos = links_mod.parse_timestamp(args.at)
+    except ValueError as e:
+        print(f"ERROR: {e}")
+        return 1
+
+    url = links_mod.build_timestamped_url(
+        args.video_id,
+        segundos,
+        full_url=args.full_url,
+    )
+    print(url)
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Gestion de transcripts de YouTube para BrainHub",
@@ -146,6 +163,15 @@ def main() -> int:
     p_status = subparsers.add_parser("status", help="Ver estado")
     p_status.add_argument("video_id")
     p_status.set_defaults(func=cmd_status)
+
+    # link
+    p_link = subparsers.add_parser("link", help="Generar link con timestamp")
+    p_link.add_argument("video_id")
+    p_link.add_argument("--at", required=True,
+                       help="Timestamp en formato MM:SS o HH:MM:SS")
+    p_link.add_argument("--full-url", action="store_true",
+                       help="Usar youtube.com/watch?v=ID&t=Xs")
+    p_link.set_defaults(func=cmd_link)
 
     args = parser.parse_args()
     return args.func(args)

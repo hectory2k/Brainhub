@@ -1976,3 +1976,30 @@ las pistas traducidas tienen offsets (video de prueba: ~90s).
 - Alineacion semantica entre idiomas
 
 ---
+
+## 2026-09-28 — Subcomando link en yt_transcript.py
+
+### Contexto
+El MVP de yt_transcript.py tenia 4 subcomandos. Faltaba generar
+links navegables al video.
+
+### Que se agrego
+1. Modulo yt_lib/links.py con 5 funciones
+2. Subcomando link en el CLI
+3. 5 tests de extract_video_id (5 formatos de URL)
+4. 3 tests de build_timestamped_url
+
+### Decisiones
+- extract_video_id soporta: youtube.com/watch?v=, youtu.be/,
+  embed/, /v/, /shorts/
+- build_timestamped_url devuelve formato corto o completo
+- parse_timestamp acepta MM:SS y HH:MM:SS
+
+### Resultado
+Ciclo completo: inspect -> fetch -> validate -> link
+
+Ejemplo:
+    yt_transcript.py link HNClGfpmSfk --at 3:45
+    # https://youtu.be/HNClGfpmSfk?t=225
+
+---

@@ -712,3 +712,33 @@ CLI para descargar transcripts con roles y validacion temporal.
 - Chunks con start/end
 - Reportes con links &t=Xs
 - Alineacion semantica entre idiomas
+
+---
+
+### Subcomando link (2026-09-28)
+
+Agregado a yt_transcript.py:
+
+    yt_transcript.py link VIDEO_ID --at MM:SS
+    yt_transcript.py link VIDEO_ID --at HH:MM:SS --full-url
+
+Genera links a YouTube con timestamp:
+    https://youtu.be/HNClGfpmSfk?t=225
+    https://www.youtube.com/watch?v=HNClGfpmSfk&t=754s
+
+Modulo: yt_lib/links.py
+Funciones:
+- extract_video_id(url) - extrae ID de 5 formatos de URL
+- build_timestamped_url(id, seconds) - construye link
+- build_from_minutes_seconds(id, min, seg) - para timestamps humanos
+- format_timestamp(seconds) - segundos -> MM:SS
+- parse_timestamp("MM:SS") - MM:SS -> segundos
+
+Uso desde Python:
+    from yt_lib.links import build_timestamped_url
+    url = build_timestamped_url("HNClGfpmSfk", 225)
+
+Uso desde CLI:
+    yt_transcript.py link HNClGfpmSfk --at 3:45
+
+Cierra el ciclo: fetch -> validate -> link
