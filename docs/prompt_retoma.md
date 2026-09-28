@@ -742,3 +742,37 @@ Uso desde CLI:
     yt_transcript.py link HNClGfpmSfk --at 3:45
 
 Cierra el ciclo: fetch -> validate -> link
+
+---
+
+### Deuda: extractor de citas no funciona con papers (2026-09-28)
+
+El extractor de citas_clave no detecta citas en papers (virus.txt:
+0 citas). Busca patrones de transcripción (diálogos, comillas
+de hablante). Los papers usan citas académicas (Autor, año).
+
+Consecuencia: los papers no generan resumen LLM (cae al fallback
+de abstención del fix 5).
+
+Fix a futuro: agregar detección de citas académicas al extractor.
+
+### Deuda: Modelfile vs payload de OllamaClient (2026-09-28)
+
+El Modelfile aplica parámetros por defecto, pero OllamaClient
+envía algunos explícitamente y los pisa:
+- num_ctx: 512 (payload)
+- num_predict: 80 (payload)
+- temperature: 0.1 (payload, pisa al 0.3 del Modelfile)
+- top_p, top_k, repeat_penalty (solo Modelfile)
+
+Prioridad: baja. Los valores funcionan.
+
+### Modelo: brainhub-llama (2026-09-28)
+
+Modelo custom basado en gemma:2b con parámetros optimizados.
+
+Modelfile: models/brainhub-llama.modelfile
+Uso:
+    ollama create brainhub-llama -f models/brainhub-llama.modelfile
+
+Descartado: llama3.2:1b (1.3 GB, mejor RAM pero peor calidad).
