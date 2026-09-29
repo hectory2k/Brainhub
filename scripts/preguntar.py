@@ -10,6 +10,9 @@ Ejemplos:
     python3 scripts/preguntar.py "temas de salud" SALUD
 """
 import sys
+import logging
+import uuid
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path.home() / "proyectos/nlp"))
@@ -20,6 +23,8 @@ from brainhub.llm.ollama_client import OllamaClient
 
 
 import json
+
+logger = logging.getLogger(__name__)
 
 
 def cargar_documentos(nicho: str = None):
@@ -59,9 +64,14 @@ def cargar_documentos(nicho: str = None):
 
 def preguntar(pregunta: str, nicho: str = None, top_k: int = 5, modelo: str = "brainhub-llama"):
     """Pipeline RAG completo."""
+    trace_id = str(uuid.uuid4())[:8]
+    t0 = time.time()
+    logger.info(f"[{trace_id}] START pregunta={pregunta!r} nicho={nicho} top_k={top_k} modelo={modelo}")
     # 1. Cargar documentos
     docs, meta = cargar_documentos(nicho)
+    logger.info(f"[{trace_id}] docs_cargados={len(docs)}")
     if not docs:
+        logger.warning(f"[{trace_id}] ABORT sin documentos")
         return {"error": "Sin documentos", "respuesta": None, "resultados": []}
     
     print(f"📚 Documentos indexados: {len(docs)}")
@@ -72,6 +82,8 @@ def preguntar(pregunta: str, nicho: str = None, top_k: int = 5, modelo: str = "b
     
     # 3. Buscar top_k
     resultados = rag.buscar(pregunta, top_k=top_k)
+    top_score = resultados[0]["score"] if resultados else 0
+    logger.info(f"[{trace_id}] bm25_resultados={len(resultados)} top_score={top_score}")
     print(f"🔍 Resultados BM25: {len(resultados)}")
     
     if not resultados:
@@ -109,16 +121,29 @@ def preguntar(pregunta: str, nicho: str = None, top_k: int = 5, modelo: str = "b
             f"Términos clave: {terminos_str}"
         )
     contexto = "\n\n".join(partes)
+    logger.info(f"[{trace_id}] contexto_chars={len(contexto)}")
     
     # 5. Responder con LLM
     print(f"🤖 Consultando {modelo}...")
     cliente = OllamaClient(model=modelo, num_predict=200)
     respuesta = cliente.responder_con_contexto(pregunta, contexto)
     
+    elapsed = time.time() - t0
+    logger.info(f"[{trace_id}] respuesta_chars={len(respuesta)} elapsed={elapsed:.2f}s")
+    logger.info(f"[{trace_id}] DONE")
+
     return {"respuesta": respuesta, "resultados": resultados, "meta": meta}
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s %(levelname)s [%(name)s] %(message)s',
+        handlers=[
+            logging.FileHandler(str(Path.home() / "proyectos/nlp/logs/rag.log")),
+        ],
+    )
+
     if len(sys.argv) < 2:
         print(__doc__)
         sys.exit(1)
