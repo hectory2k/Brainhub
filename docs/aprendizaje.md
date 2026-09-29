@@ -182,3 +182,29 @@ grep "elapsed=" logs/rag.log | awk -F'elapsed=' '{print $2}' | sort -rn | head
 - [ ] Replicar en api.py
 - [ ] Agregar trace_id a módulos internos (opcional)
 - [ ] Métricas agregadas (p50, p95 de elapsed)
+
+---
+
+### Los defaults con Path() escapan al sed de string literal (2026-09-29)
+
+Contexto: el fix del 2026-09-27 reemplazó 20 defaults con sed sobre
+el literal `'data/analisis_consolidado.duckdb'`. Un grep ampliado
+posterior encontró 1 más que el sed no vio:
+
+    str(RAIZ / "data" / "analisis_consolidado.duckdb")
+
+El sed busca strings literales; `Path() / "..."` construye el path
+en runtime, así que el string "data/analisis_consolidado.duckdb"
+nunca aparece junto en el código fuente.
+
+Regla: los grep/sed de defaults deben cubrir 3 formas:
+1. String literal: `'data/...duckdb'`
+2. Path construction: `Path(...) / "data" / "...duckdb"`
+3. os.path.join: `os.path.join(..., "data", "...duckdb")`
+
+Verificar con: `grep -rn "analisis_consolidado" --include="*.py" .`
+(desde la raíz, no solo subcarpetas conocidas).
+
+Referencias:
+- Fix: 94d90d3
+- Aprendido en: 2026-09-29

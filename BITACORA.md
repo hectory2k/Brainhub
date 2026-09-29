@@ -2257,3 +2257,26 @@ hardware, o reducir contexto).
 - Pendiente: mismo patrón en api.py
 
 ---
+
+### Fix: default #21 escapado del sed (2026-09-29)
+
+Hallazgo: grep ampliado del repo entero (--include="*.py" desde raíz)
+encontró 1 default roto que el sed del 2026-09-27 no vio.
+
+`brainhub/clustering/explorar.py:25` construía el fallback con
+`str(RAIZ / "data" / "analisis_consolidado.duckdb")` en vez de string
+literal → ni el grep original ni el sed lo matchearon.
+
+Fix: reemplazar por `/sdcard/Download/analisis_consolidado.duckdb`.
+
+### Lección
+> Los defaults construidos con Path() escapan a los sed de string
+> literal. Grep de verificación debe incluir --include="*.py" desde
+> la raíz, no solo subcarpetas conocidas.
+
+### Referencias
+- Commit fix: 94d90d3
+- Defaults totales: 21 (no 20 como decía la bitácora previa)
+- Tests: 115 passed, 1 skipped
+
+---

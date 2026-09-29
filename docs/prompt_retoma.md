@@ -22,13 +22,13 @@
 
 
 ## Fecha
-2026-09-28 (última sesión: fix LLM + brainhub-llama)
+2026-09-29 (última sesión: cierre de perímetro — default #21)
 
 ## Estado (v7.2.0)
 - 99 analysis en DB, 1782 terminos_raw, 4196 tecnicos
 - DuckDB CLI 1.5.5, RAG básico funcionando
 - Pipeline completo: procesar → analizar → pipeline_db.sh
-- Deuda: 115 JSONs sin consolidar, 18 defaults Python apuntan a DB corrupta
+- Perímetro cerrado: 21 defaults + OLLAMA_HOST + JSONs sincronizados
 - Config centralizado: brainhub_config.json
 - 116 tests Python + 17 tests DB + 8 guardias
 
@@ -113,10 +113,12 @@
 ### Media
 3. **Ollama estable** (sesión dedicada)
 4. **analizar.sh idempotente** (10 min)
+5. **Tracing en api.py** (30 min) — replicar patrón de preguntar.py
 
 ### Baja
 6. Refinar validador (cobertura 12%)
 7. Mejorar prompt del LLM para resumen
+8. **Arreglar deploy.sh** — git add . → selectivo, v6.4 → v6.5
 
 ## Lecciones criticas
 
