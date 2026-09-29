@@ -283,7 +283,7 @@ def extraer_dialogos(texto):
             dialogos.append({
                 'hablante': hablante,
                 'texto': dialogo_limpio,
-                'contexto': contexto[:150].strip(),
+                'contexto': contexto.strip(),
                 'longitud': len(dialogo_limpio)
             })
 

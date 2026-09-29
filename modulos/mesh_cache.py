@@ -141,7 +141,7 @@ class MeSHCache:
         sql = f"""
         INSERT OR REPLACE INTO cache_mesh (termino_busqueda, mesh_id, traduccion)
         VALUES ('{resultado['termino_busqueda']}', '{resultado['mesh_id']}', 
-                '{resultado['traduccion'][:200].replace("'", "''")}')
+                '{resultado['traduccion'].replace("'", "''")}')
         """
         subprocess.run(['duckdb', self.DB_PATH, '-c', sql],
                       capture_output=True, text=True, timeout=5)

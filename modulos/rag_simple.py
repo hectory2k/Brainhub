@@ -92,7 +92,7 @@ class RAGSimple:
             score = self._bm25_score(consulta, doc)
             if score > 0:
                 resultados.append({
-                    'documento': doc[:200],
+                    'documento': doc,
                     'score': round(score, 3),
                     'posicion': i
                 })
