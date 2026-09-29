@@ -2195,3 +2195,65 @@ Bug 3 — analisis_completo_v6.5.py:286
 - Familia de bug: mismo patrón que tests.yml (skip silencioso)
 
 ---
+
+## 2026-09-29 — Tracing en preguntar.py (trace_id + métricas)
+
+### Contexto
+El pendiente de mayor valor del RAG era observabilidad: sin tracing,
+debuggear una respuesta mala era adivinar en qué capa fallaba
+(carga, BM25, contexto, o LLM).
+
+### Implementación
+En scripts/preguntar.py:
+- trace_id único por invocación (8 chars, uuid4)
+- logger.info en cada hito del pipeline
+- Log a logs/rag.log (ignorado por .gitignore)
+- print() del CLI sin cambios (UX separada de trazabilidad)
+- logging.basicConfig solo en __main__ (no contamina imports)
+
+### Los 6 hitos logueados
+1. START: pregunta, nicho, top_k, modelo
+2. docs_cargados: cantidad
+3. bm25_resultados + top_score
+4. contexto_chars: tamaño del contexto al LLM
+5. respuesta_chars + elapsed
+6. DONE
+
+### Hallazgo real: el 99% del tiempo es el LLM
+Primera medición end-to-end (query "salud", 13 docs):
+  docs_cargados=13
+  bm25_resultados=5 top_score=1.608
+  contexto_chars=1911
+  respuesta_chars=108
+  elapsed=58.54s
+
+Desglose:
+- Cargar docs + BM25 + contexto: ~80ms
+- LLM (brainhub-llama, gemma:2b Q4, CPU Termux): ~58s
+  - prompt eval: 8858ms / 258 tokens (34 ms/token)
+  - eval output: 38085ms / 24 tokens (1586 ms/token)
+
+O sea: optimizar BM25 no cambia nada. El cuello es el LLM
+en CPU. Para acelerar hay que atacar el modelo (cuantización,
+hardware, o reducir contexto).
+
+### Verificación
+- py_compile OK
+- Query real: 6 líneas de trace con mismo trace_id
+- Log persiste en logs/rag.log
+
+### Lección
+> El tracing no es ceremonia. La primera corrida ya reveló
+> que el 99% del tiempo es el LLM — dato que sin logs no
+> se ve, y que cambia completamente las prioridades.
+>
+> Antes de "optimizar el RAG", medir. Casi siempre el cuello
+> está donde menos se espera.
+
+### Referencias
+- Commit feat: 411702c
+- Archivo: scripts/preguntar.py
+- Log: logs/rag.log
+- Pendiente: mismo patrón en api.py
+
+---

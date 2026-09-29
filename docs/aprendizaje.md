@@ -125,3 +125,60 @@ un solo tipo de archivo.
 - Antes de tocar el RAG: leer Familia 2
 - Cuando aparece un bug raro: buscar aquí primero
 - Cuando aprendés algo nuevo: agregarlo con fecha y número
+
+---
+
+## Familia 4: observabilidad
+
+### Por qué
+
+Sin tracing, debuggear es adivinar. Con tracing, sabés
+exactamente en qué capa falla (carga, retrieval, contexto, LLM).
+
+### Patrón de trace_id en BrainHub
+
+1. Generar trace_id = str(uuid.uuid4())[:8] al inicio
+2. Loguear en cada hito con el prefijo [trace_id]
+3. Log a archivo (logs/rag.log), no a stdout
+4. print() para UX, logger.info() para trazabilidad
+5. logging.basicConfig solo en __main__
+
+### Ejemplo real (preguntar.py)
+
+```
+15:42:10 [03e31e2c] START pregunta='salud' nicho=SALUD top_k=5
+15:42:10 [03e31e2c] docs_cargados=13
+15:42:10 [03e31e2c] bm25_resultados=5 top_score=1.608
+15:42:10 [03e31e2c] contexto_chars=1911
+15:43:09 [03e31e2c] respuesta_chars=108 elapsed=58.54s
+15:43:09 [03e31e2c] DONE
+```
+
+### Hallazgo del primer trace
+
+99% del tiempo es el LLM, no el pipeline:
+- retrieval (docs + BM25 + contexto): ~80ms
+- LLM (gemma:2b CPU Termux): ~58s
+- prompt eval: 34 ms/token
+- eval output: 1586 ms/token
+
+Conclusión: para acelerar el RAG, atacar el modelo, no BM25.
+
+### Cómo leer los logs
+
+```
+# Todo lo de una query
+grep "03e31e2c" logs/rag.log
+
+# Tiempos de las últimas 20 queries
+grep "elapsed=" logs/rag.log | tail -20
+
+# Detectar queries lentas
+grep "elapsed=" logs/rag.log | awk -F'elapsed=' '{print $2}' | sort -rn | head
+```
+
+### Pendientes
+
+- [ ] Replicar en api.py
+- [ ] Agregar trace_id a módulos internos (opcional)
+- [ ] Métricas agregadas (p50, p95 de elapsed)

@@ -885,3 +885,31 @@ Referencias:
 - Commit fix: (pendiente)
 
 Lección ampliada en la sección anterior.
+
+---
+
+### Feat: tracing en preguntar.py (2026-09-29)
+
+Qué: trace_id único por query + log de 6 hitos a logs/rag.log.
+
+Dónde: scripts/preguntar.py (función preguntar).
+
+Hitos logueados:
+- START (query + args)
+- docs_cargados
+- bm25_resultados + top_score
+- contexto_chars
+- respuesta_chars + elapsed
+- DONE
+
+Hallazgo: primera medición real da elapsed=58s, de los cuales
+~80ms son retrieval y ~58s son LLM (gemma:2b, CPU Termux).
+El 99% del tiempo es el modelo, no el pipeline.
+
+Pendiente:
+- Replicar tracing en api.py
+- Revisar por qué 1586 ms/token en output (lento incluso para CPU)
+
+Referencias:
+- Commit feat: 411702c
+- Log: logs/rag.log
