@@ -809,6 +809,44 @@ Lección: no asumas una sola construcción de path.
 - Variantes a grep-ear: string literal, Path composition
   (BASE_DIR / ...), f-string, os.path.join
 - No limitar el grep a *.py: incluir docs/, Makefile, .env*,
-  docker-compose.yml, README
-- Si un path viejo puede estar en docs, un grep solo de código
-  deja la doc apuntando al recurso roto
+  docker-compose.yml, README, .github/workflows/*.yml
+- Buscar residuales de refactors: *.bak.*, *.orig, *.pre_*
+- Si un path viejo puede estar en docs o CI, un grep solo de
+  código deja esos lugares apuntando al recurso roto
+- El grep cruzado no es ceremonia: en 2026-09-28 encontró un
+  bug real en tests.yml que el grep original no vio
+
+---
+
+### Fix colateral: grep cruzado encontró bug en CI (2026-09-28)
+
+Hallazgo: tras el fix de los 20 defaults, un grep ampliado
+(no solo *.py) encontró 1 bug real que el grep original no vio.
+
+Antes: .github/workflows/tests.yml seteaba
+    BRAINHUB_DB: data/analisis_consolidado.duckdb (relativo)
+Path inexistente en el runner → 10/10 tests de DuckDB skipeaban
+silenciosamente. CI decía "verde" sin testear nada.
+
+Fix:
+- tests/fixtures/fixture.sql: schema + datos mínimos
+- tests.yml: genera mini.duckdb antes de los tests,
+  BRAINHUB_DB apunta al fixture
+- .gitignore: excluye mini.duckdb (se regenera en CI)
+- Solo CLI de DuckDB, sin agregar módulo Python a requirements.txt
+
+Falsos positivos:
+- 2 archivos .bak.pre_default_fix en tests/ → no commiteados,
+  basura local del sed -i. Borrados.
+- 5 hits en BITACORA.md y prompt_retoma.md → documentación
+  intencional (citas del bug).
+
+Verificado:
+- Simulación CI local: rm mini.duckdb → regenerar desde .sql
+  → 10/10 PASSED (antes: 10/10 SKIPPED)
+- YAML válido
+- mini.duckdb NO aparece en git status (ignorado)
+
+Referencias:
+- Commit fix CI: f758cb8
+- Commit docs: (este mismo, pendiente)

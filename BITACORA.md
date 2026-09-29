@@ -2067,3 +2067,65 @@ Nuevo default en los 20:
 - Commit fix: 78795e0
 - Commit docs: d58f7a4
 - Delta claims: terminos-raw 1782 -> 1842 (+60, análisis del día)
+
+## 2026-09-28 — Fix colateral: grep cruzado encontró bug en CI
+
+### Contexto
+Tras cerrar el fix de los 20 defaults, se corrió un grep ampliado
+(no solo *.py) para verificar que no quedaran referencias al path
+viejo en docs, Makefile, .env*, etc.
+
+El grep encontró 1 bug real que el grep original no vio.
+
+### Hallazgo
+.github/workflows/tests.yml seteaba:
+    BRAINHUB_DB: data/analisis_consolidado.duckdb   (relativo)
+
+Ese path no existe en el runner de GitHub Actions. Resultado:
+10/10 tests de DuckDB skipeaban silenciosamente vía
+`pytest.skip('DuckDB no disponible en CI')`. CI decía "verde"
+sin testear nada de la DB.
+
+Además, el workflow instala el CLI de DuckDB en un step previo,
+o sea que la intención original era testear DuckDB de verdad.
+El path relativo rompió esa intención sin que nadie lo notara.
+
+### Fix
+- tests/fixtures/fixture.sql: schema + datos mínimos
+  (tablas terminos_raw y progreso, con datos que satisfacen
+  todos los asserts de test_duckdb.py)
+- tests.yml: genera mini.duckdb antes de los tests,
+  BRAINHUB_DB apunta al fixture
+- .gitignore: excluye mini.duckdb (se regenera en CI)
+- Se mantiene solo CLI de DuckDB, sin agregar módulo Python
+  a requirements.txt (el CLI ya se instala antes)
+
+### Falsos positivos del grep
+- 2 archivos .bak.pre_default_fix en tests/ → NO estaban
+  commiteados, eran basura local del sed -i. Borrados.
+- 5 hits en BITACORA.md y prompt_retoma.md → documentación
+  intencional (citas del bug, ejemplos de la Lección).
+
+### Verificado
+- Simulación de CI local: rm mini.duckdb → regenerar desde .sql
+  → 10/10 PASSED (antes: 10/10 SKIPPED)
+- YAML válido
+- mini.duckdb NO aparece en git status (ignorado)
+
+### Lección
+> El grep cruzado NO es ceremonia. Encontró un bug real en un
+> archivo que el grep original no miraba (.yml de CI).
+>
+> Incluir en el grep ampliado:
+> - docs/, README, Makefile, .env*, docker-compose.yml
+> - .github/workflows/*.yml
+> - residuales de refactors: *.bak.*, *.orig, *.pre_*
+>
+> Un grep que solo cubre código deja afuera CI, docs y config.
+
+### Referencias
+- Commit fix CI: f758cb8
+- Commit docs: (este mismo, pendiente)
+- Bug encontrado por: grep cruzado post-fix defaults
+
+---
