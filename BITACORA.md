@@ -2280,3 +2280,30 @@ Fix: reemplazar por `/sdcard/Download/analisis_consolidado.duckdb`.
 - Tests: 115 passed, 1 skipped
 
 ---
+
+### Observaciones: primera corrida post-fix #21 (2026-09-29 21:52)
+
+Corrida end-to-end exitosa con video I7_WXKhyGms (MCP + vector search).
+
+**Confirma fix #21 en producción:**
+- Pipeline corrió sin BRAINHUB_DB seteada
+- Consolidó OK en /sdcard/Download/analisis_consolidado.duckdb
+- Default correcto en uso
+
+**Timings en caliente (revisar bitácora previa):**
+- prompt eval: 32.37 ms/token (306 tokens)
+- eval output: 392.63 ms/token (38 tokens)
+- Total: 24.8s LLM
+- Nota: medición previa decía 1586 ms/token — probablemente cold-start.
+  Corregir cuando se acumulen 3+ corridas.
+
+**Observaciones pendientes de investigar (deuda nueva):**
+1. Transcript guardado como _ES.txt pero idioma detectado = EN
+   → bug de naming, no de contenido
+2. Sentimiento: DESCONOCIDO 100% en 385 segmentos
+   → feature devuelve default, vale revisar léxico/umbral
+3. Co-ocurrencias y conceptos dominantes sí funcionan
+
+Estas 3 observaciones NO son deuda de perímetro. Sesión aparte.
+
+---
