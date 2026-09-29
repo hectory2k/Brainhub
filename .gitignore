@@ -237,3 +237,6 @@ brainhub/db/
 data/diccionarios/
 data/lemas*
 *.bak.*
+
+# Fixture de tests DuckDB: se genera desde fixture.sql en CI
+tests/fixtures/mini.duckdb
