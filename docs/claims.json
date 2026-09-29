@@ -17,7 +17,7 @@
     {
       "id": "terminos-raw-filas",
       "text": "Terminos raw (filas totales)",
-      "value": 1782,
+      "value": 1842,
       "source": "duckdb:SELECT count(*) FROM terminos_raw"
     },
     {

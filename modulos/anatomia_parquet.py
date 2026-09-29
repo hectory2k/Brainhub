@@ -13,7 +13,7 @@ import io
 class AnatomiaParquet:
     """Gestión de anatomía en formato Parquet/DuckDB."""
     
-    DB_PATH = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
+    DB_PATH = os.environ.get('BRAINHUB_DB', '/sdcard/Download/analisis_consolidado.duckdb')
     
     def crear_tabla(self):
         """Crea tabla anatomia en DuckDB."""

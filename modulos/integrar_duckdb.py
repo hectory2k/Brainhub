@@ -13,7 +13,7 @@ from typing import Dict, List, Optional, Any
 
 # Configuración
 PROJECT_DIR = Path(__file__).parent.parent
-DB_PATH = os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')
+DB_PATH = os.environ.get('BRAINHUB_DB', '/sdcard/Download/analisis_consolidado.duckdb')
 
 
 def _escape_sql_string(valor) -> str:

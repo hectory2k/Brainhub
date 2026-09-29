@@ -220,7 +220,7 @@ class RelacionesManager:
 class IntegradorRelaciones:
     """Integra relaciones con el pipeline existente."""
     
-    def __init__(self, db_path=os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb')):
+    def __init__(self, db_path=os.environ.get('BRAINHUB_DB', '/sdcard/Download/analisis_consolidado.duckdb')):
         self.db_path = db_path
         self.manager = RelacionesManager()
     

@@ -57,7 +57,7 @@ class PubMedIntegracion:
         """
         
         subprocess.run(
-            ['duckdb', os.environ.get('BRAINHUB_DB', 'data/analisis_consolidado.duckdb'), '-c', sql],
+            ['duckdb', os.environ.get('BRAINHUB_DB', '/sdcard/Download/analisis_consolidado.duckdb'), '-c', sql],
             capture_output=True, text=True, timeout=10
         )
 
