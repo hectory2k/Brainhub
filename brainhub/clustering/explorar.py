@@ -22,7 +22,7 @@ sys.path.insert(0, str(RAIZ))
 
 DB_PATH = os.environ.get(
     'BRAINHUB_DB',
-    str(RAIZ / "data" / "analisis_consolidado.duckdb")
+    '/sdcard/Download/analisis_consolidado.duckdb'
 )
 
 
