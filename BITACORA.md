@@ -2062,3 +2062,8 @@ Nuevo default en los 20:
 
 ---
 
+
+### Referencias
+- Commit fix: 78795e0
+- Commit docs: d58f7a4
+- Delta claims: terminos-raw 1782 -> 1842 (+60, análisis del día)

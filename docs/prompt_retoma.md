@@ -800,6 +800,15 @@ Verificado:
 - env -u BRAINHUB_DB: DB_PATH correcta
 - verify_claims: 5/5 OK
 
-Lección: cuando buscás patrones de path, no asumas una sola
-construcción (string literal, Path, f-string, os.path.join).
+Referencias:
+- Commit fix: 78795e0
+- Commit docs: d58f7a4
+- Delta claims: terminos-raw 1782 -> 1842 (+60, análisis del día)
 
+Lección: no asumas una sola construcción de path.
+- Variantes a grep-ear: string literal, Path composition
+  (BASE_DIR / ...), f-string, os.path.join
+- No limitar el grep a *.py: incluir docs/, Makefile, .env*,
+  docker-compose.yml, README
+- Si un path viejo puede estar en docs, un grep solo de código
+  deja la doc apuntando al recurso roto
