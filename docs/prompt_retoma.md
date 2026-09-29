@@ -778,3 +778,28 @@ Uso:
     ollama create brainhub-llama -f models/brainhub-llama.modelfile
 
 Descartado: llama3.2:1b (1.3 GB, mejor RAM pero peor calidad).
+
+---
+
+### Fix: 20 defaults Python apuntan a DB correcta (2026-09-28)
+
+Antes: default 'data/analisis_consolidado.duckdb' (relativo, DB corrupta).
+Ahora: '/sdcard/Download/analisis_consolidado.duckdb' (absoluto, DB real).
+
+Bug: cuando BRAINHUB_DB no estaba seteada, 20 archivos apuntaban
+a la DB corrupta (version 999).
+
+Complicaciones:
+- config.py usaba str(BASE_DIR / 'data' / ...) en lugar del string literal
+- tests/ no entro en el grep inicial (buscaba solo *.py y modulos/*.py)
+- Total real: 20 (17 + config.py + 2 tests)
+
+Verificado:
+- grep: 0 restantes
+- py_compile: los 20 OK
+- env -u BRAINHUB_DB: DB_PATH correcta
+- verify_claims: 5/5 OK
+
+Lección: cuando buscás patrones de path, no asumas una sola
+construcción (string literal, Path, f-string, os.path.join).
+

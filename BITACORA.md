@@ -2003,3 +2003,62 @@ Ejemplo:
     # https://youtu.be/HNClGfpmSfk?t=225
 
 ---
+
+## 2026-09-28 — Fix: 20 defaults Python apuntan a DB correcta
+
+### Contexto
+El análisis del día detectó que 20 archivos Python tenían
+como default 'data/analisis_consolidado.duckdb' (path relativo)
+que apunta a la DB corrupta (version 999).
+
+Cuando BRAINHUB_DB estaba seteada en el shell, funcionaba.
+Cuando no, caía al default roto. Eso pasaba en:
+- Cron jobs
+- Terminales nuevas
+- Scripts que limpian env
+- Tests aislados
+
+### Diagnóstico
+1. grep inicial encontró 18 archivos con el patrón
+2. Pero el config.py usaba composición de Path:
+     str(BASE_DIR / 'data' / 'analisis_consolidado.duckdb')
+   en lugar del string literal, por eso el grep no lo vio
+3. Los tests tampoco entraron en el grep inicial (buscaba
+   solo *.py y modulos/*.py, no tests/)
+4. Total real: 20 archivos (17 + config.py + 2 tests)
+
+### Fix
+- 17 archivos con el string literal: sed masivo
+- config.py: fix específico (Path composition)
+- 2 tests: sed masivo
+
+Nuevo default en los 20:
+    '/sdcard/Download/analisis_consolidado.duckdb'
+
+### Verificación
+- grep: 0 restantes con 'data/analisis_consolidado'
+- py_compile: los 20 OK
+- Test end-to-end sin BRAINHUB_DB:
+    DB_PATH: /sdcard/Download/analisis_consolidado.duckdb
+- verify_claims.sh: 5/5 OK
+
+### Lección
+> Cuando buscás un patrón en el código, no asumas que todos
+> los archivos usan la misma forma.
+>
+> Mismo path, distintas construcciones:
+> - String literal: 'data/analisis_consolidado.duckdb'
+> - Path composition: str(BASE_DIR / 'data' / '...')
+> - f-string: f'{BASE_DIR}/data/...'
+>
+> Un grep de una sola forma puede perder archivos.
+> Buscar variantes (BASE_DIR, os.path.join, Path /).
+
+### Estado
+- 20 archivos con default '/sdcard/Download/...'
+- config.py (crítico) arreglado
+- Tests arreglados
+- claims.json actualizado (terminos-raw: 1842)
+
+---
+
