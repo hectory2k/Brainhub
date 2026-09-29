@@ -2129,3 +2129,69 @@ El path relativo rompió esa intención sin que nadie lo notara.
 - Bug encontrado por: grep cruzado post-fix defaults
 
 ---
+
+## 2026-09-29 — Truncamientos silenciosos en pipeline RAG
+
+### Contexto
+Aplicando el material de "Debugging a Broken RAG System" al pipeline
+de BrainHub, se auditó el flujo real:
+  query → RAGSimple.buscar() → preguntar.py → prompt → LLM
+
+Durante la auditoría aparecieron 3 truncamientos con [:N] que
+cortaban metadata y contexto silenciosamente.
+
+### Hallazgo
+Medición inicial:
+  Total docs indexados: 95
+  Docs >200 chars: 94 (99%)
+  Docs con ||SEP|| después de 200: 49 (52%)
+
+Bug 1 — rag_simple.py:95
+  'documento': doc[:200]
+  En 49/95 docs cortaba antes del separador ||SEP||, así que
+  preguntar.py no podía hacer el split y el LLM recibía solo
+  la primera mitad del chunk (resumen sin términos).
+
+Bug 2 — mesh_cache.py:144
+  resultado['traduccion'][:200]
+  Guardaba traducciones truncadas a 200 chars en la DB. El cache
+  quedaba silenciosamente incompleto.
+
+Bug 3 — analisis_completo_v6.5.py:286
+  contexto = texto[inicio:inicio + 400]   # 400 chars
+  'contexto': contexto[:150].strip()      # ← cortado a 150
+  El contexto era asimétrico (200 antes + 200 después del diálogo),
+  pero se reducía a 150 chars, destruyendo la simetría.
+
+### Fix
+- rag_simple.py:        'documento': doc
+- mesh_cache.py:        resultado['traduccion'] (sin [:200])
+- analisis_completo_v6.5.py: 'contexto': contexto.strip()
+
+### Verificación
+- py_compile OK en los 3 archivos
+- 5 queries reales: 0/14 docs sin ||SEP|| (antes: ~2-3 por query)
+- len típico de doc: 516 (antes: 200)
+
+### Lección
+> Los truncamientos [:N] en código de pipeline son una familia
+> de bug silencioso: no rompen, no tiran error, degradan calidad.
+>
+> Patrón: se pone [:200] "para no inflar X", y sin querer se
+> corta un separador, una metadata, o un contexto que era
+> estructural.
+>
+> Grep recurrente para auditar:
+>   grep -rn "\[:[0-9]\+\]" modulos/ scripts/ *.py
+>
+> Antes de tocar un truncamiento, medir:
+> - ¿Qué porcentaje de datos reales supera el límite?
+> - ¿El char N corta alguna estructura (separador, marca)?
+> - ¿El consumidor necesita el dato completo o es display?
+
+### Referencias
+- Commit fix: (pendiente)
+- Origen: auditoría con material "Debugging a Broken RAG"
+- Familia de bug: mismo patrón que tests.yml (skip silencioso)
+
+---

@@ -815,6 +815,11 @@ Lección: no asumas una sola construcción de path.
   código deja esos lugares apuntando al recurso roto
 - El grep cruzado no es ceremonia: en 2026-09-28 encontró un
   bug real en tests.yml que el grep original no vio
+- Buscar truncamientos sospechosos: [:N] en código de pipeline
+  Un [:200] puede cortar metadata crítica silenciosamente
+  (ej: 49/95 docs de BrainHub con rag_simple)
+- Familia de bugs silenciosos: nada rompe, nada tira error,
+  la calidad se degrada. Auditar con grep recurrente
 
 ---
 
@@ -850,3 +855,33 @@ Verificado:
 Referencias:
 - Commit fix CI: f758cb8
 - Commit docs: (este mismo, pendiente)
+
+---
+
+### Fix: truncamientos silenciosos en RAG (2026-09-29)
+
+Auditoría con material "Debugging a Broken RAG" encontró 3 bugs
+de truncamiento [:N] que degradaban calidad sin romper nada.
+
+Antes: 'documento': doc[:200] en rag_simple.py
+  → 49/95 docs cortados antes del ||SEP||
+  → LLM recibía solo la primera mitad del chunk
+
+Bug 1 — rag_simple.py:95:       doc[:200] corta ||SEP||
+Bug 2 — mesh_cache.py:144:      traduccion[:200] en DB
+Bug 3 — analisis_completo_v6.5.py:286: contexto[:150] rompe simetría
+
+Fix:
+- rag_simple.py:         'documento': doc
+- mesh_cache.py:         sin truncar
+- analisis_completo_v6.5.py: sin truncar
+
+Verificado:
+- py_compile OK
+- 5 queries: 0/14 docs sin ||SEP||
+- len típico doc: 516 (antes: 200)
+
+Referencias:
+- Commit fix: (pendiente)
+
+Lección ampliada en la sección anterior.
