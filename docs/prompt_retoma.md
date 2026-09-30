@@ -30,7 +30,8 @@
 - Pipeline completo: procesar → analizar → pipeline_db.sh
 - Perímetro cerrado: 21 defaults + OLLAMA_HOST + JSONs sincronizados
 - Config centralizado: brainhub_config.json
-- 116 tests Python + 17 tests DB + 8 guardias
+- 125 tests Python (incluye 10 de Chunker) + 17 tests DB + 8 guardias
+- Chunker MVP: brainhub/chunking/chunker.py (feat f1b922a)
 
 ## Arquitectura
 
@@ -54,7 +55,7 @@
 - Indexa: `analysis.resumen_llm` + `terminos_raw` (JOIN + `||SEP||`)
 - `responder_con_contexto()` — sintetiza respuesta final
 
-### Chunking (PENDIENTE — próxima sesión)
+### Chunking (MVP implementado — falta integración)
 - No existe `brainhub/chunking/` ni tabla `chunks`
 - No existe `scripts/chunkear.py`
 - Plan documentado abajo
@@ -107,8 +108,12 @@
 ## Deuda VIVA (priorizada)
 
 ### Alta
-1. **Chunking (2-3h)** — resuelve RAG de calidad
+1. **Integrar Chunker al pipeline** — `scripts/chunkear.py` + `preguntar.py` usa chunks
 2. **Migrar a brainhub_config (1h)** — 4 archivos: ollama_client, abstract_llm, preguntar, rag_simple
+
+### Hecho recientemente (mover a BITACORA)
+- ✅ Perímetro (21 defaults + OLLAMA_HOST + JSONs)
+- ✅ Chunker MVP (`f1b922a`) — 3 estrategias, 10 tests, a_dict() explícito
 
 ### Media
 3. **Ollama estable** (sesión dedicada)
@@ -167,14 +172,21 @@
 Historia completa en `~/proyectos/nlp/BITACORA.md`
 
 ## Proximo paso
-Chunking (2-3h) para RAG de calidad.
+Integrar el Chunker MVP al pipeline (1.5-2h).
 
-### Plan de chunking
-1. `brainhub/chunking/chunker.py` (Clase Chunker)
-2. `scripts/chunkear.py` (indexar .txt en tabla chunks)
-3. Modificar `preguntar.py` para usar chunks
-4. Test con video KV cache
-5. Test con 4-5 preguntas
+### Plan de integración
+1. ✅ `brainhub/chunking/chunker.py` (Chunker MVP — hecho `f1b922a`)
+2. ⏳ `scripts/chunkear.py` (indexar transcripts a tabla `chunks`)
+3. ⏳ Modificar `preguntar.py` para usar chunks en lugar de docs completos
+4. ⏳ Test end-to-end con video I7_WXKhyGms (ya analizado)
+5. ⏳ Validar 4-5 preguntas sobre el corpus chunked
+
+### Detalle del paso 2 (`scripts/chunkear.py`)
+- Lee transcripts de `/sdcard/Download/Transcript_*.txt`
+- Instancia `Chunker(estrategia='oraciones', max_oraciones=10)`
+- Crea tabla `chunks` (esquema vitaminado) si no existe
+- Inserta con `INSERT OR REPLACE` (idempotente por `chunk_id`)
+- Verificación: `SELECT COUNT(*) FROM chunks` > 0
 
 ### Esquema chunks (vitaminado, 2026-09-30)
     CREATE TABLE IF NOT EXISTS chunks (
