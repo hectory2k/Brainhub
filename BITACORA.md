@@ -2307,3 +2307,28 @@ Corrida end-to-end exitosa con video I7_WXKhyGms (MCP + vector search).
 Estas 3 observaciones NO son deuda de perímetro. Sesión aparte.
 
 ---
+
+### Hallazgo adicional: timestamps rotos (mismo análisis 2026-09-29)
+
+El JSON de análisis NO contiene timestamps (verificado con regex:
+0 hits de MM:SS/HH:MM:SS). TimestampsDB existe, ParserVTT existe,
+segmentos_timestamp en DB existe — pero nunca se pueblan.
+
+Causa raíz (2 bugs):
+1. fetch.py (youtube_transcript_api) descarta start/duration
+   al escribir el .txt. Los tiene en memoria y los tira.
+2. analisis_completo_v6.5.py:918 busca
+   Transcript_{id}_timestamps.vtt
+   pero procesar (fallback yt-dlp) nombra {id}.es.vtt
+   → nunca coinciden. Además forzar_subs solo corre si la API falla.
+
+Fix propuesto (sesión aparte, ~20-30 min):
+- fetch.py escribe .vtt paralelo al .txt con el nombre que espera
+  analisis_completo_v6.5
+- Verificar con: JSON debe tener grounding: "HH:MM:SS-HH:MM:SS"
+  en citas_clave
+
+Habilita: RAG con cita temporal ("en 12:34 dice X").
+Prioridad: Media (feature, no bug crítico — el pipeline funciona sin él).
+
+---
