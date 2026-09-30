@@ -208,3 +208,47 @@ Verificar con: `grep -rn "analisis_consolidado" --include="*.py" .`
 Referencias:
 - Fix: 94d90d3
 - Aprendido en: 2026-09-29
+
+---
+
+### Serializar objetos: a_dict() explícito > ClassEncoder con __dict__ (2026-09-30)
+
+Contexto: al diseñar el Chunker surgió cómo serializar List[Chunk] a JSON.
+
+Patrón malo (encontrado en tutoriales):
+    class ClassEncoder(json.JSONEncoder):
+        def default(self, o):
+            if hasattr(o, '__dict__'):
+                return o.__dict__
+            else:
+                super().default(self)  # ← BUG: pasa self, no o
+
+Problemas del patrón malo:
+1. Bug silencioso: en el else, recursión con el encoder en vez de o.
+2. No maneja datetime, Path, set, Decimal → falla sin avisar.
+3. Depende de __dict__ → rompe con __slots__.
+
+Patrón elegido (consistente con timestamps.py):
+    @dataclass
+    class Chunk:
+        ...
+        def a_dict(self) -> Dict:
+            return {'chunk_id': self.chunk_id, ...}
+
+Ventajas:
+- Explícito: controlás exactamente qué se serializa
+- Testeable: chunk.a_dict() == {...} es trivial
+- Consistente con SegmentoTemporal.a_dict() ya existente
+- No agrega clase encoder global al repo
+
+Alternativas válidas:
+- dataclasses.asdict() + json.dumps() si crecen los tipos
+- Encoder custom con isinstance para datetime/Path
+
+Regla: metadata debe ser JSON-serializable (str/int/float/bool/list/dict).
+Nada de set, Path, datetime crudos. Convertir antes:
+str(path), dt.isoformat(), list(mi_set).
+
+Referencias:
+- Aprendido en: 2026-09-30
+- Aplicado a: brainhub/chunking/chunker.py (pendiente)

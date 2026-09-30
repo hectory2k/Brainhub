@@ -22,7 +22,7 @@
 
 
 ## Fecha
-2026-09-29 (última sesión: cierre de perímetro — default #21)
+2026-09-30 (última sesión: diseño de chunker vitaminado)
 
 ## Estado (v7.2.0)
 - 99 analysis en DB, 1782 terminos_raw, 4196 tecnicos
@@ -176,18 +176,33 @@ Chunking (2-3h) para RAG de calidad.
 4. Test con video KV cache
 5. Test con 4-5 preguntas
 
-### Esquema chunks
-    CREATE TABLE chunks (
-        chunk_id INTEGER,
+### Esquema chunks (vitaminado, 2026-09-30)
+    CREATE TABLE IF NOT EXISTS chunks (
+        chunk_id VARCHAR PRIMARY KEY,   -- {video}_{pos:04d}_{sha256[:8]}
         video VARCHAR,
         posicion INTEGER,
-        texto VARCHAR
+        texto TEXT,
+        start_char INTEGER,
+        end_char INTEGER,
+        n_oraciones INTEGER,
+        estrategia VARCHAR,             -- 'oraciones'|'parrafos'|'caracteres'
+        tier VARCHAR DEFAULT 'desconocido'
     );
+
+### Decisiones de diseño (2026-09-30)
+
+1. **Estrategia default**: por_oraciones (max_oraciones=10)
+2. **Overlap**: 0 (evidencia del video MCP: sin beneficio medible)
+3. **chunk_id**: {video}_{pos:04d}_{sha256(texto)[:8]} → idempotente
+4. **tier**: empezar con 'desconocido' para todos, refinar después
+5. **Serialización**: método a_dict() explícito (consistente con timestamps.py)
+6. **Chunk como Annotator**: dataclass con metadata
+   (start_char, end_char, n_oraciones, estrategia, tier)
 
 ### Estrategias del Chunker
 - `por_oraciones(texto, max_oraciones=10)`
 - `por_parrafos(texto, max_parrafos=3)`
-- `por_caracteres(texto, max_chars=2000, overlap=200)`
+- `por_caracteres(texto, max_chars=2000, overlap=0)`
 
 ## Documentacion viva
 - `BITACORA.md` — historia narrativa (1695 lineas)
