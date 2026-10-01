@@ -2422,3 +2422,37 @@ Pendiente (próxima sesión):
 - Aprendizaje asociado: docs/aprendizaje.md (a_dict vs ClassEncoder)
 
 ---
+
+### Ops: brainhub_backup.sh (2026-10-01)
+
+Qué: script de backup portable. Empaqueta todo el estado de BrainHub
+en un tar.gz (~350 KB) con restore.sh embebido.
+
+Contenido del backup:
+- docs/ (BITACORA, prompt_retoma, aprendizaje)
+- config/ (brainhub_config.json, stopwords.json)
+- db/ (analisis_consolidado.duckdb, 4.8M → comprime a ~4M)
+- jsons/ (36 análisis completos)
+- README_BACKUP.md + restore.sh
+
+Portabilidad (con evidencia):
+- RAIZ="$HOME/proyectos/nlp" → resuelve en runtime
+- DEST_DIR="${BRAINHUB_BACKUP_DIR:-/sdcard/Download}" → override
+- DB_SRC="${BRAINHUB_DB:-/sdcard/Download/analisis_consolidado.duckdb}"
+- Verificado: mismo script, dos destinos (default y ~/tmp/test_backup)
+
+Verificación:
+- bash -n: sintaxis OK
+- Backup real: 357 KB, 49 archivos
+- DB íntegra: 99 analysis, 1882 terminos_raw (extraída y consultada)
+- Docs completos: BITACORA 2424 líneas
+
+Formato tar.gz: nativo Termux, universal (Linux/macOS/Windows 10+).
+Sin dependencias externas (zip/rar no requeridos).
+
+### Referencias
+- Commit ops: <HASH> (a completar)
+- Script: scripts/brainhub_backup.sh
+- Verificación: backup extraído en ~/tmp + duckdb SELECT COUNT
+
+---

@@ -79,6 +79,13 @@
     start_ollama_optimizado.sh       # arrancar con env vars optimizadas
     start_ollama_nohup               # arrancar sin tmux
 
+### Backup
+    bash scripts/brainhub_backup.sh
+    # → /sdcard/Download/brainhub_backup_YYYYMMDD_HHMM.tar.gz (~350 KB)
+    # Override: BRAINHUB_BACKUP_DIR=/otra/ruta bash scripts/brainhub_backup.sh
+    # Contenido: docs + config + DB (4.8M) + 36 JSONs
+    # Restaurar: tar xzf ... && bash brainhub_backup_*/restore.sh
+
 ### Validacion
     test_regresion_db.sh             # 17 checks
     guardia_contaminacion.sh         # cobertura de terminos
