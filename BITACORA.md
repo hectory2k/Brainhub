@@ -2377,3 +2377,48 @@ Pendiente (próxima sesión):
 - Aprendizaje asociado: docs/aprendizaje.md (a_dict vs ClassEncoder)
 
 ---
+
+### Feat: Chunker MVP (2026-09-30)
+
+Qué: `brainhub/chunking/chunker.py` — divide texto en chunks con
+metadata de provenance. 3 estrategias (oraciones/parrafos/caracteres),
+10 tests, suite completa en 125 passed / 1 skipped.
+
+Diseño (robado de Spark NLP, sin Spark NLP):
+- Chunk como dataclass con metadata (start_char, end_char, n_oraciones,
+  estrategia, tier)
+- a_dict() explícito (consistente con timestamps.SegmentoTemporal)
+- Tokenizador pluggable: regex default, NLTK opcional
+- chunk_id = {video}_{pos:04d}_{sha256(texto)[:8]} → idempotente
+
+Decisiones de diseño (evidencia):
+- Estrategia default: por_oraciones (max_oraciones=10)
+- Overlap: 0 (video MCP: sin beneficio medible)
+- Tokenizador: regex (empata con NLTK en transcripts YouTube:
+  61 vs 61 oraciones, byte-a-byte iguales — verificado 2026-09-30)
+- Sin NLTK default (KISS: NLTK ya instalado pero no es más rápido
+  ni mejor para subtítulos)
+
+Artefactos:
+- brainhub/chunking/__init__.py (8 líneas)
+- brainhub/chunking/chunker.py (219 líneas)
+- tests/test_chunker.py (100 líneas)
+
+Verificación:
+- py_compile OK
+- Import real OK (atrapa archivos truncados)
+- Smoke test: chunk_id estable
+- 10 tests nuevos passed
+- Suite completa: 125 passed, 1 skipped
+
+Pendiente (próxima sesión):
+- scripts/chunkear.py (indexar transcripts a tabla chunks)
+- Modificar preguntar.py para usar chunks
+- Test end-to-end con I7_WXKhyGms
+
+### Referencias
+- Commit feat: f1b922a
+- Commit docs diseño: c6af333
+- Aprendizaje asociado: docs/aprendizaje.md (a_dict vs ClassEncoder)
+
+---

@@ -111,10 +111,6 @@
 1. **Integrar Chunker al pipeline** — `scripts/chunkear.py` + `preguntar.py` usa chunks
 2. **Migrar a brainhub_config (1h)** — 4 archivos: ollama_client, abstract_llm, preguntar, rag_simple
 
-### Hecho recientemente (mover a BITACORA)
-- ✅ Perímetro (21 defaults + OLLAMA_HOST + JSONs)
-- ✅ Chunker MVP (`f1b922a`) — 3 estrategias, 10 tests, a_dict() explícito
-
 ### Media
 3. **Ollama estable** (sesión dedicada)
 4. **analizar.sh idempotente** (10 min)
@@ -124,6 +120,11 @@
 6. Refinar validador (cobertura 12%)
 7. Mejorar prompt del LLM para resumen
 8. **Arreglar deploy.sh** — git add . → selectivo, v6.4 → v6.5
+
+### Hecho recientemente (mover a BITACORA)
+- ✅ Perímetro (21 defaults + OLLAMA_HOST + JSONs)
+- ✅ Chunker MVP (`f1b922a`) — 3 estrategias, 10 tests, a_dict() explícito
+
 
 ## Lecciones criticas
 
