@@ -225,7 +225,8 @@ Integrar el Chunker MVP al pipeline (1.5-2h).
 - `por_caracteres(texto, max_chars=2000, overlap=0)`
 
 ## Documentacion viva
-- `BITACORA.md` — historia narrativa (1695 lineas)
+- `BITACORA.md` — historia narrativa
+- `docs/IDEAS.md` — ideas aparcadas (no son deuda, no bloquean) (1695 lineas)
 - `README.md`, `TUTORIAL.md`, `ROADMAP.md`, `CONTRIBUTING.md`, `CHANGELOG.md`
 - `~/.brainhub/prompt_actual.md` — este archivo
 
