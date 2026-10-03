@@ -25,6 +25,7 @@ contexto, no una hoja de ruta.
 7. [Cache de respuestas en DuckDB](#7-cache-de-respuestas-en-duckdb)
 8. [BM25 first — validación](#8-bm25-first--validación)
 9. [YouTube → Shorts con IA](#9-youtube--shorts-con-ia)
+10. [Auditoría del análisis V6.5](#10-auditoría-del-análisis-v65)
 
 ---
 
@@ -235,6 +236,58 @@ y genera un short vertical (9:16) con TTS + imágenes de stock.
 sentimiento). No mezclar.
 
 **Prioridad:** Baja.
+
+---
+
+## 10. Auditoría del análisis V6.5
+
+**Fuente:** Evidencia acumulada 2026-10-01/03 (3 videos consecutivos).
+
+**Qué es:** Cinco componentes del análisis devuelven **default silenciosamente**.
+No rompen, no tiran error, la calidad se degrada. Misma familia de bug que el
+fix #21 (defaults), CI skipeando tests, y truncamientos silenciosos.
+
+**Evidencia:**
+
+| Componente | Estado | Evidencia |
+|---|---|---|
+| Detección de nicho | ❌ Rota | Video de gaming+política → clasificado "FINANZAS" |
+| Sentimiento | ❌ Rota | 100% DESCONOCIDO en 3 videos consecutivos |
+| Análisis temporal | ❌ Roto | 100% TESTIMONIO_GENERAL en 5 secciones |
+| Citas clave | ❌ Rota | Frases random sin criterio de selección |
+| Stopwords | 🟡 Parcial | "habia", "estaba" en top-3 de términos clave |
+
+**Videos de evidencia:**
+- `I7_WXKhyGms` (MCP + vector search) → sentimiento DESCONOCIDO
+- `ObiAWFqgpMg` (prompt engineering imágenes) → nicho CIBERSEGURIDAD incorrecto
+- `P1rDVQIAOKI` (gaming + política) → nicho FINANZAS incorrecto, stopwords sin filtrar
+
+**Hipótesis por componente:**
+
+1. **Nicho** — matchea palabras sueltas sin contexto → falsos positivos
+2. **Sentimiento** — léxico no cubre español informal / no matchea vocabulario
+3. **Análisis temporal** — el clasificador devuelve siempre la misma etiqueta
+4. **Citas** — criterio de extracción débil (¿primera oración con "?"? ¿>N palabras?)
+5. **Stopwords** — lista incompleta para español (faltan conjugaciones)
+
+**Método de diagnóstico (por componente):**
+1. Leer el módulo correspondiente
+2. Correr con input controlado
+3. Ver qué devuelve y por qué
+4. Documentar causa raíz antes de tocar
+
+**Orden propuesto:**
+1. Alta: nicho + stopwords (afecta todo el análisis)
+2. Media: sentimiento + análisis temporal
+3. Baja: citas clave
+
+**⚠️ STOP THE BLEEDING:**
+NO procesar más videos hasta arreglar esto. Cada análisis genera JSONs con
+datos basura que después hay que invalidar.
+
+**Cuándo:** sesión dedicada (2-3h).
+
+**Prioridad:** Alta (a diagnosticar).
 
 ---
 
