@@ -14,6 +14,7 @@ from typing import Dict, List, Optional
 
 
 RAIZ = Path(__file__).resolve().parent.parent.parent
+MARGEN_MIN = 5  # Si (top1 - top2) < MARGEN_MIN en scores del ponderador -> GENERAL
 
 
 class AnalizadorNichos:
@@ -40,6 +41,17 @@ class AnalizadorNichos:
             return False
         nombre = os.path.basename(archivo).lower()
         return any(p in nombre for p in ["transcript", "subtitle", "caption"])
+
+    def _decidir_principal(self, pond: Dict) -> str:
+        """Decide el nicho principal aplicando umbral de margen."""
+        scores = {n: s for n, s in pond.get("scores", {}).items() if s > 0}
+        if len(scores) < 2:
+            return pond.get("nicho_principal", "GENERAL")
+        ordenados = sorted(scores.values(), reverse=True)
+        margen = ordenados[0] - ordenados[1]
+        if margen < MARGEN_MIN:
+            return "GENERAL"
+        return pond.get("nicho_principal", "GENERAL")
 
     def _filtrar_secundarios_validos(self, secundarios: Dict, scores: Dict) -> Dict:
         """Elimina secundarios con score 0."""
@@ -74,8 +86,11 @@ class AnalizadorNichos:
         # 5. Detectar si es habla
         es_habla = self.es_transcript(archivo)
 
-        # 6. Armar lista de nichos para filtrar stopwords
-        nichos = [pond.get("nicho_principal", "GENERAL")]
+        # 6. Decidir principal con umbral de margen
+        principal = self._decidir_principal(pond)
+
+        # 7. Armar lista de nichos para filtrar stopwords
+        nichos = [principal]
         for tipo, n in pond.get("secundarios", {}).items():
             if n and n not in nichos:
                 nichos.append(n)
@@ -83,7 +98,7 @@ class AnalizadorNichos:
             nichos.append("HABLA")
 
         return {
-            "principal": pond.get("nicho_principal", "GENERAL"),
+            "principal": principal,
             "multietiqueta": multi,
             "ponderado": pond,
             "jerarquia": jerarquia,

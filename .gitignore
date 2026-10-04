@@ -240,3 +240,4 @@ data/lemas*
 
 # Fixture de tests DuckDB: se genera desde fixture.sql en CI
 tests/fixtures/mini.duckdb
+*.PRE_*

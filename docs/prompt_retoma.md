@@ -11,35 +11,39 @@
 > No agregar features que no resuelvan un bug. Diagnóstico con evidencia
 > antes de tocar. Documentar en BITACORA.md y este archivo.
 >
-> Estado: v7.2.0, 99 analysis, 1882 terminos_raw, RAG basico, 125 tests.
+> Estado: v7.2.1, 99 analysis, RAG basico, 125 tests.
 > Chunker MVP implementado (brainhub/chunking/).
 > Backup portable: scripts/brainhub_backup.sh.
 > Modelo LLM: brainhub-llama (gemma:2b + Modelfile optimizado, ~64s/video)
-> AUDITORIA V6.5 (Alta #1): 1 de 5 bugs cerrado con evidencia.
+> AUDITORIA V6.5 (Alta #1): 2 de 5 bugs cerrados con evidencia.
 > ✅ Bug #1 (stopwords incompletas) cerrado 4b4cc34:
 >    +34 preteritos +9 ruidos YouTube (base.es 232 -> 275)
-> ⏳ Bug #2 (nicho mal clasificado) - PROXIMO
-> ⏳ Bug #3 (sentimiento 100% DESCONOCIDO)
+> ✅ Bug #2 (nicho mal clasificado) cerrado 2026-10-04:
+>    Fase 1b: word boundary + precompilacion en modulos/.
+>    Fase 2: MARGEN_MIN=5 en brainhub/analisis/nichos.py.
+>    3/3 videos de evidencia correctos, 0 regresiones sobre 88 analisis.
+>    Hallazgo lateral: bug #2e (doble diccionario multietiqueta vs JSON).
+> ⏳ Bug #3 (sentimiento 100% DESCONOCIDO) - PROXIMO
 > ⏳ Bug #4 (analisis temporal 100% TESTIMONIO_GENERAL)
 > ⏳ Bug #5 (citas clave random)
 >
-> PROXIMO: re-analizar los 3 videos de evidencia con codigo actual
-> (leccion 2026-10-04: bug #1 era artefacto de corrida vieja). Si el
-> bug #2 persiste, auditar brainhub/analisis/nichos.py.
+> PROXIMO: auditar Bug #3. Los 3 videos de hoy dieron DESCONOCIDO en
+> 100% de segmentos (331/196/385). No es baja confianza, es cero
+> reconocimiento. Buscar donde se calcula sentimiento y verificar
+> si hay lexicón/modelo integrado.
 >
 > Otros pendientes: integrar Chunker al pipeline, migrar a
-> brainhub_config, 5 bugs mas de auditoria (ver docs/IDEAS.md §10).
-
-
+> brainhub_config, 5 bugs mas de auditoria (ver docs/IDEAS.md §10),
+> extractor de citas para papers.
 ## Fecha
-2026-10-04 (última sesión: bug #1 stopwords cerrado)
+2026-10-04 (última sesión: bug #2 nicho mal clasificado cerrado)
 
-## Estado (v7.2.0)
+## Estado (v7.2.1)
 - 99 analysis en DB, 1782 terminos_raw, 4196 tecnicos
 - DuckDB CLI 1.5.5, RAG básico funcionando
 - Pipeline completo: procesar → analizar → pipeline_db.sh
 - Perímetro cerrado: 21 defaults + OLLAMA_HOST + JSONs sincronizados
-- ⚠️ Análisis V6.5: 5 componentes devuelven default (auditoría pendiente)
+- ⚠️ Análisis V6.5: 3 componentes devuelven default (auditoría en curso, 2/5 cerrados)
 - Config centralizado: brainhub_config.json
 - 125 tests Python (incluye 10 de Chunker) + 17 tests DB + 8 guardias
 - Chunker MVP: brainhub/chunking/chunker.py (feat f1b922a)
@@ -122,6 +126,8 @@
 | 09-17 | muletillas orales (pasa, hablando) | HABLA +8 terminos |
 | 09-17 | warning consolidar_en_duckdb | INSERT OR IGNORE → DELETE+INSERT |
 | 09-18 | content_control persistente | CREATE OR REPLACE + ON CONFLICT (e6cdf5f) |
+| 10-04 | stopwords incompletas (pretéritos) | +34 pretéritos +9 ruidos YouTube (4b4cc34) |
+| 10-04 | nicho mal clasificado (substring + sin umbral) | word boundary + MARGEN_MIN=5 (pendiente commit) |
 
 ## Deuda VIVA (priorizada)
 
@@ -191,11 +197,12 @@
 - 2026-09-15: DuckDB reconstruida + LLM + SQLi + 72 videos
 - 2026-09-16: Batch + guardias + auditoria + Phantom Killer
 - 2026-09-17: RAG + 5 bugs + config
+- 2026-10-04: Bug #1 stopwords + Bug #2 nicho (word boundary + umbral)
 
 Historia completa en `~/proyectos/nlp/BITACORA.md`
 
 ## Proximo paso
-Auditoría del análisis V6.5 (2-3h) — 5 bugs silenciosos.
+Auditoría del análisis V6.5 (2-3h) — bug #3 sentimiento 100% DESCONOCIDO.
 
 ### Plan de auditoría
 1. Leer cada módulo (detectar_nicho, sentimiento, análisis temporal, citas, stopwords)

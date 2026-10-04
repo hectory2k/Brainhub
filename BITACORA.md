@@ -2490,3 +2490,65 @@ Bugs pendientes (auditoría V6.5, ver docs/IDEAS.md §10):
 - Verificación: re-análisis de P1rDVQIAOKI_ES.txt
 
 ---
+
+### Fix: nicho mal clasificado en análisis V6.5 (2026-10-04)
+
+Bug: 3 videos de evidencia clasificados incorrectamente. 2 mal
+(P1rDVQIAOKI=FINANZAS, ObiAWFqgpMg=CIBERSEGURIDAD), 1 bien
+(I7_WXKhyGms=TECNOLOGIA). Re-análisis post-fix #1 mostró mismos
+valores → NO era artefacto de corrida vieja.
+
+Causa raíz (doble):
+1. Substring matching sin word boundary. Términos cortos del
+   diccionario ('ot', 'soc', 'ics', 'ia') matcheaban dentro de
+   palabras más largas ('otro', 'social', 'physics', 'familia').
+2. Argmax sin umbral. Cualquier score > 0 ganaba. Textos sin nicho
+   claro siempre "ganaban algo".
+
+Evidencia dura (ObiAWFqgpMg, prompt-eng clasificado CIBERSEGURIDAD):
+- CIBERSEGURIDAD: substring=3, wordbound=0 (3 fantasmas)
+- TECNOLOGIA:     substring=4, wordbound=3
+- El nicho reportado estaba basado en 0 evidencia real.
+
+Fix (2 fases):
+
+Fase 1b — modulos/ponderacion_nichos.py + modulos/nicho_multietiqueta.py
+- \b en matches de términos del diccionario
+- Precompilación de patrones en __init__ (self._patrones)
+- .lower()/.strip() fuera de loops internos
+- ObiAWFqgpMg e I7_WXKhyGms corregidos
+
+Fase 2 — brainhub/analisis/nichos.py
+- MARGEN_MIN = 5 (top1 - top2 < 5 → GENERAL)
+- Nuevo método _decidir_principal()
+- principal calculado una vez, reusado en nichos_para_filtrar
+- P1rDVQIAOKI → GENERAL (abstención correcta)
+
+Verificación:
+- 3/3 videos de evidencia correctos (2 con nicho, 1 abstención)
+- Regresión sobre 88 análisis: 89 normales, 9 a GENERAL, 0 regresiones
+- Falsos positivos cazados por umbral (verificados por lectura):
+  · Ansiedad_Autoexigencia_ES: FINANZAS → GENERAL (era psicología)
+  · Curso_Horacio_Anselmi_ES:  FINANZAS → GENERAL (era prep. física)
+  · Transcript_P1rDVQIAOKI_ES: COMPRAS_PUBLICAS → GENERAL (era gaming)
+
+Hallazgos laterales (no resueltos):
+- Bug #2e: nicho_multietiqueta usa diccionario hardcodeado distinto
+  al diccionario_nichos.json. Dos fuentes de términos inconsistentes.
+- PonderacionNichos.margen_ganador declarado (=0.15) y no usado.
+- Diccionario SALUD con términos en checo (kolena, lékař, operace).
+
+Bugs pendientes (auditoría V6.5):
+- Sentimiento 100% DESCONOCIDO (confirmado en los 3 videos)
+- Análisis temporal 100% TESTIMONIO_GENERAL (confirmado)
+- Citas clave random (confirmado)
+
+### Referencias
+- Archivos: modulos/ponderacion_nichos.py, modulos/nicho_multietiqueta.py,
+  brainhub/analisis/nichos.py
+- Backups: *.PRE_FASE1B (modulos), *.PRE_FASE2 (nichos.py)
+- Evidencia antes/después: /sdcard/Download/Transcript_*_ES_*.json.PRE_AUDIT
+- Verificación: regresión sobre 88 análisis
+- Commit: (pendiente)
+
+---

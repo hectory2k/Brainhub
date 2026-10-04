@@ -4,6 +4,7 @@ Clasificación multietiqueta con confianza para BrainHub.
 Detecta nichos simultáneos y genera híbridos automáticamente.
 """
 
+import re
 from typing import Dict, List, Tuple
 
 
@@ -68,7 +69,7 @@ class NichoMultietiqueta:
         for nicho, terminos in self.TERMINOS_NICHO.items():
             score = 0
             for termino in terminos:
-                if termino in texto_lower:
+                if re.search(rf"\b{re.escape(termino)}\b", texto_lower):
                     score += 1
             # Normalizar a 0-1
             confianza = min(score / 10, 1.0)

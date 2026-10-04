@@ -20,6 +20,11 @@ class PonderacionNichos:
     def __init__(self, diccionario_nichos: Dict[str, List[str]] = None):
         self.diccionario = diccionario_nichos or {}
         self.margen_ganador = 0.15  # 15% de diferencia mínima
+        # Precompilar patrones una sola vez: {nicho: [(termino, regex), ...]}
+        self._patrones = {
+            nicho: [(t, re.compile(rf"\b{re.escape(t)}\b")) for t in terminos]
+            for nicho, terminos in self.diccionario.items()
+        }
     
     # Reglas de coherencia de dominio
     HERRAMIENTAS_TECNOLOGIA = {'TECNOLOGIA': ['RAG', 'MACHINE_LEARNING']}
@@ -40,8 +45,8 @@ class PonderacionNichos:
         texto_lower = texto.lower()
         scores = {}
         
-        for nicho, terminos in self.diccionario.items():
-            count = sum(1 for t in terminos if t in texto_lower)
+        for nicho, pares in self._patrones.items():
+            count = sum(1 for _, pat in pares if pat.search(texto_lower))
             scores[nicho] = count
         
         # Normalizar a 0-100
@@ -54,30 +59,32 @@ class PonderacionNichos:
         """Métrica 2: posición (apertura y cierre pesan más)."""
         palabras = texto.split()
         total = len(palabras)
-        
+
         if total < 10:
             return {}
-        
+
         # Dividir en 3 secciones
         apertura = ' '.join(palabras[:int(total * 0.15)])
         cuerpo = ' '.join(palabras[int(total * 0.15):int(total * 0.85)])
         cierre = ' '.join(palabras[int(total * 0.85):])
-        
+
         scores = {}
-        texto_lower = texto.lower()
-        
-        for nicho, terminos in self.diccionario.items():
+        apertura_l = apertura.lower()
+        cuerpo_l = cuerpo.lower()
+        cierre_l = cierre.lower()
+
+        for nicho, pares in self._patrones.items():
             score = 0
             # Apertura y cierre pesan x2
-            for t in terminos:
-                if t in apertura.lower():
+            for _, pat in pares:
+                if pat.search(apertura_l):
                     score += 2
-                if t in cuerpo.lower():
+                if pat.search(cuerpo_l):
                     score += 1
-                if t in cierre.lower():
+                if pat.search(cierre_l):
                     score += 2
             scores[nicho] = score
-        
+
         total = sum(scores.values())
         if total > 0:
             return {n: round((c / total) * 100, 2) for n, c in scores.items()}
@@ -88,15 +95,16 @@ class PonderacionNichos:
         oraciones = re.split(r'[.!?]+', texto)
         scores = {}
         
-        for nicho, terminos in self.diccionario.items():
+        for nicho, pares in self._patrones.items():
             score = 0
             for oracion in oraciones:
                 oracion_lower = oracion.lower()
-                # Término al inicio de oración = sujeto (núcleo)
-                for t in terminos:
-                    if oracion_lower.strip().startswith(t):
+                oracion_strip = oracion_lower.strip()
+                # Termino al inicio de oracion = sujeto (nucleo)
+                for _, pat in pares:
+                    if pat.match(oracion_strip):
                         score += 3  # Sujeto
-                    elif t in oracion_lower:
+                    elif pat.search(oracion_lower):
                         score += 1  # Complemento
             scores[nicho] = score
         

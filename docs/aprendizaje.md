@@ -277,3 +277,54 @@ Referencias:
 - Descubierto en: sesión auditoría V6.5
 - Aplicado a: análisis de transcripts YouTube
 - Commit fix posterior: 4b4cc34
+
+---
+
+## Familia 2: diagnóstico con evidencia
+
+Bugs que parecen una cosa y son otra. La causa real solo aparece
+al medir.
+
+### Medir antes de proponer fix (2026-10-04)
+
+Bug #2 (nicho mal clasificado) parecía "clasificador mal entrenado".
+Hipótesis iniciales (todas falsas):
+- Hardcodes sospechosos en los módulos → eran docstrings y tests
+- Corrector de coherencia reasignando nichos → solo toca secundarios
+- Diccionario con términos ambiguos → diccionario limpio
+
+Causa real: substring matching sin word boundary. 'ot' dentro de
+'otro', 'social', etc. Solo apareció al medir substring vs wordbound
+en los 3 videos con un script de línea base.
+
+Lección: grep muestra dónde buscar, no qué está mal. El código mata
+hipótesis. Medir con un script antes de tocar.
+
+Referencias:
+- Descubierto en: sesión auditoría V6.5, bug #2
+- Aplicado a: clasificador de nichos
+
+---
+
+## Familia 3: rendimiento en Termux
+
+Optimizaciones no obvias que hacen la diferencia en Moto G56.
+
+### Precompilar regex no es opcional (2026-10-04)
+
+Fase 1 del fix de word boundary compilaba re.compile() dentro del
+loop de términos. Con 8 nichos × 70 términos × 3 métricas × 99
+análisis = ~500k compilaciones. Termux en Moto G56 tardaba 5-15s
+por análisis.
+
+Fix: precompilar una vez en __init__, guardar como self._patrones.
+Bajó a ~1.5s (10× mejora). Para 99 análisis es la diferencia entre
+20 min y 2.5 min.
+
+Regla: si un patrón se repite en un loop, precompilarlo. La caché
+de Python (re._cache) es 512 patrones — se desborda con diccionarios
+grandes.
+
+Referencias:
+- Descubierto en: sesión auditoría V6.5, bug #2
+- Aplicado a: modulos/ponderacion_nichos.py, modulos/nicho_multietiqueta.py
