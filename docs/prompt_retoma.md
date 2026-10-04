@@ -22,13 +22,14 @@
 
 
 ## Fecha
-2026-09-30 (última sesión: diseño de chunker vitaminado)
+2026-10-04 (última sesión: auditoría V6.5 identificada)
 
 ## Estado (v7.2.0)
 - 99 analysis en DB, 1782 terminos_raw, 4196 tecnicos
 - DuckDB CLI 1.5.5, RAG básico funcionando
 - Pipeline completo: procesar → analizar → pipeline_db.sh
 - Perímetro cerrado: 21 defaults + OLLAMA_HOST + JSONs sincronizados
+- ⚠️ Análisis V6.5: 5 componentes devuelven default (auditoría pendiente)
 - Config centralizado: brainhub_config.json
 - 125 tests Python (incluye 10 de Chunker) + 17 tests DB + 8 guardias
 - Chunker MVP: brainhub/chunking/chunker.py (feat f1b922a)
@@ -115,8 +116,12 @@
 ## Deuda VIVA (priorizada)
 
 ### Alta
-1. **Integrar Chunker al pipeline** — `scripts/chunkear.py` + `preguntar.py` usa chunks
-2. **Migrar a brainhub_config (1h)** — 4 archivos: ollama_client, abstract_llm, preguntar, rag_simple
+1. **Auditoría del análisis V6.5** — 5 bugs silenciosos (ver IDEAS.md §10)
+   - Nicho mal clasificado / sentimiento 100% DESCONOCIDO
+   - Análisis temporal default / citas random / stopwords incompletas
+   - STOP THE BLEEDING: no procesar más videos hasta arreglar
+2. **Integrar Chunker al pipeline** — `scripts/chunkear.py` + `preguntar.py` usa chunks
+3. **Migrar a brainhub_config (1h)** — 4 archivos: ollama_client, abstract_llm, preguntar, rag_simple
 
 ### Media
 3. **Ollama estable** (sesión dedicada)
@@ -180,9 +185,21 @@
 Historia completa en `~/proyectos/nlp/BITACORA.md`
 
 ## Proximo paso
-Integrar el Chunker MVP al pipeline (1.5-2h).
+Auditoría del análisis V6.5 (2-3h) — 5 bugs silenciosos.
 
-### Plan de integración
+### Plan de auditoría
+1. Leer cada módulo (detectar_nicho, sentimiento, análisis temporal, citas, stopwords)
+2. Correr con input controlado
+3. Documentar causa raíz ANTES de tocar
+4. Fix mínimo por componente + test de regresión
+5. Re-analizar los 3 videos de evidencia
+6. Verificar: nicho correcto, sentimiento != DESCONOCIDO, temporal variado
+
+### Referencia
+- docs/IDEAS.md §10 (evidencia + hipótesis por componente)
+- Videos: I7_WXKhyGms, ObiAWFqgpMg, P1rDVQIAOKI
+
+### Plan de integración de Chunker (diferido)
 1. ✅ `brainhub/chunking/chunker.py` (Chunker MVP — hecho `f1b922a`)
 2. ⏳ `scripts/chunkear.py` (indexar transcripts a tabla `chunks`)
 3. ⏳ Modificar `preguntar.py` para usar chunks en lugar de docs completos
