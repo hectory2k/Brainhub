@@ -252,3 +252,28 @@ str(path), dt.isoformat(), list(mi_set).
 Referencias:
 - Aprendido en: 2026-09-30
 - Aplicado a: brainhub/chunking/chunker.py (pendiente)
+
+---
+
+### Re-analizar > auditar JSON viejo (2026-10-04)
+
+Contexto: el análisis de P1rDVQIAOKI mostraba 'habia: 25' en top-1
+términos clave. Investigué stopwords.json, es_transcript, V6.5
+durante 1h antes de descubrir que el JSON guardado era de una
+corrida anterior con código previo.
+
+Regla para futuras auditorías:
+1. Si un análisis guardado parece tener bugs, **re-analizar primero**
+2. Comparar antes/después con el código actual
+3. Si el bug desaparece → era artefacto de corrida vieja
+4. Si persiste → entonces auditar código
+
+Ahorra horas de auditar código que ya funciona.
+
+Corolario: en BrainHub los JSONs guardados NO son evidencia del
+comportamiento actual del código. Son snapshots históricos.
+
+Referencias:
+- Descubierto en: sesión auditoría V6.5
+- Aplicado a: análisis de transcripts YouTube
+- Commit fix posterior: 4b4cc34

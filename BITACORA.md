@@ -2456,3 +2456,37 @@ Sin dependencias externas (zip/rar no requeridos).
 - Verificación: backup extraído en ~/tmp + duckdb SELECT COUNT
 
 ---
+
+### Fix: stopwords incompletas en análisis V6.5 (2026-10-04)
+
+Bug: términos clave incluían conjugaciones verbales del pretérito
+(habia, estaba, tenia) y ruido de YouTube (aplausos, musica, risas).
+
+Causa raíz: base.es cubría infinitivos + presente, faltaba pretérito
+(imperfecto -aba/-ía + indefinido irregulares).
+
+Fix: +34 pretéritos + 9 ruidos = base.es 232 → 275 palabras.
+
+Evidencia: Transcript_P1rDVQIAOKI_ES.txt (video gaming/política)
+- Antes: 'habia: 25' en top-1 términos clave
+- Después: top-10 son sustantivos con sentido (equipo, juego, counter, mario)
+- Co-ocurrencias: 'habia + momento' → 'juego + jugando'
+
+Hallazgo colateral (importante):
+- El JSON guardado era de una corrida vieja (con código previo)
+- 'es_transcript' en brainhub/analisis/nichos.py funciona correctamente
+- HABLA SÍ se agrega a nichos_para_filtrar cuando archivo es transcript
+- Lección: re-analizar > auditar JSON viejo
+
+Bugs pendientes (auditoría V6.5, ver docs/IDEAS.md §10):
+- Nicho mal clasificado (dominante ≠ principal)
+- Sentimiento 100% DESCONOCIDO
+- Análisis temporal 100% TESTIMONIO_GENERAL
+- Citas clave random
+
+### Referencias
+- Commit fix: 4b4cc34
+- Archivo: stopwords.json
+- Verificación: re-análisis de P1rDVQIAOKI_ES.txt
+
+---
