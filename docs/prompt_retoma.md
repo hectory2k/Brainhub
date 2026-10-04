@@ -11,18 +11,28 @@
 > No agregar features que no resuelvan un bug. Diagnóstico con evidencia
 > antes de tocar. Documentar en BITACORA.md y este archivo.
 >
-> Estado: v7.2.0, 99 analysis, 1782 terminos_raw, RAG basico, 116 tests.
+> Estado: v7.2.0, 99 analysis, 1882 terminos_raw, RAG basico, 125 tests.
+> Chunker MVP implementado (brainhub/chunking/).
+> Backup portable: scripts/brainhub_backup.sh.
 > Modelo LLM: brainhub-llama (gemma:2b + Modelfile optimizado, ~64s/video)
-> Deuda: 115 JSONs sin consolidar, 18 defaults Python, extractor citas
-> Proximo paso: cerrar deuda de perimetro.
-> 1. Fix 18 defaults Python (data/ -> /sdcard/) - 20 min
-> 2. Regla OLLAMA_HOST=127.0.0.1 en scripts de Ollama - 5 min
-> 3. Investigar 115 JSONs huerfanos sin consolidar - sesion aparte
-> 4. Extractor de citas para papers (virus.txt: 0 citas) - sesion aparte
+> AUDITORIA V6.5 (Alta #1): 1 de 5 bugs cerrado con evidencia.
+> ✅ Bug #1 (stopwords incompletas) cerrado 4b4cc34:
+>    +34 preteritos +9 ruidos YouTube (base.es 232 -> 275)
+> ⏳ Bug #2 (nicho mal clasificado) - PROXIMO
+> ⏳ Bug #3 (sentimiento 100% DESCONOCIDO)
+> ⏳ Bug #4 (analisis temporal 100% TESTIMONIO_GENERAL)
+> ⏳ Bug #5 (citas clave random)
+>
+> PROXIMO: re-analizar los 3 videos de evidencia con codigo actual
+> (leccion 2026-10-04: bug #1 era artefacto de corrida vieja). Si el
+> bug #2 persiste, auditar brainhub/analisis/nichos.py.
+>
+> Otros pendientes: integrar Chunker al pipeline, migrar a
+> brainhub_config, 5 bugs mas de auditoria (ver docs/IDEAS.md §10).
 
 
 ## Fecha
-2026-10-04 (última sesión: auditoría V6.5 identificada)
+2026-10-04 (última sesión: bug #1 stopwords cerrado)
 
 ## Estado (v7.2.0)
 - 99 analysis en DB, 1782 terminos_raw, 4196 tecnicos
