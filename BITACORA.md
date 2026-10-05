@@ -2552,3 +2552,75 @@ Bugs pendientes (auditoría V6.5):
 - Commit: (pendiente)
 
 ---
+
+### Fix: sentimiento en español con lexicón curado (2026-10-04)
+
+Bug: análisis de sentimiento 100% DESCONOCIDO / 0 (ruido uniforme)
+en los 3 videos de evidencia. Valores: 0.06, 0.11, 0.17 (todos ≈0).
+
+Causa raíz: textblob.TextBlob(texto).sentiment.polarity usa
+léxico INGLÉS. En español, palabras positivas ("bueno", "maravilloso")
+no están en el léxico -> polaridad 0. Palabras negativas ("terrible",
+"horrible") sí matchean por coincidencia con inglés -> sesgo negativo.
+Confirmado con test controlado (ES positivo +0.000, EN positivo +0.700).
+
+Fix (2 partes):
+
+Parte 1 - Generar lexicón español desde SentiWordNet + OMW 1.4:
+- SentiWordNet (EN) tiene scores pos/neg por synset
+- OMW 1.4 tiene lemas en español por synset (57k entradas)
+- JOIN por synset_id -> ~3300 palabras ES con scores heredados
+- Filtrado: descartar scores ambiguos (pos>0.3 AND neg>0.3)
+- Resultado: ~2900 palabras base, 8236 con expansión morfológica
+
+Parte 2 - Curaduría médica a mano:
+- 73 términos positivos (eficaz, beneficio, mejoría, cura...)
+- 91 términos negativos (adverso, mortalidad, grave, fracaso...)
+- 46 términos de sesgo epistémico (preliminar, no concluyente,
+  sugiere, podría ser...)
+- 78 términos neutrales (tratamiento, paciente, equipo, partido...)
+- JSON: lexico_medico_es.json
+
+Merge final:
+- Curado tiene prioridad sobre automático
+- Excluir neutrales del resultado
+- Expansión morfológica (plurales, femeninos)
+- lexico_sentimiento_es.json final: 8236 palabras
+
+Integración en v6.5:
+- Nuevo módulo modulos/sentimiento_es.py (clase AnalizadorSentimientoES)
+- Reemplaza textblob en analizar_sentimiento()
+- Mantiene keys compat (polaridad + subjetividad) para no romper JSON/SQLite
+
+Verificación (3 videos de evidencia):
+
+| Video | Antes | Ahora | Interpretación |
+|---|---|---|---|
+| P1rDVQIAOKI | 0.06 | +0.34 | gaming/política, positivo |
+| ObiAWFqgpMg | 0.17 | -0.04 | tutorial técnico, neutro |
+| I7_WXKhyGms | 0.11 | -0.02 | tutorial técnico, neutro |
+
+- 3 valores distintos (antes eran todos ~0.1)
+- Coherentes con el contenido real
+- min=-2.941 en ObiAWFqgpMg (segmento con carga negativa)
+
+Hallazgos laterales:
+- Frases compuestas no matchean ("no concluyente" se separa en
+  "no" + "concluyente"). Pendiente n-gramas.
+- Efecto colateral positivo en Bug #4: polaridades por sección
+  ahora varían (0.25-0.42 en P1rDVQIAOKI vs todos ~0.05 antes).
+
+Bugs pendientes (auditoría V6.5):
+- Bug #3b: reporte muestra "DESCONOCIDO: 0.34" confuso
+  (el DESCONOCIDO es el hablante, no el sentimiento)
+- Bug #4: contexto temporal 100% TESTIMONIO_GENERAL
+- Bug #5: citas clave random
+
+### Referencias
+- Archivos: modulos/sentimiento_es.py, lexico_medico_es.json,
+  lexico_sentimiento_es.json, analisis_completo_v6.5.py
+- Recursos externos: nltk (sentiwordnet, omw), OMW 1.4
+- Scripts: ~/temp/derivar_lexico.py, ~/temp/merge_lexicos.py
+- Commit: (pendiente)
+
+---

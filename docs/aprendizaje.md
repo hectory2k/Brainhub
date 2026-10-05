@@ -328,3 +328,48 @@ grandes.
 Referencias:
 - Descubierto en: sesión auditoría V6.5, bug #2
 - Aplicado a: modulos/ponderacion_nichos.py, modulos/nicho_multietiqueta.py
+
+---
+
+### Curaduría manual > automático para dominios específicos (2026-10-04)
+
+Bug #3 (sentimiento) parecía resoluble con SentiWordNet + OMW
+automáticamente. En la práctica, el lexicón resultante tenía:
+- 4.5% palabras ambiguas (pos y neg ambos > 0.3)
+- Faltantes críticos médicos: "adverso", "ineficaz", "mortalidad"
+- Ruido semántico: "partido" (positivo), "tratamiento" (negativo)
+
+30 min de curaduría manual con criterio médico superaron 3h de
+automatización. El automático sirve como base (~2900 palabras),
+la curaduría agrega precisión donde importa.
+
+Regla: para dominios con vocabulario específico (médico, legal,
+financiero), curaduría manual gana. Para sentimiento general,
+automatización es suficiente.
+
+Referencias:
+- Descubierto en: sesión auditoría V6.5, bug #3a
+- Aplicado a: lexico_medico_es.json
+
+---
+
+### sed en Termux: a\ no agrega salto de linea (2026-10-05)
+
+Bug: `sed -i "75a\\ texto"` en BusyBox/Termux pega la línea nueva a
+la siguiente sin `\n`, corrompiendo el archivo (Python igual parsea
+si la línea pegada empieza con #, generando bugs silenciosos).
+
+Solución: usar Python para editar archivos:
+
+    lines = p.read_text().splitlines(keepends=True)
+    lines.insert(74, "nueva linea\n")
+    p.write_text(''.join(lines))
+
+Regla: en Termux, evitar `sed a\` para agregar líneas. Usar Python
+o `sed` con `s/$/\n.../` explícito.
+
+Referencias:
+- Descubierto en: sesión auditoría V6.5, bug #3a
+- Aplicado a: modulos/sentimiento_es.py
+
+---

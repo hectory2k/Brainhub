@@ -14,7 +14,8 @@ import json
 import sqlite3
 import csv
 from collections import Counter, defaultdict
-from textblob import TextBlob
+from modulos.sentimiento_es import get_analizador as _get_sent_es
+_sent_es = _get_sent_es()
 
 sys.path.insert(0, os.path.expanduser('~/proyectos/nlp'))
 
@@ -249,11 +250,7 @@ def segmentar_por_oraciones(texto, max_caracteres=300):
     return segmentos
 
 def analizar_sentimiento(texto):
-    blob = TextBlob(texto)
-    return {
-        'polaridad': blob.sentiment.polarity,
-        'subjetividad': blob.sentiment.subjectivity
-    }
+    return _sent_es.analizar(texto)
 
 def clasificar_contexto(texto, nicho='GENERAL'):
     texto_lower = texto.lower()
