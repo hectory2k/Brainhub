@@ -11,40 +11,38 @@
 > No agregar features que no resuelvan un bug. Diagnóstico con evidencia
 > antes de tocar. Documentar en BITACORA.md y este archivo.
 >
-> Estado: v7.2.2, 99 analysis, RAG basico, 125 tests.
+> Estado: v7.2.3, 99 analysis, RAG basico, 125 tests.
 > Chunker MVP implementado (brainhub/chunking/).
 > Backup portable: scripts/brainhub_backup.sh.
 > Modelo LLM: brainhub-llama (gemma:2b + Modelfile optimizado, ~64s/video)
-> AUDITORIA V6.5 (Alta #1): 3 de 5 bugs cerrados con evidencia.
+> AUDITORIA V6.5 (Alta #1): 4 de 5 bugs cerrados con evidencia.
 > ✅ Bug #1 (stopwords incompletas) cerrado 4b4cc34.
-> ✅ Bug #2 (nicho mal clasificado) cerrado 2026-10-04:
->    Fase 1b: word boundary + precompilacion en modulos/.
->    Fase 2: MARGEN_MIN=5 en brainhub/analisis/nichos.py.
-> ✅ Bug #3a (sentimiento en español) cerrado 2026-10-04:
->    Lexico ES curado (200 terminos) + automatizado (~8000).
->    Reemplaza textblob (que usaba lexico ingles).
->    3 videos: P1=+0.34, Obi=-0.04, I7=-0.02 (valores distintos).
-> ⏳ Bug #3b (reporte "DESCONOCIDO" confuso) - PROXIMO
-> ⏳ Bug #4 (analisis temporal 100% TESTIMONIO_GENERAL)
+> ✅ Bug #2 (nicho mal clasificado) cerrado 2026-10-04 (61f503c).
+> ✅ Bug #3a (sentimiento en español) cerrado 2026-10-04 (d153863).
+> ✅ Bug #3b (reporte "DESCONOCIDO" confuso) cerrado 2026-10-04:
+>    Ahora muestra "SENTIMIENTO GLOBAL: X.XX (sin hablantes detectados)"
+>    cuando no hay hablantes reales detectados.
+> ⏳ Bug #4 (analisis temporal 100% TESTIMONIO_GENERAL) - PROXIMO
 > ⏳ Bug #5 (citas clave random)
 >
-> PROXIMO: auditar Bug #3b. El reporte dice "DESCONOCIDO: 0.34"
-> mezclando el nombre del hablante (DESCONOCIDO, porque no se
-> detectan) con el valor de sentimiento. Fix probable: mostrar
-> "SENTIMIENTO GLOBAL" cuando no hay hablantes detectados.
+> PROXIMO: auditar Bug #4. El analisis temporal devuelve
+> "TESTIMONIO_GENERAL" como contexto_predominante en casi todas
+> las secciones (14/15 en los 3 videos). Las polaridades ya
+> varian por seccion (efecto colateral del fix #3a). Falta revisar
+> la funcion clasificar_contexto() o analisis_temporal().
 >
 > Otros pendientes: integrar Chunker al pipeline, migrar a
-> brainhub_config, 5 bugs mas de auditoria (ver docs/IDEAS.md §10),
+> brainhub_config, 1 bug mas de auditoria (ver docs/IDEAS.md §10),
 > extractor de citas para papers.
 ## Fecha
-2026-10-05 (última sesión: bug #3a sentimiento en español cerrado)
+2026-10-05 (última sesión: bug #3a + #3b sentimiento cerrado)
 
-## Estado (v7.2.2)
+## Estado (v7.2.3)
 - 99 analysis en DB, 1782 terminos_raw, 4196 tecnicos
 - DuckDB CLI 1.5.5, RAG básico funcionando
 - Pipeline completo: procesar → analizar → pipeline_db.sh
 - Perímetro cerrado: 21 defaults + OLLAMA_HOST + JSONs sincronizados
-- ⚠️ Análisis V6.5: 2 componentes devuelven default (auditoría en curso, 3/5 cerrados)
+- ⚠️ Análisis V6.5: 1 componente devuelve default (auditoría en curso, 4/5 cerrados)
 - Config centralizado: brainhub_config.json
 - 125 tests Python (incluye 10 de Chunker) + 17 tests DB + 8 guardias
 - Chunker MVP: brainhub/chunking/chunker.py (feat f1b922a)
@@ -129,7 +127,8 @@
 | 09-18 | content_control persistente | CREATE OR REPLACE + ON CONFLICT (e6cdf5f) |
 | 10-04 | stopwords incompletas (pretéritos) | +34 pretéritos +9 ruidos YouTube (4b4cc34) |
 | 10-04 | nicho mal clasificado (substring + sin umbral) | word boundary + MARGEN_MIN=5 (61f503c) |
-| 10-04 | sentimiento en español (textblob inglés) | lexico_medico_es.json + modulos/sentimiento_es.py |
+| 10-04 | sentimiento en español (textblob inglés) | lexico_medico_es.json + modulos/sentimiento_es.py (d153863) |
+| 10-04 | reporte "DESCONOCIDO" confuso | mostrar "SENTIMIENTO GLOBAL" sin hablantes |
 
 ## Deuda VIVA (priorizada)
 
@@ -200,12 +199,12 @@
 - 2026-09-16: Batch + guardias + auditoria + Phantom Killer
 - 2026-09-17: RAG + 5 bugs + config
 - 2026-10-04: Bug #1 stopwords + Bug #2 nicho (word boundary + umbral)
-- 2026-10-05: Bug #3a sentimiento en español (lexico curado + integración)
+- 2026-10-05: Bug #3a sentimiento ES + #3b reporte "DESCONOCIDO"
 
 Historia completa en `~/proyectos/nlp/BITACORA.md`
 
 ## Proximo paso
-Auditoría del análisis V6.5 — bug #3b (reporte "DESCONOCIDO" confuso).
+Auditoría del análisis V6.5 — bug #4 (contexto temporal 100% TESTIMONIO_GENERAL).
 
 ### Plan de auditoría
 1. Leer cada módulo (detectar_nicho, sentimiento, análisis temporal, citas, stopwords)

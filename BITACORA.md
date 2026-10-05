@@ -2624,3 +2624,36 @@ Bugs pendientes (auditoría V6.5):
 - Commit: (pendiente)
 
 ---
+
+### Fix: reporte confuso de sentimiento sin hablantes (2026-10-04)
+
+Bug: el reporte mostraba "SENTIMIENTO POR HABLANTE: DESCONOCIDO: 0.34
+(331 segmentos)" cuando no se detectaban hablantes. El DESCONOCIDO
+es el nombre del hablante (bucket por defecto), pero al leerse parecía
+indicar que el sentimiento era desconocido.
+
+Causa: en segmentos_analizados se hardcodea 'hablante': 'DESCONOCIDO'.
+Si el detector no encuentra hablantes reales, todo cae en ese bucket.
+El output no distinguía "sin hablantes" de "sentimiento desconocido".
+
+Fix (en analisis_completo_v6.5.py, 2 lugares):
+- Detectar hablantes_reales = [h for h in stats_hablantes if h != 'DESCONOCIDO']
+- Si hay: mostrar "SENTIMIENTO POR HABLANTE" con cada uno
+- Si no: mostrar "SENTIMIENTO GLOBAL" + "(N segmentos, sin hablantes detectados)"
+
+Verificación:
+- P1rDVQIAOKI: "DESCONOCIDO: 0.34" -> "SENTIMIENTO GLOBAL: 0.34 (331 seg, sin hablantes)"
+- Valor numérico intacto, presentación clara
+- Análisis 1.686s (sin regresión)
+
+Hallazgo: no era bug funcional (el cálculo estaba bien), era bug
+de presentación. El nombre DESCONOCIDO era correcto pero engañoso.
+Distingue: "no hay sentimiento calculado" vs "no hay hablantes".
+
+### Referencias
+- Archivo: analisis_completo_v6.5.py (líneas 382-395 y 784-797)
+- Backup: analisis_completo_v6.5.py.PRE_BUG3B
+- Verificación: re-análisis de P1rDVQIAOKI_ES.txt
+- Commit: (pendiente)
+
+---

@@ -379,12 +379,20 @@ def exportar_resumen_txt(analisis, archivo_salida):
             for term, freq in analisis['terminos_clave'][:10]:
                 f.write(f"  {term}: {freq}\n")
 
-            f.write("\n📊 SENTIMIENTO POR HABLANTE:\n")
-            for hablante, datos in sorted(analisis['sentimiento_por_hablante'].items(), key=lambda x: -x[1]['n_segmentos']):
-                if hablante != 'DESCONOCIDO' or datos['n_segmentos'] > 10:
+            hablantes_reales = [h for h in analisis['sentimiento_por_hablante'] if h != 'DESCONOCIDO']
+            if hablantes_reales:
+                f.write("\n📊 SENTIMIENTO POR HABLANTE:\n")
+                for hablante, datos in sorted(analisis['sentimiento_por_hablante'].items(), key=lambda x: -x[1]['n_segmentos']):
+                    if hablante != 'DESCONOCIDO' or datos['n_segmentos'] > 10:
+                        emoji = "🟢" if datos['promedio'] > 0.1 else "🔴" if datos['promedio'] < -0.1 else "⚪"
+                        confianza = f" ({datos['confianza']})" if datos['confianza'] != 'alta' else ""
+                        f.write(f"  {emoji} {hablante}: {datos['promedio']:.2f}{confianza} ({datos['n_segmentos']} segmentos)\n")
+            else:
+                datos = analisis['sentimiento_por_hablante'].get('DESCONOCIDO', {})
+                if datos:
                     emoji = "🟢" if datos['promedio'] > 0.1 else "🔴" if datos['promedio'] < -0.1 else "⚪"
-                    confianza = f" ({datos['confianza']})" if datos['confianza'] != 'alta' else ""
-                    f.write(f"  {emoji} {hablante}: {datos['promedio']:.2f}{confianza} ({datos['n_segmentos']} segmentos)\n")
+                    f.write("\n📊 SENTIMIENTO GLOBAL:\n")
+                    f.write(f"  {emoji} {datos['promedio']:.2f} ({datos['n_segmentos']} segmentos, sin hablantes detectados)\n")
 
             f.write("\n🔗 RELACIONES TEMÁTICAS:\n")
             for (t1, t2), freq in analisis['coocurrencias'][:10]:
@@ -773,12 +781,20 @@ def main():
 
     stats_hablantes = analizar_por_hablante(segmentos_analizados)
 
-    print("\n📊 SENTIMIENTO POR HABLANTE:")
-    for hablante, datos in sorted(stats_hablantes.items(), key=lambda x: -x[1]['n_segmentos']):
-        if hablante != 'DESCONOCIDO' or datos['n_segmentos'] > 10:
+    hablantes_reales = [h for h in stats_hablantes if h != 'DESCONOCIDO']
+    if hablantes_reales:
+        print("\n📊 SENTIMIENTO POR HABLANTE:")
+        for hablante, datos in sorted(stats_hablantes.items(), key=lambda x: -x[1]['n_segmentos']):
+            if hablante != 'DESCONOCIDO' or datos['n_segmentos'] > 10:
+                emoji = "🟢" if datos['promedio'] > 0.1 else "🔴" if datos['promedio'] < -0.1 else "⚪"
+                confianza = f" ({datos['confianza']})" if datos['confianza'] != 'alta' else ""
+                print(f"  {emoji} {hablante}: {datos['promedio']:.2f}{confianza} ({datos['n_segmentos']} segmentos)")
+    else:
+        datos = stats_hablantes.get('DESCONOCIDO', {})
+        if datos:
             emoji = "🟢" if datos['promedio'] > 0.1 else "🔴" if datos['promedio'] < -0.1 else "⚪"
-            confianza = f" ({datos['confianza']})" if datos['confianza'] != 'alta' else ""
-            print(f"  {emoji} {hablante}: {datos['promedio']:.2f}{confianza} ({datos['n_segmentos']} segmentos)")
+            print("\n📊 SENTIMIENTO GLOBAL:")
+            print(f"  {emoji} {datos['promedio']:.2f} ({datos['n_segmentos']} segmentos, sin hablantes detectados)")
 
     terminos_clave = [t for t, f in terminos[:10]]
     coocurrencias = calcular_coocurrencias(segmentos_analizados, terminos_clave)

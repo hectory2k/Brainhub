@@ -373,3 +373,24 @@ Referencias:
 - Aplicado a: modulos/sentimiento_es.py
 
 ---
+
+---
+
+### Output confuso != bug funcional (2026-10-04)
+
+Bug #3b: el reporte mostraba "SENTIMIENTO POR HABLANTE: DESCONOCIDO:
+0.34 (331 segmentos)". El cálculo estaba correcto (0.34 es el sentimiento
+real) pero el output era engañoso porque DESCONOCIDO es el nombre del
+hablante, no del sentimiento.
+
+Lección: revisar los outputs con ojos de usuario, no de dev.
+El nombre interno DESCONOCIDO se justifica en el código (bucket por
+defecto) pero al leerse en el reporte parece indicar que el análisis
+falló.
+
+Regla: si un output puede interpretarse mal, cambiarlo aunque el
+cálculo sea correcto. La claridad es parte del fix.
+
+Referencias:
+- Descubierto en: sesión auditoría V6.5, bug #3b
+- Aplicado a: analisis_completo_v6.5.py (2 lugares)
