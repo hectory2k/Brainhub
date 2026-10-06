@@ -394,3 +394,27 @@ cálculo sea correcto. La claridad es parte del fix.
 Referencias:
 - Descubierto en: sesión auditoría V6.5, bug #3b
 - Aplicado a: analisis_completo_v6.5.py (2 lugares)
+
+---
+
+### No mostrar campos que mienten (2026-10-04)
+
+Bug #4: analisis temporal mostraba "TESTIMONIO_GENERAL" en 99%
+de las secciones. El clasificador funcionaba, pero los patrones
+no representaban habla natural en transcripts.
+
+Ante un clasificador 99% default, hay 2 opciones:
+- Arreglar los patrones (heuristico, subjetivo, sin techo claro).
+- Quitar del output (KISS, honesto, sin ruido).
+
+Elegimos quitar. Regla: si un campo no aporta informacion real,
+es mejor no mostrarlo que mostrarlo mal.
+
+Corolario: la polaridad por seccion SI varia y SI aporta.
+No todo el analisis temporal era inutil, solo el contexto.
+
+Referencias:
+- Descubierto en: sesion auditoria V6.5, bug #4
+- Aplicado a: analisis_completo_v6.5.py
+
+---

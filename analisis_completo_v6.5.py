@@ -401,7 +401,7 @@ def exportar_resumen_txt(analisis, archivo_salida):
             f.write("\n📈 ANÁLISIS TEMPORAL:\n")
             for seg in analisis['analisis_temporal']:
                 emoji = "🟢" if seg['polaridad_promedio'] > 0.1 else "🔴" if seg['polaridad_promedio'] < -0.1 else "⚪"
-                f.write(f"  Sección {seg['seccion']}: {emoji} {seg['polaridad_promedio']:.2f} ({seg['contexto_predominante']})\n")
+                f.write(f"  Sección {seg['seccion']}: {emoji} {seg['polaridad_promedio']:.2f}\n")
 
             f.write("\n💬 CITAS CLAVE:\n")
             for dialogo in analisis['citas_clave'][:5]:
@@ -458,11 +458,11 @@ def exportar_reporte_md(analisis, archivo_salida):
             reporte += f"- **{concepto}**: {freq} menciones\n"
 
         reporte += "\n## 📈 Análisis Temporal\n"
-        reporte += "| Sección | Segmentos | Polaridad | Contexto |\n"
-        reporte += "|---------|-----------|-----------|----------|\n"
+        reporte += "| Sección | Segmentos | Polaridad |\n"
+        reporte += "|---------|-----------|-----------|\n"
         for seg in analisis['analisis_temporal']:
             emoji = '🟢' if seg['polaridad_promedio'] > 0.1 else '🔴' if seg['polaridad_promedio'] < -0.1 else '⚪'
-            reporte += f"| {seg['seccion']} | {seg['segmentos']} | {emoji} {seg['polaridad_promedio']:.2f} | {seg['contexto_predominante']} |\n"
+            reporte += f"| {seg['seccion']} | {seg['segmentos']} | {emoji} {seg['polaridad_promedio']:.2f} |\n"
 
         reporte += "\n## 💬 Citas Clave\n"
         for dialogo in analisis['citas_clave'][:5]:
@@ -812,7 +812,7 @@ def main():
     print("\n📈 ANÁLISIS TEMPORAL:")
     for seg in temporal:
         emoji = "🟢" if seg['polaridad_promedio'] > 0.1 else "🔴" if seg['polaridad_promedio'] < -0.1 else "⚪"
-        print(f"  Sección {seg['seccion']}: {emoji} {seg['polaridad_promedio']:.2f} ({seg['contexto_predominante']})")
+        print(f"  Sección {seg['seccion']}: {emoji} {seg['polaridad_promedio']:.2f}")
 
     print("\n💬 CITAS CLAVE:")
     for dialogo in dialogos[:5]:

@@ -2657,3 +2657,53 @@ Distingue: "no hay sentimiento calculado" vs "no hay hablantes".
 - Commit: (pendiente)
 
 ---
+
+### Fix: contexto temporal 99% default en transcripts (2026-10-04)
+
+Bug: análisis temporal mostraba "TESTIMONIO_GENERAL" como
+contexto_predominante en casi todas las secciones (14/15 en los
+3 videos de evidencia). El clasificador de contexto discursivo
+era funcionalmente inútil en transcripts de YouTube.
+
+Evidencia (script de línea base sobre los 3 videos):
+- P1rDVQIAOKI: 1008/1014 segmentos TESTIMONIO_GENERAL (99.4%)
+- ObiAWFqgpMg: 419/421 (99.5%)
+- I7_WXKhyGms: 1219/1226 (99.4%)
+Los patrones actuales (frases formales academicas: "in my opinion",
+"yo recuerdo") matchean 0.5-0.6% del habla natural.
+
+Causa raiz (3 capas):
+1. Datos: patrones son frases formales, no habla natural.
+2. Logica: CONCEPTOS_POR_NICHO mezcla conceptos tematicos
+   (DESARROLLO_SOFTWARE) con contextos discursivos
+   (OPINION_PROFESIONAL). Solo el segundo aplica a temporal.
+3. Fallback: TESTIMONIO_GENERAL es default silencioso, no
+   categoria real.
+
+Fix aplicado (Opción C - quitar del output, no arreglar):
+- Consola: quitar "(TESTIMONIO_GENERAL)" del analisis temporal.
+- Reporte MD: quitar columna "Contexto" de la tabla.
+- Reporte MD inline: quitar contexto.
+- Se mantiene el calculo interno (contexto_predominante sigue
+  en el dict por si se usa en el futuro).
+- No se toca clasificar_contexto() ni CONCEPTOS_POR_NICHO
+  (se usan tambien en analisis_conceptos, que si funciona).
+
+Verificacion:
+- Los 3 videos muestran analisis temporal sin contexto.
+- La polaridad por seccion sigue variando (0.25-0.42 en P1).
+- Reporte MD con tabla de 3 columnas coherente.
+
+Decision de diseño: preferible no mostrar un campo que miente
+que mostrarlo mal. El analisis discursivo heuristico en
+transcripts informales no tiene solucion rapida (requeriria
+patrones de habla natural, o refactor para separar conceptos
+de contextos). Se documenta como deuda tecnica en docs/IDEAS.md.
+
+### Referencias
+- Archivo: analisis_completo_v6.5.py (lineas 404, 461, 462, 465, 815)
+- Backup: analisis_completo_v6.5.py.PRE_BUG4
+- Verificacion: re-analisis de los 3 videos
+- Commit: (pendiente)
+
+---
