@@ -20,9 +20,12 @@
 > ✅ Bug #2 (nicho mal clasificado) cerrado 2026-10-04 (61f503c).
 > ✅ Bug #3a (sentimiento en español) cerrado 2026-10-04 (d153863).
 > ✅ Bug #3b (reporte "DESCONOCIDO" confuso) cerrado 2026-10-04 (586f0b1).
-> ✅ Bug #4 (contexto temporal 99% default) cerrado 2026-10-04:
->    Quitado "contexto_predominante" del output. La polaridad por
->    seccion se mantiene (si varia). El campo sigue en el dict interno.
+> ✅ Bug #4 (contexto temporal 99% default) cerrado 2026-10-05:
+>    Fix 1 (89f00dd): quitado del reporte humano (MD/consola).
+>    Fix 2 (c755329): valor interno honesto (NO_CLASIFICADO).
+>    La polaridad por seccion se mantiene. El campo sigue en el dict interno.
+>    Nota: se aplicó 2do fix por retoma desactualizada. Lección
+>    'git log antes de diagnosticar' documentada en docs/aprendizaje.md.
 > ⏳ Bug #5 (citas clave random) - PROXIMO
 >
 > PROXIMO: auditar Bug #5. Las citas clave son incoherentes en los
@@ -34,7 +37,7 @@
 > Otros pendientes: integrar Chunker al pipeline, migrar a
 > brainhub_config, extractor de citas para papers.
 ## Fecha
-2026-10-05 (última sesión: bug #4 contexto temporal cerrado)
+2026-10-05 (última sesión: bug #4 contexto temporal cerrado - doble fix)
 
 ## Estado (v7.2.4)
 - 99 analysis en DB, 1782 terminos_raw, 4196 tecnicos

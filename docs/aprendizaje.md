@@ -418,3 +418,30 @@ Referencias:
 - Aplicado a: analisis_completo_v6.5.py
 
 ---
+---
+
+### git log antes de diagnosticar (2026-10-05)
+
+Bug #4 se creyó reabierto en la sesión del 2026-10-05, pero ya estaba
+cerrado por commit 89f00dd (mismo día, 21:22). El prompt de retoma decía
+"Bug #4 PROXIMO" cuando en realidad estaba cerrado. La desincronización
+entre código y retoma hizo que se aplicara un segundo fix (c755329)
+sobre el mismo bug sin saberlo.
+
+Resultado: dos soluciones complementarias, no contradictorias.
+- 89f00dd: quitar contexto_predominante del reporte humano (MD/consola).
+- c755329: valor interno honesto (NO_CLASIFICADO en vez de TESTIMONIO_GENERAL).
+
+Ambos son correctos: el humano no ve ruido, la máquina ve honestidad.
+
+Lección: SIEMPRE `git log` antes de diagnosticar. La retoma puede estar
+desactualizada. Un síntoma que parece "bug vivo" puede ser en realidad
+"bug cerrado + retoma vieja".
+
+Regla complementaria: si vas a crear un archivo nuevo, verificar
+estructura de docs/ primero. Los archivos canónicos de doc viven en docs/.
+
+Referencias:
+- Commit 89f00dd (fix original, 21:22)
+- Commit c755329 (fix complementario, 22:30)
+- Commit d270b41 (docs intrusos en raíz, corregido)
