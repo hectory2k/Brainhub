@@ -2707,3 +2707,42 @@ de contextos). Se documenta como deuda tecnica en docs/IDEAS.md.
 - Commit: (pendiente)
 
 ---
+
+## 2026-10-05 — Fix: default honesto en clasificación de contexto (bug #4)
+
+**Commit:** c755329
+**Archivo:** analisis_completo_v6.5.py
+**Estado auditoría:** Alta #1 cerrada (5/5)
+
+### Síntoma
+`analisis_temporal[].contexto_predominante` mostraba `TESTIMONIO_GENERAL`
+en 100% de las secciones, en todos los videos.
+
+### Diagnóstico (con evidencia)
+- `clasificar_contexto()` (L255) usaba `'TESTIMONIO_GENERAL'` como default.
+- Patrones frágiles (frases literales) → recall real ≈ 1.8% en P1.
+- `analisis_temporal()` (L333) agrupa con `Counter().most_common()` → el default domina por volumen.
+- Contraste: `.conceptos` SÍ clasificaba bien (OPINION_PROFESIONAL: 4, TESTIMONIO_PERSONAL: 2).
+
+### Causa raíz
+Categoría de fallback disfrazada de categoría legítima contamina
+agregaciones por votación. Mismo patrón conceptual que #3b.
+
+### Fix
+L261, L346, L347: `'TESTIMONIO_GENERAL'` → `'NO_CLASIFICADO'`
+
+### Evidencia
+- `grep TESTIMONIO_GENERAL` → 0 ocurrencias.
+- P1 pre-fix:  5/5 `TESTIMONIO_GENERAL`
+- P1 post-fix: 5/5 `NO_CLASIFICADO`
+
+### Lección
+**"Default silencioso != clasificación real."**
+
+### Ticket derivado
+Mejorar recall de `clasificar_contexto` (1.8%). Es feature, no bugfix.
+
+### Observaciones colaterales
+- Nicho `GENERAL` en video de gaming → revisar regresión #2.
+- `hablantes detectados: 0` siempre → bug latente.
+- Citas `[DESCONOCIDO]` incoherentes → es el Bug #5.
