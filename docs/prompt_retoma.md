@@ -28,16 +28,21 @@
 >    'git log antes de diagnosticar' documentada en docs/aprendizaje.md.
 > ✅ Bug #5 (citas clave random) cerrado 2026-10-06 como falso positivo.
 >
-> PROXIMO: Feature #1 (citas clave con peso semántico). Bug #5 cerrado
-> como falso positivo (2026-10-06): los ejemplos originales venían de
-> output legacy pre-v7.2.4, no se reproducen en HEAD.
+> PROXIMO: integrar Chunker al pipeline (chunks ready to go).
+> El Chunker MVP ya existe en brainhub/chunking/chunker.py. Falta
+> conectarlo al flujo de análisis para que produzca chunks como
+> salida consumible (RAG, downstream).
 >
-> Feature #1 — rediseñar citas clave:
+> Feature #1 (citas clave con peso semántico) — siguiente después
+> de Chunker. Bug #5 cerrado como falso positivo (2026-10-06):
+> los ejemplos originales venían de output legacy pre-v7.2.4, no
+> se reproducen en HEAD.
+>
+> Feature #1 — rediseñar citas clave (no arranca hasta sesión propia):
 >   - Fuente: segmentos_analizados (no re.findall de strings).
 >   - Score: términos clave + polaridad + coherencia temática + eje del video.
 >   - Filtros: descartar código/UI/metadata.
 >   - Modular: clase/módulo en brainhub/, no parche al legacy.
->   - No arranca hasta sesión propia con diseño.
 >
 > Colaterales pendientes: integrar Chunker al pipeline, migrar a
 > brainhub_config, extractor de citas para papers.
