@@ -2746,3 +2746,39 @@ Mejorar recall de `clasificar_contexto` (1.8%). Es feature, no bugfix.
 - Nicho `GENERAL` en video de gaming → revisar regresión #2.
 - `hablantes detectados: 0` siempre → bug latente.
 - Citas `[DESCONOCIDO]` incoherentes → es el Bug #5.
+
+## 2026-10-06 — Bug #5 (citas clave) cerrado como falso positivo + Feature #1 anotada
+
+### Bug #5: NO REPRODUCIBLE en HEAD
+
+Los ejemplos originales ("Kisilov es el anticristo", "le duele") provienen
+de Transcript_HUcIxt1v0wU_ES_analisis.txt, un output generado por script
+legacy (pre-v7.2.4). El pipeline actual NO produce esas citas.
+
+Barrido de 16 videos en playlist_brainhub: ninguna cita incoherente tipo
+"Kisilov". Las citas actuales son strings entrecomillados del contenido
+(código, UI, ejemplos didácticos).
+
+Lección aplicada: "git log antes de diagnosticar"
+(ya documentada en docs/aprendizaje.md, sesión 2026-10-05).
+
+Estado: bug fantasma. Cierra sin fix.
+
+### Feature #1 (roadmap) — Citas clave con criterio de peso semántico
+
+Observación: el criterio actual de citas clave (extraer_dialogos, L272)
+usa re.findall(r'"([^"]+)"') y no distingue habla del orador de strings
+técnicos (código, mensajes de UI, prompts de ejemplo).
+
+No es bug: no engaña de forma crítica. Es "menos útil de lo que podría ser".
+
+Mejora propuesta (sesión futura):
+- Fuente de candidatos: segmentos_analizados (no strings entrecomillados).
+- Score por: frecuencia de términos clave del video + polaridad del segmento
+  + coherencia temática (conceptos) + proximidad al eje del video.
+- Filtros: descartar código (from X import, def, etc.), UI/metadata,
+  longitud fuera de rango.
+- Implementación modular (clase o módulo en brainhub/), no parche al legacy.
+- Primera pieza que nace directamente en brainhub/, no migrada del legacy.
+
+No arranca hasta sesión propia con diseño.

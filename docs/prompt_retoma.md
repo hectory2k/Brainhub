@@ -26,15 +26,20 @@
 >    La polaridad por seccion se mantiene. El campo sigue en el dict interno.
 >    Nota: se aplicó 2do fix por retoma desactualizada. Lección
 >    'git log antes de diagnosticar' documentada en docs/aprendizaje.md.
-> ⏳ Bug #5 (citas clave random) - PROXIMO
+> ✅ Bug #5 (citas clave random) cerrado 2026-10-06 como falso positivo.
 >
-> PROXIMO: auditar Bug #5. Las citas clave son incoherentes en los
-> 3 videos (ej: P1 muestra "le duele", "Kisilov es el anticristo"
-> como citas clave de un video de gaming). Buscar la funcion
-> extraer_dialogos() o similar y ver que criterio usa para
-> seleccionar las citas.
+> PROXIMO: Feature #1 (citas clave con peso semántico). Bug #5 cerrado
+> como falso positivo (2026-10-06): los ejemplos originales venían de
+> output legacy pre-v7.2.4, no se reproducen en HEAD.
 >
-> Otros pendientes: integrar Chunker al pipeline, migrar a
+> Feature #1 — rediseñar citas clave:
+>   - Fuente: segmentos_analizados (no re.findall de strings).
+>   - Score: términos clave + polaridad + coherencia temática + eje del video.
+>   - Filtros: descartar código/UI/metadata.
+>   - Modular: clase/módulo en brainhub/, no parche al legacy.
+>   - No arranca hasta sesión propia con diseño.
+>
+> Colaterales pendientes: integrar Chunker al pipeline, migrar a
 > brainhub_config, extractor de citas para papers.
 ## Fecha
 2026-10-05 (última sesión: bug #4 contexto temporal cerrado - doble fix)
