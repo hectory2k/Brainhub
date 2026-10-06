@@ -258,7 +258,7 @@ def clasificar_contexto(texto, nicho='GENERAL'):
     for concepto, patrones in conceptos_nicho.items():
         if any(p in texto_lower for p in patrones):
             return concepto
-    return 'TESTIMONIO_GENERAL'
+    return 'NO_CLASIFICADO'
 
 def extraer_dialogos(texto):
     patron = r'"([^"]+)"'
@@ -343,8 +343,8 @@ def analisis_temporal(segmentos_analizados, n_secciones=5):
         if not seccion:
             continue
         polaridades = [s.get('polaridad', 0.0) for s in seccion]
-        contextos = [s.get('contexto', 'TESTIMONIO_GENERAL') for s in seccion]
-        contexto_predominante = Counter(contextos).most_common(1)[0][0] if contextos else 'TESTIMONIO_GENERAL'
+        contextos = [s.get('contexto', 'NO_CLASIFICADO') for s in seccion]
+        contexto_predominante = Counter(contextos).most_common(1)[0][0] if contextos else 'NO_CLASIFICADO'
 
         resultados.append({
             'seccion': i + 1,
