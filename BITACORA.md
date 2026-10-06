@@ -2782,3 +2782,25 @@ Mejora propuesta (sesión futura):
 - Primera pieza que nace directamente en brainhub/, no migrada del legacy.
 
 No arranca hasta sesión propia con diseño.
+
+## 2026-10-06 — Estado del Chunker verificado (pre-integración)
+
+Verificación rápida antes de arrancar la integración del Chunker al pipeline.
+
+### Estado actual
+- `brainhub/chunking/chunker.py` (219 líneas):
+  - `class Chunk` (L23)
+  - `class Chunker` (L56)
+- `tests/test_chunker.py` existe.
+- **NO hay referencias** a `chunker`/`Chunker` en `analisis_completo_v6.5.py`
+  → código huérfano, existe pero no se invoca desde el flujo.
+
+### Próximo paso
+Integrar el Chunker al pipeline de análisis para que produzca chunks
+como salida consumible. Criterio de éxito a definir al inicio de la
+sesión próxima con el código a la vista.
+
+### Pendiente después
+- Feature #1 (citas clave con peso semántico).
+- Colaterales: brainhub_config, extractor de citas para papers,
+  nicho GENERAL en gaming, hablantes=0, recall clasificar_contexto.
