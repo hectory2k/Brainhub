@@ -11,8 +11,8 @@
 > No agregar features que no resuelvan un bug. Diagnóstico con evidencia
 > antes de tocar. Documentar en BITACORA.md y este archivo.
 >
-> Estado: v7.2.4, 99 analysis, RAG basico, 125 tests.
-> Chunker MVP implementado (brainhub/chunking/).
+> Estado: v7.2.4+, 99 analysis, RAG basico, 126 tests (125 + 1 chunker).
+> Chunker MVP implementado e INTEGRADO al pipeline (commit 2d47445, pusheado).
 > Backup portable: scripts/brainhub_backup.sh.
 > Modelo LLM: brainhub-llama (gemma:2b + Modelfile optimizado, ~64s/video)
 > AUDITORIA V6.5 (Alta #1): 5 de 5 bugs cerrados con evidencia.
@@ -24,31 +24,24 @@
 >    Fix 1 (89f00dd): quitado del reporte humano (MD/consola).
 >    Fix 2 (c755329): valor interno honesto (NO_CLASIFICADO).
 >    La polaridad por seccion se mantiene. El campo sigue en el dict interno.
->    Nota: se aplicó 2do fix por retoma desactualizada. Lección
->    'git log antes de diagnosticar' documentada en docs/aprendizaje.md.
 > ✅ Bug #5 (citas clave random) cerrado 2026-10-06 como falso positivo.
-> ✅ Bug #7 (abstención injustificada por slicing citas[:2]) cerrado 2026-10-07:
->    Decisión de abstención basada en TODAS las citas válidas (>=30 chars).
->    Prompt usa top 5. Fix en abstract_llm.py.
+> ✅ Bug #7 (abstención injustificada por slicing citas[:2]) cerrado 2026-10-07.
 >
-> PROXIMO: integrar Chunker al pipeline (chunks ready to go).
-> El Chunker MVP ya existe en brainhub/chunking/chunker.py. Falta
-> conectarlo al flujo de análisis para que produzca chunks como
-> salida consumible (RAG, downstream).
+> ✅ Chunker integrado al pipeline (commit 2d47445, pusheado 2026-10-07):
+>    - datos_analisis['chunks'] via Chunk.a_dict() (solo JSON)
+>    - try/except consistente con bloque LLM
+>    - +1 test de forma en tests/test_chunker.py
+>    - Run real: Video_9_vILGgKsSY → 17 chunks, tier TECNOLOGIA
+>    - MD y TXT verificados limpios (0 menciones)
 >
-> Feature #1 (citas clave con peso semántico) — siguiente después
-> de Chunker. Bug #5 cerrado como falso positivo (2026-10-06):
-> los ejemplos originales venían de output legacy pre-v7.2.4, no
-> se reproducen en HEAD.
->
-> Feature #1 — rediseñar citas clave (no arranca hasta sesión propia):
+> PROXIMO: Feature #1 (citas clave con peso semántico) — sesión propia.
 >   - Fuente: segmentos_analizados (no re.findall de strings).
 >   - Score: términos clave + polaridad + coherencia temática + eje del video.
 >   - Filtros: descartar código/UI/metadata.
 >   - Modular: clase/módulo en brainhub/, no parche al legacy.
 >
-> Colaterales pendientes: integrar Chunker al pipeline, migrar a
-> brainhub_config, extractor de citas para papers.
+> Colaterales pendientes: tabla DuckDB `chunks` + `scripts/chunkear.py`,
+> migrar a brainhub_config, extractor de citas para papers.
 ## Fecha
 2026-10-05 (última sesión: bug #4 contexto temporal cerrado - doble fix)
 
@@ -84,10 +77,11 @@
 - Indexa: `analysis.resumen_llm` + `terminos_raw` (JOIN + `||SEP||`)
 - `responder_con_contexto()` — sintetiza respuesta final
 
-### Chunking (MVP implementado — falta integración)
-- No existe `brainhub/chunking/` ni tabla `chunks`
-- No existe `scripts/chunkear.py`
-- Plan documentado abajo
+### Chunking (integrado al pipeline, 2026-10-07)
+- `brainhub/chunking/chunker.py` (Chunker MVP, commit `f1b922a`)
+- Integrado a `analisis_completo_v6.5.py` (commit `2d47445`, pusheado)
+- Output: `datos_analisis['chunks']` (solo JSON, no MD/TXT)
+- Pendiente: tabla DuckDB `chunks` + `scripts/chunkear.py` para RAG
 
 ### Config
 - `brainhub_config.json` + `brainhub_config.py`
@@ -153,8 +147,7 @@
    - Nicho mal clasificado / sentimiento 100% DESCONOCIDO
    - Análisis temporal default / citas random / stopwords incompletas
    - STOP THE BLEEDING: no procesar más videos hasta arreglar
-2. **Integrar Chunker al pipeline** — `scripts/chunkear.py` + `preguntar.py` usa chunks
-3. **Migrar a brainhub_config (1h)** — 4 archivos: ollama_client, abstract_llm, preguntar, rag_simple
+2. **Migrar a brainhub_config (1h)** — 4 archivos: ollama_client, abstract_llm, preguntar, rag_simple
 
 ### Media
 3. **Ollama estable** (sesión dedicada)
@@ -169,6 +162,7 @@
 ### Hecho recientemente (mover a BITACORA)
 - ✅ Perímetro (21 defaults + OLLAMA_HOST + JSONs)
 - ✅ Chunker MVP (`f1b922a`) — 3 estrategias, 10 tests, a_dict() explícito
+- ✅ Chunker integrado al pipeline (`2d47445`) — datos_analisis['chunks'], run real validado
 
 
 ## Lecciones criticas
@@ -221,19 +215,18 @@
 Historia completa en `~/proyectos/nlp/BITACORA.md`
 
 ## Proximo paso
-Auditoría del análisis V6.5 — bug #5 (citas clave random).
+Feature #1 — Citas clave con peso semántico (sesión propia).
 
-### Plan de auditoría
-1. Leer cada módulo (detectar_nicho, sentimiento, análisis temporal, citas, stopwords)
-2. Correr con input controlado
-3. Documentar causa raíz ANTES de tocar
-4. Fix mínimo por componente + test de regresión
-5. Re-analizar los 3 videos de evidencia
-6. Verificar: nicho correcto, sentimiento != DESCONOCIDO, temporal variado
+### Plan Feature #1
+1. Fuente: `segmentos_analizados` (no `re.findall` de strings)
+2. Score: términos clave + polaridad + coherencia temática + eje del video
+3. Filtros: descartar código/UI/metadata
+4. Modular: clase/módulo en `brainhub/`, no parche al legacy
 
 ### Referencia
-- docs/IDEAS.md §10 (evidencia + hipótesis por componente)
-- Videos: I7_WXKhyGms, ObiAWFqgpMg, P1rDVQIAOKI
+- Bug #5 cerrado como falso positivo (2026-10-06): ejemplos originales
+  eran output legacy pre-v7.2.4, no se reproducen en HEAD
+- docs/IDEAS.md §10
 
 ### Plan de integración de Chunker (diferido)
 1. ✅ `brainhub/chunking/chunker.py` (Chunker MVP — hecho `f1b922a`)

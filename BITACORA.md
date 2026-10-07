@@ -2864,4 +2864,6 @@ Se descartó tabla DuckDB por ahora — frugal, se agrega cuando RAG lo pida.
 Tests: +1 test de forma en `tests/test_chunker.py` (`test_a_dict_serializable_para_integracion`).
 No se agregó test de integración para no acoplar tests al legacy.
 
-Pendiente: run real con video de prueba para verificar `📦 Chunks generados: N` en consola.
+Run real validado (2026-10-07): `Video_9_vILGgKsSY.txt` → 17 chunks,
+tier `TECNOLOGIA`, IDs únicos, MD y TXT sin menciones de chunk.
+Commit `2d47445`, pusheado a origin/main.
