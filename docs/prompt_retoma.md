@@ -27,6 +27,9 @@
 >    Nota: se aplicó 2do fix por retoma desactualizada. Lección
 >    'git log antes de diagnosticar' documentada en docs/aprendizaje.md.
 > ✅ Bug #5 (citas clave random) cerrado 2026-10-06 como falso positivo.
+> ✅ Bug #7 (abstención injustificada por slicing citas[:2]) cerrado 2026-10-07:
+>    Decisión de abstención basada en TODAS las citas válidas (>=30 chars).
+>    Prompt usa top 5. Fix en abstract_llm.py.
 >
 > PROXIMO: integrar Chunker al pipeline (chunks ready to go).
 > El Chunker MVP ya existe en brainhub/chunking/chunker.py. Falta

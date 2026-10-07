@@ -445,3 +445,20 @@ Referencias:
 - Commit 89f00dd (fix original, 21:22)
 - Commit c755329 (fix complementario, 22:30)
 - Commit d270b41 (docs intrusos en raíz, corregido)
+---
+
+### Tomar los primeros N no es neutral (2026-10-07)
+
+Bug #7: `citas[:2]` para decidir si invocar el LLM. El orden de las
+citas no refleja su calidad ni su longitud. Con 22 citas útiles, si
+las 2 primeras eran cortas, el sistema se abstenía.
+
+Regla: cuando una lista no está ordenada por el criterio que importa,
+NO uses slicing ciego. Filtrá por criterio primero (acá: longitud >=30),
+después tomá top N.
+
+Aplica a: cualquier selección de "mejores N" de una lista no ordenada.
+
+Referencias:
+- Commit (Bug #7)
+- ME_lJOHAPUo: caso testigo

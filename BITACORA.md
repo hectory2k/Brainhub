@@ -2804,3 +2804,42 @@ sesión próxima con el código a la vista.
 - Feature #1 (citas clave con peso semántico).
 - Colaterales: brainhub_config, extractor de citas para papers,
   nicho GENERAL en gaming, hablantes=0, recall clasificar_contexto.
+
+## 2026-10-07 — Bug #7: abstención injustificada por slicing de citas
+
+### Síntoma
+Videos con muchas citas (22-34) caían a `abstencion` sin invocar LLM,
+aunque tuvieran suficiente material útil.
+
+### Diagnóstico
+`generar_resumen_desde_analisis()` (abstract_llm.py) tomaba solo
+`citas[:2]` para decidir si invocar el LLM. Si esas 2 primeras sumaban
+<80 chars, se abstenía — aunque hubiera 30+ citas útiles después.
+
+Evidencia:
+- ME_lJOHAPUo: 22 citas totales, 43 KB útiles. Prim-2 = 66 chars.
+  → abstención injustificada.
+- Corpus: 1 video confirmado (31 citas, prim-2 = 74).
+
+Causa raíz: el orden de `citas_clave` no refleja calidad ni longitud.
+El slicing ciego `[:2]` no es neutral.
+
+### Fix
+- Decisión de abstención: basada en TODAS las citas válidas (>=30 chars).
+- Prompt al LLM: top 5 citas válidas.
+- Umbral >=30 chars descarta ruido trivial ("No,", "Sí,").
+- Sin cambios de arquitectura.
+
+### Verificación
+- ME_lJOHAPUo pre-fix:  `[abstencion] 0.0s → "Tema no claro"`
+- ME_lJOHAPUo post-fix: `[brainhub-llama] 114.9s → resumen coherente`
+
+### Lección
+"Tomar los primeros N no es neutral." Cuando una lista no está ordenada
+por el criterio que importa, slicing ciego produce falsos negativos.
+Filtrar por criterio primero, después top N.
+
+### Bug derivado (NO este fix)
+Test de modelos gemma:2b vs qwen2.5:1.5b: empate en velocidad (~38s
+ambos), qwen peor calidad (formato meta, no menciona tema real).
+Conclusión: mantener brainhub-llama. No cambiar MODELO_DEFAULT.
