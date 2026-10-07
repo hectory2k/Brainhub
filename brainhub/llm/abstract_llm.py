@@ -120,12 +120,15 @@ def generar_resumen_desde_analisis(
     conceptos_str = ", ".join(f"{c}" for c, f in conceptos) if conceptos else "(ninguno)"
 
     # Citas clave (si existen) — dan contexto real del contenido
-    citas = analisis.get("citas_clave", [])[:2]
-    citas_str = " | ".join(c.get("texto", "")[:150] for c in citas) if citas else "(sin citas)"
+    # Filtramos citas triviales (<30 chars) para evitar ruido tipo "No," "Sí,"
+    todas_citas = analisis.get("citas_clave", [])
+    citas_validas = [c for c in todas_citas if len(c.get("texto", "").strip()) >= 30]
 
-    # Abstención: si no hay citas suficientes, no llamamos al LLM
-    # (evita que gemma:2b invente relaciones a partir de términos aislados)
-    if not citas or len(citas_str.strip()) < 80:
+    # Abstención: basada en TODAS las citas válidas, no solo en las 2 primeras
+    # (evita que gemma:2b invente relaciones a partir de términos aislados,
+    #  pero sin descartar videos con muchas citas útiles)
+    citas_str_completo = " | ".join(c.get("texto", "") for c in citas_validas)
+    if not citas_validas or len(citas_str_completo.strip()) < 80:
         print("  ℹ️  Sin citas suficientes, se omite resumen LLM")
         return {
             "texto": "Tema no claro",
@@ -133,6 +136,10 @@ def generar_resumen_desde_analisis(
             "tiempo_seg": 0.0,
             "ram_antes_gb": 0.0,
         }
+
+    # Para el prompt: top 5 citas válidas (evita meter 30+ en num_ctx=512)
+    citas_prompt = citas_validas[:5]
+    citas_str = " | ".join(c.get("texto", "")[:150] for c in citas_prompt) if citas_prompt else "(sin citas)"
 
     contexto = (
         f"Archivo: {analisis.get('documento', '?')}\n"
