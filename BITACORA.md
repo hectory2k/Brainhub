@@ -2843,3 +2843,25 @@ Filtrar por criterio primero, después top N.
 Test de modelos gemma:2b vs qwen2.5:1.5b: empate en velocidad (~38s
 ambos), qwen peor calidad (formato meta, no menciona tema real).
 Conclusión: mantener brainhub-llama. No cambiar MODELO_DEFAULT.
+
+
+## 2026-10-07 — Chunker integrado al pipeline
+
+Qué: `brainhub/chunking/` conectado a `analisis_completo_v6.5.py`.
+
+Dónde: `analisis_completo_v6.5.py`, después del dict `datos_analisis` (línea ~839),
+con `try/except` consistente con el bloque LLM de arriba.
+
+Contrato:
+- Input: `texto_limpio` (línea 720), `nicho` (línea 698), `os.path.basename(archivo)`.
+- Estrategia: `oraciones`, max_oraciones=10.
+- Output: `datos_analisis['chunks']` = `List[dict]` (vía `Chunk.a_dict()`).
+
+Decisión: solo al JSON. Verificado con evidencia que MD, TXT y SQLite
+acceden por clave explícita, no iteran `.items()`. No rompen.
+Se descartó tabla DuckDB por ahora — frugal, se agrega cuando RAG lo pida.
+
+Tests: +1 test de forma en `tests/test_chunker.py` (`test_a_dict_serializable_para_integracion`).
+No se agregó test de integración para no acoplar tests al legacy.
+
+Pendiente: run real con video de prueba para verificar `📦 Chunks generados: N` en consola.

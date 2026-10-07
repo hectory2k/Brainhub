@@ -835,6 +835,19 @@ def main():
         'citas_clave': dialogos
     }
 
+    # ─── Chunker (integración 2026-10-07) ───
+    try:
+        from brainhub.chunking import Chunker
+        _video_id = os.path.basename(archivo).replace('.txt', '')
+        _chunks = Chunker(estrategia='oraciones', max_oraciones=10).chunkear(
+            texto_limpio, _video_id, tier=nicho
+        )
+        datos_analisis['chunks'] = [c.a_dict() for c in _chunks]
+        print(f"  📦 Chunks generados: {len(_chunks)}")
+    except Exception as e:
+        print(f"  ⚠️  Chunker falló: {e}")
+        datos_analisis['chunks'] = []
+
     # ─── Resumen LLM (contexto compacto) ───
     try:
         from brainhub.llm.abstract_llm import generar_resumen_desde_analisis

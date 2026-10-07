@@ -98,3 +98,21 @@ def test_estrategia_invalida():
         assert False, "debería haber lanzado ValueError"
     except ValueError as e:
         assert 'estrategia invalida' in str(e)
+
+
+def test_a_dict_serializable_para_integracion():
+    """Verifica que el shape de salida sirve para datos_analisis['chunks']."""
+    c = Chunker(estrategia='oraciones', max_oraciones=10)
+    texto = ' '.join(f"Frase {i} del video sobre trauma." for i in range(25))
+    chunks = c.chunkear(texto, "video_test", tier="SALUD")
+    serializados = [ch.a_dict() for ch in chunks]
+
+    assert len(serializados) == 3
+    assert all(ch['tier'] == 'SALUD' for ch in serializados)
+    assert all(ch['video'] == 'video_test' for ch in serializados)
+    assert all('chunk_id' in ch and 'texto' in ch for ch in serializados)
+
+    # Sobrevive ida y vuelta por JSON (como en el pipeline real)
+    json_str = json.dumps(serializados, ensure_ascii=False)
+    reconstruido = json.loads(json_str)
+    assert reconstruido == serializados
