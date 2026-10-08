@@ -15,8 +15,8 @@
 > Modelo LLM: brainhub-llama (gemma:2b, ~64s/video).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho: Auditoría V6.5 (5 bugs), Chunker integrado (2d47445),
->    Feature #1 citas semánticas (034f812), Bug #8 timestamps.
+> ✅ Hecho: Auditoría V6.5 (5 bugs), Chunker integrado (2d47445), 
+>    Feature #1 citas semánticas (034f812), Bug #8 timestamps resuelto.
 >    (Detalle completo en BITACORA.md).
 >
 > PRÓXIMO (elegir 1):
@@ -24,5 +24,3 @@
 > 2. Persistencia de Chunks: tabla DuckDB `chunks` + CLI `scripts/chunkear.py`.
 > 3. Migrar a `brainhub_config` (centralizar 4 archivos).
 > 4. Extractor de citas para papers (adaptar a PDFs).
->
-> Regla: Diagnóstico con evidencia (grep/sed) antes de tocar código.
