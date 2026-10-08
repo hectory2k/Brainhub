@@ -848,6 +848,28 @@ def main():
         print(f"  ⚠️  Chunker falló: {e}")
         datos_analisis['chunks'] = []
 
+    # --- FEATURE #1: Citas clave con peso semántico (v7.2.4+) ---
+    try:
+        from brainhub.citas import ExtractorCitas
+        extractor_citas = ExtractorCitas(max_oraciones=3)
+        _video_id_citas = os.path.basename(archivo).replace('.txt', '').replace('_EN_FORZADO', '').replace('_ES', '')
+        citas_semanticas = extractor_citas.extraer(
+            texto_limpio=texto_limpio,
+            video_id=_video_id_citas,
+            terminos_clave=[t for t, _ in terminos[:10]],
+            coocurrencias=coocurrencias,
+            nicho=nicho,
+            top_n=10
+        )
+        datos_analisis['citas_clave_semanticas'] = citas_semanticas
+        n_citas = len(citas_semanticas)
+        score_prom = sum(c['score'] for c in citas_semanticas) / max(n_citas, 1)
+        print(f"  💬 Citas semánticas: {n_citas} extraídas (score promedio: {score_prom:.1f})")
+    except Exception as e:
+        print(f"  ⚠️  Extractor de citas falló: {e}")
+        datos_analisis['citas_clave_semanticas'] = []
+    # --------------------------------------------------------------
+
     # ─── Resumen LLM (contexto compacto) ───
     try:
         from brainhub.llm.abstract_llm import generar_resumen_desde_analisis
