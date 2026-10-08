@@ -143,10 +143,14 @@
 ## Deuda VIVA (priorizada)
 
 ### Alta
-1. **Auditoría del análisis V6.5** — 5 bugs silenciosos (ver IDEAS.md §10)
-   - Nicho mal clasificado / sentimiento 100% DESCONOCIDO
-   - Análisis temporal default / citas random / stopwords incompletas
-   - STOP THE BLEEDING: no procesar más videos hasta arreglar
+1. **Bug #8 — Timestamps huérfanos** (3 sub-bugs encadenados)
+   - #8a: pipeline busca `/sdcard/Download/Transcript_{id}_timestamps.vtt` (nunca existe).
+     Datos reales en `<id>.<lang>.vtt` y `corpus/<id>/transcript.timestamped.txt`
+   - #8b: parser solo lee VTT estándar (`HH:MM:SS.mmm --> HH:MM:SS.mmm`).
+     Formato `[MM:SS] texto` no soportado → `[]` silencioso
+   - #8c: falla silenciosa. Si no encuentra VTT, no loguea nada
+   - Estado: módulo OK (7/7 tests), DB OK, nunca ejecutado en prod
+   - Orden: #8a → #8c → #8b → Feature #1
 2. **Migrar a brainhub_config (1h)** — 4 archivos: ollama_client, abstract_llm, preguntar, rag_simple
 
 ### Media
@@ -226,6 +230,7 @@ Feature #1 — Citas clave con peso semántico (sesión propia).
 ### Referencia
 - Bug #5 cerrado como falso positivo (2026-10-06): ejemplos originales
   eran output legacy pre-v7.2.4, no se reproducen en HEAD
+- Bug #8 documentado. Arreglarlo antes de Feature #1 habilita citas con timestamp.
 - docs/IDEAS.md §10
 
 ### Plan de integración de Chunker (diferido)
