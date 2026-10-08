@@ -9,41 +9,30 @@
 >
 > Reglas: KISS, local-first, frugal. Sin Docker, sin cloud, sin APIs externas.
 > No agregar features que no resuelvan un bug. Diagnóstico con evidencia
-> antes de tocar. Documentar en BITACORA.md y este archivo.
+> antes de tocar. Documentar en BITACORA.md y docs/aprendizaje.md.
 >
-> Estado: v7.2.4+, 99 analysis, RAG basico, 126 tests (125 + 1 chunker).
-> Chunker MVP implementado e INTEGRADO al pipeline (commit 2d47445, pusheado).
+> Estado: v7.2.5, 99 analysis, RAG basico, 136 tests.
 > Backup portable: scripts/brainhub_backup.sh.
 > Modelo LLM: brainhub-llama (gemma:2b + Modelfile optimizado, ~64s/video)
-> AUDITORIA V6.5 (Alta #1): 5 de 5 bugs cerrados con evidencia.
-> ✅ Bug #1 (stopwords incompletas) cerrado 4b4cc34.
-> ✅ Bug #2 (nicho mal clasificado) cerrado 2026-10-04 (61f503c).
-> ✅ Bug #3a (sentimiento en español) cerrado 2026-10-04 (d153863).
-> ✅ Bug #3b (reporte "DESCONOCIDO" confuso) cerrado 2026-10-04 (586f0b1).
-> ✅ Bug #4 (contexto temporal 99% default) cerrado 2026-10-05:
->    Fix 1 (89f00dd): quitado del reporte humano (MD/consola).
->    Fix 2 (c755329): valor interno honesto (NO_CLASIFICADO).
->    La polaridad por seccion se mantiene. El campo sigue en el dict interno.
-> ✅ Bug #5 (citas clave random) cerrado 2026-10-06 como falso positivo.
-> ✅ Bug #7 (abstención injustificada por slicing citas[:2]) cerrado 2026-10-07.
+> 
+> ✅ AUDITORIA V6.5 (Alta #1): 5 de 5 bugs cerrados con evidencia.
+> ✅ Chunker integrado al pipeline (commit 2d47445): campo `chunks` en JSON.
+> ✅ Feature #1: Citas clave con peso semántico (commit 034f812):
+>    - Módulo `brainhub/citas/extractor.py` reutilizando Chunker (max_oraciones=3).
+>    - Scoring: densidad (40%), co-ocurrencia (25%), polaridad (20%), coherencia (15%).
+>    - Filtros: longitud >=30, descarte de código/metadata.
+>    - Integración no destructiva: campo `citas_clave_semanticas` (legacy intacto).
+>    - 10 tests unitarios nuevos (136 tests totales pasando).
 >
-> ✅ Chunker integrado al pipeline (commit 2d47445, pusheado 2026-10-07):
->    - datos_analisis['chunks'] via Chunk.a_dict() (solo JSON)
->    - try/except consistente con bloque LLM
->    - +1 test de forma en tests/test_chunker.py
->    - Run real: Video_9_vILGgKsSY → 17 chunks, tier TECNOLOGIA
->    - MD y TXT verificados limpios (0 menciones)
+> PROXIMO (Colaterales pendientes, elegir 1 por sesión):
+> 1. Persistencia de Chunks: tabla DuckDB `chunks` + CLI `scripts/chunkear.py`.
+> 2. Migrar a `brainhub_config`: centralizar configuración dispersa.
+> 3. Extractor de citas para papers: adaptar lógica a PDFs/estructura académica.
 >
-> PROXIMO: Feature #1 (citas clave con peso semántico) — sesión propia.
->   - Fuente: segmentos_analizados (no re.findall de strings).
->   - Score: términos clave + polaridad + coherencia temática + eje del video.
->   - Filtros: descartar código/UI/metadata.
->   - Modular: clase/módulo en brainhub/, no parche al legacy.
->
-> Colaterales pendientes: tabla DuckDB `chunks` + `scripts/chunkear.py`,
-> migrar a brainhub_config, extractor de citas para papers.
+> Regla de sesión: Diagnóstico con evidencia (grep/sed) antes de proponer código.
+
 ## Fecha
-2026-10-05 (última sesión: bug #4 contexto temporal cerrado - doble fix)
+2026-10-08 (última sesión: Feature #1 citas semánticas cerrada)
 
 ## Estado (v7.2.4)
 - 99 analysis en DB, 1782 terminos_raw, 4196 tecnicos
@@ -219,13 +208,18 @@
 Historia completa en `~/proyectos/nlp/BITACORA.md`
 
 ## Proximo paso
-Feature #1 — Citas clave con peso semántico (sesión propia).
+Colaterales pendientes (elegir 1 por sesión):
+1. Persistencia de Chunks: tabla DuckDB `chunks` + CLI `scripts/chunkear.py`.
+2. Migrar a `brainhub_config`: centralizar configuración dispersa.
+3. Extractor de citas para papers: adaptar lógica a PDFs/estructura académica.
 
-### Plan Feature #1
-1. Fuente: `segmentos_analizados` (no `re.findall` de strings)
-2. Score: términos clave + polaridad + coherencia temática + eje del video
-3. Filtros: descartar código/UI/metadata
-4. Modular: clase/módulo en `brainhub/`, no parche al legacy
+### Plan Feature #1 (COMPLETADO 2026-10-08)
+✅ Implementado: `brainhub/citas/extractor.py`
+✅ Reutiliza Chunker (max_oraciones=3)
+✅ Scoring: densidad 40%, co-ocurrencia 25%, polaridad 20%, coherencia 15%
+✅ Integración no destructiva: campo `citas_clave_semanticas`
+✅ 10 tests unitarios nuevos (136 tests totales)
+✅ Commit 034f812
 
 ### Referencia
 - Bug #5 cerrado como falso positivo (2026-10-06): ejemplos originales

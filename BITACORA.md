@@ -2867,3 +2867,10 @@ No se agregó test de integración para no acoplar tests al legacy.
 Run real validado (2026-10-07): `Video_9_vILGgKsSY.txt` → 17 chunks,
 tier `TECNOLOGIA`, IDs únicos, MD y TXT sin menciones de chunk.
 Commit `2d47445`, pusheado a origin/main.
+
+### Feature #1: Citas clave con peso semántico (2026-10-08)
+- **Qué**: Módulo `brainhub/citas/extractor.py` que rankea citas por score semántico.
+- **Cómo**: Reutiliza Chunker (max_oraciones=3) + scoring (densidad 40%, co-ocurrencia 25%, polaridad 20%, coherencia 15%).
+- **Integración**: Campo nuevo `citas_clave_semanticas` en `datos_analisis` (no destructivo, legacy `citas_clave` intacto).
+- **Evidencia**: Run real → 17 chunks, 10 citas extraídas, score promedio ~100. 136 tests pasando (126 + 10 nuevos).
+- **Reglas aplicadas**: KISS (reutiliza Chunker), local-first, frugal (sin nuevas deps), diagnóstico previo.

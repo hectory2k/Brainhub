@@ -462,3 +462,23 @@ Aplica a: cualquier selección de "mejores N" de una lista no ordenada.
 Referencias:
 - Commit (Bug #7)
 - ME_lJOHAPUo: caso testigo
+
+---
+
+### Reutilizar antes de reinventar (2026-10-08)
+
+Feature #1 (Citas con peso semántico) requería segmentar texto. En lugar
+de crear una nueva lógica de segmentación, se reutilizó el Chunker MVP
+ya integrado, ajustando `max_oraciones=3`.
+
+Regla: Si un módulo existente (como Chunker) ya resuelve el 80% del
+problema (segmentación + metadata de provenance), úsalo como base y
+agrega la lógica específica (scoring) encima. Evita duplicar código de
+parsing/segmentación.
+
+Aplica a: Cualquier nueva feature que requiera manipulación de texto
+que ya esté cubierta por un componente existente.
+
+Referencias:
+- Commit 034f812 (Feature #1: Extractor de citas semánticas)
+- brainhub/citas/extractor.py
