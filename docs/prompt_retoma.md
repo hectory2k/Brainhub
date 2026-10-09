@@ -29,3 +29,7 @@
 > 2. Persistencia de Chunks: tabla DuckDB `chunks` + CLI `scripts/chunkear.py`.
 > 3. Migrar a `brainhub_config` (centralizar versiones hardcodeadas).
 > 4. Extractor de citas para papers (adaptar a PDFs).
+
+## Fecha
+
+Última actualización: 2026-10-09 19:36
