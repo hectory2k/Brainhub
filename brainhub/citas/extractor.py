@@ -106,7 +106,7 @@ class ExtractorCitas:
             if analizador:
                 try:
                     sentimiento = analizador.analizar(chunk.texto)
-                    polaridad = sentimiento.get('polaridad', 0.0)
+                    polaridad = sentimiento.get('polaridad_norm', 0.0)
                 except Exception:
                     pass
 
@@ -128,6 +128,16 @@ class ExtractorCitas:
                 's3': s3,
                 's4': s4,
             })
+
+        # 3.5 Deduplicar por texto normalizado (fix bug #15)
+        vistos = set()
+        candidatas_unicas = []
+        for c in candidatas:
+            clave = c["chunk"].texto.strip().lower()
+            if clave not in vistos:
+                vistos.add(clave)
+                candidatas_unicas.append(c)
+        candidatas = candidatas_unicas
 
         # 4. Rankear
         candidatas.sort(key=lambda x: -x['score'])
@@ -197,7 +207,7 @@ class ExtractorCitas:
 
     def _senal_polaridad(self, polaridad: float) -> float:
         """Señal 3: polaridad extrema (0-100)."""
-        return abs(polaridad) * 100
+        return min(abs(polaridad), 1.0) * 100  # clamp
 
     def _senal_coherencia(self, chunk: Chunk, nicho: str) -> float:
         """Señal 4: coherencia con nicho (0-100)."""
