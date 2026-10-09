@@ -2952,3 +2952,67 @@ diseño. `analizar_github` es flujo propio (todo-en-uno).
 - Versiones hardcodeadas en múltiples scripts → deuda técnica. Candidato para
   PRÓXIMO #3 (centralizar en brainhub_config).
 - `/tmp` no es escribible en Termux. Usar `mktemp` o `$HOME` para temporales.
+
+---
+
+## 2026-10-09 — PRÓXIMO #1 (parcial): auditoría del extractor de citas
+
+**Contexto:** validar pesos del extractor (`brainhub/citas/extractor.py`).
+Auditoría reveló un bug real de scoring y varios candidatos que resultaron
+falsos positivos.
+
+### Bug #21 — polaridad sin acotar ✅ CERRADO
+
+**Síntoma:** score promedio de citas = 108.4 (mayor al máximo teórico de 100
+dado que los pesos suman 1.0).
+
+**Causa:** el extractor usaba `sentimiento.get('polaridad')` (valor bruto,
+`pos - neg`, sin normalizar). Con `abs(polaridad) * 100`, la señal s3 podía
+llegar a valores como 244, rompiendo el score ponderado.
+
+**Evidencia:**
+- Test manual: `polaridad` bruta = 2.442, `polaridad_norm` = 0.814.
+- YouTube: score promedio 108.4 antes del fix.
+- YouTube: score promedio 55.8 después del fix.
+
+**Fix (2 líneas en `brainhub/citas/extractor.py`):**
+- Línea 109: usar `sentimiento.get('polaridad_norm', 0.0)`.
+- Línea 200: `min(abs(polaridad), 1.0) * 100` como defensa en profundidad.
+
+**Verificación:** 10/10 tests existentes pasan. Scores ≤ 100 en test aislado.
+
+### Bug #15 — citas duplicadas 3x ❌ NO ERA BUG
+
+**Síntoma:** `[DESCONOCIDO]: Should I continue building this?...` aparecía
+3 veces consecutivas en las citas de OracleCortex.
+
+**Diagnóstico:** `grep -c "continue building this" texto_combinado.txt` = 4.
+La frase aparece 4 veces en el README fuente. Los chunks 13, 14 y 16 contienen
+la frase en contextos distintos (len 957, 1583, 1112 respectivamente).
+El display truncado (`[:40]...`) hace parecer duplicados donde no los hay.
+
+**Acción:** dedupe por texto normalizado agregado igual como defensa en
+profundidad, pero no era bug.
+
+**Lección:** antes de arreglar "duplicados", verificar con `repr()` y
+`grep -c` que los textos sean realmente idénticos.
+
+### Bugs pendientes (calibración fina, no bloqueantes)
+
+- **#17** `_senal_densidad` escala mal: `presentes / total` con `total` grande
+  hace que la señal aporte casi nada al score. Candidato: normalizar por top-N
+  términos en lugar del total.
+- **#18** `_senal_coherencia` binaria (100/50/0): sin gradiente. Ligado al bug
+  #9 (nicho mal detectado contamina esta señal).
+- **#19** `_senal_coocurrencia` escala lineal sobre `total_pares`: mismo
+  problema que #17.
+- **#9** nicho FINANZAS en video de combate (bug de `detectar_nicho`).
+- **#16** RAM check off-by-one (2.0 ≥ 2.0 falla).
+
+### Archivos tocados
+- `brainhub/citas/extractor.py` (2 cambios, bug #21)
+- Dedupe por texto normalizado (defensa, ~8 líneas)
+
+### Tests
+- `tests/test_extractor_citas.py`: 10 passed.
+- Sin tests nuevos (bug #21 ya estaba cubierto por tests existentes de rango).

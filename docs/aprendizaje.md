@@ -530,3 +530,15 @@ dolor real. `analizar_github` es flujo propio (todo-en-uno).
    rápido de CI. Si está en un `.gitignore`, rompe silenciosamente TODAS las
    reglas desde el `=======` en adelante (git interpreta `=======` como patrón
    literal). Correr siempre `git diff --check` antes de commitear.
+
+8. **Señales de scoring normalizadas:** todas las señales de un score
+   ponderado deben estar en el mismo rango. Mezclar `polaridad` (bruta, 0-N)
+   con `polaridad_norm` (0-1) multiplica por 100 el peso real de una sola
+   señal. Regla: si los pesos suman 1.0, las señales deben estar en [0, 1]
+   o en [0, 100] uniformemente, no mezcladas.
+
+9. **Falsos positivos de duplicación:** antes de arreglar "duplicados",
+   verificar con `repr()` que los textos sean idénticos. Chunks distintos
+   pueden contener la misma frase en contextos distintos. El display
+   truncado (`[:40]...`) hace parecer duplicados donde no los hay.
+   Verificar con `grep -c "frase" fuente.txt` primero.
