@@ -519,3 +519,14 @@ dolor real. `analizar_github` es flujo propio (todo-en-uno).
 5. **Auditoría de entry points:** antes de tocar cualquier script, mapear qué
    comandos existen (`ls ~/.local/bin/`, `grep alias ~/.bashrc`), qué hacen
    (`type`, `cat`), y quién llama a quién (`grep -rn`).
+
+6. **Heredocs largos en Termux:** el bracketed paste puede meter espacios en
+   lugar de saltos de línea. Para archivos >50 líneas, preferir `printf '%s\n'`
+   con líneas separadas por `\`, o escribir en bloques chicos. Verificar con
+   `git check-ignore -v` — NO confiar en `head`/`cat`, pueden renderizar raro
+   por el ancho de terminal y mostrar líneas "pegadas" que en realidad no lo están.
+
+7. **Conflictos de merge sin resolver:** `grep -c "^<<<<<<<"` es un chequeo
+   rápido de CI. Si está en un `.gitignore`, rompe silenciosamente TODAS las
+   reglas desde el `=======` en adelante (git interpreta `=======` como patrón
+   literal). Correr siempre `git diff --check` antes de commitear.
