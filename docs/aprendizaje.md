@@ -482,3 +482,40 @@ que ya esté cubierta por un componente existente.
 Referencias:
 - Commit 034f812 (Feature #1: Extractor de citas semánticas)
 - brainhub/citas/extractor.py
+
+---
+
+## Entry points de BrainHub (2026-10-09)
+
+| Comando | Entrada | Salida |
+|---|---|---|
+| `procesar <URL YT>` | URL YouTube | Transcript .txt en /sdcard/Download/ |
+| `procesar <archivo.pdf>` | PDF | Texto combinado (vía procesar_paper.sh) |
+| `procesar <texto>` | texto | ~/tmp/texto_directo.txt |
+| `procesar <URL GH>` | GitHub | guía a analizar_github |
+| `analizar <txt>` | transcript/texto | JSON + MD + SQLite + DuckDB |
+| `analizar_github <user/repo>` | repo GitHub | texto_combinado + análisis |
+| `preguntar <query>` | query | respuesta RAG |
+| `consolidar <db>` | SQLite | DuckDB consolidado |
+
+**Regla:** procesar y analizar son DOS pasos (YouTube/PDF). NO unificar sin
+dolor real. `analizar_github` es flujo propio (todo-en-uno).
+
+**Lecciones técnicas:**
+
+1. **Aliases en shells no-interactivos:** `command -v analizar` no detecta el
+   alias cuando el script corre desde bash no-interactivo (cron, systemd, script).
+   Llamar siempre a paths absolutos de scripts `.py`.
+
+2. **Termux no tiene `/tmp` escribible:** usar `mktemp` (que respeta `$TMPDIR`)
+   o `~/archivo.new` en lugar de `/tmp/archivo`.
+
+3. **`sed -i` con `a\` y `\n` es frágil en Termux:** preferir `awk` con
+   redirección a `mktemp` + `mv`.
+
+4. **Indentación al pegar en nano/Termux:** el pegador bracketed a veces come
+   espacios al inicio. Verificar siempre con `sed -n` después de pegar.
+
+5. **Auditoría de entry points:** antes de tocar cualquier script, mapear qué
+   comandos existen (`ls ~/.local/bin/`, `grep alias ~/.bashrc`), qué hacen
+   (`type`, `cat`), y quién llama a quién (`grep -rn`).

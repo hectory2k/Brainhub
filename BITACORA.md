@@ -2874,3 +2874,81 @@ Commit `2d47445`, pusheado a origin/main.
 - **Integración**: Campo nuevo `citas_clave_semanticas` en `datos_analisis` (no destructivo, legacy `citas_clave` intacto).
 - **Evidencia**: Run real → 17 chunks, 10 citas extraídas, score promedio ~100. 136 tests pasando (126 + 10 nuevos).
 - **Reglas aplicadas**: KISS (reutiliza Chunker), local-first, frugal (sin nuevas deps), diagnóstico previo.
+
+---
+
+## 2026-10-09 — Auditoría entry points + bugs #11, #12, #13, #14 + fix UX
+
+**Contexto:** `analizar <URL>` fallaba con "Archivo no encontrado". Auditoría
+completa de los entry points de BrainHub reveló que el flujo es de dos pasos
+y hay bugs de integración entre scripts.
+
+**Flujos confirmados:**
+
+| Comando | Entrada | Salida |
+|---|---|---|
+| `procesar <URL YT>` | URL YouTube | Transcript .txt en /sdcard/Download/ |
+| `procesar <archivo.pdf>` | PDF | Texto combinado (vía procesar_paper.sh) |
+| `procesar <texto>` | texto | ~/tmp/texto_directo.txt |
+| `procesar <URL GH>` | GitHub | guía a analizar_github (fix #11) |
+| `analizar <txt>` | transcript/texto | JSON + MD + SQLite + DuckDB |
+| `analizar_github <user/repo>` | repo GitHub | texto_combinado + análisis |
+| `preguntar <query>` | query | respuesta RAG |
+
+**Regla:** procesar y analizar son DOS pasos en YouTube/PDF. No es bug, es
+diseño. `analizar_github` es flujo propio (todo-en-uno).
+
+### Bugs encontrados y resueltos
+
+**#12 — analizar_github no descubrible**
+- No estaba en PATH ni era alias.
+- Fix: symlink en `~/.local/bin/analizar_github` → `scripts/analizar_github.sh`.
+- Verificado end-to-end con Arkay92/OracleCortex.
+
+**#13 — analizar_github usaba v6.4**
+- `command -v analizar` no detecta aliases en shell no-interactivo.
+- Caía al fallback hardcodeado a v6.4 → análisis con código viejo.
+- Fix: llamar directo a v6.5, eliminado el if muerto.
+- Verificado: header ahora dice V6.5, formato SENTIMIENTO GLOBAL.
+
+**#14 — DuckDB ON CONFLICT fallaba en GitHub**
+- Efecto secundario de #13. Con v6.5 consolida sin error.
+- Cerrado automáticamente al arreglar #13.
+
+**#11 — procesar <URL GitHub> caía en else**
+- Guardaba la URL como texto literal en ~/tmp/texto_directo.txt.
+- Fix: branch `elif github` que guía a `analizar_github`.
+- Verificado: GitHub muestra guía, YouTube sigue funcionando.
+
+**Fix UX — analizar <URL> error engañoso**
+- Antes: "❌ Archivo no encontrado: <URL>" (confuso).
+- Ahora: guía los dos pasos (procesar → analizar).
+- 6 líneas en `analisis_completo_v6.5.py` (línea ~678).
+- Verificado: URL guía, archivo real sigue funcionando.
+
+### Bugs pendientes (anotados)
+
+**#9 — Nicho FINANZAS en video de combate**
+- Video de sparring/combate/atletas clasificado como FINANZAS.
+- Afecta filtrado de stopwords y conceptos dominantes.
+- Reproducible: `analizar /sdcard/Download/Transcript_pQRQUAQopZ4_ES.txt`.
+- Pendiente: investigar `detectar_nicho`.
+
+**#15 — Citas duplicadas 3x**
+- Misma cita "Should I continue building this?..." repetida 3 veces.
+- Falta deduplicación en extractor de citas semánticas.
+- Va con PRÓXIMO #1 (validar pesos del extractor de citas).
+- Caso reproducible: `analizar_github Arkay92/OracleCortex main --docs-only`.
+
+**#16 — RAM check off-by-one**
+- "Sin RAM para LLM: 2.0 GB disponibles (min: 2.0 GB)".
+- Comparación estricta cuando debería ser `>=`. No bloqueante (usa plantilla).
+- No reproducible en YouTube (video más corto). Pendiente: revisar umbral.
+
+### Lecciones
+
+- Los aliases NO existen en shells no-interactivos. `command -v <alias>` falla
+  silenciosamente. Scripts `.sh` deben llamar a paths absolutos de `.py`.
+- Versiones hardcodeadas en múltiples scripts → deuda técnica. Candidato para
+  PRÓXIMO #3 (centralizar en brainhub_config).
+- `/tmp` no es escribible en Termux. Usar `mktemp` o `$HOME` para temporales.

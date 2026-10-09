@@ -675,6 +675,13 @@ def main():
         sys.exit(1)
 
     archivo = sys.argv[1]
+    # FIX UX (2026-10-09): detectar URL y guiar al usuario.
+    # El flujo es: procesar <URL> && analizar <txt>. Ver BITACORA.md.
+    if archivo.startswith(("http://", "https://")):
+        print(f"❌ Esto es una URL, no un archivo: {archivo}")
+        print(f"📋 Corré primero:  procesar {archivo}")
+        print(f"   y después:      analizar <ruta_del_txt>")
+        sys.exit(1)
 
     try:
         with open(archivo, 'r', encoding='utf-8') as f:

@@ -129,11 +129,10 @@ echo ""
 echo "🔍 ANALIZANDO CONTENIDO..."
 
 if [ -f "$TEMP_FILE" ] && [ $(wc -l < "$TEMP_FILE" 2>/dev/null || echo "0") -gt 10 ]; then
-    if command -v analizar &> /dev/null; then
-        analizar "$TEMP_FILE"
-    else
-        python3 ~/proyectos/nlp/analisis_completo_v6.4.py "$TEMP_FILE"
-    fi
+    # FIX bug #13 (2026-10-09): llamar directo a v6.5.
+    # El if con command -v analizar nunca detectaba el alias en shell no-interactivo
+    # y caia al fallback v6.4. Ver BITACORA.md.
+    python3 ~/proyectos/nlp/analisis_completo_v6.5.py "$TEMP_FILE"
 else
     echo "❌ El archivo combinado está vacío o no tiene contenido suficiente."
     echo "💡 El repositorio puede no tener archivos de texto relevantes."
