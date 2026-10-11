@@ -3229,3 +3229,13 @@ Pipeline batch desde /sdcard/Download: PDFs crudos -> TXT -> análisis V6.5 -> 8
 - Términos clave: extraction (27), pdf (25), python (17), ocr (14)
 - Uso: referencia sobre Camelot (tablas), pdfplumber, PyMuPDF, pytesseract
 - Estado: análisis completo + consolidado en DuckDB
+
+### Referencia externa integrada: freeCodeCamp — PDF extraction
+
+- Archivo: `~/temp/ref_freecodecamp_pdf_extraction_salida_continuo.txt`
+- Fuente: freeCodeCamp — "How to Automate PDF Data Extraction Using Python"
+- Nicho detectado: TECNOLOGIA (47 segmentos, 11.3 KB)
+- Conceptos: DATA_SCIENCE (20) + DESARROLLO_SOFTWARE (4)
+- Términos clave: extraction (27), pdf (25), python (17), ocr (14)
+- Uso: referencia sobre Camelot (tablas), pdfplumber, PyMuPDF, pytesseract
+- Estado: análisis completo + consolidado en DuckDB
