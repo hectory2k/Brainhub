@@ -112,11 +112,16 @@
 > 2. Reprocesar 37 JSONs viejos sin chunks.
 > 3. Migrar a brainhub_config (centralizar versiones hardcodeadas).
 >
-> ESTA SESIÓN: Bug #9 completamente cerrado. Listo para el siguiente objetivo.
+> ESTA SESIÓN (2026-10-11 09:50): ingesta masiva de PDFs.
+>    - 155 PDFs de /sdcard/Download -> 58 documentos analizados (142 MB).
+>    - Pipeline: pdftotext -> descolumnar -> V6.5 -> 80/20 -> DuckDB.
+>    - Doc estrella: "Hitchhiker's Guide to Agentic Systems" (Roitman, arXiv).
+>    - 0 errores fatales. 12 escaneados pendientes de OCR (locales).
+>    - Bug #9 cerrado previamente (2026-10-10 23:03) con validación DuckDB completa.
 
 > RECORDATORIO: leer BITACORA.md y docs/aprendizaje.md
 > para hallazgos del 2026-10-11 (ingesta masiva PDFs, fallback, setsid nohup).
 
 ## Fecha
 
-Última actualización: 2026-10-11 09:50
+Última actualización: 2026-10-11 17:45
