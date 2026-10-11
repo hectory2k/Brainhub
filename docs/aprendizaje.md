@@ -542,3 +542,31 @@ dolor real. `analizar_github` es flujo propio (todo-en-uno).
    pueden contener la misma frase en contextos distintos. El display
    truncado (`[:40]...`) hace parecer duplicados donde no los hay.
    Verificar con `grep -c "frase" fuente.txt` primero.
+
+## 2026-10-09 — FTS no está disponible en DuckDB/Termux
+
+**Error:** HTTP 404 al intentar INSTALL fts.
+
+**Causa:** DuckDB no distribuye extensiones para `linux_arm64_android`.
+
+**Solución:** Usar `bm25s` (Python) en lugar de FTS nativo.
+
+**Lección:** Verificar soporte de plataforma antes de adoptar extensión DuckDB.
+
+## 2026-10-10 08:26 - Aprendizaje Bug #9: clasificación de nichos
+
+- Un clasificador de nichos debe tener taxonomía completa; si falta DEPORTES/COMBATE,
+  los textos deportivos pueden caer en GENERAL o en nichos incorrectos.
+- Keywords genéricas como `market` causan falsos positivos en FINANZAS.
+- Antes de parchar, validar con tests sintéticos:
+  - `ufc fight market`
+  - `boxing fight market`
+  - `combat sports market`
+- El tier/nicho incorrecto se propaga a chunks si no se corrige aguas arriba.
+
+## 2026-10-10 22:10 - Aprendizaje Bug #9: Clasificación de nichos y keywords genéricas
+
+1. **Taxonomía completa es obligatoria**: Si un clasificador carece de una categoría obvia (ej: DEPORTES), los textos de ese dominio caerán en GENERAL o en nichos incorrectos por coincidencias léxicas.
+2. **Peligro de keywords genéricas**: Palabras como "market" en FINANZAS causan falsos positivos en contextos deportivos ("fight market", "betting market"). Solución: usar n-gramas específicos o eliminar términos demasiado amplios.
+3. **Propagación de errores aguas abajo**: Un nicho mal detectado en la fase inicial del pipeline se propaga como `tier` a los chunks en DuckDB. Corregir el dato en la DB sin arreglar el detector es solo un parche temporal.
+4. **Validación antes de parchear**: Siempre probar el detector con casos sintéticos límite (ej: 'ufc fight market' vs 'stock market investment') para asegurar que el fix no rompe la clasificación legítima.

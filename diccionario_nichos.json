@@ -248,5 +248,34 @@
       "skill decay",
       "human-AI interaction"
     ]
+  },
+  "DEPORTES": {
+    "terminos": [
+      "artes marciales",
+      "boxeador",
+      "boxeo",
+      "boxing",
+      "combat",
+      "combate",
+      "deporte",
+      "deportes",
+      "deportista",
+      "deportivo",
+      "fight",
+      "fighter",
+      "kickboxing",
+      "knockout",
+      "mma",
+      "octagon",
+      "octagono",
+      "octágono",
+      "pelea",
+      "peleador",
+      "pugilismo",
+      "sport",
+      "sports",
+      "tko",
+      "ufc"
+    ]
   }
 }

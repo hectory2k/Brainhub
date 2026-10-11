@@ -3016,3 +3016,64 @@ profundidad, pero no era bug.
 ### Tests
 - `tests/test_extractor_citas.py`: 10 passed.
 - Sin tests nuevos (bug #21 ya estaba cubierto por tests existentes de rango).
+
+## 2026-10-09 — Bug #2 resuelto: Persistencia de chunks + BM25
+
+**Problema:** Chunks generados en memoria pero no persistidos.
+
+**Solución:**
+- Tabla `chunks` en DuckDB (10 campos: chunk_id, video, posicion, texto, start_char, end_char, n_oraciones, estrategia, tier, metadata).
+- `scripts/persistir_chunks.py` — lee JSONs de `/sdcard/Download/Transcript_*_analisis_completo.json`.
+- `scripts/buscar_chunks.py` — búsqueda BM25 con `bm25s`.
+
+**Resultado:** 8 chunks persistidos del video `pQRQUAQopZ4`. Búsqueda BM25 funcional.
+
+**Limitación:** FTS nativo DuckDB no existe para `linux_arm64_android` (HTTP 404).
+Alternativa: `bm25s` en Python.
+
+**Pendiente:**
+- Integrar `persistir_chunks.py` al `pipeline_db.sh` como paso 6.
+- Reprocesar 37 JSONs viejos (sin chunks).
+
+## 2026-10-09 — Bug #2 resuelto: Persistencia de chunks + BM25
+
+**Problema:** Chunks generados en memoria pero no persistidos.
+
+**Solución:**
+- Tabla `chunks` en DuckDB (10 campos).
+- `scripts/persistir_chunks.py` — lee JSONs de `/sdcard/Download/`.
+- `scripts/buscar_chunks.py` — búsqueda BM25 con `bm25s`.
+
+**Resultado:** 8 chunks persistidos del video `pQRQUAQopZ4`. BM25 funcional.
+
+**Limitación:** FTS nativo DuckDB no existe para `linux_arm64_android`. Alternativa: `bm25s`.
+
+**Pendiente:**
+- Integrar `persistir_chunks.py` al `pipeline_db.sh` como paso 6.
+- Reprocesar 37 JSONs viejos.
+
+## 2026-10-10 08:26 - Bug #9: nicho FINANZAS en video de combate
+
+- Síntoma: video de deportes de combate clasificado como FINANZAS.
+- Evidencia: textos con `ufc`, `fight`, `boxing`, `combat` + `market` daban FINANZAS.
+- Causa 1: `detectar_nicho()` no tenía nicho DEPORTES/COMBATE.
+- Causa 2: `FINANZAS` contenía keyword genérica `market`.
+- Fix mínimo: agregado `DEPORTES` a `NICHO_KEYWORDS` y `PRIORIDAD_NICHO`.
+- Fix mínimo: agregado `DEPORTES` a `diccionario_nichos.json`.
+- Validación: `ufc fight market`, `boxing fight market`, `combat sports market` ahora deberían dar DEPORTES.
+- Pendiente: revisar/reprocesar chunks existentes con tier FINANZAS, en particular `Transcript_pQRQUAQopZ4_ES`.
+
+## 2026-10-10 22:10 - Bug #9 CERRADO: nicho FINANZAS en video de combate
+
+- **Síntoma**: Video de deportes de combate clasificado incorrectamente como FINANZAS.
+- **Diagnóstico**: 
+  1. Taxonomía incompleta: faltaba el nicho DEPORTES/COMBATE.
+  2. Keyword genérica: "market" en FINANZAS disparaba falsos positivos (ej: "fight market").
+  3. Propagación: el pipeline heredaba este nicho incorrecto como `tier` en los chunks de DuckDB.
+- **Fix aplicado**:
+  - `modulos/detectar_nicho.py`: Agregado nicho DEPORTES a `NICHO_KEYWORDS` y `PRIORIDAD_NICHO` (8).
+  - `diccionario_nichos.json`: Agregada entrada DEPORTES con 25 términos específicos (ufc, mma, boxeo, etc.).
+- **Limpieza de datos**: 
+  - UPDATE en DuckDB: `chunks` de `Transcript_pQRQUAQopZ4_ES` cambiados de tier='FINANZAS' a 'DEPORTES'.
+  - Validación: 0 registros restantes con tier FINANZAS incorrecto.
+- **Validación**: Tests sintéticos confirman que 'ufc fight market' => DEPORTES, y 'stock market investment' => FINANZAS.

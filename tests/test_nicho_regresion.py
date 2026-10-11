@@ -50,3 +50,13 @@ def test_economia_es_finanzas():
     texto = "mora deuda bcra inflación crédito bancario masa salarial"
     nicho = detectar_nicho(texto)
     assert nicho == "FINANZAS", f"Esperado FINANZAS, obtenido {nicho}"
+
+
+def test_deportes_gana_con_market():
+    """No-regresión Bug #9: video de combate no cae en FINANZAS por 'market'."""
+    from modulos.detectar_nicho import detectar_nicho
+
+    assert detectar_nicho('ufc fight market') == 'DEPORTES'
+    assert detectar_nicho('boxing fight market') == 'DEPORTES'
+    assert detectar_nicho('combat sports market') == 'DEPORTES'
+    assert detectar_nicho('stock market investment') == 'FINANZAS'

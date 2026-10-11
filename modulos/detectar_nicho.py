@@ -66,6 +66,15 @@ def normalizar_texto(texto: str) -> str:
     from brainhub.texto.normalizar import normalizar_preservando_enie
     return normalizar_preservando_enie(texto.lower())
 
+# FIX Bug #9 (2026-10-10): agregar nicho DEPORTES/COMBATE.
+# Términos específicos para evitar que 'market' clasifique combate como FINANZAS.
+NICHO_KEYWORDS['DEPORTES'] = sorted(set(list(NICHO_KEYWORDS.get('DEPORTES', [])) + [
+    'artes marciales', 'boxeador', 'boxeo', 'boxing', 'combat', 'combate',
+    'deporte', 'deportes', 'deportista', 'deportivo', 'fight', 'fighter',
+    'kickboxing', 'knockout', 'mma', 'octagon', 'octagono', 'octágono',
+    'pelea', 'peleador', 'pugilismo', 'sport', 'sports', 'tko', 'ufc',
+]))
+
 def detectar_nicho(texto: str) -> str:
     texto_normalizado = normalizar_texto(texto)
     if not texto_normalizado:
@@ -111,6 +120,7 @@ def detectar_nicho(texto: str) -> str:
         'FINANZAS': 9,
         'SALUD': 8,
         'LEGAL': 8,
+        'DEPORTES': 8,
         'EDUCACION': 7,
         'CIBERSEGURIDAD': 7,
         'COMPRAS_PUBLICAS': 6,
