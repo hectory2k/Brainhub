@@ -15,7 +15,7 @@
 > Modelo LLM: brainhub-llama (gemma:2b, ~64s/video).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-10-10 21:21):
+> ✅ Hecho reciente (2026-10-11 01:04):
 >    - Bug #9 CERRADO: nicho DEPORTES agregado a taxonomía.
 >    - Causa: keyword FINANZAS "market" demasiado genérica para contexto deportivo.
 >    - Fix: detectar_nicho.py + diccionario_nichos.json + limpieza DB (0 casos restantes).
@@ -67,6 +67,11 @@
 > 7. **No tocar el resto del archivo.**
 >    El bloque pegable va entre `## Bloque pegable` y `## Fecha`.
 >    El alias `retoma` extrae exactamente ese rango.
+>
+> 8. **Scripts temporales van en `~/temp/`, no en `/tmp/`.**
+>    - `/tmp` en Termux/Android no es confiable.
+>    - Crear: `cat > ~/temp/script_nombre.py << 'PYEOF'` ... `PYEOF`
+>    - Ejecutar: `python ~/temp/script_nombre.py` desde el workdir correcto.
 
 > PRÓXIMO (elegir 1):
 > 1. Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
@@ -75,6 +80,9 @@
 >
 > ESTA SESIÓN: Bug #9 completamente cerrado. Listo para el siguiente objetivo.
 
+> RECORDATORIO: leer BITACORA.md y docs/aprendizaje.md
+> para hallazgos del 2026-10-11 (analizar_github, Bilibili, cloudflared).
+
 ## Fecha
 
-Última actualización: 2026-10-10 21:21
+Última actualización: 2026-10-11 01:04

@@ -3077,3 +3077,80 @@ Alternativa: `bm25s` en Python.
   - UPDATE en DuckDB: `chunks` de `Transcript_pQRQUAQopZ4_ES` cambiados de tier='FINANZAS' a 'DEPORTES'.
   - Validación: 0 registros restantes con tier FINANZAS incorrecto.
 - **Validación**: Tests sintéticos confirman que 'ufc fight market' => DEPORTES, y 'stock market investment' => FINANZAS.
+
+## 2026-10-11 01:04 - Hallazgos analizar_github + exploración Bilibili/cloudflared
+
+### Hallazgos identificados (no corregidos aún)
+
+Hallazgo A — analizar_github no consulta default_branch:
+- Repo lvusyy/biliSub tiene default_branch = master.
+- analizar_github lvusyy/biliSub -> 1 archivo (solo LICENSE).
+- analizar_github lvusyy/biliSub master -> 10 archivos, 3069 líneas.
+- No es regresión: main está documentado como default (ver 2026-09-20).
+- Fix: consultar default_branch vía API GitHub, fallback a main.
+
+Hallazgo B — pipeline GitHub trata código como prosa:
+- Términos clave = keywords Python.
+- Citas = fragmentos de código.
+- Hablantes = ruido desde LICENSE.
+- Sentimiento = -0.24, sin sentido para código.
+- Fix pendiente: detector por extensión + pipeline específico.
+
+### Exploración lateral (no core, no afecta v7.2.5)
+
+Bilibili:
+- lvusyy/biliSub (master) instalado en venv Termux.
+- Python puro, sin Chrome CDP, sin Node.js. --no-asr evita Whisper.
+- Output VTT nativo. No probado con video real.
+- Pendiente: cookies + video target.
+
+cloudflared:
+- cloudflared 2026.09.1 instalado.
+- Objetivo: exponer APIs de BrainHub a internet.
+- NO sirve para bypassear geobloqueo Bilibili.
+- Pendiente: definir puerto + auth antes de exponer.
+
+### Estado del core BrainHub
+- Sin cambios en esta sesión.
+- v7.2.5, 103 analysis, 136 tests, RAG chunks+BM25+timestamp.
+- Bug #9 cerrado y validado.
+- Pendiente #1: integrar persistir_chunks.py al pipeline_db.sh.
+
+## 2026-10-11 01:05 - Hallazgos analizar_github + exploración Bilibili/cloudflared
+
+### Hallazgos identificados (no corregidos aún)
+
+Hallazgo A — analizar_github no consulta default_branch:
+- Repo lvusyy/biliSub tiene default_branch = master.
+- analizar_github lvusyy/biliSub -> 1 archivo (solo LICENSE).
+- analizar_github lvusyy/biliSub master -> 10 archivos, 3069 líneas.
+- No es regresión: main está documentado como default (ver 2026-09-20).
+- Fix: consultar default_branch vía API GitHub, fallback a main.
+
+Hallazgo B — pipeline GitHub trata código como prosa:
+- Términos clave = keywords Python.
+- Citas = fragmentos de código.
+- Hablantes = ruido desde LICENSE.
+- Sentimiento = -0.24, sin sentido para código.
+- Fix pendiente: detector por extensión + pipeline específico.
+
+### Exploración lateral (no core, no afecta v7.2.5)
+
+Bilibili:
+- lvusyy/biliSub (master) instalado en venv Termux.
+- Python puro, sin Chrome CDP, sin Node.js. --no-asr evita Whisper.
+- Output VTT nativo. No probado con video real.
+- Pendiente: cookies + video target.
+
+cloudflared:
+- cloudflared 2026.09.1 instalado.
+- Objetivo: exponer APIs de BrainHub a internet.
+- NO sirve para bypassear geobloqueo Bilibili.
+- Pendiente: definir puerto + auth antes de exponer.
+
+### Estado del core BrainHub
+- Sin cambios en esta sesión.
+- v7.2.5, 103 analysis, 136 tests, RAG chunks+BM25+timestamp.
+- Bug #9 cerrado y validado.
+- Pendiente #1: integrar persistir_chunks.py al pipeline_db.sh.
+

@@ -570,3 +570,75 @@ dolor real. `analizar_github` es flujo propio (todo-en-uno).
 2. **Peligro de keywords genéricas**: Palabras como "market" en FINANZAS causan falsos positivos en contextos deportivos ("fight market", "betting market"). Solución: usar n-gramas específicos o eliminar términos demasiado amplios.
 3. **Propagación de errores aguas abajo**: Un nicho mal detectado en la fase inicial del pipeline se propaga como `tier` a los chunks en DuckDB. Corregir el dato en la DB sin arreglar el detector es solo un parche temporal.
 4. **Validación antes de parchear**: Siempre probar el detector con casos sintéticos límite (ej: 'ufc fight market' vs 'stock market investment') para asegurar que el fix no rompe la clasificación legítima.
+
+## 2026-10-11 — Pipeline GitHub y C extensions en Termux
+
+### analizar_github no consulta default_branch
+- Asume rama main hardcodeada al armar la URL del ZIP de GitHub.
+- Repos con default_branch = master (u otro) bajan solo lo que hay en main.
+- Caso real: lvusyy/biliSub -> main tiene solo LICENSE (1 archivo),
+  master tiene el código completo (10 archivos, 3069 líneas).
+- Limitación conocida, no regresión: la línea 1386 de BITACORA documenta
+  analizar_github.sh usuario/repo main como default. El fix es un feature:
+  leer default_branch vía API GitHub antes de armar la URL del ZIP.
+- Lección: nunca asumir rama por defecto de un servicio externo.
+
+### Pipeline semántico aplicado a código = ruido
+- El pipeline NLP de BrainHub trata cualquier texto como prosa narrativa.
+- Aplicado a .py:
+  - Términos clave = keywords sintácticas (self, def, str, import, args).
+  - Citas clave = líneas de código partidas.
+  - Hablantes detectados = falsos positivos desde LICENSE.
+  - Sentimiento = -0.24, sin sentido (el código no tiene sentimiento).
+- Lección: el tipo de archivo importa.
+- Fix pendiente: detector por extensión + pipeline específico para código.
+
+### C extensions en Termux/Android ARM64
+- Compilan OK pero tardan. Verificado en Python 3.14 / android_24_arm64_v8a:
+  - lxml 6.1.3, pillow 12.3.0, brotli 1.2.0, pycryptodomex 3.24.0.
+- Tiempo total: ~5-10 minutos.
+- Wheels cacheados en ~/.cache/pip/wheels/.
+- Atajo: pkg install python-lxml python-pillow + venv --system-site-packages.
+
+### Bilibili desde Termux (exploración)
+- lvusyy/biliSub (master) es Python puro, sin Chrome CDP ni Node.js.
+- --no-asr evita openai-whisper y PyTorch.
+- import whisper está dentro de _init_whisper_model(), no en top-level.
+- Output VTT nativo -> parseable directo por BrainHub.
+- Pendiente: cookies, video target real.
+
+## 2026-10-11 — Pipeline GitHub y C extensions en Termux
+
+### analizar_github no consulta default_branch
+- Asume rama main hardcodeada al armar la URL del ZIP de GitHub.
+- Repos con default_branch = master (u otro) bajan solo lo que hay en main.
+- Caso real: lvusyy/biliSub -> main tiene solo LICENSE (1 archivo),
+  master tiene el código completo (10 archivos, 3069 líneas).
+- Limitación conocida, no regresión: la línea 1386 de BITACORA documenta
+  analizar_github.sh usuario/repo main como default. El fix es un feature:
+  leer default_branch vía API GitHub antes de armar la URL del ZIP.
+- Lección: nunca asumir rama por defecto de un servicio externo.
+
+### Pipeline semántico aplicado a código = ruido
+- El pipeline NLP de BrainHub trata cualquier texto como prosa narrativa.
+- Aplicado a .py:
+  - Términos clave = keywords sintácticas (self, def, str, import, args).
+  - Citas clave = líneas de código partidas.
+  - Hablantes detectados = falsos positivos desde LICENSE.
+  - Sentimiento = -0.24, sin sentido (el código no tiene sentimiento).
+- Lección: el tipo de archivo importa.
+- Fix pendiente: detector por extensión + pipeline específico para código.
+
+### C extensions en Termux/Android ARM64
+- Compilan OK pero tardan. Verificado en Python 3.14 / android_24_arm64_v8a:
+  - lxml 6.1.3, pillow 12.3.0, brotli 1.2.0, pycryptodomex 3.24.0.
+- Tiempo total: ~5-10 minutos.
+- Wheels cacheados en ~/.cache/pip/wheels/.
+- Atajo: pkg install python-lxml python-pillow + venv --system-site-packages.
+
+### Bilibili desde Termux (exploración)
+- lvusyy/biliSub (master) es Python puro, sin Chrome CDP ni Node.js.
+- --no-asr evita openai-whisper y PyTorch.
+- import whisper está dentro de _init_whisper_model(), no en top-level.
+- Output VTT nativo -> parseable directo por BrainHub.
+- Pendiente: cookies, video target real.
