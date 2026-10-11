@@ -15,12 +15,14 @@
 > Modelo LLM: brainhub-llama (gemma:2b, ~64s/video).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-10-11 01:04):
->    - Bug #9 CERRADO: nicho DEPORTES agregado a taxonomía.
->    - Causa: keyword FINANZAS "market" demasiado genérica para contexto deportivo.
->    - Fix: detectar_nicho.py + diccionario_nichos.json + limpieza DB (0 casos restantes).
+> ✅ Hecho reciente (2026-10-11 09:50):
+>    - Ingesta masiva: 155 PDFs de /sdcard/Download -> 58 documentos analizados.
+>    - Pipeline end-to-end: pdftotext -> descolumnar -> V6.5 -> 80/20 -> DuckDB.
+>    - Documento estrella: v1.pdf = "The Hitchhiker's Guide to Agentic Systems"
+>      (H. Roitman, arXiv 2606.24937v1, 5555 segmentos, 21+ capítulos).
+>    - 0 errores fatales. 142 MB. 12 escaneados pendientes de OCR.
 >    - BITACORA.md y docs/aprendizaje.md actualizados.
->
+
 > 📚 Aprendizaje nuevo:
 >    - FTS nativo de DuckDB NO existe para linux_arm64_android (HTTP 404).
 >    - Alternativa: bm25s en Python (mismo resultado, sin extensiones nativas).
@@ -73,6 +75,38 @@
 >    - Crear: `cat > ~/temp/script_nombre.py << 'PYEOF'` ... `PYEOF`
 >    - Ejecutar: `python ~/temp/script_nombre.py` desde el workdir correcto.
 
+> 9. **Alias no funcionan en `bash -c` no-interactivo.**
+>    - Los alias (`analizar`, `procesar`) solo existen en sesión interactiva.
+>    - En `nohup bash -c '...'` → `command not found`.
+>    - Usar path completo: `python3 ~/proyectos/nlp/analisis_completo_v6.5.py`.
+>
+> 10. **Procesos largos en Android: `setsid nohup` + notificación `--ongoing`.**
+>    - Combo: `termux-wake-lock` + `termux-notification --id X --ongoing` + `setsid nohup bash -c '...'`.
+>    - Sin esto: Android mata el proceso a los ~10-15 min.
+>    - Con esto: sobrevive incluso cerrando Termux.
+>    - Verificar: `pgrep -f nombre_proceso` antes de asumir que murió.
+>
+> 11. **Deduplicar por hash de contenido, no por nombre.**
+>    - `md5sum ~/temp/*_salida_continuo.txt | sort | uniq -w32 -D`.
+>    - PDFs de Anna's Archive vienen con `(1)`, `(2)` duplicados.
+>    - Detectar antes de analizar, no después.
+>
+> 12. **Slugify al borde para prevenir "File name too long".**
+>    - Límite 255 bytes por componente en ext4/F2FS.
+>    - Sufijos `_analisis_completo.json` (23 chars) → stem máx ~80 chars.
+>    - Función: `unicodedata.normalize("NFKD")` + `re.sub(r"[^a-z0-9_-]+", "_", s)`.
+>
+> 13. **`comm` es frágil con Unicode/espacios.**
+>    - `comm -23 <(find ...) <(ls ... | sed ...)` falla con ñ, á, ¡.
+>    - Alternativa robusta: `while IFS= read -r txt; do ... done < lista.txt`.
+>    - Con check explícito: `[ ! -f "$json" ] && echo "$txt" >> pendientes.txt`.
+>
+> 14. **`Última actualización:` aparece 2 veces en prompt_retoma.md.**
+>    - Una en la documentación del punto 5 (formato `YYYY-MM-DD HH:MM`).
+>    - Otra en `## Fecha` (formato real `2026-10-11 01:04`).
+>    - Editar SOLO la real: regex `Última actualización: \d{4}-\d{2}-\d{2}` (matchea solo el formato real).
+>    - NO usar `src.count("Última actualización:")` → dará 2 y romperá el assert.
+
 > PRÓXIMO (elegir 1):
 > 1. Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
 > 2. Reprocesar 37 JSONs viejos sin chunks.
@@ -81,8 +115,8 @@
 > ESTA SESIÓN: Bug #9 completamente cerrado. Listo para el siguiente objetivo.
 
 > RECORDATORIO: leer BITACORA.md y docs/aprendizaje.md
-> para hallazgos del 2026-10-11 (analizar_github, Bilibili, cloudflared).
+> para hallazgos del 2026-10-11 (ingesta masiva PDFs, fallback, setsid nohup).
 
 ## Fecha
 
-Última actualización: 2026-10-11 01:04
+Última actualización: 2026-10-11 09:50

@@ -642,3 +642,65 @@ dolor real. `analizar_github` es flujo propio (todo-en-uno).
 - import whisper está dentro de _init_whisper_model(), no en top-level.
 - Output VTT nativo -> parseable directo por BrainHub.
 - Pendiente: cookies, video target real.
+
+## 2026-10-11 — Ingesta masiva de PDFs con BrainHub
+
+### Fallback > Error en pipelines de ingesta
+- Cuando una transformación puede fallar, NUNCA devolver vacío.
+- Copiar el intermedio crudo es mejor que fallar.
+- Caso: 55/141 PDFs cayeron a fallback (descolumnar rechazó) -> crudo copiado íntegro.
+- El corpus sirve igual: el análisis funciona sobre texto crudo, no requiere columnas.
+- Aplicación: parsers, migraciones, ETL.
+
+### Import > Subprocess cuando el destino hace sys.exit()
+- Si el script destino llama sys.exit(1) al fallar, invocarlo por subprocess mata el batch.
+- Alternativa: importarlo, atrapar la excepción y hacer fallback.
+- Caso: descolumnar.py hace sys.exit(1) cuando es_valido() == False.
+- Fix: from descolumnar import procesar_columnas + try/except + fallback.
+
+### Alias no existen en subprocesos no-interactivos
+- alias analizar='python3 ...' funciona en shell interactiva.
+- En bash -c '...' (nohup, cron, scripts) -> command not found.
+- Solución: usar SIEMPRE el path completo en scripts.
+- Regla: alias para humanos, paths completos para automatización.
+
+### setsid nohup + notificación --ongoing para sobrevivir Android
+- Android mata procesos en background a los ~10-15 min.
+- termux-wake-lock NO alcanza por sí solo.
+- Combo robusto:
+  - termux-notification --id batch --ongoing (notificación no-swipeable)
+  - setsid nohup bash -c '...' (disociado del shell padre)
+  - termux-wake-lock (CPU despierta)
+- Verificación: pgrep -f proceso antes de asumir que murió.
+- Resultado: batch de 46 archivos sobrevivió sin perder progreso.
+
+### Deduplicar por hash de contenido, no por nombre
+- md5sum archivos | sort | uniq -w32 -D detecta duplicados reales.
+- PDFs de Anna's Archive vienen con sufijos (1), (2) -> mismo contenido.
+- Los 3 Python-para-análisis-de-datos (8) eran idénticos.
+- Fix: dedup antes de analizar (ahorra tiempo de cómputo + espacio).
+
+### Nombre corto es crítico (255 bytes por componente)
+- Límite en ext4/F2FS (Android): 255 bytes por componente.
+- Sufijos derivados (_analisis_completo.json = 23 chars) -> stem máx ~80 chars.
+- PDFs con nombres de 240+ chars fallan al crear derivados.
+- Fix: slugify() al entrar al pipeline.
+- Regla: sanitizar input externo AL BORDE, no en el medio.
+
+### comm es frágil con Unicode/espacios
+- comm -23 <(find ...) <(ls ... | sed ...) falla con ñ, á, ¡, espacios dobles.
+- Fix: while IFS= read -r txt; do [ ! -f "$json" ] && echo "$txt"; done < lista.txt.
+- Check explícito por archivo > comparación de listas.
+
+### pdftotext -layout gana a markitdown para papers
+- pdftotext: rápido (ms), preserva columnas, predecible, solo PDFs.
+- markitdown: lento (s), linealiza (pierde columnas), múltiples formatos.
+- Decisión: pdftotext para papers; markitdown como fallback para formatos ricos.
+
+### Análisis de código != análisis de prosa
+- Los 3 Python duplicados dominaron el top de términos del corpus:
+  datos, array, dtype, pandas, nan, dataframe.
+- citas_clave en v1.pdf = 55% código (fragmentos de tokenizer.encode, lm_head).
+- Lección: detector por extensión + filtro de código en extracción de citas.
+- Refuerza hallazgo previo: analizar_github sobre .py = ruido.
+

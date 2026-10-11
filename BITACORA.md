@@ -3154,3 +3154,68 @@ cloudflared:
 - Bug #9 cerrado y validado.
 - Pendiente #1: integrar persistir_chunks.py al pipeline_db.sh.
 
+## 2026-10-11 09:49 - Ingesta masiva de PDFs: 155 -> 58 documentos analizados
+
+### Objetivo
+Pipeline batch desde /sdcard/Download: PDFs crudos -> TXT -> análisis V6.5 -> 80/20 -> DuckDB.
+
+### Pipeline ejecutado
+- pdftotext -layout -> _salida.txt (crudo)
+- descolumnar.procesar_columnas() -> _salida_continuo.txt (o fallback copia crudo)
+- analisis_completo_v6.5.py -> JSON + resumen + reporte.md + SQLite + métricas
+- documento_8020.sh -> documento jerárquico con preguntas de debate
+- pipeline_db.sh -> consolidación DuckDB global
+
+### Resultados
+- PDFs fuente: 155 en /sdcard/Download
+- PDF -> TXT: 141 (86 ok + 55 fallback + 0 errores)
+- Análisis completos: 58 (2 duplicados eliminados)
+- Documentos 80/20: 58
+- SQLite DBs: 58
+- Espacio total: 142 MB
+- Errores fatales: 0
+- Escaneados (OCR pendiente): 12
+
+### Documento estrella: v1.pdf
+- Título: "The Hitchhiker's Guide to Agentic Systems"
+- Autor: H. Roitman
+- Fuente: arXiv 2606.24937v1
+- 5555 segmentos (el más denso del corpus)
+- 21+ capítulos: LLM architecture, RLHF/PPO/DPO/GRPO, RAG (Self/CRAG/Adaptive/Graph/Agentic),
+  Memory (MemGPT), Context Management (ReAct), MCP, Agent Skills, A2A,
+  Multi-Agent Systems, Frameworks (LangGraph, AutoGen, CrewAI, DSPy), Agentic UI.
+
+### Distribución del corpus (58 docs)
+- TECNOLOGIA: 22 (IA, agentes, Python, RAG)
+- SALUD: 12 (DM2, HTA, farmacología, guías clínicas)
+- FINANZAS: 12 (~7 mal clasificados)
+- GENERAL: 7 (varios deberían ser SALUD)
+- CIBERSEGURIDAD: 3
+- DEPORTES: 2
+- PSICOLOGIA: 1
+- COMPRAS_PUBLICAS: 1 (mal)
+
+### Bugs detectados (con fix propuesto)
+1. File name too long (>255 bytes) -> slugify al entrar al pipeline.
+2. Headers/footers repetidos ("H. Roitman — The Hitchhiker's Guide" en cada chunk).
+3. Citas clave = 55% código en v1 -> filtrar candidatas con heurística de lenguaje natural.
+4. Marcadores === COLUMNA ... === sin limpiar -> replace en preprocesamiento.
+5. Clasificador FINANZAS mal calibrado -> threshold de densidad + exclusión de términos genéricos.
+6. DuckDB muestra SALUD con solo 4 -> revisar integrar_duckdb.py.
+
+### Aprendizajes de la sesión
+- Alias NO funcionan en bash -c no-interactivo.
+- Android mata procesos sin setsid nohup + --ongoing + wake-lock.
+- comm falla con nombres Unicode -> usar for con check explícito.
+- Fallback > Error: copiar crudo > fallar.
+- Import > Subprocess cuando el destino hace sys.exit().
+- pdftotext -layout preserva columnas mejor que markitdown para papers.
+- Nombre corto es crítico: límite 255 bytes + sufijos derivados.
+- Deduplicar por hash antes de analizar, no después.
+
+### Estado del core BrainHub
+- Sin cambios en v7.2.5.
+- 103 analysis, 136 tests, RAG chunks+BM25+timestamp.
+- Bug #9 cerrado y validado.
+- Pendiente #1 sigue: integrar persistir_chunks.py al pipeline_db.sh.
+
