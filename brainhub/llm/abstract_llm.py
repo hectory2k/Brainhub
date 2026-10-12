@@ -14,7 +14,7 @@ from brainhub.llm.ollama_client import OllamaClient, hay_ram_suficiente
 MODELO_DEFAULT = "qwen2.5:1.5b"
 RAM_MINIMA_GB = 2.0
 TIMEOUT_SEG = 180
-NUM_PREDICT = 80
+NUM_PREDICT = 30
 
 
 def generar_abstract_llm(

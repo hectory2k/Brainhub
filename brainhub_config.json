@@ -10,7 +10,7 @@
   "llm": {
     "modelo": "qwen2.5:1.5b",
     "num_ctx": 512,
-    "num_predict": 80,
+    "num_predict": 30,
     "ram_min_gb": 1.5,
     "timeout_seg": 180
   },
