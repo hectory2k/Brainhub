@@ -20,8 +20,10 @@
 >    - Ollama demonizado con termux-services (runit): auto-restart, persistente.
 >    - Fix crítico: abstract_llm.py leía citas_clave (vacío) → ahora citas_clave_semanticas.
 >    - num_predict: 80 → 30. ram_min_gb: 2.3 → 1.5.
->    - Batch en curso: 29 .txt sanos con qwen2.5:1.5b (~97s c/u).
->    - Commits pusheados: 17e0f67 (fix LLM).
+>    - Batch COMPLETADO: 29 .txt procesados, 0 fallos, ~97s c/u.
+>    - DuckDB: 2151 chunks, 30 videos, 7 tiers.
+>    - Fix del persistidor: INSERT en lotes de 50 (evita 'Argument list too long').
+>    - Commits: 17e0f67 → 4e87ed9 → 02374a5.
 
 > 📚 Aprendizaje nuevo:
 >    - FTS nativo de DuckDB NO existe para linux_arm64_android (HTTP 404).
@@ -37,8 +39,10 @@
 >
 > ⚠️ PENDIENTE:
 >    - Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
->    - Reprocesar 37 JSONs viejos sin chunks.
+>    - Reprocesar 37 JSONs viejos sin chunks (no recuperables, solo agregados).
 >    - Migrar a brainhub_config (centralizar versiones hardcodeadas).
+>    - Reprocesar 6 .txt rotos sin puntuación (necesita fix del segmentador).
+>    - 2 JSONs huérfanos (HUcIxt1v0wU, ezl7PfR-foE) sin .txt fuente.
 >
 > 🧰 MÉTODOS DE PARCHEO SEGURO (no romper código):
 >
@@ -121,7 +125,7 @@
 >    - Fix citas_clave_semanticas en abstract_llm.py (resumen ya no es abstencion).
 >    - num_predict: 80 → 30.
 >    - Ollama demonizado con termux-services (runit): persiste a cierres de Termux.
->    - Batch en curso: reprocesando 29 .txt sanos (68 totales, 33 son _resumen).
+>    - Batch completado: 29/29, 0 fallos, 2151 chunks persistidos en DuckDB.
 >    - Deuda técnica: RAM_MINIMA_GB hardcodeado no lee de brainhub_config.json.
 
 > RECORDATORIO: leer BITACORA.md y docs/aprendizaje.md
@@ -129,4 +133,4 @@
 
 ## Fecha
 
-Última actualización: 2026-10-12 13:40
+Última actualización: 2026-10-12 17:44
