@@ -3239,3 +3239,95 @@ Pipeline batch desde /sdcard/Download: PDFs crudos -> TXT -> análisis V6.5 -> 8
 - Términos clave: extraction (27), pdf (25), python (17), ocr (14)
 - Uso: referencia sobre Camelot (tablas), pdfplumber, PyMuPDF, pytesseract
 - Estado: análisis completo + consolidado en DuckDB
+
+## 2026-10-12 — Ollama persistente + qwen2.5:1.5b + fix citas semánticas
+
+### Síntomas
+- Ollama "se moría solo" cada pocos minutos.
+- Chequeos con sleep 5 daban "MUERTO" pero el log mostraba respuesta a los ~10s.
+- brainhub-llama (gemma:2b) mataba el proceso al cargar 2.1 GB de REPACK.
+- Resumen LLM salía "abstencion" siempre, incluso con citas semánticas presentes.
+
+### Diagnóstico
+1. Ollama tarda ~10s en arrancar (no 5s). Falsos negativos por timing.
+2. setsid nohup desacopla del shell y Android mata antes.
+3. brainhub-llama no entra en RAM de Moto G56 (2.5 GB libres, 2.1 GB modelo).
+4. qwen2.5:1.5b (Q4_K_M, 1 GB) entra cómodo y corre 7.5x más rápido.
+5. abstract_llm.py leía citas_clave en vez de citas_clave_semanticas → abstencion.
+
+### Fix aplicado
+1. Modelo default cambiado: brainhub-llama → qwen2.5:1.5b.
+   - brainhub/llm/abstract_llm.py (MODELO_DEFAULT)
+   - brainhub/llm/ollama_client.py (default param)
+   - brainhub_config.json (llm.modelo)
+   - scripts/preguntar.py (default param)
+2. Fix citas semánticas en abstract_llm.py (citas_clave_semanticas con fallback).
+3. num_predict bajado: 80 → 30.
+4. ram_min_gb: 2.3 → 1.5 en brainhub_config.json.
+5. Ollama como servicio runit:
+   - $PREFIX/var/service/ollama/run con OLLAMA_NUM_PARALLEL=1, OLLAMA_MAX_LOADED_MODELS=1, OLLAMA_KEEP_ALIVE=30m.
+   - $PREFIX/var/service/ollama/log/run con svlogd.
+   - sv-enable ollama + sv up ollama.
+   - Persistente a cierres de Termux, auto-restart si crashea.
+6. SVDIR exportado en ~/.bashrc.
+
+### Estado
+- Ollama corriendo como servicio runit (PID supervisado, uptime >15 min).
+- 7 modelos disponibles, qwen2.5:1.5b como default.
+- API respondiendo en :11434.
+- Batch de 29 .txt sanos en curso (~97s por archivo).
+- Commits pusheados: 17e0f67 (fix LLM).
+
+### Pendiente
+- Terminar batch de 29 .txt sanos y persistir chunks.
+- Reprocesar los 6 .txt rotos (sin puntuación) si vale la pena.
+- 37 JSONs viejos sin chunks (solo agregados, sin texto fuente → no recuperables).
+- RAM_MINIMA_GB en abstract_llm.py no lee config (deuda técnica).
+- Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
+
+
+## 2026-10-12 — Ollama persistente + qwen2.5:1.5b + fix citas semánticas
+
+### Síntomas
+- Ollama "se moría solo" cada pocos minutos.
+- Chequeos con sleep 5 daban "MUERTO" pero el log mostraba respuesta a los ~10s.
+- brainhub-llama (gemma:2b) mataba el proceso al cargar 2.1 GB de REPACK.
+- Resumen LLM salía "abstencion" siempre, incluso con citas semánticas presentes.
+
+### Diagnóstico
+1. Ollama tarda ~10s en arrancar (no 5s). Falsos negativos por timing.
+2. setsid nohup desacopla del shell y Android mata antes.
+3. brainhub-llama no entra en RAM de Moto G56 (2.5 GB libres, 2.1 GB modelo).
+4. qwen2.5:1.5b (Q4_K_M, 1 GB) entra cómodo y corre 7.5x más rápido.
+5. abstract_llm.py leía citas_clave en vez de citas_clave_semanticas → abstencion.
+
+### Fix aplicado
+1. Modelo default cambiado: brainhub-llama → qwen2.5:1.5b.
+   - brainhub/llm/abstract_llm.py (MODELO_DEFAULT)
+   - brainhub/llm/ollama_client.py (default param)
+   - brainhub_config.json (llm.modelo)
+   - scripts/preguntar.py (default param)
+2. Fix citas semánticas en abstract_llm.py (citas_clave_semanticas con fallback).
+3. num_predict bajado: 80 → 30.
+4. ram_min_gb: 2.3 → 1.5 en brainhub_config.json.
+5. Ollama como servicio runit:
+   - $PREFIX/var/service/ollama/run con OLLAMA_NUM_PARALLEL=1, OLLAMA_MAX_LOADED_MODELS=1, OLLAMA_KEEP_ALIVE=30m.
+   - $PREFIX/var/service/ollama/log/run con svlogd.
+   - sv-enable ollama + sv up ollama.
+   - Persistente a cierres de Termux, auto-restart si crashea.
+6. SVDIR exportado en ~/.bashrc.
+
+### Estado
+- Ollama corriendo como servicio runit (PID supervisado, uptime >15 min).
+- 7 modelos disponibles, qwen2.5:1.5b como default.
+- API respondiendo en :11434.
+- Batch de 29 .txt sanos en curso (~97s por archivo).
+- Commits pusheados: 17e0f67 (fix LLM).
+
+### Pendiente
+- Terminar batch de 29 .txt sanos y persistir chunks.
+- Reprocesar los 6 .txt rotos (sin puntuación) si vale la pena.
+- 37 JSONs viejos sin chunks (solo agregados, sin texto fuente → no recuperables).
+- RAM_MINIMA_GB en abstract_llm.py no lee config (deuda técnica).
+- Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
+

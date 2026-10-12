@@ -11,21 +11,25 @@
 > No agregar features que no resuelvan un bug. Diagnóstico con evidencia
 > antes de tocar. Documentar en BITACORA.md y docs/aprendizaje.md.
 >
-> Estado: v7.2.5, 103 analysis, 136 tests, RAG con chunks + BM25 + timestamp.
-> Modelo LLM: brainhub-llama (gemma:2b, ~64s/video).
+> Estado: v7.2.5, 103 analysis, 137 tests, RAG con chunks + BM25 + timestamp.
+> Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-10-11 09:50):
->    - Ingesta masiva: 155 PDFs de /sdcard/Download -> 58 documentos analizados.
->    - Pipeline end-to-end: pdftotext -> descolumnar -> V6.5 -> 80/20 -> DuckDB.
->    - Documento estrella: v1.pdf = "The Hitchhiker's Guide to Agentic Systems"
->      (H. Roitman, arXiv 2606.24937v1, 5555 segmentos, 21+ capítulos).
->    - 0 errores fatales. 142 MB. 12 escaneados pendientes de OCR.
->    - BITACORA.md y docs/aprendizaje.md actualizados.
+> ✅ Hecho reciente (2026-10-12 13:40):
+>    - Modelo LLM: brainhub-llama → qwen2.5:1.5b (7.5x más rápido, 1GB RAM).
+>    - Ollama demonizado con termux-services (runit): auto-restart, persistente.
+>    - Fix crítico: abstract_llm.py leía citas_clave (vacío) → ahora citas_clave_semanticas.
+>    - num_predict: 80 → 30. ram_min_gb: 2.3 → 1.5.
+>    - Batch en curso: 29 .txt sanos con qwen2.5:1.5b (~97s c/u).
+>    - Commits pusheados: 17e0f67 (fix LLM).
 
 > 📚 Aprendizaje nuevo:
 >    - FTS nativo de DuckDB NO existe para linux_arm64_android (HTTP 404).
 >    - Alternativa: bm25s en Python (mismo resultado, sin extensiones nativas).
+>    - Ollama tarda ~10s en arrancar. Chequeos con sleep 5 dan falsos negativos.
+>    - `setsid nohup` mata Ollama en Termux. `nohup` sin setsid + termux-services funciona.
+>    - `brainhub-llama` (2.1 GB REPACK) mata el proceso en Moto G56. qwen2.5:1.5b (1 GB) entra cómodo.
+>    - `termux-services` + runit: demonización persistente, auto-restart, sobrevive cierres.
 >
 > 🛠️ Scripts nuevos:
 >    - scripts/persistir_chunks.py → JSONs a DuckDB (tabla chunks).
@@ -112,16 +116,17 @@
 > 2. Reprocesar 37 JSONs viejos sin chunks.
 > 3. Migrar a brainhub_config (centralizar versiones hardcodeadas).
 >
-> ESTA SESIÓN (2026-10-11 09:50): ingesta masiva de PDFs.
->    - 155 PDFs de /sdcard/Download -> 58 documentos analizados (142 MB).
->    - Pipeline: pdftotext -> descolumnar -> V6.5 -> 80/20 -> DuckDB.
->    - Doc estrella: "Hitchhiker's Guide to Agentic Systems" (Roitman, arXiv).
->    - 0 errores fatales. 12 escaneados pendientes de OCR (locales).
->    - Bug #9 cerrado previamente (2026-10-10 23:03) con validación DuckDB completa.
+> ESTA SESIÓN (2026-10-12 13:40): Ollama persistente + cambio de modelo.
+>    - Modelo default: qwen2.5:1.5b (7.5x más rápido que brainhub-llama).
+>    - Fix citas_clave_semanticas en abstract_llm.py (resumen ya no es abstencion).
+>    - num_predict: 80 → 30.
+>    - Ollama demonizado con termux-services (runit): persiste a cierres de Termux.
+>    - Batch en curso: reprocesando 29 .txt sanos (68 totales, 33 son _resumen).
+>    - Deuda técnica: RAM_MINIMA_GB hardcodeado no lee de brainhub_config.json.
 
 > RECORDATORIO: leer BITACORA.md y docs/aprendizaje.md
-> para hallazgos del 2026-10-11 (ingesta masiva PDFs, fallback, setsid nohup).
+> para hallazgos del 2026-10-12 (Ollama persistente, qwen2.5:1.5b, citas semánticas).
 
 ## Fecha
 
-Última actualización: 2026-10-11 17:45
+Última actualización: 2026-10-12 13:40

@@ -704,3 +704,93 @@ dolor real. `analizar_github` es flujo propio (todo-en-uno).
 - Lección: detector por extensión + filtro de código en extracción de citas.
 - Refuerza hallazgo previo: analizar_github sobre .py = ruido.
 
+
+## 2026-10-12 — Ollama persistente en Termux + qwen2.5:1.5b
+
+### Ollama tarda ~10s en arrancar
+- Chequeos con sleep 5 dan falsos negativos. Usar espera activa con curl en loop.
+
+### setsid nohup mata Ollama
+- En Termux/Android, setsid desacopla del shell y Android mata antes.
+- Fix: nohup ollama serve > log 2>&1 & (sin setsid).
+
+### termux-services + runit es el camino
+- pkg install termux-services + reiniciar Termux.
+- $PREFIX/var/service/ollama/run con variables.
+- sv-enable ollama + sv up ollama. Persistente a cierres, auto-restart.
+
+### Variables críticas en el script run
+- OLLAMA_NUM_PARALLEL=1
+- OLLAMA_MAX_LOADED_MODELS=1
+- OLLAMA_KEEP_ALIVE=30m
+
+### svlogd falla con lock viejo
+- rm -f $PREFIX/var/log/sv/ollama/lock antes de arrancar.
+
+### sv status falla sin SVDIR exportado
+- export SVDIR=$PREFIX/var/service en ~/.bashrc.
+
+### brainhub-llama mata el proceso en Moto G56
+- 2.1 GB REPACK, Android mata al asignar.
+- Fix: qwen2.5:1.5b (Q4_K_M, 1 GB).
+
+### qwen2.5:1.5b: 7.5x más rápido
+- Cliente directo con num_predict=30: ~16s.
+- En pipeline: ~76-148s según tamaño del prompt.
+- Cuello real: velocidad de generación en CPU ARM (~2s/token).
+
+### citas_clave vs citas_clave_semanticas
+- abstract_llm.py leía citas_clave (vacío).
+- Fix: citas_clave_semanticas or citas_clave.
+
+### RAM_MINIMA_GB hardcodeado
+- abstract_llm.py: 2.0. brainhub_config.json: 1.5. El código ignora el config.
+
+### Segmentación sin puntuación
+- YouTube auto-captions sin puntuación → 1 chunk gigante.
+- Criterio sano: puntos/char > 0.005.
+
+## 2026-10-12 — Ollama persistente en Termux + qwen2.5:1.5b
+
+### Ollama tarda ~10s en arrancar
+- Chequeos con sleep 5 dan falsos negativos. Usar espera activa con curl en loop.
+
+### setsid nohup mata Ollama
+- En Termux/Android, setsid desacopla del shell y Android mata antes.
+- Fix: nohup ollama serve > log 2>&1 & (sin setsid).
+
+### termux-services + runit es el camino
+- pkg install termux-services + reiniciar Termux.
+- $PREFIX/var/service/ollama/run con variables.
+- sv-enable ollama + sv up ollama. Persistente a cierres, auto-restart.
+
+### Variables críticas en el script run
+- OLLAMA_NUM_PARALLEL=1
+- OLLAMA_MAX_LOADED_MODELS=1
+- OLLAMA_KEEP_ALIVE=30m
+
+### svlogd falla con lock viejo
+- rm -f $PREFIX/var/log/sv/ollama/lock antes de arrancar.
+
+### sv status falla sin SVDIR exportado
+- export SVDIR=$PREFIX/var/service en ~/.bashrc.
+
+### brainhub-llama mata el proceso en Moto G56
+- 2.1 GB REPACK, Android mata al asignar.
+- Fix: qwen2.5:1.5b (Q4_K_M, 1 GB).
+
+### qwen2.5:1.5b: 7.5x más rápido
+- Cliente directo con num_predict=30: ~16s.
+- En pipeline: ~76-148s según tamaño del prompt.
+- Cuello real: velocidad de generación en CPU ARM (~2s/token).
+
+### citas_clave vs citas_clave_semanticas
+- abstract_llm.py leía citas_clave (vacío).
+- Fix: citas_clave_semanticas or citas_clave.
+
+### RAM_MINIMA_GB hardcodeado
+- abstract_llm.py: 2.0. brainhub_config.json: 1.5. El código ignora el config.
+
+### Segmentación sin puntuación
+- YouTube auto-captions sin puntuación → 1 chunk gigante.
+- Criterio sano: puntos/char > 0.005.

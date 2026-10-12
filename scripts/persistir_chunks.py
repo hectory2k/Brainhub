@@ -54,37 +54,42 @@ def crear_tabla(db_path):
     return True
 
 
-def insertar(chunks, db_path):
+def insertar(chunks, db_path, lote=50):
+    """Inserta chunks en lotes para evitar 'Argument list too long'."""
     if not chunks:
         return 0
-    valores = []
-    for c in chunks:
-        valores.append(
-            f"({_escape(c.get('chunk_id'))}, "
-            f"{_escape(c.get('video'))}, "
-            f"{_escape(c.get('posicion'))}, "
-            f"{_escape(c.get('texto'))}, "
-            f"{_escape(c.get('start_char'))}, "
-            f"{_escape(c.get('end_char'))}, "
-            f"{_escape(c.get('n_oraciones'))}, "
-            f"{_escape(c.get('estrategia'))}, "
-            f"{_escape(c.get('tier'))}, "
-            f"{_escape(c.get('metadata', {}))})"
+    total = 0
+    for i in range(0, len(chunks), lote):
+        sublote = chunks[i:i+lote]
+        valores = []
+        for c in sublote:
+            valores.append(
+                f"({_escape(c.get('chunk_id'))}, "
+                f"{_escape(c.get('video'))}, "
+                f"{_escape(c.get('posicion'))}, "
+                f"{_escape(c.get('texto'))}, "
+                f"{_escape(c.get('start_char'))}, "
+                f"{_escape(c.get('end_char'))}, "
+                f"{_escape(c.get('n_oraciones'))}, "
+                f"{_escape(c.get('estrategia'))}, "
+                f"{_escape(c.get('tier'))}, "
+                f"{_escape(c.get('metadata', {}))})"
+            )
+        sql = (
+            "INSERT OR IGNORE INTO chunks "
+            "(chunk_id, video, posicion, texto, start_char, end_char, "
+            "n_oraciones, estrategia, tier, metadata) VALUES "
+            + ",\n".join(valores) + ";"
         )
-    sql = (
-        "INSERT OR IGNORE INTO chunks "
-        "(chunk_id, video, posicion, texto, start_char, end_char, "
-        "n_oraciones, estrategia, tier, metadata) VALUES "
-        + ",\n".join(valores) + ";"
-    )
-    result = subprocess.run(
-        ['duckdb', db_path, '-c', sql],
-        capture_output=True, text=True
-    )
-    if result.returncode != 0:
-        print(f"  ❌ Error: {result.stderr[:200]}")
-        return 0
-    return len(chunks)
+        result = subprocess.run(
+            ['duckdb', db_path, '-c', sql],
+            capture_output=True, text=True
+        )
+        if result.returncode != 0:
+            print(f"  ❌ Error lote {i//lote}: {result.stderr[:200]}")
+            continue
+        total += len(sublote)
+    return total
 
 
 def main():
