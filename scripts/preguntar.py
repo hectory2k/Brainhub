@@ -62,7 +62,7 @@ def cargar_documentos(nicho: str = None):
     return docs, meta
 
 
-def preguntar(pregunta: str, nicho: str = None, top_k: int = 5, modelo: str = "brainhub-llama"):
+def preguntar(pregunta: str, nicho: str = None, top_k: int = 5, modelo: str = "qwen2.5:1.5b"):
     """Pipeline RAG completo."""
     trace_id = str(uuid.uuid4())[:8]
     t0 = time.time()

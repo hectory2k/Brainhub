@@ -11,7 +11,7 @@ from typing import Optional, Tuple, Dict
 from brainhub.llm.ollama_client import OllamaClient, hay_ram_suficiente
 
 
-MODELO_DEFAULT = "brainhub-llama"
+MODELO_DEFAULT = "qwen2.5:1.5b"
 RAM_MINIMA_GB = 2.0
 TIMEOUT_SEG = 180
 NUM_PREDICT = 80
@@ -120,8 +120,9 @@ def generar_resumen_desde_analisis(
     conceptos_str = ", ".join(f"{c}" for c, f in conceptos) if conceptos else "(ninguno)"
 
     # Citas clave (si existen) — dan contexto real del contenido
+    # Preferir citas semánticas (pipeline v7.2.4+) sobre citas_clave legacy
     # Filtramos citas triviales (<30 chars) para evitar ruido tipo "No," "Sí,"
-    todas_citas = analisis.get("citas_clave", [])
+    todas_citas = analisis.get("citas_clave_semanticas") or analisis.get("citas_clave", [])
     citas_validas = [c for c in todas_citas if len(c.get("texto", "").strip()) >= 30]
 
     # Abstención: basada en TODAS las citas válidas, no solo en las 2 primeras

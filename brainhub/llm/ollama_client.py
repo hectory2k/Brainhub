@@ -15,7 +15,7 @@ class OllamaClient:
 
     def __init__(
         self,
-        model: str = 'brainhub-llama',
+        model: str = 'qwen2.5:1.5b',
         url: str = 'http://localhost:11434',
         timeout: int = 300,
         num_predict: int = 80,

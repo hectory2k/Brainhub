@@ -8,10 +8,10 @@
     "path": "/sdcard/Download/analisis_consolidado.duckdb"
   },
   "llm": {
-    "modelo": "brainhub-llama",
+    "modelo": "qwen2.5:1.5b",
     "num_ctx": 512,
     "num_predict": 80,
-    "ram_min_gb": 2.3,
+    "ram_min_gb": 1.5,
     "timeout_seg": 180
   },
   "rag": {
