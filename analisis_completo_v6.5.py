@@ -690,6 +690,11 @@ def main():
         print(f"❌ Archivo no encontrado: {archivo}")
         sys.exit(1)
 
+    # GUARDIA 2026-10-13: página de error de Google guardada como texto
+    if "Error 500 (Server Error)!!1" in texto:
+        print(f"❌ {archivo} contiene una página de error (Error 500). Limpiar la fuente antes de analizar.")
+        sys.exit(1)
+
     # FIX 2026-09-11: usar AnalizadorNichos (orquesta los 3 módulos)
     # Fallback a detectar_nicho si falla
     def _detectar_nichos(_texto, _archivo):
@@ -980,8 +985,10 @@ def main():
             
             if success:
                 print(f"  ⏱️ Timestamps: {len(segmentos)} segmentos guardados")
+        else:
+            print(f"  ⚠️ Sin VTT de timestamps ({vtt_file}): sin minuto para {video_id}")
     except ImportError:
-        pass
+        print("  ⚠️ modulos.timestamps no importable: timestamps omitidos")
     except Exception as e:
         print(f"  ⚠️ No se pudieron guardar timestamps: {e}")
 
