@@ -3437,3 +3437,52 @@ Sesión 12-13 oct. Método: solo lectura primero, hipótesis marcadas como tales
 - Efecto del parche l.918: no toca la base. Un reproceso ahora escribe con el nombre canónico y sus términos sin filtrar pasan a ser visibles para la guardia. No correr reprocesar_sanos.sh ni pipeline_db.sh hasta cerrar la decisión.
 - Corrección: chunks es derivada (se regenera con persistir_chunks.py desde los JSON). reconstruir_db.sh hace rm -f de la base y recrea solo analysis, terminos_raw, progreso, stopwords y content_control; fuera de pipeline_db.sh pierde sin avisar anatomia, mesh_terms y cache_mesh (los pasos 2-4 las recrean).
 - Pendiente: contar extras vs stopwords; decidir convención y filtro; parchar l.867 y consolidar.py:31; migrar con UPDATE; luego puente minuto -> chunks y deduplicación (probar H3 antes).
+
+## 2026-10-14 — Protocolo de inicio + lecciones retoma-deuda
+
+### Contexto
+Sesión iniciada con un retoma del 7-oct (v7.2.4) que no reflejaba el
+estado real del repo al 14-oct (v7.2.5). El bloque pegable usado en
+sesiones anteriores estaba obsoleto.
+
+Al verificar con `git log`, se descubrió:
+- Chunker YA integrado (2026-10-07) con 2151 chunks en DB.
+- Modelo LLM cambiado a qwen2.5:1.5b (brainhub-llama mataba el proceso).
+- `citas_clave_semanticas` reemplazó a `citas_clave`.
+- Ollama demonizado con termux-services + runit.
+- 3 sesiones del 11-14 oct con trabajo no reflejado en nuestro contexto.
+
+### Incidentes acumulados (3 en 2 semanas)
+- Bug #4 (7-oct): creímos que estaba abierto, cerrado por otro fix.
+- Bug #5 (7-oct): citas "random" eran de output legacy, no de HEAD.
+- Bug #8 (14-oct): creímos que Chunker era huérfano, ya integrado.
+
+### Cambios en documentación (este commit)
+- **docs/prompt_retoma.md**: agregado protocolo de inicio de sesión al
+  bloque pegable (5 pasos obligatorios antes de diagnosticar).
+- **docs/aprendizaje.md**: 2 lecciones nuevas.
+  - "El retoma es deuda (2026-10-14)".
+  - "Los backups .PRE_* son evidencia, no basura (2026-10-14)".
+
+### Protocolo de inicio (ahora en el retoma)
+1. Correr `git log --oneline -15` y `git status`.
+2. Leer docs/prompt_retoma.md COMPLETO.
+3. Leer BITACORA.md (últimas 100 líneas).
+4. Contrastar el "próximo" del retoma con commits.
+5. Si hay divergencia → PARAR, sincronizar, después trabajar.
+
+### Lección operativa
+`git log` no miente. El retoma sí (por desactualización).
+
+### Pendientes (retoma actual)
+1. Integrar `persistir_chunks.py` a `pipeline_db.sh` (paso 6).
+2. Migrar a `brainhub_config`.
+3. Decidir convención de nombres + filtro VigiSalud.
+4. Probar si DyhkXT_dgdk _en/_es son el mismo texto.
+5. Reprocesar 6 .txt rotos sin puntuación + 2 JSONs huérfanos.
+6. Puente minuto → chunks (`chunk_tiempo`).
+
+### Backups preservados (evidencia, no borrar)
+- docs/prompt_retoma.md.PRE_PROTOCOLO
+- docs/prompt_retoma.md.PRE_FIX_PREFIJO
+- docs/aprendizaje.md.PRE_LECCION_20261014

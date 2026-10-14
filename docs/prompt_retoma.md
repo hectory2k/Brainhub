@@ -2,6 +2,17 @@
 
 ## Bloque pegable (inicio de chat nuevo)
 
+> 🚨 PROTOCOLO DE INICIO (obligatorio ANTES de diagnosticar o tocar):
+>   1. Correr `git log --oneline -15` y `git status`.
+>   2. Leer docs/prompt_retoma.md COMPLETO (no solo el bloque pegable).
+>   3. Leer BITACORA.md (últimas 100 líneas).
+>   4. Contrastar el "próximo" del retoma con los commits recientes.
+>   5. Si hay divergencia → PARAR, sincronizar retoma, después trabajar.
+>
+> Lección: "El retoma es deuda. Verificar contra git log al iniciar."
+> Incidentes registrados: Bug #4 (duplicado), Bug #5 (fantasma),
+> Bug #8 (chunker ya integrado, creímos huérfano).
+>
 > Soy Héctor, traumatólogo y desarrollador. Trabajo en BrainHub, un
 > ecosistema de NLP local-first que corre en Termux/Android (Moto G56,
 > Python 3.14, DuckDB CLI 1.5.5, bm25s). Procesa YouTube, PDFs, GitHub y webs,

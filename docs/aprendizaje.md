@@ -825,3 +825,75 @@ dolor real. `analizar_github` es flujo propio (todo-en-uno).
 ### Probar la hipótesis antes de actuar
 - "La basura movió el nicho" se refutó con 10 líneas (DEPORTES con y sin firma).
 - duckdb sin -readonly crea una base vacía; NOT IN con NULL da 0 filas falso (usar NOT EXISTS).
+
+## 2026-10-14 — El retoma es deuda + backups como evidencia
+
+### El retoma es deuda (2026-10-14)
+
+Tres incidentes en 2 semanas donde el retoma no reflejaba el estado real:
+- Bug #4 (7-oct): creímos que estaba abierto, ya estaba cerrado por otro fix.
+- Bug #5 (7-oct): citas "random" venían de output legacy, no de HEAD.
+- Bug #8 (14-oct): creímos que Chunker era huérfano, ya estaba integrado
+  desde el 7-oct con 2151 chunks en DB y persistir_chunks.py.
+
+Cada vez, arrancamos una sesión en falso por 30-60 minutos hasta descubrir
+que el trabajo ya estaba hecho, o que el diagnóstico se basaba en evidencia vieja.
+
+**Regla (protocolo de inicio de sesión, ahora en el retoma):**
+1. Correr `git log --oneline -15` y `git status` ANTES de diagnosticar.
+2. Leer docs/prompt_retoma.md COMPLETO (no solo el bloque pegable).
+3. Leer BITACORA.md (últimas 100 líneas).
+4. Contrastar el "próximo" del retoma con los commits recientes.
+5. Si hay divergencia → PARAR, sincronizar retoma, después trabajar.
+
+**Por qué funciona:** `git log` no miente. El retoma sí (por desactualización).
+
+**Costo de no hacerlo:** 3 sesiones con diagnósticos basados en estado obsoleto.
+
+### Los backups .PRE_* son evidencia, no basura (2026-10-14)
+
+Los archivos `.PRE_<CAMBIO>` (ej. `.PRE_BUG7`, `.PRE_PROTOCOLO`,
+`.PRE_VIDEOID`) son la fotografía del estado anterior a cada modificación.
+No son ruido.
+
+- Permiten auditar la evolución sin depender de git (útil si el commit
+  no se hizo o si el archivo se modificó fuera del repo).
+- Documentan la intención: `.PRE_BUG7` cuenta que hubo un bug #7.
+- Cumplen la misma función que la decisión de "no borrar huérfanos"
+  (Addendum 3, 14-oct): preservar la evidencia para que los controles
+  no se apaguen.
+
+**Regla:** los `.PRE_*` van a `legacy/` cuando ya cumplieron su ciclo,
+nunca se borran sin decisión explícita. Coherente con la convención
+de `legacy_scripts_backup/`.
+
+### Documentar un fix no cierra el bug — documentar el estado real sí
+
+Complemento de la lección del 13-oct ("lo documentado no es evidencia"):
+un bug puede estar cerrado en código y abierto en el retoma (o al revés).
+La única fuente de verdad al iniciar sesión es `git log` + `git status`.
+
+Referencias:
+- Sesión 2026-10-14 (ésta)
+- Bug #4, #5, #8 (incidentes registrados)
+
+### El assert protege el archivo, no al programador (2026-10-14)
+
+En esta sesión, un `assert` en un script de edición atrapó un mismatch
+entre el texto buscado (con fecha) y el texto real (sin fecha). El archivo
+NO se escribió mal: el script falló limpio, y solo hubo que corregir el
+assert y reintentar.
+
+**Regla:** los asserts en scripts de modificación de archivos no son
+"por si acaso". Son el punto de control entre "voy a cambiar" y "cambié".
+Si un assert falla, no se pierde trabajo: se pierde un intento.
+
+**Corolario:** el backup va ANTES del write_text, no después. Si el
+write falla, el backup ya está hecho. Si el assert falla, el archivo
+original está intacto.
+
+**Anti-patrón:** escribir primero y verificar después. Si el write
+ocurre antes del assert, un fallo puede dejar el archivo a medias.
+
+Referencias:
+- Sesión 2026-10-14 (bug del assert con fecha faltante)
