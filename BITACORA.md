@@ -3331,3 +3331,109 @@ Pipeline batch desde /sdcard/Download: PDFs crudos -> TXT -> análisis V6.5 -> 8
 - RAM_MINIMA_GB en abstract_llm.py no lee config (deuda técnica).
 - Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
 
+## 2026-10-12 13:40 - Ollama persistente + cambio de modelo
+- Modelo default: qwen2.5:1.5b (7.5x más rápido que brainhub-llama).
+- Fix citas_clave_semanticas en abstract_llm.py (resumen ya no es abstencion).
+- num_predict: 80 → 30.
+- Ollama demonizado con termux-services (runit): persiste a cierres de Termux.
+- Batch completado: 29/29, 0 fallos, 2151 chunks persistidos en DuckDB.
+- Deuda técnica: RAM_MINIMA_GB hardcodeado no lee de brainhub_config.json.
+
+## 2026-10-13 — Diagnóstico forense: timestamps, nombres y "Error 500"
+
+Sesión 12-13 oct. Método: solo lectura primero, hipótesis marcadas como tales, cada conclusión con su evidencia.
+
+### Cambios aplicados
+- scripts/chequeo_salud.sh (nuevo, solo lectura): tablas, chunks ⊆ analysis (NOT EXISTS), ids únicos, sin vacíos, variantes de nombre, segmentos_timestamp. Resultado: 0 errores, 2 avisos.
+- analisis_completo_v6.5.py: aviso si falta el VTT o no importa modulos.timestamps (cierra 8c). Backup .PRE_AVISO_TS. pytest: 137 passed, 1 skipped.
+- analisis_completo_v6.5.py: guardia de entrada contra la página de error de Google (firma "Error 500 (Server Error)!!1"). Backup .PRE_GUARDIA_500. Prueba: exit=1 y mensaje.
+- Limpieza de fuentes: ~/temp/limpieza_error500.py (backup + assert). Backups .PRE_LIMPIEZA_500 de _en y _es.
+- Evidencia: data/evidencia_error500/ (los 2 JSON contaminados).
+- Copia de la DB: /sdcard/Download/analisis_consolidado.duckdb.PRE_REPROCESO_ONRW_20261013 (11546624 bytes).
+- docs/prompt_retoma.md: estado corregido y hallazgos agregados.
+
+### Hallazgos verificados (con evidencia)
+1. DB real: /sdcard/Download/analisis_consolidado.duckdb. Las bases brainhub.duckdb y '*.duckdb' de la raíz eran vacías (12 KB, 6-oct) y ya no estaban al intentar moverlas. timestamps.db pesa 0 bytes.
+2. Rutas: ~20 módulos .py usan BRAINHUB_DB con el mismo default; 9 .sh tienen la ruta fija (aprender, completar, estado, listo, progreso, que_sigue, sigue_legible, ver_mapa, test_regresion_db).
+3. chunks: 2151 filas, 30 videos. Esquema sin tiempo: chunk_id, video, posicion, texto, start_char, end_char, n_oraciones, estrategia, tier, metadata{n_chars,n_palabras}, creado_en. 0 chunk_id duplicados, 0 textos vacíos, chunks ⊆ analysis.
+4. "+timestamp" no tenía respaldo: preguntar.py y buscar_chunks.py no usan timestamp/vtt/start_char; segmentos_timestamp no existe en la DB; api.py:64-67 consulta esa tabla.
+5. Dos generaciones del pipeline:
+   - Vieja: Transcript_<id>_ES.txt (sin tiempos) -> v6.5 -> chunks.
+   - Nueva: scripts/yt_lib + yt_transcript.py. Conserva start/duration y escribe .jsonl y .timestamped.txt en /sdcard/Download/corpus/<id>/transcripts/. Solo HNClGfpmSfk procesado (no está en chunks). Ningún .sh ni .py lo invoca (el README lo documenta como CLI).
+6. v6.5 busca /sdcard/Download/Transcript_{video_id}_timestamps.vtt. Los 5 .vtt de Download tienen nombre estilo yt-dlp (<id>.<lang>.vtt): DyhkXT_dgdk (.es/.en), ONrw_JAOHvo.cs, VgzHT9quo5c.en, Z_ikDlimN6A.en (estos dos no están en chunks).
+7. Alineador de prueba (~/temp/probar_alineacion.py, 6 palabras normalizadas contra el VTT): DyhkXT_dgdk.en.vtt ancla 82/93 chunks; .es.vtt 2/93.
+8. 30 videos = 26 fuentes. Conteos de chunks: DyhkXT_dgdk ES_FORZADO/_en/_es = 92/92/93; ONrw_JAOHvo cs_original/_en/_es = 35/33/34.
+   - ONrw_JAOHvo: traducciones reales (checo, inglés, español).
+   - DyhkXT_dgdk: chunks 0-2 en inglés en las tres; tamaños 59101/59108/59481 bytes; primera diferencia ~byte 4003; 41 líneas distintas (ES_FORZADO vs _en) y 645 (_en vs _es); hashes distintos.
+9. Error 500: _es.txt línea 1; _en.txt líneas 480, 676 y 689 (grep -m3, puede haber más). 5 chunks en DB (1 en _es pos 0; 4 en _en pos 18, 19, 26, 27). Ningún otro video. Sin código de traducción en el repo: origen externo.
+10. Estado tras la limpieza: los .txt fuente están limpios (grep sin resultados en Transcript_*.txt), pero los 2 *_analisis_completo.json y los 5 chunks siguen contaminados.
+11. reconstruir_db.sh hace rm -f "$DB_PATH" (línea 84) y recrea analysis, terminos_raw, progreso, stopwords y content_control; NO crea chunks. pipeline_db.sh lo corre como paso 1 y no persiste chunks. (Por lectura del script, no ejecutado.)
+12. 103 JSON *_analisis_completo.json en Download = 103 filas en analysis.
+13. persistir_chunks.py usa INSERT OR IGNORE sin DELETE; chunk_id depende del texto: reprocesar sin borrar deja los chunks viejos junto a los nuevos.
+14. consolidar_en_duckdb de v6.5 hace DELETE antes de INSERT en terminos_raw y progreso (fix 2026-09-11): idempotente por video. modulos/consolidar.py no tiene DELETE (no es la vía de v6.5). terminos_raw de ONrw_JAOHvo: 20 filas por video, sin duplicados.
+15. guardia_contaminacion.sh solo reporta (términos en >= 2 docs, no técnicos, agrupados por nicho). No lee .txt, no busca la firma, y pipeline_db.sh la corre con || true.
+16. Nichos en DB: cs_original=SALUD, _en=CIBERSEGURIDAD, _es=SALUD. El clasificador actual da DEPORTES para _en con y sin firma.
+
+### Hipótesis descartadas o corregidas
+- "brainhub.duckdb es la base principal": falso (era una base vacía).
+- "La basura movió el nicho de _en": refutada (DEPORTES con y sin firma).
+- "Reprocesar duplicaría terminos_raw": falso para la vía de v6.5.
+- "El fix de fetch.py no se aplicó": sí está, pero desconectado del pipeline principal.
+- "reconstruir_db.sh tiene otro default de DB": por defecto coincide; solo cambia si se pasa un directorio.
+- "Las 3 variantes son traducciones": cierto para ONrw_JAOHvo, sin probar para DyhkXT_dgdk.
+
+### Hipótesis abiertas (sin verificar)
+- H1: v6.5 (~l.918) hace video_id = basename(base).replace('_EN_FORZADO','').replace('_ES',''). Para Transcript_<id>_ES daría Transcript_<id>, distinto de analysis.filename: filas huérfanas o duplicadas en terminos_raw tras corridas individuales.
+- H2: en el bloque de timestamps, si video_id conserva el prefijo "Transcript_", el patrón Transcript_{video_id}_timestamps.vtt queda "Transcript_Transcript_..." y nunca encuentra el archivo (posible raíz del 8a).
+- H3: las variantes de DyhkXT_dgdk son el mismo texto inglés con otro wrapping y etiquetas de idioma erradas.
+- H4: guardia_contaminacion agrupa por nicho y no ve términos repartidos entre nichos.
+- H5: el nicho guardado de _en viene de otra corrida o versión del clasificador.
+
+### Riesgos latentes
+- Correr pipeline_db.sh o reconstruir_db.sh borra la tabla chunks hasta integrar persistir_chunks.py (paso 6).
+- Reprocesar un video sin DELETE previo en chunks deja chunks viejos y nuevos.
+- Los 5 chunks con firma siguen en la tabla viva (entran al top de BM25).
+- El "[x] Blindar ingesta" del bloque de retoma apuntaba a chequeo_salud.sh; la guardia real está en v6.5. El chequeo de firma de chunks_salud (parche_firma.py) no se aplicó.
+
+### Lecciones
+> Lo documentado no es evidencia: "+timestamp" y "[x] Blindar" no tenían respaldo en el código. Verificar con un conteo o un grep.
+> Productor y consumidor derivan nombres por separado: patrón del Bug #8 y de esta sesión.
+> Hash + diff antes de llamar "duplicado" o "traducción" a una variante (caso CAIS, caso DyhkXT_dgdk).
+> Validar la respuesta de servicios externos antes de escribirla: un 500 se guardó como texto.
+> duckdb sin -readonly crea una base vacía. NOT IN con NULL da 0 filas falso: usar NOT EXISTS.
+> Antes de reprocesar, leer cómo cargan los consumidores (INSERT OR IGNORE vs DELETE) y qué hace el rebuild (rm -f).
+> Una hipótesis plausible se puede refutar con 10 líneas (el nicho): probar antes de actuar.
+
+### Pendiente (orden sugerido)
+1. Verificar H1 y H2 (dos comandos de lectura).
+2. Reprocesar solo los 2 videos ONrw_JAOHvo con DELETE previo en chunks, terminos_raw, analysis y progreso, dentro de una transacción; verificar cero firmas y nicho recalculado.
+3. Integrar persistir_chunks.py al pipeline_db.sh (paso 6) antes de volver a usar el rebuild.
+4. Aplicar chequeo de firma en chequeo_salud.sh e invariante terminos_raw ⊆ analysis.
+5. Puente minuto -> chunks: tabla chunk_tiempo(chunk_id, t_inicio, metodo). Piloto DyhkXT_dgdk con .en.vtt.
+6. Probar H3 antes de decidir dedupe (el md5 exacto no detecta casi-duplicados).
+7. scripts/_db.sh con una sola ruta para los 9 .sh.
+
+### Addendum 2026-10-13 — nombres en terminos_raw (H1 y H2)
+- H1: 25 videos de terminos_raw sin fila en analysis. 21 = Transcript_<id> (v6.5 l.918 recorta _ES) vs analysis Transcript_<id>_ES, con 13-20 filas gemelas bajo el nombre largo. 3 de DyhkXT_dgdk consistentes con replace('_ES','') en medio del nombre (por confirmar). 1 distinto: ref_freecodecamp_pdf_ex... (sin gemelo).
+- H2 (por código): base = archivo sin .txt (l.896); video_id conserva 'Transcript_'; el VTT buscado sería Transcript_Transcript_<id>_timestamps.vtt. Raíz de 8a junto con el nombre que genera yt-dlp.
+- v6.5 no escribe analysis en DuckDB (INSERT INTO analysis solo en la SQLite por video; sin UPDATE): analysis y nicho salen solo de reconstruir_db.sh.
+- Efecto: video reprocesado = 2 copias en terminos_raw; mapa_corpus.py --stats las suma; guardia_contaminacion (JOIN analysis) no las ve.
+- Por verificar: filas fantasma en progreso; origen = batch reprocesar_sanos del 12-oct.
+
+### Addendum 2 2026-10-13 — H1 y H2 verificadas
+- H1: 24 de 25 huérfanos de terminos_raw tienen equivalente en analysis aplicando el mismo recorte (21 Transcript_<id> vs _ES; 3 DyhkXT_dgdk: replace('_ES','') corta en medio de ES_FORZADO). El 25º, ref_freecodecamp_pdf_extraction_salida_continuo, no tiene equivalente (sin fila en analysis).
+- H2: con base=Transcript_<id>_ES el código busca Transcript_Transcript_<id>_timestamps.vtt (reproducido). Los VTT reales son <id>.<lang>.vtt: nombre mal en productor y en consumidor.
+- progreso: 128 filas vs 103 en analysis; 25 fantasmas, todas 'pendiente'. Pendientes reales = 6 (posible coincidencia con los 6 .txt sin puntuación; sin verificar).
+- Mismo recorte en otros puntos: v6.5 l.867 (_video_id_citas) y modulos/consolidar.py l.31 (además quita _EN).
+- Aplicado: v6.5 l.918 usa basename(base) (= analysis.filename). Backup .PRE_VIDEOID. pytest 137 passed, 1 skipped.
+- Pendiente: revisar l.867 y consolidar.py:31; limpiar huérfanos en transacción (copia previa ya hecha).
+
+### Addendum 3 2026-10-14 — no borrar lo auditado; causa de la diferencia de filas
+- Decisión de Héctor: NO se borran los huérfanos de terminos_raw/progreso ni los 5 chunks con firma. Son evidencia para decidir la convención de nombres y para que los controles no se apaguen. Copia previa: /sdcard/Download/analisis_consolidado.duckdb.PRE_REPROCESO_ONRW_20261013.
+- Control apagado por la convención: guardia_contaminacion.sh hace JOIN analysis.filename = terminos_raw.video; las 25 filas con nombre recortado no pasaban el JOIN y eran invisibles.
+- Dos escritores, dos filtros: reconstruir_db.sh filtra (stopwords + términos vacíos) y deja 13-19 filas por video; v6.5 incremental (consolidar_en_duckdb) inserta el top 20 sin filtrar. Evidencia: al menos 25 términos extra de los huérfanos son stopwords (aqui 316, with 248, that 243, vamos, pues, tenemos...). Pendiente: contar cuántos extras NO son stopwords.
+- Convenciones en uso: nombre completo Transcript_<id>_ES (analysis, chunks, rebuild, archivos); recortado Transcript_<id> (v6.5 hasta l.918 ya parchada, l.867 _video_id_citas, consolidar.py:31); ID de YouTube de 11 caracteres (yt_lib/corpus, .vtt). segmentos_timestamp: sin verificar.
+- Recomendación (decisión abierta): clave canónica = nombre completo; youtube_id derivado con regex ^Transcript_(.{11})_ (no replace); filtro VigiSalud en la escritura incremental; migrar huérfanos con UPDATE + mapeo explícito, eligiendo el conjunto filtrado para las gemelas.
+- Efecto del parche l.918: no toca la base. Un reproceso ahora escribe con el nombre canónico y sus términos sin filtrar pasan a ser visibles para la guardia. No correr reprocesar_sanos.sh ni pipeline_db.sh hasta cerrar la decisión.
+- Corrección: chunks es derivada (se regenera con persistir_chunks.py desde los JSON). reconstruir_db.sh hace rm -f de la base y recrea solo analysis, terminos_raw, progreso, stopwords y content_control; fuera de pipeline_db.sh pierde sin avisar anatomia, mesh_terms y cache_mesh (los pasos 2-4 las recrean).
+- Pendiente: contar extras vs stopwords; decidir convención y filtro; parchar l.867 y consolidar.py:31; migrar con UPDATE; luego puente minuto -> chunks y deduplicación (probar H3 antes).

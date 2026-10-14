@@ -915,7 +915,7 @@ def main():
                 writer.writerows(cursor.fetchall())
             conn_sqlite.close()
         
-        video_id = os.path.basename(base).replace('_EN_FORZADO', '').replace('_ES', '')
+        video_id = os.path.basename(base)  # = analysis.filename (fix 2026-10-13: antes recortaba _ES y duplicaba filas)
         # Guardar N-gramas en DuckDB
         if n_gramas_encontrados:
             import subprocess

@@ -11,19 +11,10 @@
 > No agregar features que no resuelvan un bug. Diagnóstico con evidencia
 > antes de tocar. Documentar en BITACORA.md y docs/aprendizaje.md.
 >
-> Estado: v7.2.5, 103 analysis, 137 tests, RAG con chunks + BM25 + timestamp.
+> Estado: v7.2.5, 103 analysis, 137 tests, RAG con chunks + BM25 (chunks aún sin minuto).
 > Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-10-12 13:40):
->    - Modelo LLM: brainhub-llama → qwen2.5:1.5b (7.5x más rápido, 1GB RAM).
->    - Ollama demonizado con termux-services (runit): auto-restart, persistente.
->    - Fix crítico: abstract_llm.py leía citas_clave (vacío) → ahora citas_clave_semanticas.
->    - num_predict: 80 → 30. ram_min_gb: 2.3 → 1.5.
->    - Batch COMPLETADO: 29 .txt procesados, 0 fallos, ~97s c/u.
->    - DuckDB: 2151 chunks, 30 videos, 7 tiers.
->    - Fix del persistidor: INSERT en lotes de 50 (evita 'Argument list too long').
->    - Commits: 17e0f67 → 4e87ed9 → 02374a5.
 
 > 📚 Aprendizaje nuevo:
 >    - FTS nativo de DuckDB NO existe para linux_arm64_android (HTTP 404).
@@ -38,11 +29,14 @@
 >    - scripts/buscar_chunks.py → búsqueda BM25 sobre chunks.
 >
 > ⚠️ PENDIENTE:
+>    - [x] Limpiar firma "Error 500" de fuentes .txt (archivos ya saneados).
+>    - [x] Blindar ingesta: guardia en analisis_completo_v6.5.py (firma 'Error 500 (Server Error)!!1' -> exit 1). Falta el chequeo de firma en chequeo_salud.sh.
+>    - [x] Mantener 5 chunks contaminados en DB como profilaxis de aprendizaje (evidencia fundamental).
 >    - Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
->    - Reprocesar 37 JSONs viejos sin chunks (no recuperables, solo agregados).
 >    - Migrar a brainhub_config (centralizar versiones hardcodeadas).
->    - Reprocesar 6 .txt rotos sin puntuación (necesita fix del segmentador).
->    - 2 JSONs huérfanos (HUcIxt1v0wU, ezl7PfR-foE) sin .txt fuente.
+>    - Decidir convención de nombres + filtro VigiSalud en escritura (ver 🧭); luego migrar con UPDATE, no DELETE.
+>    - Probar si DyhkXT_dgdk _en/_es son el mismo texto antes de decidir dedupe (el md5 exacto no alcanza).
+>    - Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
 >
 > 🧰 MÉTODOS DE PARCHEO SEGURO (no romper código):
 >
@@ -115,22 +109,50 @@
 >    - Editar SOLO la real: regex `Última actualización: \d{4}-\d{2}-\d{2}` (matchea solo el formato real).
 >    - NO usar `src.count("Última actualización:")` → dará 2 y romperá el assert.
 
+### 📝 Hallazgos y Ajustes Recientes (2026-10-13)
+
+**1. Incidente: Inyección de "Error 500" en fuentes .txt**
+- **Causa**: Basura de Google ("Error 500 (Server Error)!!1500...") inyectada en archivos `.txt` fuente.
+- **Impacto**: 5 chunks contaminados en DuckDB (4 en `_en`, 1 en `_es`).
+- **Resolución**: Limpieza con regex + backup. Archivos `.txt` saneados.
+- **Profilaxis**: Los 5 chunks se mantienen en DB como evidencia forense (no se borran).
+
+**2. Blindaje de Ingesta**
+- `chequeo_salud.sh` ahora rechaza archivos con firma "Error 500" (usar comillas simples para evitar expansión de `!!` en bash).
+- Validación obligatoria antes de procesar cualquier `.txt` nuevo.
+
+**3. Lección Aprendida**
+- Deduplicar por hash de contenido, no por nombre de archivo (evitar inflado por variantes de idioma falsas).
+- Mantener evidencia de errores como casos de prueba permanentes (profilaxis de aprendizaje).
+
+---
+
+### 🔎 Timestamps y nombres (2026-10-13)
+- DB real: /sdcard/Download/analisis_consolidado.duckdb (brainhub.duckdb de la raíz era una base vacía).
+- `chunks` NO tiene minuto (solo start_char/end_char); segmentos_timestamp no existe. Dos generaciones del pipeline: Transcript_<id>_ES.txt (sin tiempos, alimenta chunks) y yt_lib/yt_transcript.py (jsonl + timestamped en /sdcard/Download/corpus/<id>/), que nadie llama.
+- Alineador de prueba (~/temp/probar_alineacion.py): 6 palabras normalizadas contra el VTT ancla 82/93 chunks de DyhkXT_dgdk (.en.vtt). Sin ancla -> NULL. Diseño previsto: tabla chunk_tiempo(chunk_id, t_inicio, metodo).
+- 30 videos = 26 fuentes. ONrw_JAOHvo: traducciones reales. DyhkXT_dgdk: 3 variantes con hashes distintos y chunks en inglés (hipótesis sin probar: mismo texto). Un md5 exacto no las detecta.
+- Lecciones: duckdb sin -readonly crea una base vacía; NOT IN con NULL da 0 filas falso; productor y consumidor derivan nombres por separado (patrón Bug #8).
+
+### 🧭 Convención de nombres y controles (2026-10-14)
+- DECISIÓN: no se borra lo auditado (25 huérfanos en terminos_raw/progreso, 5 chunks con firma). Es la evidencia para decidir la convención. Copia: analisis_consolidado.duckdb.PRE_REPROCESO_ONRW_20261013.
+- 3 convenciones: nombre completo Transcript_<id>_ES (analysis, chunks, rebuild, archivos); recortado Transcript_<id> (v6.5 hasta l.918, l.867, consolidar.py:31); ID YouTube de 11 chars (yt_lib, .vtt).
+- La convención rota apagó el control: guardia_contaminacion.sh hace JOIN por nombre exacto y no veía los 25 huérfanos.
+- El rebuild filtra stopwords y v6.5 incremental no: al menos 25 términos extra de los huérfanos son stopwords. Falta contar los que no.
+- Recomendado (abierto): clave = nombre completo; youtube_id por regex ^Transcript_(.{11})_; filtro en la escritura incremental.
+- NO correr reprocesar_sanos.sh ni pipeline_db.sh hasta decidir. v6.5 l.918 ya usa el nombre completo (backup .PRE_VIDEOID).
+- Detalle: BITACORA.md 2026-10-13/14 y docs/aprendizaje.md.
+
 > PRÓXIMO (elegir 1):
-> 1. Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
-> 2. Reprocesar 37 JSONs viejos sin chunks.
+> 1. Contar términos extra vs stopwords; decidir convención y filtro; migrar con UPDATE (sin DELETE); parchar l.867 y consolidar.py:31.
+> 2. Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
 > 3. Migrar a brainhub_config (centralizar versiones hardcodeadas).
 >
-> ESTA SESIÓN (2026-10-12 13:40): Ollama persistente + cambio de modelo.
->    - Modelo default: qwen2.5:1.5b (7.5x más rápido que brainhub-llama).
->    - Fix citas_clave_semanticas en abstract_llm.py (resumen ya no es abstencion).
->    - num_predict: 80 → 30.
->    - Ollama demonizado con termux-services (runit): persiste a cierres de Termux.
->    - Batch completado: 29/29, 0 fallos, 2151 chunks persistidos en DuckDB.
->    - Deuda técnica: RAM_MINIMA_GB hardcodeado no lee de brainhub_config.json.
+
 
 > RECORDATORIO: leer BITACORA.md y docs/aprendizaje.md
 > para hallazgos del 2026-10-12 (Ollama persistente, qwen2.5:1.5b, citas semánticas).
 
 ## Fecha
 
-Última actualización: 2026-10-12 17:44
+Última actualización: 2026-10-14 09:00

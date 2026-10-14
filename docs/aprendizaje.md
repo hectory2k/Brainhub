@@ -794,3 +794,34 @@ dolor real. `analizar_github` es flujo propio (todo-en-uno).
 ### Segmentación sin puntuación
 - YouTube auto-captions sin puntuación → 1 chunk gigante.
 - Criterio sano: puntos/char > 0.005.
+
+## 2026-10-12/14 — Convención de nombres, controles y evidencia
+
+### Una convención de nombres rota apaga los controles
+- guardia_contaminacion.sh hace JOIN por nombre exacto: las 25 filas con nombre recortado no pasaban el JOIN y nadie las vio.
+- Regla: UNA función que derive el nombre del video y un invariante terminos_raw ⊆ analysis en chequeo_salud.sh.
+
+### Lo auditado no se borra: es la decisión
+- Los huérfanos son el registro de que la convención se partió; borrarlos destruye la evidencia.
+- Secuencia: auditar -> decidir convención -> migrar con UPDATE + mapeo -> verificar. DELETE solo al final y con copia previa.
+
+### replace no es parseo
+- replace('_ES','') corta en cualquier posición: ES_FORZADO quedó FORZADO.
+- Usar regex anclada. Los IDs de YouTube miden 11 caracteres (pueden llevar _ y -): ^Transcript_(.{11})_.
+
+### Dos escritores, dos filtros
+- reconstruir_db.sh filtra stopwords y términos vacíos; v6.5 incremental inserta el top 20 sin filtrar (13-19 filas vs 20 por video).
+- Al menos 25 términos extra de los huérfanos son stopwords. El filtro debe aplicarse en un solo lugar.
+
+### Productor y consumidor derivan nombres por separado
+- v6.5 deriva el nombre en 3 puntos (l.853, 867, 918) y buscaba Transcript_Transcript_<id>_timestamps.vtt. Mismo patrón del Bug #8.
+
+### Lo documentado no es evidencia
+- "+timestamp" y "[x] Blindar ingesta" no tenían respaldo en el código. Verificar con un grep o un conteo antes de escribirlo en el estado.
+
+### Validar la respuesta externa antes de escribirla
+- Una página de error de Google (500) se guardó como transcripción y generó chunks. Guardia de entrada en v6.5 (exit 1).
+
+### Probar la hipótesis antes de actuar
+- "La basura movió el nicho" se refutó con 10 líneas (DEPORTES con y sin firma).
+- duckdb sin -readonly crea una base vacía; NOT IN con NULL da 0 filas falso (usar NOT EXISTS).
