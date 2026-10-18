@@ -28,8 +28,11 @@ def consolidar_archivo(db_path, video_id=None):
     
     # Extraer video_id del nombre si no se proporciona
     if video_id is None:
-        video_id = db_path.stem.replace('_analisis', '').replace('_ES', '').replace('_EN', '')
-        video_id = video_id.replace('Transcript_', '')
+        # Convención canónica: extraer ID de YouTube (11 chars) del nombre
+        import re
+        _nombre_base = db_path.stem
+        _match_id = re.search(r'Transcript_([A-Za-z0-9_-]{11})', _nombre_base)
+        video_id = _match_id.group(1) if _match_id else _nombre_base
     
     # Generar CSV temporal
     csv_path = db_path.with_suffix('.csv')

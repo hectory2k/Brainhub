@@ -1,3 +1,47 @@
+
+### 🎯 Cierre de Opción C: Deduplicación por contenido de DyhkXT_dgdk (2026-10-17 23:03)
+
+**Diagnóstico forense:**
+- Se compararon 3 archivos fuente base de `DyhkXT_dgdk` usando similitud de Jaccard sobre vocabulario normalizado.
+- Resultado: `Transcript_DyhkXT_dgdk_ES_FORZADO.txt` y `Transcript_DyhkXT_dgdk_ES_FORZADO_en.txt` son **99.3% idénticos** (mismo texto en inglés, a pesar del sufijo `_ES`).
+- `Transcript_DyhkXT_dgdk_ES_FORZADO_es.txt` es **70% similar**, confirmando que es una traducción al español genuina y distinta.
+
+**Acción ejecutada:**
+- Unificación en DB con `UPDATE` (sin `DELETE`): las filas de `terminos_raw` y `progreso` con nombre `Transcript_DyhkXT_dgdk_FORZADO_en` se reasignaron al nombre canónico `Transcript_DyhkXT_dgdk_ES_FORZADO`.
+- Verificación post-migración: 0 filas restantes con el nombre viejo.
+- Archivo fuente redundante (`_en.txt`) archivado en `/sdcard/Download/_evidencia_duplicados/` (preservado como evidencia, no borrado).
+
+**Lección aprendida:**
+- Los sufijos `_en`/`_es` no garantizan el idioma real del contenido. Se requiere validación por similitud de contenido (Jaccard > 95% = casi-duplicado).
+- El MD5 exacto no detecta casi-duplicados (difieren por 7 bytes, probablemente espacios o saltos de línea).
+- Registrar en `docs/aprendizaje.md`: error recurrente de `import duckdb` en Python (usar CLI de DuckDB en su lugar).
+
+**Estado final:**
+- DB: 1 nombre canónico para `DyhkXT_dgdk` (`Transcript_DyhkXT_dgdk_ES_FORZADO`).
+- Archivos: 2 maestros preservados (`_ES_FORZADO.txt` y `_es.txt`), 1 redundante archivado como evidencia.
+- Documentación: `docs/aprendizaje.md` actualizado con lección sobre `import duckdb` y similitud de contenido.
+
+
+### 🎯 Cierre de Opción 1: Convención de nombres y migración de huérfanos (2026-10-17 22:47)
+
+**Diagnóstico:**
+- Se identificaron 26 videos huérfanos en `terminos_raw` (JOIN fallido por convención de nombres).
+- Conteo de términos NO-stopword: la mayoría tenía entre 10-20 términos válidos, no era solo ruido.
+- Se detectó colisión 3-a-1 en `DyhkXT_dgdk` (_FORZADO, _en, _es) y 2 casos sin equivalente (`ref_freecodecamp...`, `texto_combinado`).
+
+**Acción ejecutada:**
+- Migración segura con `UPDATE` (sin `DELETE`) de 21 videos con mapeo 1-a-1 confirmado.
+- Total de filas actualizadas: 420 en `terminos_raw` y sus correspondientes en `progreso`.
+- Verificación post-migración: 0 huérfanos restantes (excluyendo evidencia preservada).
+
+**Parches de código aplicados:**
+- `analisis_completo_v6.5.py` (l. ~867): Extracción robusta de `youtube_id` con regex `Transcript_([A-Za-z0-9_-]{11})` en lugar de `replace` ciego.
+- `modulos/consolidar.py` (l. ~31): Mismo patrón de extracción canónica para evitar divergencia productor/consumidor (Bug #8).
+
+**Pendientes derivados:**
+- Deduplicación por contenido (hash) de las 3 variantes de `DyhkXT_dgdk` (no por nombre).
+- Integrar `persistir_chunks.py` al `pipeline_db.sh` (paso 6).
+
 # Bitácora de BrainHub
 
 Registro cronológico de bugs, fixes, descubrimientos y lecciones.

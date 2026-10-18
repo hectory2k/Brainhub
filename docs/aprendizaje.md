@@ -897,3 +897,24 @@ ocurre antes del assert, un fallo puede dejar el archivo a medias.
 
 Referencias:
 - Sesión 2026-10-14 (bug del assert con fecha faltante)
+
+
+### 🐛 Error recurrente: Módulo Python `duckdb` no instalado (2026-10-17)
+
+**Problema:**
+- Se intentó usar `import duckdb` en scripts Python, pero el módulo no está instalado en Termux.
+- Error: `ModuleNotFoundError: No module named 'duckdb'`
+- Esto ocurrió 3 veces en la sesión del 17-oct (migrar_huerfanos, diagnosticar_dyhkxt, unificar_dyhkxt).
+
+**Solución:**
+- Usar el **CLI de DuckDB** (`duckdb` en terminal) en lugar del módulo Python.
+- Sintaxis: `duckdb "$DB" -readonly -c "SELECT ..."` o `duckdb "$DB" < script.sql`
+- Para scripts bash con variables: `duckdb "$DB" << SQLEOF ... SQLEOF`
+
+**Lección operativa:**
+- Antes de escribir scripts Python con `import duckdb`, verificar si el módulo existe: `python -c "import duckdb"`
+- Si no existe, usar el CLI directamente (ya está instalado y funciona en Termux).
+- No intentar instalar el módulo Python sin consultar primero (puede romper dependencias o no estar disponible para ARM64/Android).
+
+**Referencia:**
+- Sesión 2026-10-17: Opción 1 (migración huérfanos) y Opción C (deduplicación DyhkXT_dgdk).

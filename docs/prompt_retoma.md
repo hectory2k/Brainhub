@@ -46,7 +46,7 @@
 >    - Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
 >    - Migrar a brainhub_config (centralizar versiones hardcodeadas).
 >    - Decidir convención de nombres + filtro VigiSalud en escritura (ver 🧭); luego migrar con UPDATE, no DELETE.
->    - Probar si DyhkXT_dgdk _en/_es son el mismo texto antes de decidir dedupe (el md5 exacto no alcanza).
+>    - [x] Probar si DyhkXT_dgdk _en/_es son el mismo texto antes de decidir dedupe (el md5 exacto no alcanza). Unificados con UPDATE, evidencia archivada.
 >    - Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
 >
 > 🧰 MÉTODOS DE PARCHEO SEGURO (no romper código):
@@ -166,4 +166,4 @@
 
 ## Fecha
 
-Última actualización: 2026-10-14 09:00
+Última actualización: 2026-10-17 23:03

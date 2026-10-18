@@ -864,7 +864,11 @@ def main():
     try:
         from brainhub.citas import ExtractorCitas
         extractor_citas = ExtractorCitas(max_oraciones=3)
-        _video_id_citas = os.path.basename(archivo).replace('.txt', '').replace('_EN_FORZADO', '').replace('_ES', '')
+        # Convención canónica: extraer ID de YouTube (11 chars) o usar nombre completo
+        _nombre_base = os.path.basename(archivo).replace('.txt', '')
+        import re
+        _match_id = re.search(r'Transcript_([A-Za-z0-9_-]{11})', _nombre_base)
+        _video_id_citas = _match_id.group(1) if _match_id else _nombre_base
         citas_semanticas = extractor_citas.extraer(
             texto_limpio=texto_limpio,
             video_id=_video_id_citas,
