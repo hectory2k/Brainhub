@@ -4,12 +4,13 @@ Persiste chunks desde JSONs de análisis a DuckDB.
 Uso: python persistir_chunks.py [--db PATH] [--dir PATH] [--patron PATTERN]
 """
 import json
+import os
 import sys
 import subprocess
 import argparse
 from pathlib import Path
 
-DB_DEFAULT = "/sdcard/Download/analisis_consolidado.duckdb"
+DB_DEFAULT = os.environ.get('BRAINHUB_DB', '/sdcard/Download/analisis_consolidado.duckdb')
 DIR_DEFAULT = "/sdcard/Download"
 PATRON_DEFAULT = "Transcript_*_analisis_completo.json"
 

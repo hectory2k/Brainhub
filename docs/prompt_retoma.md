@@ -26,6 +26,7 @@
 > Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
+> ✅ Hecho reciente (2026-10-19 00:00): Sincronización de retoma. Divergencia detectada y corregida: convención de nombres y unificación DyhkXT_dgdk ya estaban resueltas en commit afe13e6.
 
 > 📚 Aprendizaje nuevo:
 >    - FTS nativo de DuckDB NO existe para linux_arm64_android (HTTP 404).
@@ -41,12 +42,13 @@
 >
 > ⚠️ PENDIENTE:
 >    - [x] Limpiar firma "Error 500" de fuentes .txt (archivos ya saneados).
->    - [x] Blindar ingesta: guardia en analisis_completo_v6.5.py (firma 'Error 500 (Server Error)!!1' -> exit 1). Falta el chequeo de firma en chequeo_salud.sh.
+>    - [x] Blindar ingesta: guardia en analisis_completo_v6.5.py (firma 'Error 500' -> exit 1).
+>    - [ ] Blindar ingesta: aplicar chequeo de firma "Error 500" en chequeo_salud.sh (pendiente).
 >    - [x] Mantener 5 chunks contaminados en DB como profilaxis de aprendizaje (evidencia fundamental).
+>    - [x] Decidir convención de nombres + filtro VigiSalud; migrar con UPDATE (sin DELETE). Parches en l.867 y consolidar.py:31 aplicados en afe13e6.
+>    - [x] Unificar DyhkXT_dgdk _en/_es con UPDATE (evidencia archivada, commit afe13e6).
 >    - Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
 >    - Migrar a brainhub_config (centralizar versiones hardcodeadas).
->    - Decidir convención de nombres + filtro VigiSalud en escritura (ver 🧭); luego migrar con UPDATE, no DELETE.
->    - [x] Probar si DyhkXT_dgdk _en/_es son el mismo texto antes de decidir dedupe (el md5 exacto no alcanza). Unificados con UPDATE, evidencia archivada.
 >    - Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
 >
 > 🧰 MÉTODOS DE PARCHEO SEGURO (no romper código):
@@ -155,9 +157,9 @@
 - Detalle: BITACORA.md 2026-10-13/14 y docs/aprendizaje.md.
 
 > PRÓXIMO (elegir 1):
-> 1. Contar términos extra vs stopwords; decidir convención y filtro; migrar con UPDATE (sin DELETE); parchar l.867 y consolidar.py:31.
-> 2. Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
-> 3. Migrar a brainhub_config (centralizar versiones hardcodeadas).
+> 1. Integrar persistir_chunks.py al pipeline_db.sh como paso 6 (crítico: evita pérdida de chunks en rebuild).
+> 2. Migrar a brainhub_config (centralizar versiones hardcodeadas).
+> 3. Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
 >
 
 
@@ -166,4 +168,4 @@
 
 ## Fecha
 
-Última actualización: 2026-10-17 23:03
+Última actualización: 2026-10-19 23:59

@@ -7,6 +7,7 @@
 #   3. extraer_diccionarios.py  → CSVs en data/diccionarios/
 #   4. actualizar_vista_tecnicos.sh → v_terminos_tecnicos
 #   5. guardia_contaminacion.sh → reporte de cobertura
+#   6. persistir_chunks.py → tabla chunks (desde JSONs de análisis)
 # ============================================================
 set -euo pipefail
 
@@ -18,24 +19,28 @@ echo "🏗️  PIPELINE COMPLETO DE LA DB"
 echo "════════════════════════════════════════════════════════════"
 
 echo
-echo "▶️  [1/5] Reconstruir tablas de análisis..."
+echo "▶️  [1/6] Reconstruir tablas de análisis..."
 "$SCRIPT_DIR/reconstruir_db.sh"
 
 echo
-echo "▶️  [2/5] Crear tablas técnicas (anatomía, MeSH)..."
+echo "▶️  [2/6] Crear tablas técnicas (anatomía, MeSH)..."
 "$SCRIPT_DIR/crear_tablas_tecnicas.sh"
 
 echo
-echo "▶️  [3/5] Extraer diccionarios a CSV..."
+echo "▶️  [3/6] Extraer diccionarios a CSV..."
 python3 "$SCRIPT_DIR/extraer_diccionarios.py"
 
 echo
-echo "▶️  [4/5] Actualizar vista unificada de técnicos..."
+echo "▶️  [4/6] Actualizar vista unificada de técnicos..."
 "$SCRIPT_DIR/actualizar_vista_tecnicos.sh"
 
 echo
-echo "▶️  [5/5] Guardia de contaminación..."
+echo "▶️  [5/6] Guardia de contaminación..."
 "$SCRIPT_DIR/guardia_contaminacion.sh" || true
+
+echo
+echo "▶️  [6/6] Persistir chunks desde JSONs..."
+python3 "$SCRIPT_DIR/persistir_chunks.py"
 
 echo
 echo "════════════════════════════════════════════════════════════"

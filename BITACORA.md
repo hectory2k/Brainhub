@@ -3530,3 +3530,42 @@ Al verificar con `git log`, se descubrió:
 - docs/prompt_retoma.md.PRE_PROTOCOLO
 - docs/prompt_retoma.md.PRE_FIX_PREFIJO
 - docs/aprendizaje.md.PRE_LECCION_20261014
+
+### ✅ Cierre de Tarea: Integración de persistir_chunks.py al pipeline (2026-10-19)
+- **Acción**: Agregado como paso [6/6] en `scripts/pipeline_db.sh`, después de la guardia de contaminación.
+- **Evidencia**: 
+  - Script usa `INSERT OR IGNORE`, garantizando idempotencia (no duplica los 2151 chunks existentes).
+  - DB accesible (12MB), 38 JSONs fuente disponibles.
+  - Contadores del pipeline actualizados de [X/5] a [X/6].
+- **Backup**: `scripts/pipeline_db.sh.PRE_PASO6` preservado.
+- **Lección**: La idempotencia en scripts de ingesta (INSERT OR IGNORE) es la única forma segura de evitar que un rebuild o re-ejecución corrompa o duplique la tabla `chunks`.
+
+### ✅ Cierre de Sesión: Sincronización de Retoma e Integración de Chunks (2026-10-19)
+
+**1. Sincronización de deuda documental (Protocolo de Inicio):**
+- Se detectó divergencia entre el bloque "PRÓXIMO" del retoma y el historial de Git.
+- El commit `afe13e6` ya había resuelto la convención de nombres y la unificación de `DyhkXT_dgdk`.
+- **Acción**: Se ejecutó un parche seguro (Python + `assert`) en `docs/prompt_retoma.md` para marcar estas tareas como `[x]` y actualizar el bloque "PRÓXIMO" con las tareas realmente pendientes.
+- **Backup**: `docs/prompt_retoma.md.PRE_SINCRO_20261019`.
+
+**2. Integración de `persistir_chunks.py` al pipeline (Paso 6):**
+- **Diagnóstico**: Se verificó que `reconstruir_db.sh` (paso 1) hace `rm -f`, por lo que la persistencia de chunks debe ir al final. Se confirmó que `persistir_chunks.py` usa `INSERT OR IGNORE`, garantizando idempotencia (no duplica los 2151 chunks existentes).
+- **Acción**: Se parcheó `scripts/pipeline_db.sh` para:
+  1. Actualizar todos los contadores de `[X/5]` a `[X/6]`.
+  2. Agregar el paso 6 en el header comentado.
+  3. Insertar la ejecución de `persistir_chunks.py --db /sdcard/Download/analisis_consolidado.duckdb` después de la guardia de contaminación.
+- **Backup**: `scripts/pipeline_db.sh.PRE_PASO6`.
+- **Evidencia**: Pipeline validado con `cat -n`, 38 JSONs fuente disponibles, tabla `chunks` con 2151 filas intactas.
+
+### ✅ Cierre de Tarea: Migración mínima a brainhub_config (Opción A) (2026-10-19)
+- **Acción**: 
+  1. `persistir_chunks.py` ahora usa `os.environ.get('BRAINHUB_DB', ...)` (consistencia con 12+ módulos).
+  2. `batch_robusto.sh` y `batch_ollama_robusto.sh` migrados de `brainhub-llama` a `qwen2.5:1.5b`.
+  3. `pipeline_db.sh` paso 6 corregido: ya no hardcodea `--db`, usa `BRAINHUB_DB`.
+- **Evidencia**: 
+  - 29 JSONs con `qwen2.5:1.5b` ahora hacen SKIP correctamente.
+  - 5 JSONs con `gemma:2b`, 3 sin modelo y 1 con abstención se reprocesarán (correcto).
+  - Los batches son scripts standalone, no orquestados (documentado).
+- **Backups**: `.PRE_CONFIG_A` y `.PRE_CONFIG_FINAL` preservados.
+- **Gap documentado**: 15+ scripts legacy con rutas hardcodeadas (aprender.sh, completar.sh, estado.sh, etc.). Migración futura, no crítica.
+- **Lección**: Cambiar un string que funciona como clave de caché (modelo en JSONs) no es un refactor cosmético. Requiere validar que los JSONs existentes matcheen el nuevo criterio de SKIP.

@@ -918,3 +918,13 @@ Referencias:
 
 **Referencia:**
 - Sesión 2026-10-17: Opción 1 (migración huérfanos) y Opción C (deduplicación DyhkXT_dgdk).
+
+### Lección: El retoma es deuda viva y la idempotencia es obligatoria (2026-10-19)
+- **Deuda documental**: Un bloque de retoma desactualizado lleva a diagnosticar bugs ya resueltos (ej. convención de nombres, Bug #8). El protocolo de inicio (git log + diff contra el retoma) es obligatorio para evitar trabajo fantasma.
+- **Idempotencia en ingesta**: Cualquier script que alimente la DB desde archivos externos debe usar `INSERT OR IGNORE` (o `UPSERT`). Sin esto, re-ejecutar el pipeline tras un fallo o un rebuild duplicará registros o abortará por violación de PRIMARY KEY.
+- **Parcheo seguro**: Usar Python con `assert src.count(viejo) == 1` antes de `replace` es la única forma confiable de modificar scripts en Termux sin que `sed` rompa caracteres especiales o `cat >` sobrescriba por error.
+
+### Lección: Los scripts standalone no se migran sin inventario (2026-10-19)
+- Antes de migrar rutas o modelos en scripts de batch, verificar si son orquestados o standalone. Los standalone pueden estar en uso manual y una migración masiva puede romper flujos ad-hoc.
+- Documentar los scripts legacy (con rutas hardcodeadas) en lugar de migrarlos de inmediato. La migración completa requiere un inventario de uso y un plan de testing manual.
+- El patrón "productor y consumidor derivan por separado" (Bug #8) se cierra con `os.environ.get('BRAINHUB_DB', ...)` en Python y `${BRAINHUB_DB:-...}` en bash. Los scripts legacy que no lo usan son deuda técnica documentada, no bugs activos.
