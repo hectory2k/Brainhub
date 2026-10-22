@@ -928,3 +928,46 @@ Referencias:
 - Antes de migrar rutas o modelos en scripts de batch, verificar si son orquestados o standalone. Los standalone pueden estar en uso manual y una migración masiva puede romper flujos ad-hoc.
 - Documentar los scripts legacy (con rutas hardcodeadas) en lugar de migrarlos de inmediato. La migración completa requiere un inventario de uso y un plan de testing manual.
 - El patrón "productor y consumidor derivan por separado" (Bug #8) se cierra con `os.environ.get('BRAINHUB_DB', ...)` en Python y `${BRAINHUB_DB:-...}` en bash. Los scripts legacy que no lo usan son deuda técnica documentada, no bugs activos.
+
+### 📜 Historial de Decisiones y Hallazgos (2026-10-13/14)
+### 📝 Hallazgos y Ajustes Recientes (2026-10-13)
+
+**1. Incidente: Inyección de "Error 500" en fuentes .txt**
+- **Causa**: Basura de Google ("Error 500 (Server Error)!!1500...") inyectada en archivos `.txt` fuente.
+- **Impacto**: 5 chunks contaminados en DuckDB (4 en `_en`, 1 en `_es`).
+- **Resolución**: Limpieza con regex + backup. Archivos `.txt` saneados.
+- **Profilaxis**: Los 5 chunks se mantienen en DB como evidencia forense (no se borran).
+
+**2. Blindaje de Ingesta**
+- `chequeo_salud.sh` ahora rechaza archivos con firma "Error 500" (usar comillas simples para evitar expansión de `!!` en bash).
+- Validación obligatoria antes de procesar cualquier `.txt` nuevo.
+
+**3. Lección Aprendida**
+- Deduplicar por hash de contenido, no por nombre de archivo (evitar inflado por variantes de idioma falsas).
+- Mantener evidencia de errores como casos de prueba permanentes (profilaxis de aprendizaje).
+
+---
+
+### 🔎 Timestamps y nombres (2026-10-13)
+- DB real: /sdcard/Download/analisis_consolidado.duckdb (brainhub.duckdb de la raíz era una base vacía).
+- `chunks` NO tiene minuto (solo start_char/end_char); segmentos_timestamp no existe. Dos generaciones del pipeline: Transcript_<id>_ES.txt (sin tiempos, alimenta chunks) y yt_lib/yt_transcript.py (jsonl + timestamped en /sdcard/Download/corpus/<id>/), que nadie llama.
+- Alineador de prueba (~/temp/probar_alineacion.py): 6 palabras normalizadas contra el VTT ancla 82/93 chunks de DyhkXT_dgdk (.en.vtt). Sin ancla -> NULL. Diseño previsto: tabla chunk_tiempo(chunk_id, t_inicio, metodo).
+- 30 videos = 26 fuentes. ONrw_JAOHvo: traducciones reales. DyhkXT_dgdk: 3 variantes con hashes distintos y chunks en inglés (hipótesis sin probar: mismo texto). Un md5 exacto no las detecta.
+- Lecciones: duckdb sin -readonly crea una base vacía; NOT IN con NULL da 0 filas falso; productor y consumidor derivan nombres por separado (patrón Bug #8).
+
+### 🧭 Convención de nombres y controles (2026-10-14)
+- DECISIÓN: no se borra lo auditado (25 huérfanos en terminos_raw/progreso, 5 chunks con firma). Es la evidencia para decidir la convención. Copia: analisis_consolidado.duckdb.PRE_REPROCESO_ONRW_20261013.
+- 3 convenciones: nombre completo Transcript_<id>_ES (analysis, chunks, rebuild, archivos); recortado Transcript_<id> (v6.5 hasta l.918, l.867, consolidar.py:31); ID YouTube de 11 chars (yt_lib, .vtt).
+- La convención rota apagó el control: guardia_contaminacion.sh hace JOIN por nombre exacto y no veía los 25 huérfanos.
+- El rebuild filtra stopwords y v6.5 incremental no: al menos 25 términos extra de los huérfanos son stopwords. Falta contar los que no.
+- Recomendado (abierto): clave = nombre completo; youtube_id por regex ^Transcript_(.{11})_; filtro en la escritura incremental.
+- NO correr reprocesar_sanos.sh ni pipeline_db.sh hasta decidir. v6.5 l.918 ya usa el nombre completo (backup .PRE_VIDEOID).
+- Detalle: BITACORA.md 2026-10-13/14 y docs/aprendizaje.md.
+
+### Lección: Los estados 'pendiente' son deuda técnica, no trabajo en progreso (2026-10-19)
+- Un video que queda en `pendiente` indefinidamente no es "pausado", es un fallo silencioso del pipeline (archivo vacío, Error 500, o crash). 
+- La estrategia correcta no es intentar "reprocesarlo" ciegamente (lo que genera más basura), sino: 
+  1. Diagnosticar la causa raíz en el archivo fuente.
+  2. Si el archivo es irrecuperable, moverlo a `_descartados` y marcar el registro en la DB como `descartado_error` (UPDATE, no DELETE total, para preservar la auditoría).
+  3. Limpiar `terminos_raw` y `chunks` asociados para que no contaminen las búsquedas BM25.
+- Esto mantiene el pipeline frugal y la DB libre de "fantasmas" que inflan métricas y rompen joins.

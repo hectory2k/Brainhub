@@ -43,14 +43,24 @@
 > ⚠️ PENDIENTE:
 >    - [x] Limpiar firma "Error 500" de fuentes .txt (archivos ya saneados).
 >    - [x] Blindar ingesta: guardia en analisis_completo_v6.5.py (firma 'Error 500' -> exit 1).
->    - [ ] Blindar ingesta: aplicar chequeo de firma "Error 500" en chequeo_salud.sh (pendiente).
->    - [x] Mantener 5 chunks contaminados en DB como profilaxis de aprendizaje (evidencia fundamental).
->    - [x] Decidir convención de nombres + filtro VigiSalud; migrar con UPDATE (sin DELETE). Parches en l.867 y consolidar.py:31 aplicados en afe13e6.
+>    - [ ] Blindar ingesta: aplicar chequeo de firma "Error 500" en chequeo_salud.sh.
+>    - [x] Mantener 5 chunks contaminados en DB como profilaxis de aprendizaje.
+>    - [x] Decidir convención de nombres + filtro VigiSalud; migrar con UPDATE (sin DELETE).
 >    - [x] Unificar DyhkXT_dgdk _en/_es con UPDATE (evidencia archivada, commit afe13e6).
->    - Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
->    - Migrar a brainhub_config (centralizar versiones hardcodeadas).
->    - Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
+>    - [x] Integrar persistir_chunks.py al pipeline_db.sh como paso 6 (idempotente, usa BRAINHUB_DB).
+>    - [x] Migrar a brainhub_config (cleanup brainhub-llama, centralizar BRAINHUB_DB).
+>    - [ ] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
+>    - [ ] Puente minuto -> chunks (tabla chunk_tiempo).
 >
+> 🎯 PRÓXIMO ÚNICO: Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
+> **Criterio de done:**
+>   - Diagnóstico con evidencia de por qué están rotos/huérfanos.
+>   - Transacción segura (DELETE previo en chunks, terminos_raw, analysis, progreso).
+>   - Cero firmas "Error 500" y nicho recalculado.
+>   - BITACORA y aprendizaje actualizados; commit único.
+> **🚨 GUARDIA EXPLÍCITA:** No ejecutar `pipeline_db.sh` ni reprocesos masivos si `git status` no está limpio o si el PRÓXIMO diverge de `git log`.
+>
+
 > 🧰 MÉTODOS DE PARCHEO SEGURO (no romper código):
 >
 > 1. **Siempre hacer backup antes de tocar:**
@@ -119,8 +129,8 @@
 > 14. **`Última actualización:` aparece 2 veces en prompt_retoma.md.**
 >    - Una en la documentación del punto 5 (formato `YYYY-MM-DD HH:MM`).
 >    - Otra en `## Fecha` (formato real `2026-10-11 01:04`).
->    - Editar SOLO la real: regex `Última actualización: \d{4}-\d{2}-\d{2}` (matchea solo el formato real).
->    - NO usar `src.count("Última actualización:")` → dará 2 y romperá el assert.
+>    - Editar SOLO la real: regex `Última actualización: \d{4}-\d{2}-\d{2} \d{2}:\d{2}`.
+>    - **Test mínimo obligatorio:** `assert len(re.findall(r'Última actualización: \d{4}-\d{2}-\d{2} \d{2}:\d{2}', src)) == 1` antes de guardar.
 
 ### 📝 Hallazgos y Ajustes Recientes (2026-10-13)
 

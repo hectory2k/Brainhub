@@ -3569,3 +3569,12 @@ Al verificar con `git log`, se descubrió:
 - **Backups**: `.PRE_CONFIG_A` y `.PRE_CONFIG_FINAL` preservados.
 - **Gap documentado**: 15+ scripts legacy con rutas hardcodeadas (aprender.sh, completar.sh, estado.sh, etc.). Migración futura, no crítica.
 - **Lección**: Cambiar un string que funciona como clave de caché (modelo en JSONs) no es un refactor cosmético. Requiere validar que los JSONs existentes matcheen el nuevo criterio de SKIP.
+
+### ✅ Cierre de Tarea: Limpieza de registros pendientes y huérfanos (2026-10-19)
+- **Diagnóstico**: Se identificaron 32 videos en estado `pendiente` en la tabla `progreso` (incluyendo variantes de `DyhkXT_dgdk`, `ONrw_JAOHvo`, y el PDF de freeCodeCamp). Estos quedaron en este estado por archivos fuente vacíos (0 líneas), con firma "Error 500", o interrupciones del pipeline.
+- **Acción**: 
+  - Ejecución de script de limpieza segura (`limpiar_todos_pendientes.py`).
+  - `DELETE` en `terminos_raw` y `chunks` para estos 32 videos (evita contaminación y duplicados en RAG).
+  - `UPDATE` en `progreso` cambiando estado de `pendiente` a `descartado_error` (preserva evidencia forense sin afectar el pipeline activo).
+- **Resultado**: DB saneada. Distribución final: 97 `completado`, 32 `descartado_error`. Cero archivos con "Error 500" en el directorio activo `/sdcard/Download`.
+- **Backup**: `analisis_consolidado.duckdb.PRE_LIMPIEZA_PENDIENTES`.
