@@ -49,6 +49,8 @@
 >    - [x] Limpieza segura de 32 registros pendientes/huérfanos (UPDATE a 'descartado_error').
 >    - [ ] Puente minuto → chunks: alinear timestamps de VTT con chunk_id (Deuda de valor crítica).
 >    - [ ] Test de regresión para Bug #8 (verificar que chunker está en pipeline).
+>    - [ ] Centralizar versiones hardcodeadas en brainhub_config (v7.2.0 en backup, v6.5 en generar_documento/shadow_testing).
+>    - [ ] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos (deuda de higiene).
 >
 > 🎯 PRÓXIMO ÚNICO: Resolver el puente minuto → chunks (tabla chunk_tiempo).
 > **Criterio de done:** 
@@ -138,7 +140,7 @@
 - **Profilaxis**: Los 5 chunks se mantienen en DB como evidencia forense (no se borran).
 
 **2. Blindaje de Ingesta**
-- `chequeo_salud.sh` ahora rechaza archivos con firma "Error 500" (usar comillas simples para evitar expansión de `!!` en bash).
+- Guardia de ingesta en `analisis_completo_v6.5.py:694`: rechaza archivos con firma "Error 500 (Server Error)!!1" (transcripciones YouTube mal bajadas). Fuentes ya saneadas en sesión previa.
 - Validación obligatoria antes de procesar cualquier `.txt` nuevo.
 
 **3. Lección Aprendida**
@@ -163,11 +165,6 @@
 - NO correr reprocesar_sanos.sh ni pipeline_db.sh hasta decidir. v6.5 l.918 ya usa el nombre completo (backup .PRE_VIDEOID).
 - Detalle: BITACORA.md 2026-10-13/14 y docs/aprendizaje.md.
 
-> PRÓXIMO (elegir 1):
-> 1. Integrar persistir_chunks.py al pipeline_db.sh como paso 6 (crítico: evita pérdida de chunks en rebuild).
-> 2. Migrar a brainhub_config (centralizar versiones hardcodeadas).
-> 3. Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
->
 
 
 > RECORDATORIO: leer BITACORA.md y docs/aprendizaje.md
