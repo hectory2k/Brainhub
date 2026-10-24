@@ -40,25 +40,22 @@
 >    - scripts/persistir_chunks.py → JSONs a DuckDB (tabla chunks).
 >    - scripts/buscar_chunks.py → búsqueda BM25 sobre chunks.
 >
-> ⚠️ PENDIENTE:
->    - [x] Limpiar firma "Error 500" de fuentes .txt (archivos ya saneados).
->    - [x] Blindar ingesta: guardia en analisis_completo_v6.5.py (firma 'Error 500' -> exit 1).
->    - [ ] Blindar ingesta: aplicar chequeo de firma "Error 500" en chequeo_salud.sh.
->    - [x] Mantener 5 chunks contaminados en DB como profilaxis de aprendizaje.
->    - [x] Decidir convención de nombres + filtro VigiSalud; migrar con UPDATE (sin DELETE).
->    - [x] Unificar DyhkXT_dgdk _en/_es con UPDATE (evidencia archivada, commit afe13e6).
+> ⚠️ ESTADO DE PENDIENTES (Única fuente de verdad):
+>    - [x] Limpiar firma "Error 500" y blindar ingesta en v6.5.
+>    - [x] Mantener 5 chunks contaminados en DB como profilaxis.
+>    - [x] Decidir convención de nombres + filtro VigiSalud (migrado con UPDATE en afe13e6).
 >    - [x] Integrar persistir_chunks.py al pipeline_db.sh como paso 6 (idempotente, usa BRAINHUB_DB).
->    - [x] Migrar a brainhub_config (cleanup brainhub-llama, centralizar BRAINHUB_DB).
->    - [ ] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
->    - [ ] Puente minuto -> chunks (tabla chunk_tiempo).
+>    - [x] Migración mínima a brainhub_config (cleanup brainhub-llama, centralizar BRAINHUB_DB).
+>    - [x] Limpieza segura de 32 registros pendientes/huérfanos (UPDATE a 'descartado_error').
+>    - [ ] Puente minuto → chunks: alinear timestamps de VTT con chunk_id (Deuda de valor crítica).
+>    - [ ] Test de regresión para Bug #8 (verificar que chunker está en pipeline).
 >
-> 🎯 PRÓXIMO ÚNICO: Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
-> **Criterio de done:**
->   - Diagnóstico con evidencia de por qué están rotos/huérfanos.
->   - Transacción segura (DELETE previo en chunks, terminos_raw, analysis, progreso).
->   - Cero firmas "Error 500" y nicho recalculado.
->   - BITACORA y aprendizaje actualizados; commit único.
-> **🚨 GUARDIA EXPLÍCITA:** No ejecutar `pipeline_db.sh` ni reprocesos masivos si `git status` no está limpio o si el PRÓXIMO diverge de `git log`.
+> 🎯 PRÓXIMO ÚNICO: Resolver el puente minuto → chunks (tabla chunk_tiempo).
+> **Criterio de done:** 
+>   - Diagnóstico: ¿cuántos casos reales requieren el minuto? (Si >0, es bug, no feature).
+>   - Implementación: script que lee VTT y actualiza DB sin romper chunks existentes.
+>   - Test de regresión que valide la unión.
+> **🚨 GUARDIA EXPLÍCITA:** No ejecutar pipeline ni reprocesos si `git status` no está limpio o si este bloque diverge de `git log`.
 >
 
 > 🧰 MÉTODOS DE PARCHEO SEGURO (no romper código):
@@ -178,4 +175,4 @@
 
 ## Fecha
 
-Última actualización: 2026-10-19 23:59
+Última actualización: 2026-10-20 00:00
