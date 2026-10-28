@@ -3587,3 +3587,12 @@ Al verificar con `git log`, se descubrió:
   - Ejecutado alineamiento exitoso: 82/93 chunks anclados (88.2% de cobertura).
 - **Resultado**: El RAG ahora puede responder "¿En qué minuto se dijo X?" uniendo `chunks` con sus timestamps. Los 11 chunks sin ancla quedaron como `NULL` de forma segura.
 - **Lección**: La normalización de texto (quitar acentos, minúsculas, solo alfanumérico) es la clave para que el matching entre VTT y chunks sea robusto ante diferencias de formato.
+
+### ✅ Cierre de Tarea: Puente minuto → chunks (2026-10-20)
+- **Diagnóstico**: Se detectó que los chunks de `Transcript_DyhkXT_dgdk_ES_FORZADO_es` estaban en inglés, por lo que el VTT de alineación correcto era `DyhkXT_dgdk.en.vtt` (Bug de convención de nombres, no de código).
+- **Acción**: 
+  - Creado `scripts/alinear_chunks_vtt.py` (heurística O(N) de 6 palabras, resiliente a mayúsculas/acentos).
+  - Agregadas columnas `t_inicio` y `t_fin` (REAL) a la tabla `chunks` vía `ALTER TABLE IF NOT EXISTS`.
+  - Ejecutado alineamiento exitoso: 82/93 chunks anclados (88.2% de cobertura).
+- **Resultado**: El RAG ahora puede responder "¿En qué minuto se dijo X?" uniendo `chunks` con sus timestamps. Los 11 chunks sin ancla quedaron como `NULL` de forma segura.
+- **Lección**: La normalización de texto (quitar acentos, minúsculas, solo alfanumérico) es la clave para que el matching entre VTT y chunks sea robusto ante diferencias de formato.

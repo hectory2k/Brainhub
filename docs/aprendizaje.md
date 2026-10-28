@@ -976,3 +976,8 @@ Referencias:
 - Un archivo llamado `*_ES*` puede contener texto en inglés (y viceversa). Confiar en el nombre del archivo para elegir el VTT de alineación lleva a falsos negativos (0% de cobertura).
 - La solución frugal: normalizar ambos textos (VTT y chunk) a minúsculas, sin acentos y solo alfanuméricos, y buscar una secuencia de 6 palabras. Esto es O(N) y tolera diferencias de puntuación o traducción ligera.
 - Agregar columnas `t_inicio` y `t_fin` directamente a la tabla `chunks` es más eficiente para el RAG que crear una tabla `chunk_tiempo` separada (evita JOINs en cada consulta de búsqueda).
+
+### Lección: El puente minuto → chunks requiere alineación por contenido, no por nombre (2026-10-20)
+- Un archivo llamado `*_ES*` puede contener texto en inglés (y viceversa). Confiar en el nombre del archivo para elegir el VTT de alineación lleva a falsos negativos.
+- La solución frugal: normalizar ambos textos (VTT y chunk) a minúsculas, sin acentos y solo alfanuméricos, y buscar una secuencia de 6 palabras. Esto es O(N) y tolera diferencias de puntuación.
+- Agregar columnas `t_inicio` y `t_fin` directamente a la tabla `chunks` es más eficiente para el RAG que crear una tabla `chunk_tiempo` separada (evita JOINs en cada consulta).

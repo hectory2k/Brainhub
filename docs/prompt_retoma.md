@@ -47,7 +47,7 @@
 >    - [x] Integrar persistir_chunks.py al pipeline_db.sh como paso 6 (idempotente, usa BRAINHUB_DB).
 >    - [x] Migración mínima a brainhub_config (cleanup brainhub-llama, centralizar BRAINHUB_DB).
 >    - [x] Limpieza segura de 32 registros pendientes/huérfanos (UPDATE a 'descartado_error').
->    - [ ] Puente minuto → chunks: alinear timestamps de VTT con chunk_id (Deuda de valor crítica).
+>    - [x] Puente minuto → chunks: alinear timestamps de VTT con chunk_id (88.2% cobertura, script alinear_chunks_vtt.py).
 >    - [ ] Test de regresión para Bug #8 (verificar que chunker está en pipeline).
 >    - [ ] Centralizar versiones hardcodeadas en brainhub_config (v7.2.0 en backup, v6.5 en generar_documento/shadow_testing).
 >    - [ ] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos (deuda de higiene).
@@ -172,4 +172,4 @@
 
 ## Fecha
 
-Última actualización: 2026-10-20 00:00
+Última actualización: 2026-10-20 01:00
