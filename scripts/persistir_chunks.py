@@ -7,6 +7,7 @@ import json
 import os
 import sys
 import subprocess
+import tempfile
 import argparse
 from pathlib import Path
 
@@ -82,12 +83,21 @@ def insertar(chunks, db_path, lote=50):
             "n_oraciones, estrategia, tier, metadata) VALUES "
             + ",\n".join(valores) + ";"
         )
+        # Usar archivo temporal para evitar "Argument list too long" (Errno 7)
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.sql', delete=False, encoding='utf-8') as tmp:
+            tmp.write(sql)
+            tmp_path = tmp.name
+        
         result = subprocess.run(
-            ['duckdb', db_path, '-c', sql],
-            capture_output=True, text=True
+            f"duckdb '{db_path}' < '{tmp_path}'",
+            shell=True, capture_output=True, text=True
         )
+        
+        # Limpiar el archivo temporal
+        Path(tmp_path).unlink(missing_ok=True)
+        
         if result.returncode != 0:
-            print(f"  ❌ Error lote {i//lote}: {result.stderr[:200]}")
+            print(f"  ❌ Error SQL en lote {i//lote}:\n{result.stderr}")
             continue
         total += len(sublote)
     return total

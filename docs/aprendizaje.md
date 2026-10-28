@@ -971,3 +971,8 @@ Referencias:
   2. Si el archivo es irrecuperable, moverlo a `_descartados` y marcar el registro en la DB como `descartado_error` (UPDATE, no DELETE total, para preservar la auditoría).
   3. Limpiar `terminos_raw` y `chunks` asociados para que no contaminen las búsquedas BM25.
 - Esto mantiene el pipeline frugal y la DB libre de "fantasmas" que inflan métricas y rompen joins.
+
+### Lección: El puente minuto → chunks requiere alineación por contenido, no por nombre (2026-10-20)
+- Un archivo llamado `*_ES*` puede contener texto en inglés (y viceversa). Confiar en el nombre del archivo para elegir el VTT de alineación lleva a falsos negativos (0% de cobertura).
+- La solución frugal: normalizar ambos textos (VTT y chunk) a minúsculas, sin acentos y solo alfanuméricos, y buscar una secuencia de 6 palabras. Esto es O(N) y tolera diferencias de puntuación o traducción ligera.
+- Agregar columnas `t_inicio` y `t_fin` directamente a la tabla `chunks` es más eficiente para el RAG que crear una tabla `chunk_tiempo` separada (evita JOINs en cada consulta de búsqueda).

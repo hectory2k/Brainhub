@@ -41,8 +41,10 @@ echo ""
 
 # 1. Descargar el repositorio como ZIP
 echo "📥 Descargando repositorio..."
-ZIP_URL="https://github.com/$REPO/archive/refs/heads/$BRANCH.zip"
-ZIP_FILE="$WORK_DIR/${REPO//\//_}_$BRANCH.zip"
+# Normalizar REPO: quitar https://github.com/ y .git final para que coincida con el ZIP de GitHub
+REPO_CLEAN=$(echo "$REPO" | sed -E 's|https?://github\.com/||; s|\.git$||')
+ZIP_URL="https://github.com/$REPO_CLEAN/archive/refs/heads/$BRANCH.zip"
+ZIP_FILE="$WORK_DIR/${REPO_CLEAN//\//_}_$BRANCH.zip"
 
 curl -L -o "$ZIP_FILE" "$ZIP_URL" 2>/dev/null
 if [ $? -ne 0 ] || [ ! -s "$ZIP_FILE" ]; then
@@ -53,7 +55,7 @@ echo "✅ ZIP descargado: $(basename "$ZIP_FILE")"
 
 # 2. Extraer archivos
 echo "📦 Extrayendo archivos..."
-REPO_NAME=$(basename "$REPO")
+REPO_NAME=$(basename "$REPO_CLEAN")
 EXTRACT_DIR="$WORK_DIR/${REPO_NAME}-$BRANCH"
 
 unzip -q "$ZIP_FILE" -d "$WORK_DIR" 2>/dev/null
