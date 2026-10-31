@@ -22,7 +22,7 @@
 > No agregar features que no resuelvan un bug. Diagnóstico con evidencia
 > antes de tocar. Documentar en BITACORA.md y docs/aprendizaje.md.
 >
-> Estado: v7.2.5, 103 analysis, 137 tests, RAG con chunks + BM25 (chunks aún sin minuto).
+> Estado: v7.2.5, 103 analysis, 137 tests, RAG con chunks + BM25 + timestamps (puente minuto→chunks validado).
 > Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
@@ -40,7 +40,7 @@
 >    - Resuelto conflicto SRT vs VTT: comas→puntos en timestamps mediante micro-script de conversión.
 >    - Ingestadas notas de Mg. Daniel Andrés Birchner (Inteligencia y Contrainteligencia).
 >
-> 📚 Aprendizaje nuevo (2026-10-31):
+> 📚 Aprendizaje nuevo (2026-11-01):
 >    - SRT usa comas para milisegundos (`00:00:00,000`), VTT usa puntos (`00:00:00.000`).
 >      El alineador falla silenciosamente (0/N chunks) si no se convierte antes.
 >    - `yt-dlp` en Termux puede fallar con SSL EOF o Error 429. Fallback robusto:
@@ -51,12 +51,23 @@
 >      porque la librería Python no siempre está instalada pero el CLI sí.
 >    - Regex de YouTube ID: priorizar `Transcript_([A-Za-z0-9_-]{11})` antes que
 >      patrón genérico, porque "Transcript_" también tiene 11 chars y genera falsos positivos.
+>    - Patrón de preservación de tablas dinámicas en reconstrucción de DB:
+>      1) `COPY (SELECT * FROM tabla) TO 'backup.csv'`
+>      2) `rm -f` y recrear schema con `CREATE TABLE IF NOT EXISTS` (incluyendo todas las columnas)
+>      3) `INSERT INTO tabla SELECT * FROM read_csv_auto('backup.csv')`
+>      Evita pérdida de metadatos enriquecidos (timestamps, estados) que no viven en los JSONs fuente.
+>    - `reconstruir_db.sh` ejecutaba `rm -f` de la DB, destruyendo `chunks` con sus timestamps.
+>      Fix: exportar a CSV antes del borrado, recrear schema completo, re-importar.
+>    - `procesar_paper.sh` tiene fallback inteligente: si `descolumnar.py` falla (PDF de 1 columna,
+>      ancho no detectado, demasiadas líneas cortadas), usa el texto crudo de `pdftotext -layout`
+>      sin interrumpir el flujo. Nunca rompe el análisis.
 >
 > 🛠️ Scripts nuevos/actualizados:
 >    - scripts/persistir_chunks.py → JSONs a DuckDB (tabla chunks). Usa tempfile para evitar Errno 7.
 >    - scripts/buscar_chunks.py → búsqueda BM25 sobre chunks con timestamps y links YouTube.
 >    - scripts/alinear_chunks_vtt.py → puente minuto→chunks (heurística 6 palabras, O(N)).
 >    - scripts/procesar → orquestador de ingesta (versionado en repo, symlink en ~/.local/bin).
+>    - scripts/reconstruir_db.sh → blindado para preservar tabla chunks (t_inicio/t_fin) via CSV temporal.
 >
 > ⚠️ ESTADO DE PENDIENTES (Única fuente de verdad):
 >    - [x] Limpiar firma "Error 500" y blindar ingesta en v6.5.
@@ -66,16 +77,16 @@
 >    - [x] Migración mínima a brainhub_config.
 >    - [x] Limpieza segura de 32 registros pendientes/huérfanos.
 >    - [x] Puente minuto → chunks: validado al 100% (wvMNNDw2sN0: 87/87 anclados).
->    - [ ] Auto-detección SRT/VTT en alinear_chunks_vtt.py (parche listo, falta aplicar y commitear).
+>    - [x] Auto-detección SRT/VTT en alinear_chunks_vtt.py (aplicada y commiteada 2026-11-01).
 >    - [ ] Test de regresión para Bug #8 (verificar que chunker está en pipeline).
 >    - [ ] Centralizar versiones hardcodeadas en brainhub_config.
 >    - [ ] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
 >
-> 🎯 PRÓXIMO ÚNICO: Aplicar auto-detección SRT/VTT en alinear_chunks_vtt.py.
+> 🎯 PRÓXIMO ÚNICO: Test de regresión para el blindaje de chunks en reconstruir_db.sh.
 > **Criterio de done:**
->   - El script detecta formato por contenido (WEBVTT al inicio → VTT, si no → SRT).
->   - Convierte comas→puntos en memoria, sin tocar el archivo original.
->   - Test con el .srt de wvMNNDw2sN0: debe anclar 87/87 chunks sin conversión manual previa.
+>   - Script que ejecute `pipeline_db.sh` y verifique que la tabla `chunks` mantiene sus columnas `t_inicio`/`t_fin` y filas intactas.
+>   - Validar con el video wvMNNDw2sN0: 87/87 chunks con timestamp no NULL después de reconstrucción.
+>   - Commitear como `scripts/test_preservacion_chunks.sh`.
 > **🚨 GUARDIA EXPLÍCITA:** No ejecutar pipeline ni reprocesos si `git status` no está limpio.
 >
 
@@ -170,7 +181,7 @@
 
 ### 🔎 Timestamps y nombres (2026-10-13)
 - DB real: /sdcard/Download/analisis_consolidado.duckdb (brainhub.duckdb de la raíz era una base vacía).
-- `chunks` NO tiene minuto (solo start_char/end_char); segmentos_timestamp no existe. Dos generaciones del pipeline: Transcript_<id>_ES.txt (sin tiempos, alimenta chunks) y yt_lib/yt_transcript.py (jsonl + timestamped en /sdcard/Download/corpus/<id>/), que nadie llama.
+- ~~`chunks` NO tiene minuto (solo start_char/end_char)~~ → **RESUELTO 2026-11-01**: ahora tiene `t_inicio`/`t_fin` vía `alinear_chunks_vtt.py`. Dos generaciones del pipeline: Transcript_<id>_ES.txt (sin tiempos, alimenta chunks) y yt_lib/yt_transcript.py (jsonl + timestamped en /sdcard/Download/corpus/<id>/), que nadie llama.
 - Alineador de prueba (~/temp/probar_alineacion.py): 6 palabras normalizadas contra el VTT ancla 82/93 chunks de DyhkXT_dgdk (.en.vtt). Sin ancla -> NULL. Diseño previsto: tabla chunk_tiempo(chunk_id, t_inicio, metodo).
 - 30 videos = 26 fuentes. ONrw_JAOHvo: traducciones reales. DyhkXT_dgdk: 3 variantes con hashes distintos y chunks en inglés (hipótesis sin probar: mismo texto). Un md5 exacto no las detecta.
 - Lecciones: duckdb sin -readonly crea una base vacía; NOT IN con NULL da 0 filas falso; productor y consumidor derivan nombres por separado (patrón Bug #8).
@@ -191,4 +202,4 @@
 
 ## Fecha
 
-Última actualización: 2026-11-01 12:00
+Última actualización: 2026-11-01 12:30
