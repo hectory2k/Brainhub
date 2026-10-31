@@ -26,38 +26,53 @@
 > Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-10-19 00:00): Sincronización de retoma. Divergencia detectada y corregida: convención de nombres y unificación DyhkXT_dgdk ya estaban resueltas en commit afe13e6.
-
-> 📚 Aprendizaje nuevo:
->    - FTS nativo de DuckDB NO existe para linux_arm64_android (HTTP 404).
->    - Alternativa: bm25s en Python (mismo resultado, sin extensiones nativas).
->    - Ollama tarda ~10s en arrancar. Chequeos con sleep 5 dan falsos negativos.
->    - `setsid nohup` mata Ollama en Termux. `nohup` sin setsid + termux-services funciona.
->    - `brainhub-llama` (2.1 GB REPACK) mata el proceso en Moto G56. qwen2.5:1.5b (1 GB) entra cómodo.
->    - `termux-services` + runit: demonización persistente, auto-restart, sobrevive cierres.
+> ✅ Hecho reciente (2026-10-31 00:30): Sesión de robustez en ingesta y RAG.
+>    - Blindado `scripts/procesar` contra trampa de compilación de openai-whisper en Termux.
+>    - Versionado `scripts/procesar` (movido de ~/.local/bin al repo con symlink).
+>    - `scripts/buscar_chunks.py` adaptado al schema real de DuckDB (chunk_id, video, t_inicio, texto).
+>    - `buscar_chunks.py` migrado a subprocess + CLI de DuckDB (evita dependencia de librería Python).
+>    - Corregida extracción de YouTube ID (evitar falso positivo con "Transcript_" de 11 chars).
+>    - Puente minuto→chunks validado al 100%: video wvMNNDw2sN0 (81 min, 87/87 chunks anclados).
+>    - Resuelto conflicto SRT vs VTT: comas→puntos en timestamps mediante micro-script de conversión.
+>    - Ingestadas notas de Mg. Daniel Andrés Birchner (Inteligencia y Contrainteligencia).
 >
-> 🛠️ Scripts nuevos:
->    - scripts/persistir_chunks.py → JSONs a DuckDB (tabla chunks).
->    - scripts/buscar_chunks.py → búsqueda BM25 sobre chunks.
+> 📚 Aprendizaje nuevo (2026-10-31):
+>    - SRT usa comas para milisegundos (`00:00:00,000`), VTT usa puntos (`00:00:00.000`).
+>      El alineador falla silenciosamente (0/N chunks) si no se convierte antes.
+>    - `yt-dlp` en Termux puede fallar con SSL EOF o Error 429. Fallback robusto:
+>      NewPipe (Android) → descarga .srt → conversión a .vtt → pipeline normal.
+>    - `--cookies-from-browser chrome` NO funciona en Termux sin root (sandboxing Android).
+>      Alternativa: exportar cookies manualmente con extensión del navegador.
+>    - `buscar_chunks.py` debe usar subprocess + `duckdb -json` (CLI), no `import duckdb`,
+>      porque la librería Python no siempre está instalada pero el CLI sí.
+>    - Regex de YouTube ID: priorizar `Transcript_([A-Za-z0-9_-]{11})` antes que
+>      patrón genérico, porque "Transcript_" también tiene 11 chars y genera falsos positivos.
+>
+> 🛠️ Scripts nuevos/actualizados:
+>    - scripts/persistir_chunks.py → JSONs a DuckDB (tabla chunks). Usa tempfile para evitar Errno 7.
+>    - scripts/buscar_chunks.py → búsqueda BM25 sobre chunks con timestamps y links YouTube.
+>    - scripts/alinear_chunks_vtt.py → puente minuto→chunks (heurística 6 palabras, O(N)).
+>    - scripts/procesar → orquestador de ingesta (versionado en repo, symlink en ~/.local/bin).
 >
 > ⚠️ ESTADO DE PENDIENTES (Única fuente de verdad):
 >    - [x] Limpiar firma "Error 500" y blindar ingesta en v6.5.
 >    - [x] Mantener 5 chunks contaminados en DB como profilaxis.
 >    - [x] Decidir convención de nombres + filtro VigiSalud (migrado con UPDATE en afe13e6).
->    - [x] Integrar persistir_chunks.py al pipeline_db.sh como paso 6 (idempotente, usa BRAINHUB_DB).
->    - [x] Migración mínima a brainhub_config (cleanup brainhub-llama, centralizar BRAINHUB_DB).
->    - [x] Limpieza segura de 32 registros pendientes/huérfanos (UPDATE a 'descartado_error').
->    - [x] Puente minuto → chunks: alinear timestamps de VTT con chunk_id (88.2% cobertura, script alinear_chunks_vtt.py).
+>    - [x] Integrar persistir_chunks.py al pipeline_db.sh como paso 6.
+>    - [x] Migración mínima a brainhub_config.
+>    - [x] Limpieza segura de 32 registros pendientes/huérfanos.
+>    - [x] Puente minuto → chunks: validado al 100% (wvMNNDw2sN0: 87/87 anclados).
+>    - [ ] Auto-detección SRT/VTT en alinear_chunks_vtt.py (parche listo, falta aplicar y commitear).
 >    - [ ] Test de regresión para Bug #8 (verificar que chunker está en pipeline).
->    - [ ] Centralizar versiones hardcodeadas en brainhub_config (v7.2.0 en backup, v6.5 en generar_documento/shadow_testing).
->    - [ ] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos (deuda de higiene).
+>    - [ ] Centralizar versiones hardcodeadas en brainhub_config.
+>    - [ ] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
 >
-> 🎯 PRÓXIMO ÚNICO: Resolver el puente minuto → chunks (tabla chunk_tiempo).
-> **Criterio de done:** 
->   - Diagnóstico: ¿cuántos casos reales requieren el minuto? (Si >0, es bug, no feature).
->   - Implementación: script que lee VTT y actualiza DB sin romper chunks existentes.
->   - Test de regresión que valide la unión.
-> **🚨 GUARDIA EXPLÍCITA:** No ejecutar pipeline ni reprocesos si `git status` no está limpio o si este bloque diverge de `git log`.
+> 🎯 PRÓXIMO ÚNICO: Aplicar auto-detección SRT/VTT en alinear_chunks_vtt.py.
+> **Criterio de done:**
+>   - El script detecta formato por contenido (WEBVTT al inicio → VTT, si no → SRT).
+>   - Convierte comas→puntos en memoria, sin tocar el archivo original.
+>   - Test con el .srt de wvMNNDw2sN0: debe anclar 87/87 chunks sin conversión manual previa.
+> **🚨 GUARDIA EXPLÍCITA:** No ejecutar pipeline ni reprocesos si `git status` no está limpio.
 >
 
 > 🧰 MÉTODOS DE PARCHEO SEGURO (no romper código):
@@ -172,4 +187,4 @@
 
 ## Fecha
 
-Última actualización: 2026-10-29 00:15
+Última actualización: 2026-10-31 00:30
