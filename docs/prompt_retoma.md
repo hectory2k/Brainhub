@@ -26,7 +26,11 @@
 > Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-10-31 00:30): Sesión de robustez en ingesta y RAG.
+> ✅ Hecho reciente (2026-11-01 12:00): Sesión de blindaje de DB e ingesta políglota.
+>    - Blindado `reconstruir_db.sh`: ahora preserva la tabla `chunks` (y sus columnas `t_inicio`/`t_fin`) mediante exportación a CSV temporal antes del `rm -f`, y re-importación posterior.
+>    - Pipeline de PDFs operativo: `procesar_paper.sh` con fallback inteligente de `descolumnar.py` (si falla, usa texto crudo sin romper el flujo).
+>    - Auto-detección SRT/VTT implementada en `alinear_chunks_vtt.py` (convierte comas a puntos en memoria si falta el encabezado WEBVTT).
+>    - Ingesta exitosa de paper académico desde Google Drive (bypass de error 400 con curl + user-agent). Sesión de robustez en ingesta y RAG.
 >    - Blindado `scripts/procesar` contra trampa de compilación de openai-whisper en Termux.
 >    - Versionado `scripts/procesar` (movido de ~/.local/bin al repo con symlink).
 >    - `scripts/buscar_chunks.py` adaptado al schema real de DuckDB (chunk_id, video, t_inicio, texto).
@@ -187,4 +191,4 @@
 
 ## Fecha
 
-Última actualización: 2026-10-31 00:30
+Última actualización: 2026-11-01 12:00

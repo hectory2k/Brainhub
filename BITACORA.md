@@ -3596,3 +3596,17 @@ Al verificar con `git log`, se descubrió:
   - Ejecutado alineamiento exitoso: 82/93 chunks anclados (88.2% de cobertura).
 - **Resultado**: El RAG ahora puede responder "¿En qué minuto se dijo X?" uniendo `chunks` con sus timestamps. Los 11 chunks sin ancla quedaron como `NULL` de forma segura.
 - **Lección**: La normalización de texto (quitar acentos, minúsculas, solo alfanumérico) es la clave para que el matching entre VTT y chunks sea robusto ante diferencias de formato.
+
+## 2026-11-01 — Blindaje de DB, ingesta políglota y PDFs académicos
+### Mejora Crítica: Preservación de tabla `chunks` en reconstrucción
+- **Problema**: `reconstruir_db.sh` ejecutaba `rm -f` de la DB, destruyendo la tabla `chunks` y sus columnas de tiempo (`t_inicio`, `t_fin`) generadas por `alinear_chunks_vtt.py`.
+- **Solución**: El script ahora exporta `chunks` a un CSV temporal (`.chunks_backup_preservado.csv`) antes de borrar, recrea la tabla con el schema completo (incluyendo las columnas de tiempo), y re-importa los datos. Cero pérdida de metadatos temporales.
+
+### Ingesta Políglota Validada
+- **YouTube**: Auto-detección SRT/VTT en `alinear_chunks_vtt.py`. Si el archivo no tiene `WEBVTT`, lo inyecta y convierte comas a puntos en los timestamps en memoria.
+- **Google Drive**: Bypass del error 400 de `yt-dlp` usando `curl -L -A "Mozilla/5.0"` con el ID del archivo.
+- **PDFs Académicos**: Flujo completo operativo con `procesar_paper.sh`. Si `descolumnar.py` falla (ej. PDF de 1 columna o ancho no detectado), el fallback usa el texto crudo extraído por `pdftotext -layout`, garantizando que el análisis nunca se interrumpa.
+- **Spotify**: Diagnosticado bloqueo DRM explícito en `yt-dlp`. Ruta alternativa definida: buscar espejo en YouTube o transcripción web manual.
+
+### RAG Contextual
+- El sistema ahora maneja elegantemente documentos sin timestamps (fallback a `?t=0` en la URL) sin romper la consulta, mientras mantiene los links precisos (`?t=394`) para videos alineados.

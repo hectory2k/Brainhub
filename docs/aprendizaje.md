@@ -981,3 +981,13 @@ Referencias:
 - Un archivo llamado `*_ES*` puede contener texto en inglés (y viceversa). Confiar en el nombre del archivo para elegir el VTT de alineación lleva a falsos negativos.
 - La solución frugal: normalizar ambos textos (VTT y chunk) a minúsculas, sin acentos y solo alfanuméricos, y buscar una secuencia de 6 palabras. Esto es O(N) y tolera diferencias de puntuación.
 - Agregar columnas `t_inicio` y `t_fin` directamente a la tabla `chunks` es más eficiente para el RAG que crear una tabla `chunk_tiempo` separada (evita JOINs en cada consulta).
+
+### 2026-11-01: Reconstrucción de DB y pérdida de tablas dinámicas
+- **Caso**: `reconstruir_db.sh` borraba toda la base de datos (`rm -f`), eliminando tablas que no se generan desde los JSONs estáticos (como `chunks` con sus columnas `t_inicio` y `t_fin`).
+- **Lección**: Un script de "reconstrucción" no debe asumir que puede borrar todo si existen tablas de estado o metadatos enriquecidos post-análisis.
+- **Fix**: Patrón de preservación: 1) `COPY (SELECT * FROM tabla) TO 'backup.csv'`, 2) `rm -f` y recrear schema con `CREATE TABLE IF NOT EXISTS` (incluyendo todas las columnas), 3) `INSERT INTO tabla SELECT * FROM read_csv_auto('backup.csv')`.
+
+### 2026-11-01: Auto-detección de formatos de subtítulos
+- **Caso**: `alinear_chunks_vtt.py` fallaba silenciosamente (0/N chunks anclados) al recibir un archivo `.srt` de NewPipe, porque buscaba puntos (`00:00:00.000`) y el SRT usa comas (`00:00:00,000`).
+- **Lección**: No confiar en la extensión del archivo. Validar el contenido.
+- **Fix**: Si el contenido no empieza con `WEBVTT`, inyectar el encabezado y usar `re.sub` para cambiar comas por puntos en los timestamps antes de procesar.
