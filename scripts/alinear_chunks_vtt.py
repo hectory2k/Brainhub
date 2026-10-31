@@ -16,7 +16,15 @@ def norm(s):
 
 def cues(path):
     out, start, buf = [], None, []
-    for line in Path(path).read_text(encoding="utf-8").splitlines() + [""]:
+    content = Path(path).read_text(encoding="utf-8")
+    
+    # 🧠 AUTO-DETECCIÓN Y CONVERSIÓN (Hace el sistema intuitivo a SRT)
+    if not content.strip().startswith("WEBVTT"):
+        content = "WEBVTT\n\n" + content.strip()
+    # Convierte comas a puntos en los timestamps (SRT -> VTT)
+    content = re.sub(r'(\d{2}:\d{2}:\d{2}),(\d{3})\s*-->\s*(\d{2}:\d{2}:\d{2}),(\d{3})', r'\1.\2 --> \3.\4', content)
+    
+    for line in content.splitlines() + [""]:
         m = TS.match(line)
         if m:
             h, mi, s, ms = map(int, m.groups())
