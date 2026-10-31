@@ -81,6 +81,13 @@ fi
 # ────────────────────────────────────────────────────────────
 echo "🏗️  Reconstruyendo DB..."
 cd "$JSONS_DIR"
+# 🧠 PRESERVACIÓN DE CHUNKS: Exportar a CSV temporal antes de borrar
+CHUNKS_CSV_TMP="$JSONS_DIR/.chunks_backup_preservado.csv"
+if [ -f "$DB_PATH" ]; then
+    echo "💾 Resguardando tabla chunks (timestamps) antes de reconstruir..."
+    duckdb "$DB_PATH" -c "COPY (SELECT * FROM chunks) TO '$CHUNKS_CSV_TMP' (HEADER, DELIMITER ',');" 2>/dev/null || true
+fi
+
 rm -f "$DB_PATH"
 
 duckdb "$DB_PATH" << SQL
@@ -194,6 +201,33 @@ GROUP BY term
 ORDER BY total DESC
 LIMIT 10;
 SQL
+
+# 🧠 RESTAURACIÓN DE CHUNKS: Re-importar desde el CSV temporal
+if [ -f "$CHUNKS_CSV_TMP" ]; then
+    echo "♻️  Restaurando tabla chunks desde respaldo..."
+    duckdb "$DB_PATH" << RESTORE_SQL
+CREATE TABLE IF NOT EXISTS chunks (
+    chunk_id TEXT PRIMARY KEY,
+    video TEXT,
+    posicion INTEGER,
+    texto TEXT,
+    start_char INTEGER,
+    end_char INTEGER,
+    n_oraciones INTEGER,
+    estrategia TEXT,
+    tier TEXT,
+    metadata JSON,
+    t_inicio FLOAT,
+    t_fin FLOAT,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+INSERT INTO chunks SELECT * FROM read_csv_auto('$CHUNKS_CSV_TMP');
+RESTORE_SQL
+    rm -f "$CHUNKS_CSV_TMP"
+    echo "✅ Tabla chunks restaurada con sus timestamps."
+else
+    echo "ℹ️  No había tabla chunks previa para resguardar."
+fi
 
 echo
 echo "✅ DB reconstruida: $DB_PATH"
