@@ -991,3 +991,27 @@ Referencias:
 - **Caso**: `alinear_chunks_vtt.py` fallaba silenciosamente (0/N chunks anclados) al recibir un archivo `.srt` de NewPipe, porque buscaba puntos (`00:00:00.000`) y el SRT usa comas (`00:00:00,000`).
 - **Lección**: No confiar en la extensión del archivo. Validar el contenido.
 - **Fix**: Si el contenido no empieza con `WEBVTT`, inyectar el encabezado y usar `re.sub` para cambiar comas por puntos en los timestamps antes de procesar.
+## Optimización de LLMs locales en Android/Termux (2026-11-03)
+
+### Patrón: Defensa contra chunks gigantes (Truncamiento)
+Un chunk de 100,000+ caracteres satura la ventana de contexto del LLM, causando:
+1. Timeouts masivos (>3 min).
+2. OOM Killer de Android (falta de RAM).
+3. Respuestas de baja calidad (el modelo se "pierde" en el medio del texto).
+
+**Solución**: Truncar el texto a un máximo razonable (ej: 800 caracteres) antes de inyectarlo en el prompt.
+```python
+texto_corto = texto_raw[:800] + ("..." if len(texto_raw) > 800 else "")
+```
+
+### Patrón: `num_ctx` bajo para velocidad en CPU ARM
+Por defecto, modelos como `qwen2.5:1.5b` soportan 32k tokens. En CPU ARM, procesar 4k+ es extremadamente lento.
+**Solución**: Forzar `"num_ctx": 2048` en la API de Ollama. Reduce el uso de RAM y acelera la generación 3x-5x.
+
+### Patrón: Streaming como "Keep-Alive" en Android
+Cuando un proceso espera una respuesta bloqueante sin imprimir en stdout, Android lo marca como "inactivo" y lo mata.
+**Solución**: Usar `"stream": true` e imprimir cada token (`print(text, end="", flush=True)`). Mantiene el pipe de E/S activo.
+
+### Patrón: Pre-calentamiento del modelo
+La primera consulta tarda 30-60s extra en cargar pesos a RAM (pico vulnerable al OOM Killer).
+**Solución**: Ejecutar una consulta dummy (`curl ... "prompt":"ok"`) antes de la tarea real.

@@ -50,6 +50,19 @@ Registro cronológico de bugs, fixes, descubrimientos y lecciones.
 
 ---
 
+## 2026-11-03 — Q&A Interactivo RAG: Victoria sobre Android OOM y Timeouts
+
+### Hecho
+- Script `scripts/qa_interactivo.py` funcional y estable en Termux/Android.
+- **Hallazgo crítico**: Un chunk de la DB tenía **100,883 caracteres** (ingesta sin chunkear). Esto causaba timeouts de 180s+ y kills de Android (OOM) al saturar la ventana de contexto.
+- **Solución implementada**:
+  1. Truncamiento defensivo: `MAX_CHUNK_CHARS = 800` antes de enviar al LLM.
+  2. Optimización Ollama: `"num_ctx": 2048` (reduce drásticamente RAM y tiempo en CPU ARM).
+  3. Streaming activado (`"stream": true`): Mantiene el pipe de E/S activo, evitando suspensión por "inactividad".
+- Test de regresión: `scripts/test_qa_interactivo.sh` con `timeout 60s` de bash.
+
+### Deuda técnica identificada
+- El pipeline de ingesta permitió un chunk de 100k caracteres. Se debe agregar una guardia para subdividir o rechazar chunks > 2000 caracteres antes de persistir en DuckDB.
 ## 2026-09-15 — Video industrial revela 5 bugs
 
 ### Contexto

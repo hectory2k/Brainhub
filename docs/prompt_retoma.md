@@ -39,6 +39,11 @@
 >    - Puente minuto→chunks validado al 100%: video wvMNNDw2sN0 (81 min, 87/87 chunks anclados).
 >    - Resuelto conflicto SRT vs VTT: comas→puntos en timestamps mediante micro-script de conversión.
 >    - Ingestadas notas de Mg. Daniel Andrés Birchner (Inteligencia y Contrainteligencia).
+>    - Q&A interactivo RAG funcional en Termux: `scripts/qa_interactivo.py`.
+>      Resuelto timeout/OOM en Android mediante: truncamiento a 800 chars, 
+>      `num_ctx: 2048` en Ollama, y streaming como keep-alive de E/S.
+>      Test de regresión: `scripts/test_qa_interactivo.sh`.
+>    - Hallazgo: Chunk de 100k caracteres en DB (deuda de ingesta sin chunkear).
 >
 > 📚 Aprendizaje nuevo (2026-11-01):
 >    - SRT usa comas para milisegundos (`00:00:00,000`), VTT usa puntos (`00:00:00.000`).
@@ -51,6 +56,12 @@
 >      porque la librería Python no siempre está instalada pero el CLI sí.
 >    - Regex de YouTube ID: priorizar `Transcript_([A-Za-z0-9_-]{11})` antes que
 >      patrón genérico, porque "Transcript_" también tiene 11 chars y genera falsos positivos.
+>    - LLMs en Android: chunks >10k caracteres causan OOM/timeout. Solución: 
+>      truncar a ~800 chars + `"num_ctx": 2048` en Ollama API.
+>    - Streaming (`stream: true`) actúa como keep-alive de E/S, evitando que 
+>      Android suspenda procesos de Python por "inactividad" durante la generación.
+>    - Pre-calentar modelo con curl dummy antes de tareas pesadas evita el pico 
+>      de carga en RAM que dispara el OOM Killer.
 >    - Patrón de preservación de tablas dinámicas en reconstrucción de DB:
 >      1) `COPY (SELECT * FROM tabla) TO 'backup.csv'`
 >      2) `rm -f` y recrear schema con `CREATE TABLE IF NOT EXISTS` (incluyendo todas las columnas)
@@ -202,4 +213,4 @@
 
 ## Fecha
 
-Última actualización: 2026-11-01 12:30
+Última actualización: 2026-11-03 16:00
