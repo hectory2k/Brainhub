@@ -26,7 +26,7 @@
 > Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-11-01 12:00): Sesión de blindaje de DB e ingesta políglota.
+> ✅ Hecho reciente (2026-11-03 16:30): Sesión de blindaje de DB e ingesta políglota.
 >    - Blindado `reconstruir_db.sh`: ahora preserva la tabla `chunks` (y sus columnas `t_inicio`/`t_fin`) mediante exportación a CSV temporal antes del `rm -f`, y re-importación posterior.
 >    - Pipeline de PDFs operativo: `procesar_paper.sh` con fallback inteligente de `descolumnar.py` (si falla, usa texto crudo sin romper el flujo).
 >    - Auto-detección SRT/VTT implementada en `alinear_chunks_vtt.py` (convierte comas a puntos en memoria si falta el encabezado WEBVTT).
@@ -45,7 +45,7 @@
 >      Test de regresión: `scripts/test_qa_interactivo.sh`.
 >    - Hallazgo: Chunk de 100k caracteres en DB (deuda de ingesta sin chunkear).
 >
-> 📚 Aprendizaje nuevo (2026-11-01):
+> 📚 Aprendizaje nuevo (2026-11-03):
 >    - SRT usa comas para milisegundos (`00:00:00,000`), VTT usa puntos (`00:00:00.000`).
 >      El alineador falla silenciosamente (0/N chunks) si no se convierte antes.
 >    - `yt-dlp` en Termux puede fallar con SSL EOF o Error 429. Fallback robusto:
@@ -79,6 +79,8 @@
 >    - scripts/alinear_chunks_vtt.py → puente minuto→chunks (heurística 6 palabras, O(N)).
 >    - scripts/procesar → orquestador de ingesta (versionado en repo, symlink en ~/.local/bin).
 >    - scripts/reconstruir_db.sh → blindado para preservar tabla chunks (t_inicio/t_fin) via CSV temporal.
+>    - scripts/qa_interactivo.py → Q&A RAG interactivo con truncamiento defensivo y streaming.
+>    - scripts/test_qa_interactivo.sh → test de regresión con guardia de git y timeout.
 >
 > ⚠️ ESTADO DE PENDIENTES (Única fuente de verdad):
 >    - [x] Limpiar firma "Error 500" y blindar ingesta en v6.5.
@@ -92,13 +94,14 @@
 >    - [ ] Test de regresión para Bug #8 (verificar que chunker está en pipeline).
 >    - [ ] Centralizar versiones hardcodeadas en brainhub_config.
 >    - [ ] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
+>    - [ ] Deuda de ingesta: chunk de 100k caracteres en DB (subdividir o rechazar chunks >2000 chars).
 >
-> 🎯 PRÓXIMO ÚNICO: Test de regresión para el blindaje de chunks en reconstruir_db.sh.
+> 🎯 PRÓXIMO ÚNICO: Resolver deuda de ingesta (chunk de 100k caracteres).
 > **Criterio de done:**
->   - Script que ejecute `pipeline_db.sh` y verifique que la tabla `chunks` mantiene sus columnas `t_inicio`/`t_fin` y filas intactas.
->   - Validar con el video wvMNNDw2sN0: 87/87 chunks con timestamp no NULL después de reconstrucción.
->   - Commitear como `scripts/test_preservacion_chunks.sh`.
-> **🚨 GUARDIA EXPLÍCITA:** No ejecutar pipeline ni reprocesos si `git status` no está limpio.
+>   - Agregar guardia en pipeline de ingesta para rechazar/subdividir chunks >2000 caracteres.
+>   - Validar que no existan chunks >2000 chars en DuckDB después de la corrección.
+>   - Documentar en BITACORA.md y docs/aprendizaje.md.
+> **🚨 GUARDIA EXPLÍCITA:** No modificar pipeline sin backup previo de la DB.
 >
 
 > 🧰 MÉTODOS DE PARCHEO SEGURO (no romper código):
