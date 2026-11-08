@@ -8,6 +8,7 @@ Uso:
 """
 import requests
 from typing import Optional
+import brainhub_config
 
 
 class OllamaClient:
@@ -15,12 +16,12 @@ class OllamaClient:
 
     def __init__(
         self,
-        model: str = 'qwen2.5:1.5b',
+        model: str = None,
         url: str = 'http://localhost:11434',
         timeout: int = 300,
         num_predict: int = 80,
     ):
-        self.model = model
+        self.model = model or brainhub_config.get("llm.modelo", "qwen2.5:1.5b")
         self.url = url
         self.timeout = timeout
         self.num_predict = num_predict

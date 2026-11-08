@@ -26,7 +26,11 @@
 > Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-11-07 22:56): Test de regresión Bug #8 validado.
+> ✅ Hecho reciente (2026-11-08 00:31): Centralización de versiones LLM en brainhub_config.
+>    - 2026-11-08: Centralización de versiones LLM en brainhub_config.
+>      - `brainhub/llm/ollama_client.py` ahora lee `llm.modelo` desde `brainhub_config.json`.
+>      - Elimina hardcodeos de `qwen2.5:1.5b` en `abstract_llm.py`, `preguntar.py` y `qa_interactivo.py`.
+>      - Deuda residual: scripts Bash legacy aún hardcodean rutas de DB.
 >    - 2026-11-08: Test de regresión Bug #8 implementado y validado.
 >      - Script `scripts/test_bug8_chunker_pipeline.sh` verifica que el chunker no devuelva 1 chunk gigante.
 >      - Previene que deudas de ingesta (como el chunk de 100k) pasen desapercibidas.
@@ -107,7 +111,7 @@
 >    - [ ] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
 >    - [x] Deuda de ingesta: chunk de 100k caracteres en DB (mitigado: saneamiento DB + guardia en persistir_chunks.py).
 >
-> 🎯 PRÓXIMO ÚNICO: Centralizar versiones hardcodeadas en brainhub_config.
+> 🎯 PRÓXIMO ÚNICO: Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
 > **Criterio de done:**
 >   - Test barato confirma que el pipeline llama al chunker y a `persistir_chunks.py`.
 >   - El test debe fallar si se desconecta el chunker del pipeline.
@@ -227,4 +231,4 @@
 
 ## Fecha
 
-Última actualización: 2026-11-07 21:58
+Última actualización: 2026-11-08 00:31

@@ -1,4 +1,10 @@
 
+### ✅ Cierre de Tarea: Centralizar versiones hardcodeadas en brainhub_config (2026-11-08 00:31)
+- **Diagnóstico**: Múltiples hardcodeos de `qwen2.5:1.5b` en scripts Python (`ollama_client.py`, `abstract_llm.py`, `preguntar.py`, `qa_interactivo.py`).
+- **Acción**: Migrado `brainhub/llm/ollama_client.py` para leer `llm.modelo` desde `brainhub_config.json` mediante `brainhub_config.get("llm.modelo", "qwen2.5:1.5b")`.
+- **Resultado**: Cambiar el modelo LLM por defecto ahora requiere editar solo `brainhub_config.json`. Los scripts que instancian `OllamaClient()` sin argumentos heredan el cambio automáticamente.
+- **Deuda residual**: Scripts Bash legacy (`aprender.sh`, `estado.sh`, etc.) aún hardcodean la ruta de la DB. Se priorizó la migración Python por ser la más crítica para el LLM.
+
 ### ✅ Cierre de Tarea: Mitigación de chunks gigantes en ingesta (2026-11-07 21:58)
 
 - **Diagnóstico con evidencia**:
