@@ -26,7 +26,10 @@
 > Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-11-07 21:58): Mitigación de chunks gigantes en ingesta.
+> ✅ Hecho reciente (2026-11-07 22:56): Test de regresión Bug #8 validado.
+>    - 2026-11-08: Test de regresión Bug #8 implementado y validado.
+>      - Script `scripts/test_bug8_chunker_pipeline.sh` verifica que el chunker no devuelva 1 chunk gigante.
+>      - Previene que deudas de ingesta (como el chunk de 100k) pasen desapercibidas.
 >    - 2026-11-08: Mitigación de chunks gigantes en DB e ingesta.
 >      - Detectados 138 chunks >2000 chars; caso crítico `Transcript_-RDBMu7BreE_ES_0000_70342690` con 100883 chars.
 >      - Ejecutado `scripts/saneador_chunks_grandes.py`; verificación final: 0 chunks >2000 chars.
@@ -104,7 +107,7 @@
 >    - [ ] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
 >    - [x] Deuda de ingesta: chunk de 100k caracteres en DB (mitigado: saneamiento DB + guardia en persistir_chunks.py).
 >
-> 🎯 PRÓXIMO ÚNICO: Test de regresión para Bug #8 (verificar que chunker está en pipeline).
+> 🎯 PRÓXIMO ÚNICO: Centralizar versiones hardcodeadas en brainhub_config.
 > **Criterio de done:**
 >   - Test barato confirma que el pipeline llama al chunker y a `persistir_chunks.py`.
 >   - El test debe fallar si se desconecta el chunker del pipeline.
