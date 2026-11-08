@@ -1015,3 +1015,27 @@ Cuando un proceso espera una respuesta bloqueante sin imprimir en stdout, Androi
 ### Patrón: Pre-calentamiento del modelo
 La primera consulta tarda 30-60s extra en cargar pesos a RAM (pico vulnerable al OOM Killer).
 **Solución**: Ejecutar una consulta dummy (`curl ... "prompt":"ok"`) antes de la tarea real.
+
+## 2026-11-07 — Chunks gigantes y guardia de persistencia
+
+### Patrón: Guardia de tamaño en persistencia de chunks
+Un chunk de ~100k caracteres en DuckDB es deuda de ingesta y puede provocar OOM/timeout en Android/Ollama.
+
+**Mitigación aplicada**:
+- `scripts/saneador_chunks_grandes.py` saneó la DB existente.
+- `scripts/persistir_chunks.py` ahora usa `asegurar_tamano_chunks(...)`.
+- La guardia subdivide con `textwrap.wrap(texto, width=1500)` cuando `len(texto) > 2000`.
+- Los nuevos IDs se derivan como `_sub_1`, `_sub_2`, etc., preservando el resto del metadata disponible.
+
+**Límite de la solución**:
+- Esto blindá la persistencia, pero no prueba que el chunker original esté sano.
+- Si el chunk gigante es `_0000_`, sospechar falla temprana de segmentación del documento fuente.
+
+### Patrón: parcheo con assert fallido como protección
+Un `assert src.count(viejo) == 1` que falla con `0` no es un desastre: evita escribir un parche equivocado.
+Cuando el bloque exacto falla por indentación o copia parcial:
+1. volver a `cat -n`;
+2. hacer backup;
+3. usar un reemplazo más acotado o regex controlada;
+4. validar con `py_compile` y `grep`.
+

@@ -1,4 +1,32 @@
 
+### ✅ Cierre de Tarea: Mitigación de chunks gigantes en ingesta (2026-11-07 21:58)
+
+- **Diagnóstico con evidencia**:
+  - Consulta DuckDB detectó **138 chunks > 2000 caracteres**.
+  - Caso crítico: `Transcript_-RDBMu7BreE_ES_0000_70342690`, con **100883 caracteres**.
+  - El identificador `_0000_` sugiere deuda/falla del chunker original en ese archivo, no solo ausencia de límite en persistencia.
+
+- **Acción ejecutada**:
+  1. Saneamiento de DB con `scripts/saneador_chunks_grandes.py`.
+  2. Subdivisión de chunks grandes en bloques de hasta ~1500 caracteres.
+  3. Verificación final reportada por el saneador: **0 chunks > 2000 caracteres restantes**.
+  4. Parche seguro aplicado a `scripts/persistir_chunks.py`:
+     - nueva función `asegurar_tamano_chunks(...)`;
+     - llamada activa en `n = insertar(asegurar_tamano_chunks(chunks), args.db)`;
+     - `python3 -m py_compile scripts/persistir_chunks.py` validó sintaxis OK.
+
+- **Resultado**:
+  - La DB queda saneada según el criterio operativo: sin chunks > 2000 caracteres.
+  - La persistencia futura subdivide automáticamente chunks gigantes antes del `INSERT`.
+
+- **Deuda residual documentada**:
+  - Investigar la causa raíz del chunk `_0000_` gigante si vuelve a aparecer.
+  - Revisar duplicados de convención `.srt` vs sin `.srt`.
+  - Verificar/reconstruir índice BM25 si el RAG usa IDs persistidos fuera de DuckDB.
+
+- **Lección**:
+  - Una guardia en persistencia mitiga OOM/timeout, pero no reemplaza auditar el chunker cuando el primer chunk de un documento entra gigantesco.
+
 ### 🎯 Cierre de Opción C: Deduplicación por contenido de DyhkXT_dgdk (2026-10-17 23:03)
 
 **Diagnóstico forense:**

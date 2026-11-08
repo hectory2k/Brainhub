@@ -9,6 +9,7 @@ import sys
 import subprocess
 import tempfile
 import argparse
+import textwrap
 from pathlib import Path
 
 DB_DEFAULT = os.environ.get('BRAINHUB_DB', '/sdcard/Download/analisis_consolidado.duckdb')
@@ -43,6 +44,25 @@ def _escape(valor):
     if isinstance(valor, dict):
         valor = json.dumps(valor, ensure_ascii=False)
     return "'" + str(valor).replace("'", "''") + "'"
+
+
+def asegurar_tamano_chunks(chunks, max_len=2000, wrap_width=1500):
+    """Garantiza que ningun chunk supere max_len caracteres. Subdivide si es necesario (KISS)."""
+    chunks_procesados = []
+    for c in chunks:
+        texto = str(c.get('texto', ''))
+        if len(texto) <= max_len:
+            chunks_procesados.append(c)
+        else:
+            chunk_id = str(c.get('chunk_id', 'UNKNOWN'))
+            print(f"  ⚠️ Guardia activada: Chunk '{chunk_id}' excede {max_len} chars ({len(texto)}). Subdividiendo...")
+            bloques = textwrap.wrap(texto, width=wrap_width, break_long_words=True, replace_whitespace=False)
+            for i, bloque in enumerate(bloques):
+                nuevo_chunk = c.copy()
+                nuevo_chunk['chunk_id'] = f"{chunk_id}_sub_{i+1}"
+                nuevo_chunk['texto'] = bloque
+                chunks_procesados.append(nuevo_chunk)
+    return chunks_procesados
 
 
 def crear_tabla(db_path):
@@ -131,7 +151,7 @@ def main():
                 data = json.load(fh)
             chunks = data.get('chunks', [])
             if chunks:
-                n = insertar(chunks, args.db)
+                n = insertar(asegurar_tamano_chunks(chunks), args.db)
                 total += n
                 print(f"  → {f.name}: {n} chunks")
             else:
