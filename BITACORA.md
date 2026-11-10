@@ -1,4 +1,13 @@
 
+### ✅ Cierre de Sesión: Saneamiento total de deuda de ingesta y huérfanos (2026-11-09 21:48)
+- **Diagnóstico**: Se identificaron 3 archivos con JSON de análisis pero 0 chunks, y 3 JSONs huérfanos sin archivo `.txt` fuente.
+- **Acción**: 
+  1. Inyección quirúrgica de chunks en los 3 archivos recuperables (`3GymExBkKjE_ES`, `VgzHT9quo5c_EN`, `Z_ikDlimN6A_ES`).
+  2. Archivado forense de los 3 JSONs huérfanos en `/sdcard/Download/_evidencia_huerfanos_sin_fuente/`.
+  3. Verificación final: DB con 38 videos, 3938 chunks totales y **0 chunks > 2000 caracteres**.
+- **Resultado**: Deuda de ingesta completamente saldada. Pipeline blindado con guardia en `persistir_chunks.py`.
+- **Hito**: Todos los pendientes del bloque "ESTADO DE PENDIENTES" han sido marcados como `[x]`.
+
 ### ✅ Cierre de Tarea: Centralizar versiones hardcodeadas en brainhub_config (2026-11-08 00:31)
 - **Diagnóstico**: Múltiples hardcodeos de `qwen2.5:1.5b` en scripts Python (`ollama_client.py`, `abstract_llm.py`, `preguntar.py`, `qa_interactivo.py`).
 - **Acción**: Migrado `brainhub/llm/ollama_client.py` para leer `llm.modelo` desde `brainhub_config.json` mediante `brainhub_config.get("llm.modelo", "qwen2.5:1.5b")`.

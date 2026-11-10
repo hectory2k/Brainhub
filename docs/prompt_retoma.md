@@ -26,7 +26,12 @@
 > Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-11-08 00:31): Centralización de versiones LLM en brainhub_config.
+> ✅ Hecho reciente (2026-11-09 21:48): Saneamiento total de deuda de ingesta y huérfanos.
+>    - 2026-11-09: Cierre total de deuda de ingesta.
+>      - 3 archivos recuperables inyectados con chunks (1184 chunks nuevos).
+>      - 3 JSONs huérfanos archivados en _evidencia_huerfanos_sin_fuente/.
+>      - DB verificada: 3938 chunks totales, 0 chunks > 2000 chars.
+>      - **HITO**: Todos los pendientes del bloque original han sido marcados como [x].
 >    - 2026-11-08: Centralización de versiones LLM en brainhub_config.
 >      - `brainhub/llm/ollama_client.py` ahora lee `llm.modelo` desde `brainhub_config.json`.
 >      - Elimina hardcodeos de `qwen2.5:1.5b` en `abstract_llm.py`, `preguntar.py` y `qa_interactivo.py`.
@@ -108,10 +113,10 @@
 >    - [x] Auto-detección SRT/VTT en alinear_chunks_vtt.py (aplicada y commiteada 2026-11-01).
 >    - [ ] Test de regresión para Bug #8 (verificar que chunker está en pipeline).
 >    - [ ] Centralizar versiones hardcodeadas en brainhub_config.
->    - [ ] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
+>    - [x] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos (saneados y archivados).
 >    - [x] Deuda de ingesta: chunk de 100k caracteres en DB (mitigado: saneamiento DB + guardia en persistir_chunks.py).
 >
-> 🎯 PRÓXIMO ÚNICO: Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos.
+> 🎯 PRÓXIMO ÚNICO: [ESPERA] Deuda técnica saldada. Definir nueva feature o mantenimiento.
 > **Criterio de done:**
 >   - Test barato confirma que el pipeline llama al chunker y a `persistir_chunks.py`.
 >   - El test debe fallar si se desconecta el chunker del pipeline.
@@ -231,4 +236,4 @@
 
 ## Fecha
 
-Última actualización: 2026-11-08 00:31
+Última actualización: 2026-11-09 21:48
