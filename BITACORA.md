@@ -3666,3 +3666,22 @@ Al verificar con `git log`, se descubrió:
 
 ### RAG Contextual
 - El sistema ahora maneja elegantemente documentos sin timestamps (fallback a `?t=0` en la URL) sin romper la consulta, mientras mantiene los links precisos (`?t=394`) para videos alineados.
+
+### 2026-11-12 16:32 — Sincronización post-protocolo de inicio
+
+**Contexto:** Inicio de sesión 2026-11-12. Protocolo obligatorio detectó 2 divergencias retoma↔git log y 1 archivo untracked.
+
+**Acciones:**
+1. **Versionado** `scripts/inyectar_chunks_legacy.py` (untracked desde 2026-11-09, 72 líneas, sin historia git). Herramienta legítima del saneamiento: inyecta chunks en JSONs legacy vía chunker actual. Commit nuevo.
+2. **Retoma sincronizado:** 2 líneas `[ ]` → `[x]`:
+   - Test Bug #8 (commit `62fab19`, script existe y es ejecutable).
+   - Config centralizada (commit `232676c`, `ollama_client.py:24` lee de `brainhub_config`).
+3. **DB verificada readonly:** 3938 chunks totales, 0 chunks >2000 chars. Coincide con lo declarado en el hito del 2026-11-09.
+
+**Evidencia:**
+- `git log --oneline -15` → HEAD `874eeef` (docs cierre deuda 2026-11-09).
+- `git status` → solo `scripts/inyectar_chunks_legacy.py` untracked.
+- `duckdb -readonly "SELECT COUNT(*), SUM(LENGTH(texto)>2000) FROM chunks"` → `(3938, 0)`.
+
+**Lección:** El retoma subdeclaró trabajo hecho (patrón Bug #4/#5/#8). Los scripts one-shot de saneamiento son parte del pipeline aunque se ejecuten una vez: versionarlos previene que se pierdan.
+

@@ -26,7 +26,7 @@
 > Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-11-09 21:48): Saneamiento total de deuda de ingesta y huérfanos.
+> ✅ Hecho reciente (2026-11-12 16:20): Saneamiento total de deuda de ingesta y huérfanos.
 >    - 2026-11-09: Cierre total de deuda de ingesta.
 >      - 3 archivos recuperables inyectados con chunks (1184 chunks nuevos).
 >      - 3 JSONs huérfanos archivados en _evidencia_huerfanos_sin_fuente/.
@@ -111,8 +111,8 @@
 >    - [x] Limpieza segura de 32 registros pendientes/huérfanos.
 >    - [x] Puente minuto → chunks: validado al 100% (wvMNNDw2sN0: 87/87 anclados).
 >    - [x] Auto-detección SRT/VTT en alinear_chunks_vtt.py (aplicada y commiteada 2026-11-01).
->    - [ ] Test de regresión para Bug #8 (verificar que chunker está en pipeline).
->    - [ ] Centralizar versiones hardcodeadas en brainhub_config.
+>    - [x] Test de regresión para Bug #8 (commit 62fab19, script `test_bug8_chunker_pipeline.sh` existe).
+>    - [x] Centralizar versiones hardcodeadas en brainhub_config (commit 232676c, `ollama_client.py:24` lee de config).
 >    - [x] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos (saneados y archivados).
 >    - [x] Deuda de ingesta: chunk de 100k caracteres en DB (mitigado: saneamiento DB + guardia en persistir_chunks.py).
 >
@@ -236,4 +236,4 @@
 
 ## Fecha
 
-Última actualización: 2026-11-09 21:48
+Última actualización: 2026-11-12 16:20

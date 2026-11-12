@@ -1039,3 +1039,12 @@ Cuando el bloque exacto falla por indentación o copia parcial:
 3. usar un reemplazo más acotado o regex controlada;
 4. validar con `py_compile` y `grep`.
 
+### Scripts one-shot de saneamiento son parte del pipeline
+
+Los scripts de saneamiento (inyección de chunks en JSONs legacy, corrección masiva de DB, etc.) suelen crearse en `~/temp/` durante una sesión, ejecutarse una vez y quedar como "herramientas de emergencia". El problema: si no se versionan, la próxima sesión no sabe que existen y el retoma no los refleja.
+
+Patrón Bug #8 (productor y consumidor derivan nombres por separado) aplica también aquí: el script existe en el filesystem, funciona, pero el repo no lo conoce y el retoma no lo lista.
+
+**Regla:** si un script en `scripts/` resuelve un problema real del pipeline, se commitea con mensaje claro y se agrega al retoma. Aunque sea one-shot. El costo es un commit; el beneficio es que el próximo yo sepa que existe.
+
+**Detección:** `git status` al inicio debe estar limpio o con untracked justificados. Un untracked en `scripts/` es señal de deuda latente.
