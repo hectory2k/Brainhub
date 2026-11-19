@@ -1048,3 +1048,33 @@ Patrón Bug #8 (productor y consumidor derivan nombres por separado) aplica tamb
 **Regla:** si un script en `scripts/` resuelve un problema real del pipeline, se commitea con mensaje claro y se agrega al retoma. Aunque sea one-shot. El costo es un commit; el beneficio es que el próximo yo sepa que existe.
 
 **Detección:** `git status` al inicio debe estar limpio o con untracked justificados. Un untracked en `scripts/` es señal de deuda latente.
+
+
+## 2026-11-18 — Rutas relativas vs absolutas en retoma y BITACORA
+
+### Lección: el retoma puede citar rutas de `/sdcard/Download/` sin prefijo
+
+**Contexto:** Protocolo de inicio del 2026-11-18 detectó una aparente divergencia:
+el retoma declaraba `3 JSONs huérfanos archivados en _evidencia_huerfanos_sin_fuente/`,
+pero `ls _evidencia_huerfanos_sin_fuente/` desde `~/proyectos/nlp/` devolvía
+`No such file or directory`.
+
+**Diagnóstico:** el directorio **sí existía**, pero en `/sdcard/Download/_evidencia_huerfanos_sin_fuente/`,
+fuera del repo. BITACORA línea 6 citaba la ruta absoluta; el retoma la citaba relativa.
+La "divergencia" era ambigüedad documental, no mentira del retoma.
+
+**Regla aprendida:** cuando el retoma cite un directorio de evidencia o de datos,
+verificar PRIMERO con `find /sdcard/Download -maxdepth 3 -type d -name "<nombre>"` antes
+de asumir que no existe. Solo después mirar el repo. El retoma mezcla rutas del repo
+y de `/sdcard/Download/` sin distinguirlas.
+
+**Corolario:** BITACORA.md crece hacia abajo (orden cronológico, entrada más reciente
+al final). `tail -100` captura las sesiones recientes, pero un `grep` con rango de fechas
+es más confiable para verificar existencia. Un `head` de BITACORA trae las sesiones
+más antiguas (2026-11-09 en líneas 2-30, 2026-11-12 en líneas 3670-3684).
+
+**Fix aplicado:** retoma línea 32 ahora cita ruta absoluta con backticks y nota
+"fuera del repo". Un solo reemplazo, `assert count == 1`, timestamp actualizado.
+
+**Meta-lección:** el protocolo de inicio funcionó. Detectó una divergencia real
+(ambigüedad de ruta) sin falsos positivos. El `[ESPERA]` del retoma era legítimo.

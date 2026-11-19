@@ -29,7 +29,7 @@
 > ✅ Hecho reciente (2026-11-12 16:20): Saneamiento total de deuda de ingesta y huérfanos.
 >    - 2026-11-09: Cierre total de deuda de ingesta.
 >      - 3 archivos recuperables inyectados con chunks (1184 chunks nuevos).
->      - 3 JSONs huérfanos archivados en _evidencia_huerfanos_sin_fuente/.
+>      - 3 JSONs huérfanos archivados en `/sdcard/Download/_evidencia_huerfanos_sin_fuente/` (ruta absoluta, fuera del repo).
 >      - DB verificada: 3938 chunks totales, 0 chunks > 2000 chars.
 >      - **HITO**: Todos los pendientes del bloque original han sido marcados como [x].
 >    - 2026-11-08: Centralización de versiones LLM en brainhub_config.
@@ -236,4 +236,4 @@
 
 ## Fecha
 
-Última actualización: 2026-11-12 16:20
+Última actualización: 2026-11-18 20:01
