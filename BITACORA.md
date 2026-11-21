@@ -3685,3 +3685,40 @@ Al verificar con `git log`, se descubrió:
 
 **Lección:** El retoma subdeclaró trabajo hecho (patrón Bug #4/#5/#8). Los scripts one-shot de saneamiento son parte del pipeline aunque se ejecuten una vez: versionarlos previene que se pierdan.
 
+
+
+---
+
+## 2026-11-21 — Verificación: lectura de PDF desde /sdcard/Download/
+
+### Pregunta: ¿puede el pipeline leer PDFs de /sdcard/Download/?
+**Respuesta: SÍ, end-to-end verificado.** No era deuda, era capacidad no documentada.
+
+### Test ejecutado (caso real: CV de Héctor, /sdcard/Download/29688662.pdf)
+1. **Acceso Termux:** `xxd` confirma header `%PDF-1.4` en el PDF. Scoped storage no bloquea.
+2. **pdftotext -layout:** extrae 1427 bytes limpios. Binario en `/data/data/com.termux/files/usr/bin/pdftotext`.
+3. **descolumnar.py:** "Ancho detectado: 33 / Descolumnado válido / OK". Invocado por ruta absoluta `~/proyectos/nlp/descolumnar.py` (raíz del repo, no `scripts/`).
+4. **analisis_completo_v6.5.py:** nicho SALUD, 10 términos clave, sentimiento 0.56, 1 chunk, 1 cita semántica, resumen qwen2.5 (30.3s).
+5. **documento_8020.sh:** Self-RAG ampliar (confianza 0.27). Documento generado.
+6. **Consolidación:** omitida por el usuario (`n`). Cero contaminación de DB.
+
+### Ruta del orquestador (aclaración)
+- **`procesar_paper.sh` está en la RAÍZ** de `~/proyectos/nlp/`, no en `scripts/`. Buscarlo en `scripts/` da falso negativo.
+- Symlink: `~/.local/bin/procesar_paper -> ~/proyectos/nlp/procesar_paper.sh` (Sep 18).
+- Acepta **ruta absoluta** como `$1` (L10: `PDF="$1"`, sin `cd` previo). No asume directorio de trabajo.
+
+### Observaciones del test (no bloquean)
+- **Falso positivo de idioma:** "Idioma Inglés" en un CV en español (1320 chars). Limitación del detector en textos cortos.
+- **Sin VTT de timestamps:** esperado en PDFs (no hay timestamps). El aviso es correcto.
+- **`procesar_paper.sh` encadena LLM:** el test corrió qwen2.5 (~30s). No es solo extracción. Con `n` en la fase 5 no toca DB.
+
+### ⚠️ Nueva deuda detectada (a verificar en sesión futura)
+`procesar_paper.sh` fase 5 ejecuta `rm -f /sdcard/Download/stopwords.csv` **antes** de `pipeline_db.sh`. Es un `rm` destructivo sobre un archivo fuera del repo. **No se tocó esta vez** (consolidación omitida), pero si se responde `Y`, borra ese archivo. Verificar:
+- ¿`/sdcard/Download/stopwords.csv` es una copia temporal o el real del proyecto?
+- ¿`pipeline_db.sh` lo regenera o depende de que exista?
+- Si es el real, el `rm -f` es un bug latente.
+
+### Lección
+El retoma declaraba "Pipeline de PDFs operativo con fallback inteligente de descolumnar.py". **Era cierto**, pero no estaba verificado end-to-end con un caso de `/sdcard/Download/`. La verificación de hoy confirma la capacidad y deja documentada la ruta real del orquestador (raíz, no `scripts/`) y la deuda del `rm -f stopwords.csv`.
+
+**Meta-lección:** "operativo" en el retoma no siempre implica "verificado con caso real desde /sdcard/". Cuando la pregunta del usuario es "¿puede X?", la respuesta con evidencia vale más que la declaración del retoma.
