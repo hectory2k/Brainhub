@@ -44,7 +44,7 @@
 >      - Ejecutado `scripts/saneador_chunks_grandes.py`; verificación final: 0 chunks >2000 chars.
 >      - `scripts/persistir_chunks.py` ahora aplica `asegurar_tamano_chunks(...)` antes del INSERT.
 >      - Validación: `python3 -m py_compile scripts/persistir_chunks.py` OK; grep confirma definición y llamada.
->      - Deuda residual: causa raíz del chunk `_0000_` gigante, duplicados `.srt` vs sin `.srt`, y posible reindexado BM25.
+>      - Deuda residual: causa raíz del chunk `_0000_` gigante y duplicados `.srt` vs sin `.srt`. (Reindexado BM25: cerrado 2026-11-19, ver pendientes.)
 >    - Blindado `reconstruir_db.sh`: ahora preserva la tabla `chunks` (y sus columnas `t_inicio`/`t_fin`) mediante exportación a CSV temporal antes del `rm -f`, y re-importación posterior.
 >    - Pipeline de PDFs operativo: `procesar_paper.sh` con fallback inteligente de `descolumnar.py` (si falla, usa texto crudo sin romper el flujo).
 >    - Auto-detección SRT/VTT implementada en `alinear_chunks_vtt.py` (convierte comas a puntos en memoria si falta el encabezado WEBVTT).
@@ -115,6 +115,7 @@
 >    - [x] Centralizar versiones hardcodeadas en brainhub_config (commit 232676c, `ollama_client.py:24` lee de config).
 >    - [x] Reprocesar 6 .txt rotos sin puntuación y 2 JSONs huérfanos (saneados y archivados).
 >    - [x] Deuda de ingesta: chunk de 100k caracteres en DB (mitigado: saneamiento DB + guardia en persistir_chunks.py).
+>    - [x] Posible reindexado BM25 (2026-11-20): **no aplica**. `bm25s` construye índice en memoria en cada ejecución (`buscar_chunks.py:111-115`); `rag_simple.py` reimplementa BM25 on-the-fly. Cero persistencia → cero desincronización posible. Diagnóstico con evidencia, no requiere acción.
 >
 > 🎯 PRÓXIMO ÚNICO: [ESPERA] Deuda técnica saldada. Definir nueva feature o mantenimiento.
 > **Criterio de done:**
@@ -236,4 +237,4 @@
 
 ## Fecha
 
-Última actualización: 2026-11-18 20:01
+Última actualización: 2026-11-20 21:32
