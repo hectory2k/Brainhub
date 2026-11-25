@@ -1078,3 +1078,59 @@ más antiguas (2026-11-09 en líneas 2-30, 2026-11-12 en líneas 3670-3684).
 
 **Meta-lección:** el protocolo de inicio funcionó. Detectó una divergencia real
 (ambigüedad de ruta) sin falsos positivos. El `[ESPERA]` del retoma era legítimo.
+
+
+## 2026-11-25 — Idea exploratoria: build remoto de llama.cpp para Android (sin demanda actual)
+
+### Idea
+Usar GitHub Actions para cross-compilar `llama-bench` + `llama-completion` para arm64-v8a
+(Android NDK + `GGML_CPU_KLEIDIAI=ON`), y Colab para convertir modelos GGUF. Termux descarga
+el artifact y corre el binario nativo. Cero toolchain local, cero compilación en el celular.
+
+### Origen
+Reporte externo (proyecto LittleBit, `GeniusDevam/littlebit-gguf`) que corrió modelos sub-1-bit
+en un Realme P3 Ultra (Dimensity 8350, Android 16) con benchmark:
+
+| Threads | Prompt t/s | Gen t/s | Nota |
+|---|---|---|---|
+| -t 2 | 1.86 | 1.67 | |
+| **-t 4** | **5.62** | **4.78** | **sweet spot** |
+| -t 6 | 4.94 | 1.69 | spill a A510 |
+| -t 8 | 5.26 | 2.07 | spill a A510 |
+
+**Hallazgos clave:**
+1. **Big.LITTLE cliff:** pasar de 4 a 6 threads derrumba la generación (4.78 → 1.69 t/s)
+   porque el scheduler empuja hilos a los Cortex-A510 de eficiencia. Fijar `-t 4` explícito.
+2. **KleidiAI:** acelera Q4_0/Q8_0 (i8mm, dotprod). Los K-Quants (Q4_K_M, Q5_K_M) **no**
+   son acelerados por KleidiAI; caen a `CPU_REPACK` genérico. Q4_0 es el formato que
+   realmente toca el hardware ARM.
+3. **Calidad del POC:** checkpoint 0.5 epochs, 0.55bpw. No es chat usable sin
+   `--repeat-penalty 1.18 --dry-multiplier 0.8`. No apto para reemplazar `qwen2.5:1.5b`.
+
+### Criterio de activación (NO es pendiente activo)
+Esta idea **solo se activa si se cumple al menos uno de estos:**
+- Hay un modelo nuevo concreto que se quiere probar (LittleBit 1.0, Qwen3 pequeño en Q4_0, etc.).
+- Hay un benchmark que se quiere replicar.
+- Hay un bug en el llama.cpp actual que un binario nuevo resolvería.
+
+**Sin caso de uso concreto, no se construye.** Construir infraestructura sin demanda es
+deuda disfrazada de feature. Si en la próxima sesión no hay caso de uso, se descarta sin culpa.
+
+### Plan si se activa (fases, cada una condiciona la siguiente)
+1. **Spike 1 sesión (sin commitear):** un workflow mínimo en fork, compile `llama-bench`,
+   bajar artifact, probar en Termux. Documentar en `~/temp/`, no commitear.
+2. **Si el spike funciona:** versionar `.github/workflows/build-llama-android.yml`.
+   Documentar en aprendizaje. Agregar descargador de artifacts a `scripts/`.
+3. **Si el modelo nuevo supera a qwen2.5:1.5b:** migración real con benchmark comparativo
+   y test de regresión. Backup previo de DB.
+
+### Por qué no ahora
+- (B) causa raíz chunk `_0000_` sigue abierto y es deuda técnica real (bug latente).
+- Regla BrainHub: "No agregar features que no resuelvan un bug".
+- El workflow es adictivo (múltiples ejes: NDK, flags, GGML variants, artifacts). Riesgo
+  de consumir 2-3 sesiones y dejar (B) huérfano otra vez.
+
+### Lección
+Las ideas de infraestructura deben registrarse con **criterio de activación explícito**,
+no como pendientes. Un pendiente sin demanda se convierte en fantasma (patrón Bug #5).
+Una idea con criterio de activación se retoma cuando hay evidencia, o se descarta sin culpa.
