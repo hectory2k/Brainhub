@@ -26,7 +26,20 @@
 > Modelo LLM: qwen2.5:1.5b (~97s/prompt en batch, CPU ARM).
 > Backup: scripts/brainhub_backup.sh.
 >
-> ✅ Hecho reciente (2026-11-12 16:20): Saneamiento total de deuda de ingesta y huérfanos.
+> ✅ Hecho reciente (2026-11-27): Fix `rm -f stopwords.csv` + verificación PDF + BM25 cerrado.
+>    - 2026-11-27: Eliminado `rm -f /sdcard/Download/stopwords.csv` de `procesar_paper.sh`.
+>      - Redundante: `reconstruir_db.sh` regenera vía `REGEN_STOPWORDS=1` (default).
+>      - Riesgoso: si la regeneración fallaba, ofuscaba el diagnóstico. Fix de 1 línea (commit `33def20`).
+>    - 2026-11-21: Verificación PDF `/sdcard/Download/` end-to-end con CV real.
+>      - `pdftotext` + `descolumnar` + `v6.5` + `documento_8020` OK. Consolidación omitida (DB intacta).
+>      - Aclarado: `procesar_paper.sh` está en la raíz del repo, no en `scripts/`.
+>    - 2026-11-20: Diagnóstico BM25 cerrado (no aplica).
+>      - `bm25s` construye índice en memoria (`buscar_chunks.py:111-115`); `rag_simple.py` reimplementa BM25 on-the-fly.
+>      - Sin persistencia → sin desincronización posible.
+>    - 2026-11-20: Ruta absoluta de huérfanos documentada (`/sdcard/Download/_evidencia_huerfanos_sin_fuente/`).
+>    - 2026-11-25: Idea exploratoria de build remoto llama.cpp Android registrada en `docs/aprendizaje.md`.
+>      - Criterio de activación explícito: solo con modelo/benchmark/bug concreto. No es pendiente activo.
+>    - (Contexto histórico) 2026-11-12: Saneamiento total de deuda de ingesta y huérfanos.
 >    - 2026-11-09: Cierre total de deuda de ingesta.
 >      - 3 archivos recuperables inyectados con chunks (1184 chunks nuevos).
 >      - 3 JSONs huérfanos archivados en `/sdcard/Download/_evidencia_huerfanos_sin_fuente/` (ruta absoluta, fuera del repo).
@@ -117,12 +130,20 @@
 >    - [x] Deuda de ingesta: chunk de 100k caracteres en DB (mitigado: saneamiento DB + guardia en persistir_chunks.py).
 >    - [x] Posible reindexado BM25 (2026-11-20): **no aplica**. `bm25s` construye índice en memoria en cada ejecución (`buscar_chunks.py:111-115`); `rag_simple.py` reimplementa BM25 on-the-fly. Cero persistencia → cero desincronización posible. Diagnóstico con evidencia, no requiere acción.
 >
-> 🎯 PRÓXIMO ÚNICO: [ESPERA] Deuda técnica saldada. Definir nueva feature o mantenimiento.
+> 🎯 PRÓXIMO ÚNICO: (B) Causa raíz del chunk `_0000_` gigante.
+> **Contexto:** el chunk `Transcript_-RDBMu7BreE_ES_0000_70342690` de 100883 chars fue
+> mitigado (saneamiento DB + guardia en `persistir_chunks.py`) pero la causa raíz en el
+> chunker original NO fue diagnosticada. Si el chunker sigue vulnerable, puede reaparecer
+> con otra fuente.
 > **Criterio de done:**
->   - Test barato confirma que el pipeline llama al chunker y a `persistir_chunks.py`.
->   - El test debe fallar si se desconecta el chunker del pipeline.
+>   - Entender por qué el chunker generó un `_0000_` de 100k chars (diagnóstico puro, sin tocar código).
+>   - Si la causa raíz sigue viva → proponer fix con aprobación explícita, backup previo, assert de parcheo.
 >   - Documentar en BITACORA.md y docs/aprendizaje.md.
 > **🚨 GUARDIA EXPLÍCITA:** Diagnóstico con evidencia antes de tocar pipeline; backup previo si se modifica DB.
+> **Plan de arranque (7 comandos de lectura pura):**
+>   1. ¿El chunk `_0000_` histórico sigue en DB? ¿Cuál es el más grande hoy? Distribución de tamaños.
+>   2. ¿Existe el JSON fuente `Transcript_-RDBMu7BreE_ES_analisis_completo.json`?
+>   3. ¿El chunker original tiene guardia de tamaño propia o solo `persistir_chunks.py`?
 >
 
 > 🧰 MÉTODOS DE PARCHEO SEGURO (no romper código):
@@ -237,4 +258,4 @@
 
 ## Fecha
 
-Última actualización: 2026-11-20 21:32
+Última actualización: 2026-11-27 21:30

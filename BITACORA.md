@@ -3722,3 +3722,39 @@ Al verificar con `git log`, se descubrió:
 El retoma declaraba "Pipeline de PDFs operativo con fallback inteligente de descolumnar.py". **Era cierto**, pero no estaba verificado end-to-end con un caso de `/sdcard/Download/`. La verificación de hoy confirma la capacidad y deja documentada la ruta real del orquestador (raíz, no `scripts/`) y la deuda del `rm -f stopwords.csv`.
 
 **Meta-lección:** "operativo" en el retoma no siempre implica "verificado con caso real desde /sdcard/". Cuando la pregunta del usuario es "¿puede X?", la respuesta con evidencia vale más que la declaración del retoma.
+
+
+---
+
+## 2026-11-27 — Fix: eliminar `rm -f stopwords.csv` de `procesar_paper.sh`
+
+### Contexto
+La verificación PDF del 2026-11-21 (BITACORA) detectó que `procesar_paper.sh` fase 5 ejecuta `rm -f /sdcard/Download/stopwords.csv` antes de `pipeline_db.sh`. Se marcó como "deuda nueva a verificar".
+
+### Diagnóstico (con evidencia)
+1. **`JSONS_DIR` en `scripts/reconstruir_db.sh:18`**: `"${1:-/sdcard/Download}"` → default `/sdcard/Download`.
+2. **`STOPWORDS_CSV` en L20**: `"$JSONS_DIR/stopwords.csv"` → mismo archivo que el `rm` borra.
+3. **`REGEN_STOPWORDS` en L33**: `"${REGEN_STOPWORDS:-1}"` → default **1** (regenera siempre).
+4. **Condición L33**: `if [[ ! -f "$STOPWORDS_CSV" || "${REGEN_STOPWORDS:-1}" == "1" ]]` → siempre TRUE.
+5. **`pipeline_db.sh:23`**: invoca `reconstruir_db.sh` sin argumentos → usa defaults.
+6. **Archivo real**: `/sdcard/Download/stopwords.csv` (5344 bytes, md5 `4ca7bf26...`, Oct 31).
+
+### Veredicto
+- **El `rm` es redundante:** `REGEN_STOPWORDS=1` ya regenera el CSV en cada `pipeline_db.sh`.
+- **El `rm` es riesgoso:** si la regeneración falla (import error, JSON corrupto), el CSV ya no existe y el error se ve como "archivo no encontrado" en vez de "falló la extracción". Ofusca el diagnóstico.
+- **No es destructivo permanente:** el CSV se regenera idéntico (o actualizado) en cada consolidación.
+- **Causa probable:** residuo legacy de antes de que `reconstruir_db.sh` tuviera `REGEN_STOPWORDS=1` por default.
+
+### Fix aplicado (commit `33def20`)
+Eliminar la línea 56 (`rm -f /sdcard/Download/stopwords.csv`) de `procesar_paper.sh`. Reemplazada por 5 líneas de comentario explicando por qué no se borra.
+
+**Verificación:**
+- `grep -c "rm -f /sdcard/Download/stopwords.csv"` → 0
+- `grep -c "pipeline_db.sh 2>&1"` → 1 (sin cambios)
+- `bash -n procesar_paper.sh` → sintaxis OK
+- Test funcional con `n` en fase 5 → flujo completo, consolidación omitida, cero `rm` ejecutado.
+
+### Lección
+Un `rm -f` en un script de orquestación es una bandera roja: rara vez es necesario, siempre es riesgoso, y frecuentemente es residuo legacy. Si la regeneración es necesaria, se fuerza con variables de entorno explícitas (`REGEN_STOPWORDS=1`), no borrando archivos.
+
+**Meta-lección:** "deuda nueva detectada" en una verificación se convierte en fix real solo con evidencia del flujo completo (productor → consumidor → comportamiento). Sin `pipeline_db.sh` + `reconstruir_db.sh` leídos, el `rm` habría quedado como "sospechoso" indefinidamente.
