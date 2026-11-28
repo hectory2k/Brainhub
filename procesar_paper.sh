@@ -53,7 +53,11 @@ fi
 echo ""
 echo "🗄️  Consolidando..."
 cd ~/proyectos/nlp
-rm -f /sdcard/Download/stopwords.csv
+# NOTA: NO se borra /sdcard/Download/stopwords.csv.
+# reconstruir_db.sh lo regenera vía REGEN_STOPWORDS=1 (default).
+# El rm legacy era redundante y ofuscaba el diagnóstico si la
+# regeneración fallaba (error "archivo no encontrado" en vez de
+# "falló la extracción"). Ver BITACORA 2026-11-27.
 pipeline_db.sh 2>&1 | tail -3
 
 echo ""
